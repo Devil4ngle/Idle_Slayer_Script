@@ -408,19 +408,8 @@ Groups=Start:1
 354|Up Down|{Up Down}|1|0|ControlSend||Idle Slayer|||354|
 355|[Pause]||1|62|Sleep|||||355|
 356|Up Up|{Up Up}|1|0|ControlSend||Idle Slayer|||356|
-357|Alt + PrintScreen|{Alt Down}{PrintScreen}{Alt Up}|1|333|Send|||||357|
-358|[Gosub]|SaveScreenshot|1|0|Gosub|||||359|
-359|[Pause]||1|15000|Sleep|||||360|
-360|Left Move & Click|{Click, 727, 581 Left, 1}|1|0|SendEvent|||||361|
-
-[PMC Code v5.4.1]|+F3||1|Window,2,Fast,0,1,Input,-1,-1,1|1|SaveScreenshot
-Context=None|
-Groups=Start:1
-1|Gdip_Startup|pToken := |1|0|Function|||||1|
-2|Gdip_CreateBitmapFromClipboard|pBitmap := |1|0|Function|||||2|
-3|Gdip_SaveBitmapToFile|sBitmap := pBitmap, "D:\screenshot\" A_Now ".png", 100|1|0|Function|||||3|
-4|Gdip_DisposeImage|dBitmap := pBitmap|1|0|Function|||||4|
-5|Gdip_Shutdown|sToken := pToken|1|0|Function|||||5|
+357|[Pause]||1|15000|Sleep|||||357|
+358|Left Move & Click|{Click, 727, 581 Left, 1}|1|0|SendEvent|||||358|
 
 [PMC Code v5.4.1]|||1|Window,2,Fast,0,1,Input,-1,-1,1|1|Chesthunt
 Context=None|
@@ -471,7 +460,7 @@ Groups=Start:1
 44|[Pause]||1|1500|Sleep|||||54|
 45|[End If]|EndIf|1|0|If_Statement|||||55|
 46|Left Move & Click|{Click, %savex%, %savey% Left, 1}|1|0|SendEvent|||||56|
-47|[Pause]||1|600|Sleep|||||57|
+47|[Pause]||1|650|Sleep|||||57|
 48|[End If]|EndIf|1|0|If_Statement|||||58|
 49|Continue, Continue, FoundX, FoundY|420, 200, 850, 220, 0xFF0000, 0, Fast RGB|1|0|PixelSearch||Window|||59|
 50|If Image/Pixel Found||1|0|If_Statement|||||61|
@@ -484,7 +473,7 @@ Groups=Start:1
 57|[End If]|EndIf|1|0|If_Statement|||||71|
 58|[End If]|EndIf|1|0|If_Statement|||||72|
 59|Left Move & Click|{Click, %pixelx%, %pixely% Left, 1}|1|0|SendEvent|||||73|
-60|[Pause]||1|550|Sleep|||||74|
+60|[Pause]||1|650|Sleep|||||74|
 61|[Add Variable]|count += 1|1|0|Variable|Expression||||75|
 62|[Add Variable]|row += 1|1|0|Variable|Expression||||76|
 63|[Add Variable]|pixelx += 95|1|0|Variable|Expression||||77|
