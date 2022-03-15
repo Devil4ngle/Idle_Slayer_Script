@@ -1,4 +1,4 @@
-﻿[PMC Globals]|None||
+﻿[PMC Globals]|None||C:\Users\isaak\Pictures\hehe.png
 [PMC Code v5.4.1]|+8||1|Window,2,Fast,0,1,Input,-1,-1,1|1|Idle
 Context=None|
 Groups=Start:1,special:1
@@ -29,11 +29,11 @@ Groups=Start:1,special:1
 25|[Pause]||1|100|Sleep|||||34|
 26|Left Move & Click|{Click, 570, 694 Left, 1}|1|0|SendEvent|||||35|
 27|[End If]|EndIf|1|0|If_Statement|||||36|
-28|Continue, Continue, FoundX, FoundY|810, 612, 811, 613, 0xD59F73, 0, Fast RGB|1|0|PixelSearch||Window|||37|
+28|Continue, Continue, FoundX, FoundY|853, 669, 858, 671, 0xAE8572, 0, Fast RGB|1|0|PixelSearch||Window|||37|
 29|If Image/Pixel Found||1|0|If_Statement|||||39|
 30|WinActivate||1|333|WinActivate||Idle Slayer|||41|
 31|[Pause]||1|1000|Sleep|||||43|
-32|Left Move & Click|{Click, 675, 588 Left, 1}|1|0|SendEvent|||||44|
+32|[Gosub]|Slider|1|0|Gosub|||||44|
 33|[Assign Variable]|sphere := false|1|0|Variable|Expression||||45|
 34|[LoopStart]|LoopStart|200|0|Loop|||||46|
 35|[Pause]||1|10|Sleep|||||48|
@@ -246,174 +246,174 @@ Groups=Start:1
 191|[Pause]||1|62|Sleep||||0xFF8000|197|
 192|Up Up|{Up Up}|1|0|ControlSend||Idle Slayer||0xFF8000|198|
 193|[Pause]||1|9219|Sleep||||0xFF8000|199|
-194|Up Down|{Up Down}|1|0|Send||||0xFF8000|200|
+194|Up Down|{Up Down}|1|0|ControlSend||Idle Slayer||0xFF8000|200|
 195|[Pause]||1|109|Sleep||||0xFF8000|201|
-196|Up Up|{Up Up}|1|0|Send||||0xFF8000|202|
+196|Up Up|{Up Up}|1|0|ControlSend||Idle Slayer||0xFF8000|202|
 197|[Pause]||1|1203|Sleep||||0xFF8000|203|
-198|Up Down|{Up Down}|1|0|Send||||0xFF8000|204|
+198|Up Down|{Up Down}|1|0|ControlSend||Idle Slayer||0xFF8000|204|
 199|[Pause]||1|31|Sleep||||0xFF8000|205|
-200|Up Up|{Up Up}|1|0|Send||||0xFF8000|206|
+200|Up Up|{Up Up}|1|0|ControlSend||Idle Slayer||0xFF8000|206|
 201|[Pause]||1|641|Sleep||||0xFF8000|207|
-202|Up Down|{Up Down}|1|0|Send||||0xFF8000|208|
+202|Up Down|{Up Down}|1|0|ControlSend||Idle Slayer||0xFF8000|208|
 203|[Pause]||1|47|Sleep||||0xFF8000|209|
-204|Up Up|{Up Up}|1|0|Send||||0xFF8000|210|
+204|Up Up|{Up Up}|1|0|ControlSend||Idle Slayer||0xFF8000|210|
 205|[Pause]||1|1578|Sleep||||0xFF8000|211|
-206|Up Down|{Up Down}|1|0|Send||||0xFF8000|212|
+206|Up Down|{Up Down}|1|0|ControlSend||Idle Slayer||0xFF8000|212|
 207|[Pause]||1|47|Sleep||||0xFF8000|213|
-208|Up Up|{Up Up}|1|0|Send||||0xFF8000|214|
+208|Up Up|{Up Up}|1|0|ControlSend||Idle Slayer||0xFF8000|214|
 209|[Pause]||1|2437|Sleep||||0xFF8000|215|
-210|Up Down|{Up Down}|1|0|Send||||0xFF8000|216|
+210|Up Down|{Up Down}|1|0|ControlSend||Idle Slayer||0xFF8000|216|
 211|[Pause]||1|110|Sleep||||0xFF8000|217|
-212|Up Up|{Up Up}|1|0|Send||||0xFF8000|218|
+212|Up Up|{Up Up}|1|0|ControlSend||Idle Slayer||0xFF8000|218|
 213|[Pause]||1|1297|Sleep||||0xFF8000|219|
-214|Up Down|{Up Down}|1|0|Send||||0xFF8000|220|
+214|Up Down|{Up Down}|1|0|ControlSend||Idle Slayer||0xFF8000|220|
 215|[Pause]||1|31|Sleep||||0xFF8000|221|
-216|Up Up|{Up Up}|1|0|Send||||0xFF8000|222|
+216|Up Up|{Up Up}|1|0|ControlSend||Idle Slayer||0xFF8000|222|
 217|[Pause]||1|656|Sleep||||0xFF8000|223|
-218|Up Down|{Up Down}|1|0|Send||||0xFF8000|224|
+218|Up Down|{Up Down}|1|0|ControlSend||Idle Slayer||0xFF8000|224|
 219|[Pause]||1|47|Sleep||||0xFF8000|225|
-220|Up Up|{Up Up}|1|0|Send||||0xFF8000|226|
+220|Up Up|{Up Up}|1|0|ControlSend||Idle Slayer||0xFF8000|226|
 221|[Pause]||1|1625|Sleep||||0xFF8000|227|
-222|Up Down|{Up Down}|1|0|Send||||0xFF8000|228|
+222|Up Down|{Up Down}|1|0|ControlSend||Idle Slayer||0xFF8000|228|
 223|[Pause]||1|31|Sleep||||0xFF8000|229|
-224|Up Up|{Up Up}|1|0|Send||||0xFF8000|230|
+224|Up Up|{Up Up}|1|0|ControlSend||Idle Slayer||0xFF8000|230|
 225|[Pause]||1|2313|Sleep||||0xFF8000|231|
-226|Up Down|{Up Down}|1|0|Send||||0xFF8000|232|
+226|Up Down|{Up Down}|1|0|ControlSend||Idle Slayer||0xFF8000|232|
 227|[Pause]||1|109|Sleep||||0xFF8000|233|
-228|Up Up|{Up Up}|1|0|Send||||0xFF8000|234|
+228|Up Up|{Up Up}|1|0|ControlSend||Idle Slayer||0xFF8000|234|
 229|[Pause]||1|1516|Sleep||||0xFF8000|235|
-230|Up Down|{Up Down}|1|0|Send||||0xFF8000|236|
+230|Up Down|{Up Down}|1|0|ControlSend||Idle Slayer||0xFF8000|236|
 231|[Pause]||1|47|Sleep||||0xFF8000|237|
-232|Up Up|{Up Up}|1|0|Send||||0xFF8000|238|
+232|Up Up|{Up Up}|1|0|ControlSend||Idle Slayer||0xFF8000|238|
 233|[Pause]||1|640|Sleep||||0xFF8000|239|
-234|Up Down|{Up Down}|1|0|Send||||0xFF8000|240|
+234|Up Down|{Up Down}|1|0|ControlSend||Idle Slayer||0xFF8000|240|
 235|[Pause]||1|47|Sleep||||0xFF8000|241|
-236|Up Up|{Up Up}|1|0|Send||||0xFF8000|242|
+236|Up Up|{Up Up}|1|0|ControlSend||Idle Slayer||0xFF8000|242|
 237|[Pause]||1|1547|Sleep||||0xFF8000|243|
-238|Up Down|{Up Down}|1|0|Send||||0xFF8000|244|
+238|Up Down|{Up Down}|1|0|ControlSend||Idle Slayer||0xFF8000|244|
 239|[Pause]||1|47|Sleep||||0xFF8000|245|
-240|Up Up|{Up Up}|1|0|Send||||0xFF8000|246|
+240|Up Up|{Up Up}|1|0|ControlSend||Idle Slayer||0xFF8000|246|
 241|[Pause]||1|1969|Sleep||||0xFF8000|247|
-242|Up Down|{Up Down}|1|0|Send||||0xFF8000|248|
+242|Up Down|{Up Down}|1|0|ControlSend||Idle Slayer||0xFF8000|248|
 243|[Pause]||1|93|Sleep||||0xFF8000|249|
-244|Up Up|{Up Up}|1|0|Send||||0xFF8000|250|
+244|Up Up|{Up Up}|1|0|ControlSend||Idle Slayer||0xFF8000|250|
 245|[Pause]||1|1203|Sleep||||0xFF8000|251|
-246|Up Down|{Up Down}|1|0|Send||||0xFF8000|252|
+246|Up Down|{Up Down}|1|0|ControlSend||Idle Slayer||0xFF8000|252|
 247|[Pause]||1|47|Sleep||||0xFF8000|253|
-248|Up Up|{Up Up}|1|0|Send||||0xFF8000|254|
+248|Up Up|{Up Up}|1|0|ControlSend||Idle Slayer||0xFF8000|254|
 249|[Pause]||1|625|Sleep||||0xFF8000|255|
-250|Up Down|{Up Down}|1|0|Send||||0xFF8000|256|
+250|Up Down|{Up Down}|1|0|ControlSend||Idle Slayer||0xFF8000|256|
 251|[Pause]||1|47|Sleep||||0xFF8000|257|
-252|Up Up|{Up Up}|1|0|Send||||0xFF8000|258|
+252|Up Up|{Up Up}|1|0|ControlSend||Idle Slayer||0xFF8000|258|
 253|[Gosub]|CloseFail|1|0|Gosub|||||259|
 254|[Pause]||1|5125|Sleep|||||260|
-255|Up Down|{Up Down}|1|0|Send||||0xFF8080|261|
+255|Up Down|{Up Down}|1|0|ControlSend||Idle Slayer||0xFF8080|261|
 256|[Pause]||1|891|Sleep||||0xFF8080|262|
-257|Up Up|{Up Up}|1|0|Send||||0xFF8080|263|
+257|Up Up|{Up Up}|1|0|ControlSend||Idle Slayer||0xFF8080|263|
 258|[Pause]||1|1406|Sleep||||0xFF8080|264|
-259|Up Down|{Up Down}|1|0|Send||||0xFF8080|265|
+259|Up Down|{Up Down}|1|0|ControlSend||Idle Slayer||0xFF8080|265|
 260|[Pause]||1|94|Sleep||||0xFF8080|266|
-261|Up Up|{Up Up}|1|0|Send||||0xFF8080|267|
+261|Up Up|{Up Up}|1|0|ControlSend||Idle Slayer||0xFF8080|267|
 262|[Pause]||1|344|Sleep||||0xFF8080|268|
-263|Up Down|{Up Down}|1|0|Send||||0xFF8080|269|
+263|Up Down|{Up Down}|1|0|ControlSend||Idle Slayer||0xFF8080|269|
 264|[Pause]||1|78|Sleep||||0xFF8080|270|
-265|Up Up|{Up Up}|1|0|Send||||0xFF8080|271|
+265|Up Up|{Up Up}|1|0|ControlSend||Idle Slayer||0xFF8080|271|
 266|[Pause]||1|359|Sleep||||0xFF8080|272|
-267|Up Down|{Up Down}|1|0|Send||||0xFF8080|273|
+267|Up Down|{Up Down}|1|0|ControlSend||Idle Slayer||0xFF8080|273|
 268|[Pause]||1|78|Sleep||||0xFF8080|274|
-269|Up Up|{Up Up}|1|0|Send||||0xFF8080|275|
+269|Up Up|{Up Up}|1|0|ControlSend||Idle Slayer||0xFF8080|275|
 270|[Pause]||1|3453|Sleep||||0xFF8080|276|
-271|Up Down|{Up Down}|1|0|Send||||0xFF8080|277|
+271|Up Down|{Up Down}|1|0|ControlSend||Idle Slayer||0xFF8080|277|
 272|[Pause]||1|63|Sleep||||0xFF8080|278|
-273|Up Up|{Up Up}|1|0|Send||||0xFF8080|279|
+273|Up Up|{Up Up}|1|0|ControlSend||Idle Slayer||0xFF8080|279|
 274|[Pause]||1|9062|Sleep||||0xFF8080|280|
-275|Up Down|{Up Down}|1|0|Send||||0xFF8080|281|
+275|Up Down|{Up Down}|1|0|ControlSend||Idle Slayer||0xFF8080|281|
 276|[Pause]||1|32|Sleep||||0xFF8080|282|
-277|Up Up|{Up Up}|1|0|Send||||0xFF8080|283|
+277|Up Up|{Up Up}|1|0|ControlSend||Idle Slayer||0xFF8080|283|
 278|[Pause]||1|4578|Sleep||||0xFF8080|284|
-279|Up Down|{Up Down}|1|0|Send||||0xFF8080|285|
+279|Up Down|{Up Down}|1|0|ControlSend||Idle Slayer||0xFF8080|285|
 280|[Pause]||1|31|Sleep||||0xFF8080|286|
-281|Up Up|{Up Up}|1|0|Send||||0xFF8080|287|
+281|Up Up|{Up Up}|1|0|ControlSend||Idle Slayer||0xFF8080|287|
 282|[Pause]||1|859|Sleep||||0xFF8080|288|
-283|Up Down|{Up Down}|1|0|Send||||0xFF8080|289|
+283|Up Down|{Up Down}|1|0|ControlSend||Idle Slayer||0xFF8080|289|
 284|[Pause]||1|47|Sleep||||0xFF8080|290|
-285|Up Up|{Up Up}|1|0|Send||||0xFF8080|291|
+285|Up Up|{Up Up}|1|0|ControlSend||Idle Slayer||0xFF8080|291|
 286|[Pause]||1|1375|Sleep||||0xFF8080|292|
-287|Up Down|{Up Down}|1|0|Send||||0xFF8080|293|
+287|Up Down|{Up Down}|1|0|ControlSend||Idle Slayer||0xFF8080|293|
 288|[Pause]||1|47|Sleep||||0xFF8080|294|
-289|Up Up|{Up Up}|1|0|Send||||0xFF8080|295|
+289|Up Up|{Up Up}|1|0|ControlSend||Idle Slayer||0xFF8080|295|
 290|[Pause]||1|1406|Sleep||||0xFF8080|296|
-291|Up Down|{Up Down}|1|0|Send||||0xFF8080|297|
+291|Up Down|{Up Down}|1|0|ControlSend||Idle Slayer||0xFF8080|297|
 292|[Pause]||1|641|Sleep||||0xFF8080|298|
-293|Up Up|{Up Up}|1|0|Send||||0xFF8080|299|
+293|Up Up|{Up Up}|1|0|ControlSend||Idle Slayer||0xFF8080|299|
 294|[Pause]||1|703|Sleep||||0xFF8080|300|
-295|Up Down|{Up Down}|1|0|Send||||0xFF8080|301|
+295|Up Down|{Up Down}|1|0|ControlSend||Idle Slayer||0xFF8080|301|
 296|[Pause]||1|31|Sleep||||0xFF8080|302|
-297|Up Up|{Up Up}|1|0|Send||||0xFF8080|303|
+297|Up Up|{Up Up}|1|0|ControlSend||Idle Slayer||0xFF8080|303|
 298|[Pause]||1|1344|Sleep||||0xFF8080|304|
-299|Up Down|{Up Down}|1|0|Send||||0xFF8080|305|
+299|Up Down|{Up Down}|1|0|ControlSend||Idle Slayer||0xFF8080|305|
 300|[Pause]||1|47|Sleep||||0xFF8080|306|
-301|Up Up|{Up Up}|1|0|Send||||0xFF8080|307|
+301|Up Up|{Up Up}|1|0|ControlSend||Idle Slayer||0xFF8080|307|
 302|[Pause]||1|1484|Sleep||||0xFF8080|308|
-303|Up Down|{Up Down}|1|0|Send||||0xFF8080|309|
+303|Up Down|{Up Down}|1|0|ControlSend||Idle Slayer||0xFF8080|309|
 304|[Pause]||1|578|Sleep||||0xFF8080|310|
-305|Up Up|{Up Up}|1|0|Send||||0xFF8080|311|
+305|Up Up|{Up Up}|1|0|ControlSend||Idle Slayer||0xFF8080|311|
 306|[Pause]||1|766|Sleep||||0xFF8080|312|
-307|Up Down|{Up Down}|1|0|Send||||0xFF8080|313|
+307|Up Down|{Up Down}|1|0|ControlSend||Idle Slayer||0xFF8080|313|
 308|[Pause]||1|31|Sleep||||0xFF8080|314|
-309|Up Up|{Up Up}|1|0|Send||||0xFF8080|315|
+309|Up Up|{Up Up}|1|0|ControlSend||Idle Slayer||0xFF8080|315|
 310|[Pause]||1|1407|Sleep||||0xFF8080|316|
-311|Up Down|{Up Down}|1|0|Send||||0xFF8080|317|
+311|Up Down|{Up Down}|1|0|ControlSend||Idle Slayer||0xFF8080|317|
 312|[Pause]||1|31|Sleep||||0xFF8080|318|
-313|Up Up|{Up Up}|1|0|Send||||0xFF8080|319|
+313|Up Up|{Up Up}|1|0|ControlSend||Idle Slayer||0xFF8080|319|
 314|[Pause]||1|1437|Sleep||||0xFF8080|320|
-315|Up Down|{Up Down}|1|0|Send||||0xFF8080|321|
+315|Up Down|{Up Down}|1|0|ControlSend||Idle Slayer||0xFF8080|321|
 316|[Pause]||1|563|Sleep||||0xFF8080|322|
-317|Up Up|{Up Up}|1|0|Send||||0xFF8080|323|
+317|Up Up|{Up Up}|1|0|ControlSend||Idle Slayer||0xFF8080|323|
 318|[Pause]||1|719|Sleep||||0xFF8080|324|
-319|Up Down|{Up Down}|1|0|Send||||0xFF8080|325|
+319|Up Down|{Up Down}|1|0|ControlSend||Idle Slayer||0xFF8080|325|
 320|[Pause]||1|46|Sleep||||0xFF8080|326|
-321|Up Up|{Up Up}|1|0|Send||||0xFF8080|327|
+321|Up Up|{Up Up}|1|0|ControlSend||Idle Slayer||0xFF8080|327|
 322|[Pause]||1|1438|Sleep||||0xFF8080|328|
-323|Up Down|{Up Down}|1|0|Send||||0xFF8080|329|
+323|Up Down|{Up Down}|1|0|ControlSend||Idle Slayer||0xFF8080|329|
 324|[Pause]||1|47|Sleep||||0xFF8080|330|
-325|Up Up|{Up Up}|1|0|Send||||0xFF8080|331|
+325|Up Up|{Up Up}|1|0|ControlSend||Idle Slayer||0xFF8080|331|
 326|[Pause]||1|1422|Sleep||||0xFF8080|332|
-327|Up Down|{Up Down}|1|0|Send||||0xFF8080|333|
+327|Up Down|{Up Down}|1|0|ControlSend||Idle Slayer||0xFF8080|333|
 328|[Pause]||1|547|Sleep||||0xFF8080|334|
-329|Up Up|{Up Up}|1|0|Send||||0xFF8080|335|
+329|Up Up|{Up Up}|1|0|ControlSend||Idle Slayer||0xFF8080|335|
 330|[Pause]||1|750|Sleep||||0xFF8080|336|
-331|Up Down|{Up Down}|1|0|Send||||0xFF8080|337|
+331|Up Down|{Up Down}|1|0|ControlSend||Idle Slayer||0xFF8080|337|
 332|[Pause]||1|46|Sleep||||0xFF8080|338|
-333|Up Up|{Up Up}|1|0|Send||||0xFF8080|339|
+333|Up Up|{Up Up}|1|0|ControlSend||Idle Slayer||0xFF8080|339|
 334|[Pause]||1|1625|Sleep||||0xFF8080|340|
-335|Up Down|{Up Down}|1|0|Send||||0xFF8080|341|
+335|Up Down|{Up Down}|1|0|ControlSend||Idle Slayer||0xFF8080|341|
 336|[Pause]||1|94|Sleep||||0xFF8080|342|
-337|Up Up|{Up Up}|1|0|Send||||0xFF8080|343|
+337|Up Up|{Up Up}|1|0|ControlSend||Idle Slayer||0xFF8080|343|
 338|[Pause]||1|391|Sleep||||0xFF8080|344|
-339|Up Down|{Up Down}|1|0|Send||||0xFF8080|345|
+339|Up Down|{Up Down}|1|0|ControlSend||Idle Slayer||0xFF8080|345|
 340|[Pause]||1|281|Sleep||||0xFF8080|346|
-341|Up Up|{Up Up}|1|0|Send||||0xFF8080|347|
+341|Up Up|{Up Up}|1|0|ControlSend||Idle Slayer||0xFF8080|347|
 342|[Pause]||1|1391|Sleep||||0xFF8080|348|
-343|Up Down|{Up Down}|1|0|Send||||0xFF8080|349|
+343|Up Down|{Up Down}|1|0|ControlSend||Idle Slayer||0xFF8080|349|
 344|[Pause]||1|109|Sleep||||0xFF8080|350|
-345|Up Up|{Up Up}|1|0|Send||||0xFF8080|351|
+345|Up Up|{Up Up}|1|0|ControlSend||Idle Slayer||0xFF8080|351|
 346|[Pause]||1|2406|Sleep||||0xFF8080|352|
-347|Up Down|{Up Down}|1|0|Send||||0xFF8080|353|
+347|Up Down|{Up Down}|1|0|ControlSend||Idle Slayer||0xFF8080|353|
 348|[Pause]||1|63|Sleep||||0xFF8080|354|
-349|Up Up|{Up Up}|1|0|Send||||0xFF8080|355|
+349|Up Up|{Up Up}|1|0|ControlSend||Idle Slayer||0xFF8080|355|
 350|[Pause]||1|390|Sleep||||0xFF8080|356|
-351|Up Down|{Up Down}|1|0|Send||||0xFF8080|357|
+351|Up Down|{Up Down}|1|0|ControlSend||Idle Slayer||0xFF8080|357|
 352|[Pause]||1|63|Sleep||||0xFF8080|358|
-353|Up Up|{Up Up}|1|0|Send||||0xFF8080|359|
+353|Up Up|{Up Up}|1|0|ControlSend||Idle Slayer||0xFF8080|359|
 354|[Pause]||1|2672|Sleep||||0xFF8080|360|
-355|Up Down|{Up Down}|1|0|Send||||0xFF8080|361|
+355|Up Down|{Up Down}|1|0|ControlSend||Idle Slayer||0xFF8080|361|
 356|[Pause]||1|62|Sleep||||0xFF8080|362|
-357|Up Up|{Up Up}|1|0|Send||||0xFF8080|363|
+357|Up Up|{Up Up}|1|0|ControlSend||Idle Slayer||0xFF8080|363|
 358|[Pause]||1|485|Sleep||||0xFF8080|364|
-359|Up Down|{Up Down}|1|0|Send||||0xFF8080|365|
+359|Up Down|{Up Down}|1|0|ControlSend||Idle Slayer||0xFF8080|365|
 360|[Pause]||1|47|Sleep||||0xFF8080|366|
-361|Up Up|{Up Up}|1|0|Send||||0xFF8080|367|
+361|Up Up|{Up Up}|1|0|ControlSend||Idle Slayer||0xFF8080|367|
 362|[Gosub]|CloseFail|1|0|Gosub|||||368|
 363|[Pause]||1|8000|Sleep|||||369|
 364|[Gosub]|CloseFail|1|0|Gosub|||||370|
@@ -489,7 +489,7 @@ Groups=Start:1
 65|[End If]|EndIf|1|0|If_Statement|||||88|
 66|[End If]|EndIf|1|0|If_Statement|||||89|
 67|Left Move & Click|{Click, %pixelx%, %pixely% Left, 1}|1|0|SendEvent|||||90|
-68|[Pause]||1|600|Sleep|||||91|
+68|[Pause]||1|550|Sleep|||||91|
 69|[Add Variable]|count += 1|1|0|Variable|Expression||||92|
 70|[Add Variable]|row += 1|1|0|Variable|Expression||||93|
 71|[Add Variable]|pixelx += 95|1|0|Variable|Expression||||94|
@@ -512,4 +512,75 @@ Groups=Start:1
 4|Left Move & Click|{Click, 721, 577 Left, 1}|1|300|SendEvent|||||7|
 5|[Goto]|Idle|1|0|Goto|||||9|
 6|[End If]|EndIf|1|0|If_Statement|||||10|
+
+[PMC Code v5.4.1]|||1|Window,2,Fast,0,1,Input,-1,-1,1|1|Slider
+Context=None|
+Groups=Start:1
+1|Continue, Continue, FoundX, FoundY|847, 519, 854, 645, 0x007E00, 0, Fast RGB|30|0|PixelSearch||Window|||1|
+2|If Image/Pixel Found||1|0|If_Statement|||||6|
+3|[Assign Variable]|count := true|1|0|Variable|Expression||||8|
+4|[Assign Variable]|x := 465|1|0|Variable|Expression||||9|
+5|[Else]|Else|1|0|If_Statement|||||10|
+6|[Assign Variable]|count := false|1|0|Variable|Expression||||13|
+7|[Assign Variable]|x := 845|1|0|Variable|Expression||||14|
+8|[End If]|EndIf|1|0|If_Statement|||||15|
+9|Continue, Continue, FoundX, FoundY|430, 534, 850, 592, 0x007E00, 0, Fast RGB|10|0|PixelSearch||Window|||16|
+10|If Image/Pixel Found||1|0|If_Statement|||||21|
+11|[Assign Variable]|y := 560|1|0|Variable|Expression||||23|
+12|[Else]|Else|1|0|If_Statement|||||24|
+13|[Assign Variable]|y := 630|1|0|Variable|Expression||||27|
+14|[End If]|EndIf|1|0|If_Statement|||||28|
+15|WinActivate||1|333|WinActivate||Idle Slayer|||29|
+16|[LoopStart]|LoopStart|100|0|Loop|||||31|
+17|Left Move & Click|{Click, %x%, %y% Left, Down}|1|0|SendEvent|||||33|
+18|Compare Variables|count = true|1|0|If_Statement|||||34|
+19|[Add Variable]|x += 4|1|0|Variable|Expression||||36|
+20|[Else]|Else|1|0|If_Statement|||||37|
+21|[Subtract Variable]|x -= 4|1|0|Variable|Expression||||40|
+22|[End If]|EndIf|1|0|If_Statement|||||41|
+23|[LoopEnd]|LoopEnd|1|0|Loop|||||42|
+24|Left Click|{Click, Left, , Up}|1|10|SendEvent|||||43|
+
+[PMC Code v5.4.1]|8||1|Window,2,Fast,0,1,Input,-1,-1,1|1|Upgrades
+Context=None|Idle Slayer
+Groups=Start:1
+1|Left Move & Click|{Click, 1171, 644 Left, 1}|1|300|SendEvent|||||1|
+2|Left Move & Click|{Click, 927, 683 Left, 1}|1|300|SendEvent|||||3|
+3|Move|{Click, 1249, 475, 0}|1|300|SendEvent|||||5|
+4|Mouse Wheel Up|{Click, WheelUp, 1}|100|10|SendEvent|||||7|
+5|[Label]|Repeat|1|0|Label|||||12|
+6|[Assign Variable]|SRB_Magnet_Found := false|1|0|Variable|Expression||||13|
+7|[Assign Variable]|RB_Magnet_Found := false|1|0|Variable|Expression||||14|
+8|Continue, Continue, FoundX, FoundY|882, 195, 909, 223, 0xF4B41B, 0, Fast RGB|1|0|PixelSearch||Window|||15|
+9|If Image/Pixel Found||1|0|If_Statement|||||17|
+10|[Text]|Vertical Magnet Found|1|0|ControlSendRaw||Idle Slayer|||19|
+11|[Assign Variable]|RB_Magnet_Found := true|1|0|Variable|Expression||||20|
+12|[End If]|EndIf|1|0|If_Statement|||||21|
+13|Continue, Continue, FoundX, FoundY|879, 288, 913, 322, 0xE478FF, 0, Fast RGB|1|0|PixelSearch||Window|||22|
+14|If Image/Pixel Found||1|0|If_Statement|||||24|
+15|[Text]|Vertical Magnet Found|1|0|ControlSendRaw||Idle Slayer|||26|
+16|[Assign Variable]|SRB_Magnet_Found := true|1|0|Variable|Expression||||27|
+17|[End If]|EndIf|1|0|If_Statement|||||28|
+18|Compare Variables|RB_Magnet_Found = true|1|0|If_Statement|||||29|
+19|Compare Variables|SRB_Magnet_Found = true|1|0|If_Statement|||||31|
+20|Left Move & Click|1187, 395 Left, 1|1|300|Click|||||33|
+21|Continue, Continue, FoundX, FoundY|1157, 369, 1232, 439, 0x10A322, 2, Fast RGB|1|0|PixelSearch||Window|||35|
+22|If Image/Pixel Found||1|0|If_Statement|||||37|
+23|[Goto]|Repeat|1|0|Goto|||||39|
+24|[End If]|EndIf|1|0|If_Statement|||||40|
+25|[Else]|Else|1|0|If_Statement|||||41|
+26|Left Move & Click|1183, 297 Left, 1|1|300|Click|||||44|
+27|Continue, Continue, FoundX, FoundY|1153, 275, 1238, 340, 0x10A322, 2, Fast RGB|1|0|PixelSearch||Window|||46|
+28|If Image/Pixel Found||1|0|If_Statement|||||48|
+29|[Goto]|Repeat|1|0|Goto|||||50|
+30|[End If]|EndIf|1|0|If_Statement|||||51|
+31|[End If]|EndIf|1|0|If_Statement|||||52|
+32|[Else]|Else|1|0|If_Statement|||||53|
+33|Left Move & Click|1185, 202 Left, 1|1|300|Click|||||56|
+34|Continue, Continue, FoundX, FoundY|1150, 178, 1238, 239, 0x10A322, 2, Fast RGB|1|0|PixelSearch||Window|||58|
+35|If Image/Pixel Found||1|0|If_Statement|||||60|
+36|[Goto]|Repeat|1|0|Goto|||||62|
+37|[End If]|EndIf|1|0|If_Statement|||||63|
+38|[End If]|EndIf|1|0|If_Statement|||||64|
+39|Left Move & Click|{Click, 1222, 677 Left, 1}|1|300|SendEvent|||||65|
 
