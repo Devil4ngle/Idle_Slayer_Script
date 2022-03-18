@@ -422,86 +422,84 @@ Groups=Start:1
 [PMC Code v5.4.1]|||1|Window,2,Fast,0,1,Input,-1,-1,1|1|Chesthunt
 Context=None|
 Groups=Start:1
-1|Continue, Continue, FoundX, FoundY|648, 200, 649, 225, 0xFFFFFF, 0, Fast RGB|1|0|PixelSearch|UntilFound|Window|||1|
-2|If Image/Pixel Found||1|0|If_Statement|||||7|
-3|[End If]|EndIf|1|0|If_Statement|||||9|
-4|[Assign Variable]|foundx := 0|1|0|Variable|Expression||||10|
-5|[Assign Variable]|foundy := 0|1|0|Variable|Expression||||11|
-6|[Assign Variable]|pixely := 310|1|0|Variable|Expression||||12|
-7|[Assign Variable]|row := 0|1|0|Variable|Expression||||13|
-8|[Assign Variable]|pixelx := 220|1|0|Variable|Expression||||14|
-9|[LoopStart]|LoopStart|30|0|Loop|||||15|
-10|Compare Variables|row = 10|1|0|If_Statement|||||17|
-11|[Add Variable]|pixely += 100|1|0|Variable|Expression||||19|
-12|[Assign Variable]|pixelx := 220|1|0|Variable|Expression||||20|
-13|[Assign Variable]|row := 0|1|0|Variable|Expression||||21|
-14|[End If]|EndIf|1|0|If_Statement|||||22|
-15|[Assign Variable]|pex := pixelx+40|1|0|Variable|Expression||||23|
-16|[Assign Variable]|psx := pixelx-40|1|0|Variable|Expression||||24|
-17|[Assign Variable]|psy := pixely-30|1|0|Variable|Expression||||25|
-18|[Assign Variable]|pey := pixely+30|1|0|Variable|Expression||||26|
-19|Continue, Continue, FoundX, FoundY|%psx%, %psy%, %pex%, %pey%, 0xFFEB04, 0, Fast RGB|1|0|PixelSearch||Window|||27|
-20|If Image/Pixel Found||1|0|If_Statement|||||29|
-21|[Assign Variable]|savex := pixelx|1|0|Variable|Expression||||31|
-22|[Assign Variable]|savey := pixely|1|0|Variable|Expression||||32|
-23|Break||1|0|Break|||||33|
-24|[End If]|EndIf|1|0|If_Statement|||||34|
-25|[Add Variable]|row += 1|1|0|Variable|Expression||||35|
-26|[Add Variable]|pixelx += 95|1|0|Variable|Expression||||36|
-27|[LoopEnd]|LoopEnd|1|0|Loop|||||37|
-28|[Assign Variable]|count := 0|1|0|Variable|Expression||||38|
-29|[Assign Variable]|row := 0|1|0|Variable|Expression||||39|
-30|[Assign Variable]|pixely := 310|1|0|Variable|Expression||||40|
-31|[Assign Variable]|pixelx := 220|1|0|Variable|Expression||||41|
-32|[Assign Variable]|mimic := 0|1|0|Variable|Expression||||42|
-33|[LoopStart]|LoopStart|30|0|Loop|||||43|
-34|Compare Variables|row = 10|1|0|If_Statement|||||45|
-35|[Add Variable]|pixely += 100|1|0|Variable|Expression||||47|
-36|[Assign Variable]|row := 0|1|0|Variable|Expression||||48|
-37|[Assign Variable]|pixelx := 220|1|0|Variable|Expression||||49|
-38|[End If]|EndIf|1|0|If_Statement|||||50|
-39|Evaluate Expression|savex = pixelx && savey = pixely|1|0|If_Statement|||||51|
-40|[Add Variable]|row += 1|1|0|Variable|Expression||||53|
-41|Compare Variables|row = 10|1|0|If_Statement|||||54|
-42|[Add Variable]|pixely += 100|1|0|Variable|Expression||||56|
-43|[Assign Variable]|row := 0|1|0|Variable|Expression||||57|
-44|[Assign Variable]|pixelx := 220|1|0|Variable|Expression||||58|
-45|[Else]|Else|1|0|If_Statement|||||59|
-46|[Add Variable]|pixelx += 95|1|0|Variable|Expression||||62|
-47|[End If]|EndIf|1|0|If_Statement|||||63|
-48|[End If]|EndIf|1|0|If_Statement|||||64|
-49|Evaluate Expression|count = 2|1|0|If_Statement|||||65|
-50|Continue, Continue, FoundX, FoundY|420, 200, 850, 220, 0xFF0000, 0, Fast RGB|1|0|PixelSearch||Window|||67|
-51|If Image/Pixel Found||1|0|If_Statement|||||69|
-52|[Pause]||1|1500|Sleep|||||71|
-53|[End If]|EndIf|1|0|If_Statement|||||72|
-54|Left Move & Click|{Click, %savex%, %savey% Left, 1}|1|0|SendEvent|||||73|
-55|[Pause]||1|600|Sleep|||||74|
-56|[End If]|EndIf|1|0|If_Statement|||||75|
-57|Continue, Continue, FoundX, FoundY|420, 200, 850, 220, 0xFF0000, 0, Fast RGB|1|0|PixelSearch||Window|||76|
-58|If Image/Pixel Found||1|0|If_Statement|||||78|
-59|[Pause]||1|1500|Sleep|||||80|
-60|Compare Variables|count > 2|1|0|If_Statement|||||81|
-61|[Add Variable]|mimic += 1|1|0|Variable|Expression||||83|
-62|Compare Variables|mimic = 2|1|0|If_Statement|||||84|
-63|Break||1|0|Break|||||86|
-64|[End If]|EndIf|1|0|If_Statement|||||87|
-65|[End If]|EndIf|1|0|If_Statement|||||88|
-66|[End If]|EndIf|1|0|If_Statement|||||89|
-67|Left Move & Click|{Click, %pixelx%, %pixely% Left, 1}|1|0|SendEvent|||||90|
-68|[Pause]||1|550|Sleep|||||91|
-69|[Add Variable]|count += 1|1|0|Variable|Expression||||92|
-70|[Add Variable]|row += 1|1|0|Variable|Expression||||93|
-71|[Add Variable]|pixelx += 95|1|0|Variable|Expression||||94|
-72|[LoopEnd]|LoopEnd|1|0|Loop|||||95|
-73|WinActivate||1|333|WinActivate||Idle Slayer|||96|
-74|Move|{Click, 401, 679, 0}|1|0|SendEvent|||||98|
-75|Continue, Continue, FoundX, FoundY|400, 674, 404, 683, 0xAD0000, 0, Fast RGB|1|0|PixelSearch|UntilFound|Window|||99|
-76|Left Move & Click|{Click, 643, 693 Left, 1}|1|0|SendEvent|||||105|
-77|[LoopStart]|LoopStart|4|0|Loop|||||106|
-78|[Text]|{Right}|1|0|ControlSend||Idle Slayer ahk_class UnityWndClass ahk_exe Idle Slayer.exe|||108|
-79|[Pause]||1|1000|Sleep|||||109|
-80|[LoopEnd]|LoopEnd|1|0|Loop|||||110|
+1|[Pause]||1|2000|Sleep|||||1|
+2|[Assign Variable]|foundx := 0|1|0|Variable|Expression||||2|
+3|[Assign Variable]|foundy := 0|1|0|Variable|Expression||||3|
+4|[Assign Variable]|pixely := 310|1|0|Variable|Expression||||4|
+5|[Assign Variable]|row := 0|1|0|Variable|Expression||||5|
+6|[Assign Variable]|pixelx := 220|1|0|Variable|Expression||||6|
+7|[LoopStart]|LoopStart|30|0|Loop|||||7|
+8|Compare Variables|row = 10|1|0|If_Statement|||||9|
+9|[Add Variable]|pixely += 100|1|0|Variable|Expression||||11|
+10|[Assign Variable]|pixelx := 220|1|0|Variable|Expression||||12|
+11|[Assign Variable]|row := 0|1|0|Variable|Expression||||13|
+12|[End If]|EndIf|1|0|If_Statement|||||14|
+13|[Assign Variable]|pex := pixelx+40|1|0|Variable|Expression||||15|
+14|[Assign Variable]|psx := pixelx-40|1|0|Variable|Expression||||16|
+15|[Assign Variable]|psy := pixely-30|1|0|Variable|Expression||||17|
+16|[Assign Variable]|pey := pixely+30|1|0|Variable|Expression||||18|
+17|Continue, Continue, FoundX, FoundY|%psx%, %psy%, %pex%, %pey%, 0xFFEB04, 0, Fast RGB|1|0|PixelSearch||Window|||19|
+18|If Image/Pixel Found||1|0|If_Statement|||||21|
+19|[Assign Variable]|savex := pixelx|1|0|Variable|Expression||||23|
+20|[Assign Variable]|savey := pixely|1|0|Variable|Expression||||24|
+21|Break||1|0|Break|||||25|
+22|[End If]|EndIf|1|0|If_Statement|||||26|
+23|[Add Variable]|row += 1|1|0|Variable|Expression||||27|
+24|[Add Variable]|pixelx += 95|1|0|Variable|Expression||||28|
+25|[LoopEnd]|LoopEnd|1|0|Loop|||||29|
+26|[Assign Variable]|count := 0|1|0|Variable|Expression||||30|
+27|[Assign Variable]|row := 0|1|0|Variable|Expression||||31|
+28|[Assign Variable]|pixely := 310|1|0|Variable|Expression||||32|
+29|[Assign Variable]|pixelx := 220|1|0|Variable|Expression||||33|
+30|[Assign Variable]|mimic := 0|1|0|Variable|Expression||||34|
+31|[LoopStart]|LoopStart|30|0|Loop|||||35|
+32|Compare Variables|row = 10|1|0|If_Statement|||||37|
+33|[Add Variable]|pixely += 100|1|0|Variable|Expression||||39|
+34|[Assign Variable]|row := 0|1|0|Variable|Expression||||40|
+35|[Assign Variable]|pixelx := 220|1|0|Variable|Expression||||41|
+36|[End If]|EndIf|1|0|If_Statement|||||42|
+37|Evaluate Expression|savex = pixelx && savey = pixely|1|0|If_Statement|||||43|
+38|[Add Variable]|row += 1|1|0|Variable|Expression||||45|
+39|Compare Variables|row = 10|1|0|If_Statement|||||46|
+40|[Add Variable]|pixely += 100|1|0|Variable|Expression||||48|
+41|[Assign Variable]|row := 0|1|0|Variable|Expression||||49|
+42|[Assign Variable]|pixelx := 220|1|0|Variable|Expression||||50|
+43|[Else]|Else|1|0|If_Statement|||||51|
+44|[Add Variable]|pixelx += 95|1|0|Variable|Expression||||54|
+45|[End If]|EndIf|1|0|If_Statement|||||55|
+46|[End If]|EndIf|1|0|If_Statement|||||56|
+47|Evaluate Expression|count = 2|1|0|If_Statement|||||57|
+48|Continue, Continue, FoundX, FoundY|420, 200, 850, 220, 0xFF0000, 0, Fast RGB|1|0|PixelSearch||Window|||59|
+49|If Image/Pixel Found||1|0|If_Statement|||||61|
+50|[Pause]||1|1500|Sleep|||||63|
+51|[End If]|EndIf|1|0|If_Statement|||||64|
+52|Left Move & Click|{Click, %savex%, %savey% Left, 1}|1|0|SendEvent|||||65|
+53|[Pause]||1|600|Sleep|||||66|
+54|[End If]|EndIf|1|0|If_Statement|||||67|
+55|Continue, Continue, FoundX, FoundY|420, 200, 850, 220, 0xFF0000, 0, Fast RGB|1|0|PixelSearch||Window|||68|
+56|If Image/Pixel Found||1|0|If_Statement|||||70|
+57|[Pause]||1|1500|Sleep|||||72|
+58|Compare Variables|count > 2|1|0|If_Statement|||||73|
+59|[Add Variable]|mimic += 1|1|0|Variable|Expression||||75|
+60|Compare Variables|mimic = 2|1|0|If_Statement|||||76|
+61|Break||1|0|Break|||||78|
+62|[End If]|EndIf|1|0|If_Statement|||||79|
+63|[End If]|EndIf|1|0|If_Statement|||||80|
+64|[End If]|EndIf|1|0|If_Statement|||||81|
+65|Left Move & Click|{Click, %pixelx%, %pixely% Left, 1}|1|0|SendEvent|||||82|
+66|[Pause]||1|550|Sleep|||||83|
+67|[Add Variable]|count += 1|1|0|Variable|Expression||||84|
+68|[Add Variable]|row += 1|1|0|Variable|Expression||||85|
+69|[Add Variable]|pixelx += 95|1|0|Variable|Expression||||86|
+70|[LoopEnd]|LoopEnd|1|0|Loop|||||87|
+71|WinActivate||1|333|WinActivate||Idle Slayer|||88|
+72|Move|{Click, 401, 679, 0}|1|0|SendEvent|||||90|
+73|Continue, Continue, FoundX, FoundY|400, 674, 404, 683, 0xAD0000, 0, Fast RGB|1|0|PixelSearch|UntilFound|Window|||91|
+74|Left Move & Click|{Click, 643, 693 Left, 1}|1|0|SendEvent|||||97|
+75|[LoopStart]|LoopStart|4|0|Loop|||||98|
+76|[Text]|{Right}|1|0|ControlSend||Idle Slayer ahk_class UnityWndClass ahk_exe Idle Slayer.exe|||100|
+77|[Pause]||1|1000|Sleep|||||101|
+78|[LoopEnd]|LoopEnd|1|0|Loop|||||102|
 
 [PMC Code v5.4.1]|||1|Window,2,Fast,0,1,Input,-1,-1,1|1|CloseFail
 Context=None|

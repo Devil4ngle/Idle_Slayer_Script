@@ -422,7 +422,7 @@ Groups=Start:1
 [PMC Code v5.4.1]|||1|Window,2,Fast,0,1,Input,-1,-1,1|1|Chesthunt
 Context=None|
 Groups=Start:1
-1|[Pause]||1|1500|Sleep|||||1|
+1|[Pause]||1|2000|Sleep|||||1|
 2|Continue, Continue, FoundX, FoundY|648, 200, 649, 225, 0xFFFFFF, 0, Fast RGB|1|0|PixelSearch|UntilFound|Window|||2|
 3|If Image/Pixel Found||1|0|If_Statement|||||8|
 4|[End If]|EndIf|1|0|If_Statement|||||10|
