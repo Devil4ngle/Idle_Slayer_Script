@@ -199,7 +199,7 @@ Func BonusStageNSP()
 	If BonusStageFail() Then
 		Return
 	EndIf
-	;Section 2
+	; Section 2
 	Sleep(5094)
 	cSend(46, 6047)
 	cSend(47, 219)
@@ -289,7 +289,7 @@ Func BonusStageNSP()
 	cSend(281, 1391)
 	cSend(109, 2406)
 	cSend(63, 390)
-	cSend(63, 2672
+	cSend(63, 2672)
 	cSend(62, 485)
 	cSend(47)
 	If BonusStageFail() Then
