@@ -186,16 +186,17 @@ Func BonusStageNSP()
 	;Section 1 start
 	cSend(94, 1640) ;1
 	cSend(32, 1218) ;2
-	cSend(109, 1828) ;3
-	cSend(63, 640) ;4
-	cSend(47, 688) ;5
-	cSend(78, 1906) ;6
-	cSend(141, 1625) ;7
-	cSend(47, 3187) ;8
-	cSend(47, 734) ;9
-	cSend(47, 750) ;10
-	cSend(78, 1203) ;11
-	cSend(110, 5094) ;12
+	cSend(94, 1563) ;3
+	cSend(109, 1828) ;4
+	cSend(63, 640) ;5
+	cSend(47, 688) ;6
+	cSend(78, 1906) ;7
+	cSend(141, 1625) ;8
+	cSend(47, 3187) ;9
+	cSend(47, 734) ;10
+	cSend(47, 750) ;11
+	cSend(78, 1203) ;12
+	cSend(110, 5000) ;13
 	If BonusStageFail() Then
 		Return
 	EndIf
@@ -204,11 +205,10 @@ Func BonusStageNSP()
 	cSend(47, 219)
 	cSend(78, 1313)
 	cSend(62, 2141)
-	cSend(31, 7700)
+	cSend(31, 1000)
 	; Section 2 sync
 	Do
-		Sleep(10)
-		PixelSearch(670, 149, 670, 149, 0x7A444A)
+		PixelSearch(700, 149, 700, 149, 0x7A444A)
 	Until Not @error
 	; Section 2 start
 	cSend(156, 719) ;1
