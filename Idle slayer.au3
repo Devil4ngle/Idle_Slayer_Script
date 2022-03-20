@@ -183,118 +183,114 @@ Func BonusStageFail()
 EndFunc   ;==>BonusStageFail
 
 Func BonusStageNSP()
-	;Section 1
-	cSend(94, 1640)
-	cSend(32, 1218)
-	cSend(109, 1828)
-	cSend(63, 640)
-	cSend(47, 688)
-	cSend(78, 1906)
-	cSend(141, 1625)
-	cSend(47, 3187)
-	cSend(47, 734)
-	cSend(47, 750)
-	cSend(78, 1203)
-	cSend(110)
+	;Section 1 start
+	cSend(94, 1640) ;1
+	cSend(32, 1218) ;2
+	cSend(109, 1828) ;3
+	cSend(63, 640) ;4
+	cSend(47, 688) ;5
+	cSend(78, 1906) ;6
+	cSend(141, 1625) ;7
+	cSend(47, 3187) ;8
+	cSend(47, 734) ;9
+	cSend(47, 750) ;10
+	cSend(78, 1203) ;11
+	cSend(110, 5094) ;12
 	If BonusStageFail() Then
 		Return
 	EndIf
-	; Section 2
-	Sleep(5094)
+	; Section 1 Collection
 	cSend(46, 6047)
 	cSend(47, 219)
 	cSend(78, 1313)
 	cSend(62, 2141)
 	cSend(31, 7700)
-	; Stage 2 sync
+	; Section 2 sync
 	Do
 		Sleep(10)
 		PixelSearch(670, 149, 670, 149, 0x7A444A)
 	Until Not @error
-	cSend(156, 719)
-	cSend(47, 687)
-	cSend(360, 1390)
-	cSend(485, 344)
-	cSend(406, 859)
-	cSend(78, 1203)
-	cSend(94, 922)
-	cSend(109, 954)
-	cSend(31, 672)
-	cSend(515, 1344)
-	cSend(484, 297)
-	cSend(78, 1297)
-	cSend(156, 813)
-	cSend(172, 984)
-	cSend(31, 625)
-	cSend(610, 1890)
-	cSend(469, 219)
-	cSend(297, 1000)
-	cSend(156, 1531)
-	cSend(110, 1390)
-	cSend(360, 5984)
-	cSend(360, 5984)
-	cSend(531)
+	; Section 2 start
+	cSend(156, 719) ;1
+	cSend(47, 687) ;2
+	cSend(360, 1390) ;3
+	cSend(485, 344) ;4
+	cSend(406, 859) ;5
+	cSend(78, 1203) ;6
+	cSend(94, 922) ;7
+	cSend(109, 954) ;8
+	cSend(31, 672) ;9
+	cSend(515, 1344) ;10
+	cSend(484, 297) ;11
+	cSend(78, 1297) ;12
+	cSend(156, 813) ;13
+	cSend(172, 984) ;14
+	cSend(31, 625) ;15
+	cSend(610, 1890) ;16
+	cSend(469, 219) ;17
+	cSend(297, 1000) ;18
+	cSend(156, 1531) ;19
+	cSend(110, 1390) ;20
+	cSend(360, 5984) ;21
 	If BonusStageFail() Then
 		Return
 	EndIf
-	; Section 3
-	Sleep(2313)
+	; Section 2 Collection
+	cSend(531, 2313)
 	cSend(344, 1234)
 	cSend(62, 454)
 	cSend(62, 1125)
 	cSend(47, 3047)
 	cSend(62, 110)
 	cSend(62, 9219)
-	cSend(109, 1203)
-	cSend(31, 641)
-	cSend(47, 1578)
-	cSend(47, 2437)
-	cSend(110, 1297)
-	cSend(31, 656)
-	cSend(47, 1625)
-	cSend(31, 2313)
-	cSend(109, 1516)
-	cSend(47, 640)
-	cSend(47, 1547)
-	cSend(47, 1969)
-	cSend(93, 1203)
-	cSend(47, 625)
-	cSend(47)
+	; Section 3 Start
+	cSend(109, 1203) ;1
+	cSend(31, 641) ;2
+	cSend(47, 1578) ;3
+	cSend(47, 2437) ;4
+	cSend(110, 1297) ;5
+	cSend(31, 656) ;6
+	cSend(47, 1625) ;7
+	cSend(31, 2313) ;8
+	cSend(109, 1516) ;9
+	cSend(47, 640) ;10
+	cSend(47, 1547) ;11
+	cSend(47, 1969) ;12
+	cSend(93, 1203) ;13
+	cSend(47, 625) ;14
+	cSend(47, 5125) ;15
 	If BonusStageFail() Then
 		Return
 	EndIf
-	;Section 4
-	Sleep(5125)
+	;Section 3 Collection
 	cSend(891, 1406)
 	cSend(94, 344)
 	cSend(78, 359)
 	cSend(78, 3453)
 	cSend(63, 9062)
-	cSend(32, 4578)
-	cSend(31, 859)
-	cSend(47, 1375)
-	cSend(47, 1406)
-	cSend(641, 703)
-	cSend(31, 1344)
-	cSend(47, 1484)
-	cSend(578, 766)
-	cSend(31, 1407)
-	cSend(31, 1437)
-	cSend(563, 719)
-	cSend(46, 1438)
-	cSend(47, 1422)
-	cSend(547, 750)
-	cSend(46, 1625)
-	cSend(94, 391)
-	cSend(281, 1391)
-	cSend(109, 2406)
-	cSend(63, 390)
-	cSend(63, 2672)
-	cSend(62, 485)
+	;Section 4 Start
+	cSend(32, 4578) ;1
+	cSend(31, 859) ;2
+	cSend(47, 1375) ;3
+	cSend(47, 1406) ;4
+	cSend(641, 703) ;5
+	cSend(31, 1344) ;6
+	cSend(47, 1484) ;7
+	cSend(578, 766) ;8
+	cSend(31, 1407) ;9
+	cSend(31, 1437) ;10
+	cSend(563, 719) ;11
+	cSend(46, 1438) ;12
+	cSend(47, 1422) ;13
+	cSend(547, 750) ;14
+	cSend(46, 1625) ;15
+	cSend(94, 391) ;16
+	cSend(281, 1391) ;17
+	cSend(109, 2406) ;18
+	cSend(63, 390) ;19
+	cSend(63, 2672) ;20
+	cSend(62, 485) ;21
 	cSend(47)
-	If BonusStageFail() Then
-		Return
-	EndIf
 	Sleep(4000)
 	If BonusStageFail() Then
 		Return
