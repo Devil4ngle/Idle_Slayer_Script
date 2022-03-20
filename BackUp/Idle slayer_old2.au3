@@ -15,7 +15,6 @@ While 1
 	ControlFocus("Idle Slayer", "", "")
 	ControlSend("Idle Slayer", "", "", "{Up}{Right}{e}")
 	Sleep(150)
-
 	;Silver box collect
 	PixelSearch(580, 40, 580, 40, 0xFF0000)
 	If Not @error Then
@@ -74,7 +73,6 @@ Func Chesthunt()
 		$pixelY += 95
 		$pixelX = 185
 	Next
-	; Actual chest hunt
 	$pixelX = 185
 	$pixelY = 325
 	For $y = 1 To 3
@@ -112,7 +110,7 @@ Func Chesthunt()
 		$pixelY += 95
 		$pixelX = 185
 	Next
-	; Look for close button until found
+	; Look for close button untill found
 	Do
 		Sleep(50)
 		PixelSearch(400, 694, 400, 694, 0xB40000)
@@ -260,7 +258,6 @@ Func BonusStageNSP()
 	Sleep(31)
 	ControlSend("Idle Slayer", "", "", "{Up Up}")
 	Sleep(7700)
-	; Stage 2 sync
 	Do
 		Sleep(10)
 		PixelSearch(670, 149, 670, 149, 0x7A444A)
@@ -564,7 +561,3 @@ Func BonusStageNSP()
 		Return
 	EndIf
 EndFunc   ;==>BonusStageNSP
-
-Func cSend($pressDelay, $postPressDelay = 0, $key = "up")
-
-EndFunc   ;==>cSend
