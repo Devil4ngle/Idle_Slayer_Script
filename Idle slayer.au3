@@ -12,12 +12,13 @@ Opt("MouseCoordMode", 0)
 
 ; Infinite Loop
 While 1
+	;Jump and shoot
 	ControlFocus("Idle Slayer", "", "")
 	ControlSend("Idle Slayer", "", "", "{Up}{Right}{e}")
 	Sleep(150)
 
 	; Silver box collect
-	PixelSearch(580, 40, 580, 40, 0xFF0000)
+	PixelSearch(650, 36, 650, 36, 0xFFC000)
 	If Not @error Then
 		MouseClick("left", 644, 49, 1, 0)
 	EndIf
@@ -208,7 +209,7 @@ Func BonusStageNSP()
 	cSend(31, 1000)
 	; Section 2 sync
 	Do
-		PixelSearch(700, 149, 700, 149, 0x7A444A)
+		PixelSearch(780, 536, 780, 536, 0xBB26DF)
 	Until Not @error
 	; Section 2 start
 	cSend(156, 719) ;1
@@ -222,21 +223,23 @@ Func BonusStageNSP()
 	cSend(31, 672) ;9
 	cSend(515, 1344) ;10
 	cSend(484, 297) ;11
-	cSend(78, 1297) ;12
-	cSend(156, 813) ;13
-	cSend(172, 984) ;14
-	cSend(31, 625) ;15
-	cSend(610, 1890) ;16
-	cSend(469, 219) ;17
-	cSend(297, 1000) ;18
-	cSend(156, 1531) ;19
-	cSend(110, 1390) ;20
-	cSend(360, 5984) ;21
+
+	cSend(406, 859) ;12
+	cSend(78, 1203) ;13
+	cSend(94, 922) ;14
+	cSend(109, 954) ;15
+	cSend(31, 672) ;16
+	cSend(515, 1344) ;17
+	cSend(469, 219) ;18
+	cSend(297, 1000) ;19
+	cSend(156, 1531) ;20
+	cSend(110, 3000) ;21
+	cSend(360, 2984) ;22
+	cSend(531, 2313) ;23
 	If BonusStageFail() Then
 		Return
 	EndIf
 	; Section 2 Collection
-	cSend(531, 2313)
 	cSend(344, 1234)
 	cSend(62, 454)
 	cSend(62, 1125)
@@ -267,24 +270,25 @@ Func BonusStageNSP()
 	cSend(94, 344)
 	cSend(78, 359)
 	cSend(78, 3453)
-	cSend(63, 9062)
+	cSend(63, 8862)
 	;Section 4 Start
 	cSend(32, 4578) ;1
-	cSend(31, 859) ;2
-	cSend(47, 1375) ;3
-	cSend(47, 1406) ;4
-	cSend(641, 703) ;5
-	cSend(31, 1344) ;6
-	cSend(47, 1484) ;7
-	cSend(578, 766) ;8
-	cSend(31, 1407) ;9
-	cSend(31, 1437) ;10
-	cSend(563, 719) ;11
-	cSend(46, 1438) ;12
-	cSend(47, 1422) ;13
-	cSend(547, 750) ;14
-	cSend(46, 1625) ;15
-	cSend(94, 391) ;16
+	cSend(31, 809) ;2
+	cSend(41, 1375) ;3
+	cSend(41, 1375) ;4
+	cSend(641, 690) ;5
+	cSend(41, 1375) ;6
+	cSend(41, 1375) ;7
+	cSend(641, 690) ;8
+	cSend(41, 1375) ;9
+	cSend(41, 1375) ;10
+	cSend(641, 690) ;11
+	cSend(41, 1375) ;12
+	cSend(41, 1375) ;13
+	cSend(641, 690) ;14
+	cSend(41, 1375) ;15
+	;Section 4 Collection
+	cSend(120, 391) ;16
 	cSend(281, 1391) ;17
 	cSend(109, 2406) ;18
 	cSend(63, 390) ;19
@@ -298,8 +302,9 @@ Func BonusStageNSP()
 EndFunc   ;==>BonusStageNSP
 
 Func cSend($pressDelay, $postPressDelay = 0, $key = "Up")
-	ControlSend("Idle Slayer", "", "", "{" & $key & " Down}")
+	Send("{" & $key & " Down}")
 	Sleep($pressDelay)
-	ControlSend("Idle Slayer", "", "", "{" & $key & " Up}")
+	Send("{" & $key & " Up}")
 	Sleep($postPressDelay)
+	Return
 EndFunc   ;==>cSend
