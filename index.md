@@ -1,4 +1,15 @@
-<head>
-  <meta name="google-site-verification" content="7sSNN3WUXoCTnC21YluihQG4rX2XttA6S9tTNIYVF3U" />
-</head>
 Idle Slayer Bot, Idle slayer Script, Idle Slayer Macro, Idle Slayer AC, Idle Slayer AutoClicker, Idle Slayer Auto Clicker
+
+
+# How to make it run?
+You can find all instructions on the discord server [HERE](https://discord.gg/aEaBr77UDn)
+# What can it do?
+• Rage, Jump and Boost in backround
+
+• Bonus stage 2
+
+• Perfect Chest Hunt
+
+• Collect Silver Boxes
+
+• Collect Minions
