@@ -187,7 +187,7 @@ Func BonusStageNSP()
 	;Section 1 start
 	cSend(94, 1640) ;1
 	cSend(32, 1218) ;2
-	cSend(94, 1563) ;3
+	cSend(94, 600) ;3
 	cSend(109, 1828) ;4
 	cSend(63, 640) ;5
 	cSend(47, 688) ;6
@@ -202,11 +202,14 @@ Func BonusStageNSP()
 		Return
 	EndIf
 	; Section 1 Collection
-	cSend(46, 6047)
-	cSend(47, 219)
-	cSend(78, 1313)
-	cSend(62, 2141)
-	cSend(31, 1000)
+	cSend(40, 5000)
+	For $x = 1 To 17
+		Send("{Up}")
+		Sleep(500)
+	Next
+	If BonusStageFail() Then
+		Return
+	EndIf
 	; Section 2 sync
 	Do
 		PixelSearch(780, 536, 780, 536, 0xBB26DF)
@@ -217,22 +220,21 @@ Func BonusStageNSP()
 	cSend(360, 1390) ;3
 	cSend(485, 344) ;4
 	cSend(406, 859) ;5
-	cSend(78, 1203) ;6
-	cSend(94, 922) ;7
+	cSend(78, 600) ;6
+	cSend(94, 900) ;7
 	cSend(109, 954) ;8
 	cSend(31, 672) ;9
 	cSend(515, 1344) ;10
 	cSend(484, 297) ;11
-
 	cSend(406, 859) ;12
-	cSend(78, 1203) ;13
-	cSend(94, 922) ;14
+	cSend(78, 600) ;13
+	cSend(94, 900) ;14
 	cSend(109, 954) ;15
 	cSend(31, 672) ;16
 	cSend(515, 1344) ;17
 	cSend(469, 219) ;18
 	cSend(297, 1000) ;19
-	cSend(156, 1531) ;20
+	cSend(156, 500) ;20
 	cSend(110, 3000) ;21
 	cSend(360, 2984) ;22
 	cSend(531, 2313) ;23
@@ -240,39 +242,56 @@ Func BonusStageNSP()
 		Return
 	EndIf
 	; Section 2 Collection
-	cSend(344, 1234)
-	cSend(62, 454)
-	cSend(62, 1125)
-	cSend(47, 3047)
-	cSend(62, 110)
-	cSend(62, 9219)
+	cSend(350, 1000)
+	For $x = 1 To 20
+		Send("{Up}")
+		Sleep(500)
+	Next
+	If BonusStageFail() Then
+		Return
+	EndIf
+	Do
+		Sleep(200)
+		PixelSearch(220, 465, 220, 465, 0xA0938E)
+	Until Not @error
 	; Section 3 Start
 	cSend(109, 1203) ;1
 	cSend(31, 641) ;2
 	cSend(47, 1578) ;3
 	cSend(47, 2437) ;4
-	cSend(110, 1297) ;5
-	cSend(31, 656) ;6
-	cSend(47, 1625) ;7
-	cSend(31, 2313) ;8
-	cSend(109, 1516) ;9
-	cSend(47, 640) ;10
-	cSend(47, 1547) ;11
-	cSend(47, 1969) ;12
-	cSend(93, 1203) ;13
-	cSend(47, 625) ;14
+	;repeat
+	cSend(109, 1203) ;5
+	cSend(31, 641) ;6
+	cSend(47, 1578) ;7
+	cSend(47, 2437) ;8
+	;repeat
+	cSend(109, 1203) ;9
+	cSend(31, 641) ;10
+	cSend(47, 1578) ;11
+	cSend(47, 2437) ;12
+	;repeat
+	cSend(109, 1203) ;13
+	cSend(31, 641) ;14
 	cSend(47, 5125) ;15
 	If BonusStageFail() Then
 		Return
 	EndIf
 	;Section 3 Collection
-	cSend(891, 1406)
-	cSend(94, 344)
-	cSend(78, 359)
-	cSend(78, 3453)
-	cSend(63, 8862)
+	cSend(900, 200)
+	For $x = 1 To 20
+		Send("{Up}")
+		Sleep(500)
+	Next
+	If BonusStageFail() Then
+		Return
+	EndIf
+	;Section 4 sync
+	Do
+		PixelSearch(250, 472, 100, 250, 0x0D2030)
+	Until Not @error
+	Sleep(200)
 	;Section 4 Start
-	cSend(32, 4578) ;1
+	cSend(32, 2500) ;1
 	cSend(31, 809) ;2
 	cSend(41, 1375) ;3
 	cSend(41, 1375) ;4
@@ -287,15 +306,14 @@ Func BonusStageNSP()
 	cSend(41, 1375) ;13
 	cSend(641, 690) ;14
 	cSend(41, 1375) ;15
+	; extra jump just in case
+	cSend(41) ;16
 	;Section 4 Collection
-	cSend(120, 391) ;16
-	cSend(281, 1391) ;17
-	cSend(109, 2406) ;18
-	cSend(63, 390) ;19
-	cSend(63, 2672) ;20
-	cSend(62, 485) ;21
-	cSend(47)
-	Sleep(4000)
+	For $x = 1 To 22
+		Send("{Up}")
+		Sleep(500)
+	Next
+	Sleep(6000)
 	If BonusStageFail() Then
 		Return
 	EndIf
