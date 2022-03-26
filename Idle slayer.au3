@@ -14,7 +14,7 @@ Opt("MouseCoordMode", 0)
 While 1
 	;Jump and shoot
 	ControlFocus("Idle Slayer", "", "")
-	;ControlSend("Idle Slayer", "", "", "{Up}{Right}")
+	ControlSend("Idle Slayer", "", "", "{Up}{Right}")
 	Sleep(150)
 
 	; Silver box collect
