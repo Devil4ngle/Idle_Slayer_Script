@@ -84,10 +84,11 @@ Func Chesthunt()
 	; Actual chest hunt
 	$pixelX = 185
 	$pixelY = 325
+	$count = 0
 	For $y = 1 To 3
 		For $x = 1 To 10
 			; After opening 2 chest open saver
-			If $x == 3 And $y == 1 And $saverX > 0 Then
+			If $count == 2 And $saverX > 0 Then
 				MouseClick("left", $saverX + 33, $saverY - 23, 1, 0)
 				Sleep(550)
 			EndIf
@@ -97,8 +98,8 @@ Func Chesthunt()
 				If $x == 10 Then
 					ExitLoop (1)
 				Else
-					$x += 1
 					$pixelX += 95
+					ContinueLoop
 				EndIf
 			EndIf
 			; Open chest
@@ -115,6 +116,7 @@ Func Chesthunt()
 				Sleep(1500)
 			EndIf
 			$pixelX += 95
+			$count += 1
 		Next
 		$pixelY += 95
 		$pixelX = 185
