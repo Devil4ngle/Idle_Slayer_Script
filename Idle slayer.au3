@@ -14,7 +14,7 @@ Opt("MouseCoordMode", 0)
 While 1
 	;Jump and shoot
 	ControlFocus("Idle Slayer", "", "")
-	ControlSend("Idle Slayer", "", "", "{Up}{Right}{e}")
+	;ControlSend("Idle Slayer", "", "", "{Up}{Right}")
 	Sleep(150)
 
 	; Silver box collect
@@ -29,6 +29,12 @@ While 1
 		Chesthunt()
 	EndIf
 
+	; Rage when Megahorde
+	PixelSearch(419, 323, 419, 323, 0xDFDEE0)
+	If Not @error Then
+		ControlFocus("Idle Slayer", "", "")
+		ControlSend("Idle Slayer", "", "", "{e}")
+	EndIf
 
 	; Collect minions
 	PixelSearch(99, 113, 99, 113, 0xFFFF7A)
@@ -294,18 +300,18 @@ Func BonusStageNSP()
 	cSend(32, 2500) ;1
 	cSend(31, 809) ;2
 	cSend(41, 1375) ;3
-	cSend(41, 1375) ;4
+	cSend(41, 1374) ;4
 	cSend(641, 690) ;5
-	cSend(41, 1375) ;6
-	cSend(41, 1375) ;7
-	cSend(641, 690) ;8
+	cSend(41, 1373) ;6
+	cSend(41, 2500) ;7
+	cSend(31, 809) ;8
 	cSend(41, 1375) ;9
-	cSend(41, 1375) ;10
+	cSend(41, 1374) ;10
 	cSend(641, 690) ;11
-	cSend(41, 1375) ;12
-	cSend(41, 1375) ;13
+	cSend(41, 1373) ;12
+	cSend(41, 1372) ;13
 	cSend(641, 690) ;14
-	cSend(41, 1375) ;15
+	cSend(41, 1371) ;15
 	; extra jump just in case
 	cSend(41) ;16
 	;Section 4 Collection
