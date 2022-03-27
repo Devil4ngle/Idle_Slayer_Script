@@ -141,12 +141,6 @@ Func BonusStage()
 			Sleep(200)
 		Until BonusStageFail()
 	Else
-		;Run until block
-		Do
-			Sleep(200)
-			PixelSearch(220, 465, 220, 465, 0xA0938E)
-		Until Not @error
-		Sleep(200)
 		BonusStageNSP()
 	EndIf
 
@@ -192,6 +186,9 @@ Func BonusStageFail()
 EndFunc   ;==>BonusStageFail
 
 Func BonusStageNSP()
+	; Section 1 sync
+	FindPixelUntilFound(220, 465, 220, 465, 0xA0938E)
+	Sleep(200)
 	;Section 1 start
 	cSend(94, 1640) ;1
 	cSend(32, 1218) ;2
@@ -219,9 +216,7 @@ Func BonusStageNSP()
 		Return
 	EndIf
 	; Section 2 sync
-	Do
-		PixelSearch(780, 536, 780, 536, 0xBB26DF)
-	Until Not @error
+	FindPixelUntilFound(780, 536, 780, 536, 0xBB26DF)
 	; Section 2 start
 	cSend(156, 719) ;1
 	cSend(47, 687) ;2
@@ -258,10 +253,8 @@ Func BonusStageNSP()
 	If BonusStageFail() Then
 		Return
 	EndIf
-	Do
-		Sleep(200)
-		PixelSearch(220, 465, 220, 465, 0xA0938E)
-	Until Not @error
+	;Stage 3 sync
+	FindPixelUntilFound(220, 465, 220, 465, 0xA0938E)
 	; Section 3 Start
 	cSend(109, 1203) ;1
 	cSend(31, 641) ;2
@@ -294,9 +287,7 @@ Func BonusStageNSP()
 		Return
 	EndIf
 	;Section 4 sync
-	Do
-		PixelSearch(250, 472, 100, 250, 0x0D2030)
-	Until Not @error
+	FindPixelUntilFound(250, 472, 100, 250, 0x0D2030)
 	Sleep(200)
 	;Section 4 Start
 	cSend(32, 2500) ;1
@@ -317,11 +308,12 @@ Func BonusStageNSP()
 	; extra jump just in case
 	cSend(41) ;16
 	;Section 4 Collection
-	For $x = 1 To 22
+	For $x = 1 To 23
 		Send("{Up}")
 		Sleep(500)
 	Next
-	Sleep(6000)
+	Sleep(9000)
+	MouseClick("left", 570, 530, 1, 0)
 	If BonusStageFail() Then
 		Return
 	EndIf
@@ -334,3 +326,10 @@ Func cSend($pressDelay, $postPressDelay = 0, $key = "Up")
 	Sleep($postPressDelay)
 	Return
 EndFunc   ;==>cSend
+
+Func FindPixelUntilFound($x1, $y1, $x2, $y2, $hex, $timer = 15000)
+	Local $time = TimerInit()
+	Do
+		PixelSearch($x1, $y1, $x2, $y2, $hex)
+	Until Not @error Or $timer < TimerDiff($time)
+EndFunc   ;==>FindPixelUntilFound
