@@ -50,19 +50,14 @@ GUICtrlSetData(-1, "Log")
 GUICtrlCreateTabItem("")
 GUISetState(@SW_SHOW)
 Global $AutoBuyUpgradeState = $GUI_UNCHECKED, $CraftSoulBonusState = $GUI_UNCHECKED, $SkipBonusStageState = $GUI_UNCHECKED, _
-		$CraftRagePillState = $GUI_UNCHECKED, $CirclePortalsState = $GUI_UNCHECKED, $JumpSliderValue = 150
-
-Func IdleClose()
-	Exit
-EndFunc   ;==>IdleClose
 Func AutoBuyUpgradeClick()
 	$AutoBuyUpgradeState = GUICtrlRead($AutoBuyUpgrade)
 EndFunc   ;==>AutoBuyUpgradeClick
 Func CirclePortalsClick()
 	;$CirclePortalsState = GUICtrlRead($CirclePortals)
 EndFunc   ;==>CirclePortalsClick
-Func CraftRagePillClick()
-	$CraftRagePillState = GUICtrlRead($CraftRagePill)
+Func CraftSoulBonusClick()
+	$CraftSoulBonusState = GUICtrlRead($CraftSoulBonus)
 EndFunc   ;==>CraftSoulBonusClick
 Func CraftSoulPillClick()
 	$CraftSoulPillState = GUICtrlRead($CraftSoulBonus)
