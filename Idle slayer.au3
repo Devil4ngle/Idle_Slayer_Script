@@ -82,6 +82,7 @@ While 1
 	If ($AutoBuyUpgradeState == $GUI_CHECKED) Then
 		If (600000 < TimerDiff($timer)) Then
 			$timer = TimerInit()
+			WinActivate("Idle Slayer")
 			BuyEquipment()
 		EndIf
 	EndIf
@@ -125,10 +126,10 @@ WEnd
 
 Func RageWhenHorde()
 	If $CraftRagePillState == $GUI_CHECKED Then
-		BuyTempItem("0x7D55D8")
+		BuyTempItem("0x871646")
 	EndIf
 	If $CraftSoulBonusState == $GUI_CHECKED Then
-		BuyTempItem("0x871646")
+		BuyTempItem("0x7D55D8")
 	EndIf
 	ControlFocus("Idle Slayer", "", "")
 	ControlSend("Idle Slayer", "", "", "{e}")
@@ -161,17 +162,17 @@ Func CollectMinion()
 	MouseClick("left", 95, 90, 1, 0)
 	Sleep(400)
 	MouseClick("left", 93, 680, 1, 0)
-	Sleep(100)
+	Sleep(200)
 	MouseClick("left", 193, 680, 1, 0)
-	Sleep(100)
+	Sleep(200)
 	MouseClick("left", 691, 680, 1, 0)
-	Sleep(100)
+	Sleep(200)
 	MouseClick("left", 332, 680, 1, 0)
-	Sleep(100)
-	MouseClick("left", 318, 182, 1, 0)
-	Sleep(100)
-	MouseClick("left", 318, 182, 1, 0)
-	Sleep(100)
+	Sleep(200)
+	MouseClick("left", 318, 182, 5, 0)
+	Sleep(200)
+	MouseClick("left", 318, 182, 5, 0)
+	Sleep(200)
 	MouseClick("left", 570, 694, 1, 0)
 EndFunc   ;==>CollectMinion
 
