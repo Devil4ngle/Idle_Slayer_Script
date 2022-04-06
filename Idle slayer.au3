@@ -45,7 +45,7 @@ GUICtrlSetOnEvent(-1, "JumpSliderChange")
 Global $JumpRate = GUICtrlCreateLabel("JumpRate", 288, 32, 52, 17)
 GUICtrlSetBkColor(-1, 0xFFFFFF)
 Global $Logs = GUICtrlCreateTabItem("Logs")
-Global $Log = GUICtrlCreateEdit("", 16, 32, 601, 57, BitOR($ES_AUTOVSCROLL,$ES_AUTOHSCROLL,$ES_WANTRETURN,$WS_VSCROLL))
+Global $Log = GUICtrlCreateEdit("", 16, 32, 601, 57, BitOR($ES_AUTOVSCROLL, $ES_AUTOHSCROLL, $ES_WANTRETURN, $WS_VSCROLL))
 GUICtrlSetData(-1, "Log")
 GUICtrlCreateTabItem("")
 GUISetState(@SW_SHOW)
@@ -63,7 +63,7 @@ Func CirclePortalsClick()
 EndFunc   ;==>CirclePortalsClick
 Func CraftRagePillClick()
 	$CraftRagePillState = GUICtrlRead($CraftRagePill)
-EndFunc   ;==>CraftSoulBonusClick
+EndFunc   ;==>CraftRagePillClick
 Func CraftSoulPillClick()
 	$CraftSoulPillState = GUICtrlRead($CraftSoulBonus)
 EndFunc   ;==>CraftSoulPillClick
@@ -125,16 +125,34 @@ While 1
 WEnd
 
 Func RageWhenHorde()
-	If $CraftRagePillState == $GUI_CHECKED Then
-		BuyTempItem("0x871646")
-	EndIf
-	If $CraftSoulBonusState == $GUI_CHECKED Then
-		BuyTempItem("0x7D55D8")
+	If CheckForSoulBonus() Then
+		If $CraftRagePillState == $GUI_CHECKED Then
+			BuyTempItem("0x871646")
+		EndIf
+		If $CraftSoulBonusState == $GUI_CHECKED Then
+			BuyTempItem("0x7D55D8")
+		EndIf
 	EndIf
 	ControlFocus("Idle Slayer", "", "")
 	ControlSend("Idle Slayer", "", "", "{e}")
 EndFunc   ;==>RageWhenHorde
 
+
+Func CheckForSoulBonus()
+	Local $location = PixelSearch(625, 143, 629, 214, 0xA86D0A)
+	If Not @error Then
+		PixelSearch(688, $location[1], 688, $location[1], 0xD98E04)
+		If @error Then
+			Return True
+		EndIf
+		PixelSearch(697, $location[1] - 7, 697, $location[1] - 5, 0xDB8F04)
+		If @error Then
+			Return True
+		EndIf
+		Return False
+	EndIf
+
+EndFunc   ;==>CheckForSoulBonus
 Func BuyTempItem($hexColor)
 	Local $success
 	;open menu
