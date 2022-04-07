@@ -128,6 +128,7 @@ Func RageWhenHorde()
 	If CheckForSoulBonus() Then
 		If $CraftRagePillState == $GUI_CHECKED Then
 			BuyTempItem("0x871646")
+			Sleep(100)
 		EndIf
 		If $CraftSoulBonusState == $GUI_CHECKED Then
 			BuyTempItem("0x7D55D8")
@@ -142,17 +143,17 @@ Func CheckForSoulBonus()
 	Local $location = PixelSearch(625, 143, 629, 214, 0xA86D0A)
 	If Not @error Then
 		PixelSearch(688, $location[1], 688, $location[1], 0xD98E04)
-		If @error Then
-			Return True
+		If Not @error Then
+			Return False
 		EndIf
 		PixelSearch(697, $location[1] - 7, 697, $location[1] - 5, 0xDB8F04)
-		If @error Then
-			Return True
+		If Not @error Then
+			Return False
 		EndIf
-		Return False
+		Return True
 	EndIf
-
 EndFunc   ;==>CheckForSoulBonus
+
 Func BuyTempItem($hexColor)
 	Local $success
 	;open menu
@@ -164,15 +165,20 @@ Func BuyTempItem($hexColor)
 	;top of scrollbar
 	MouseClick("left", 482, 150, 5, 0)
 	Sleep(450)
-	For $x = 1 To 24
+	While 1
 		$success = PixelSearch(65, 180, 65, 630, $hexColor)
 		If Not @error Then
 			MouseClick("left", 385, $success[1], 1, 0)
+			Sleep(50)
 			ExitLoop
 		EndIf
 		MouseWheel($MOUSE_WHEEL_DOWN, 1)
 		Sleep(50)
-	Next
+		PixelSearch(484, 647, 484, 647, 0xD6D6D6)
+		If @error Then
+			ExitLoop
+		EndIf
+	WEnd
 	MouseClick("left", 440, 690, 1, 0)
 EndFunc   ;==>BuyTempItem
 
