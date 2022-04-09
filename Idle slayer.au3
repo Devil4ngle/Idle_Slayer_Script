@@ -4,7 +4,7 @@
 #comments-end
 
 ; Major, Minor, Patches
-$Version = "2.3.2"
+$Version = "2.3.3"
 
 #include <ButtonConstants.au3>
 #include <EditConstants.au3>
@@ -99,17 +99,10 @@ While 1
 	If ($AutoBuyUpgradeState == $GUI_CHECKED) Then
 		If (600000 < TimerDiff($timer)) Then
 			$timer = TimerInit()
-			WinActivate("Idle Slayer")
+			ControlFocus("Idle Slayer", "", "")
 			BuyEquipment()
 		EndIf
-	EndIf
-	If WinGetTitle("[ACTIVE]") <> "Idle Runner  v" & $Version Then
-		ControlFocus("Idle Slayer", "", "")
-	EndIf
-	;Jump and shoot
-	ControlSend("Idle Slayer", "", "", "{Up}{Right}")
-	Sleep($JumpSliderValue)
-
+	EndIf  
 	; Silver box collect
 	PixelSearch(650, 36, 650, 36, 0xFFC000)
 	If Not @error Then
@@ -630,5 +623,5 @@ Func logMessage($str, $msgType = "", $append = False, $custom = 0x000000)
 	Else
 		_GUICtrlRichEdit_AppendText($Log, @CRLF & _Now() & " - " & $str)
 	EndIf
-	WinActivate("Idle Slayer")
+	ControlFocus("Idle Slayer", "", "")
 EndFunc   ;==>logMessage
