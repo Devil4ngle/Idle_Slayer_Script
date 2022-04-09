@@ -1,8 +1,24 @@
 #comments-start
  AutoIt Version: 3.3.16.0
- Author:         Devil4ngle
+ Author:         Devil4ngle, @Djahnz#9512, @Dusty#0464
 #comments-end
 
+; Major, Minor, Patches
+$Version = "2.3.1"
+
+#include <ButtonConstants.au3>
+#include <EditConstants.au3>
+#include <GUIConstantsEx.au3>
+#include <SliderConstants.au3>
+#include <StaticConstants.au3>
+#include <TabConstants.au3>
+#include <WindowsConstants.au3>
+#include <AutoItConstants.au3>
+#include <GuiRichEdit.au3>
+#include <Date.au3>
+
+; Enables GUI events
+Opt("GUIOnEventMode", 1)
 ; Disable Caps for better background
 Opt("SendCapslockMode", 0)
 ; Set window Mode for PixelSearch
@@ -10,54 +26,202 @@ Opt("PixelCoordMode", 0)
 ; Set window Mode for MouseClick
 Opt("MouseCoordMode", 0)
 
+#Region ### START Koda GUI section ### Form=d:\idle macro\github\idle-slayer-macro\idlerunner.kxf
+Global $Idle = GUICreate("Idle Runner  v" & $Version, 641, 101, 724, 880)
+GUISetBkColor(0x646464)
+GUISetOnEvent($GUI_EVENT_CLOSE, "IdleClose")
+Global $Tab = GUICtrlCreateTab(0, 0, 640, 100)
+GUICtrlSetOnEvent(-1, "TabController")
+Global $Home = GUICtrlCreateTabItem("Home")
+Global $AutoBuyUpgrade = GUICtrlCreateCheckbox("AutoBuyUpgrade", 16, 32, 97, 17)
+GUICtrlSetTip(-1, " Buys upgrades every 10 minutes except Vertical Magnet")
+GUICtrlSetOnEvent(-1, "AutoBuyUpgradeClick")
+Global $SkipBonusStage = GUICtrlCreateCheckbox("SkipBonusStage", 16, 64, 97, 17)
+GUICtrlSetTip(-1, "Skips Bonus Stages by letting the timer run out without doing anything")
+GUICtrlSetOnEvent(-1, "SkipBonusStageClick")
+Global $CraftRagePill = GUICtrlCreateCheckbox("CraftRagePill", 128, 64, 97, 17)
+GUICtrlSetTip(-1, "When Horde/Mega Horde, use Rage Pill When Rage is Down")
+GUICtrlSetOnEvent(-1, "CraftRagePillClick")
+Global $CraftSoulBonus = GUICtrlCreateCheckbox("CraftSoulBonus", 128, 32, 97, 17)
+GUICtrlSetTip(-1, "When Horde/Mega Horde, use Souls Compass When Rage is Down")
+GUICtrlSetOnEvent(-1, "CraftSoulPillClick")
+Global $JumpSlider = GUICtrlCreateSlider(240, 51, 150, 30)
+GUICtrlSetLimit(-1, 300, 0)
+GUICtrlSetData(-1, 75)
+GUICtrlSetOnEvent(-1, "JumpSliderChange")
+Global $JumpRate = GUICtrlCreateLabel("JumpRate", 288, 32, 52, 17)
+GUICtrlSetBkColor(-1, 0xFFFFFF)
+Global $Logs = GUICtrlCreateTabItem("Logs")
+Global $Log = _GUICtrlRichEdit_Create($Idle, "", 5, 25, 632, 73, BitOR($ES_MULTILINE, $WS_VSCROLL, $ES_AUTOVSCROLL, $ES_READONLY))
+ControlHide($Log, "", $Log)
+_GUICtrlRichEdit_SetBkColor($Log, 0x000000)
+GUICtrlCreateTabItem("")
+GUISetState(@SW_SHOW)
+Global $AutoBuyUpgradeState = $GUI_UNCHECKED, $CraftSoulBonusState = $GUI_UNCHECKED, $SkipBonusStageState = $GUI_UNCHECKED, _
+		$CraftRagePillState = $GUI_UNCHECKED, $CirclePortalsState = $GUI_UNCHECKED, $JumpSliderValue = 150
+
+Func TabController()
+	Switch GUICtrlRead($Tab)
+		Case 0
+			ControlHide($Idle, "", $Log)
+		Case 1
+			ControlShow($Idle, "", $Log)
+	EndSwitch
+EndFunc
+Func IdleClose()
+	Exit
+EndFunc   ;==>IdleClose
+Func AutoBuyUpgradeClick()
+	$AutoBuyUpgradeState = GUICtrlRead($AutoBuyUpgrade)
+EndFunc   ;==>AutoBuyUpgradeClick
+Func CirclePortalsClick()
+	;$CirclePortalsState = GUICtrlRead($CirclePortals)
+EndFunc   ;==>CirclePortalsClick
+Func CraftRagePillClick()
+	$CraftRagePillState = GUICtrlRead($CraftRagePill)
+EndFunc   ;==>CraftRagePillClick
+Func CraftSoulPillClick()
+	$CraftSoulPillState = GUICtrlRead($CraftSoulBonus)
+EndFunc   ;==>CraftSoulPillClick
+Func JumpSliderChange()
+	$JumpSliderValue = GUICtrlRead($JumpSlider)
+EndFunc   ;==>JumpSliderChange
+Func SkipBonusStageClick()
+	$SkipBonusStageState = GUICtrlRead($SkipBonusStage)
+EndFunc   ;==>SkipBonusStageClick
+
+#EndRegion ### END Koda GUI section ###
+
+Local $timer = TimerInit()
 ; Infinite Loop
 While 1
+	; Auto upgrade
+	If ($AutoBuyUpgradeState == $GUI_CHECKED) Then
+		If (600000 < TimerDiff($timer)) Then
+			$timer = TimerInit()
+			WinActivate("Idle Slayer")
+			BuyEquipment()
+		EndIf
+	EndIf
+	If WinGetTitle("[ACTIVE]") <> "Idle Runner  v" & $Version Then
+		ControlFocus("Idle Slayer", "", "")
+	EndIf
 	;Jump and shoot
-	ControlFocus("Idle Slayer", "", "")
 	ControlSend("Idle Slayer", "", "", "{Up}{Right}")
-	Sleep(150)
+	Sleep($JumpSliderValue)
 
 	; Silver box collect
 	PixelSearch(650, 36, 650, 36, 0xFFC000)
 	If Not @error Then
+		logMessage("Collecting Silverboxes.")
 		MouseClick("left", 644, 49, 1, 0)
 	EndIf
 
 	; Chest-hunt
 	PixelSearch(598, 45, 598, 45, 0xD0C172)
 	If Not @error Then
+		logMessage("Chest hunt!")
 		Chesthunt()
 	EndIf
 
 	; Rage when Megahorde
 	PixelSearch(419, 323, 419, 323, 0xDFDEE0)
 	If Not @error Then
-		ControlFocus("Idle Slayer", "", "")
-		ControlSend("Idle Slayer", "", "", "{e}")
+		logMessage("Activating Rage because we have a horde!")
+		RageWhenHorde()
 	EndIf
 
 	; Collect minions
 	PixelSearch(99, 113, 99, 113, 0xFFFF7A)
 	If Not @error Then
+		logMessage("Collecting minions.")
 		CollectMinion()
 	EndIf
 
 	; Bonus stage
 	PixelSearch(860, 670, 860, 670, 0xAC8371)
 	If Not @error Then
+		logMessage("Entered bonus stage.")
 		BonusStage()
 	EndIf
 WEnd
 
+Func RageWhenHorde()
+	If CheckForSoulBonus() Then
+		If $CraftRagePillState == $GUI_CHECKED Then
+			BuyTempItem("0x871646")
+			Sleep(100)
+		EndIf
+		If $CraftSoulBonusState == $GUI_CHECKED Then
+			BuyTempItem("0x7D55D8")
+		EndIf
+	EndIf
+	ControlFocus("Idle Slayer", "", "")
+	ControlSend("Idle Slayer", "", "", "{e}")
+EndFunc   ;==>RageWhenHorde
+
+
+Func CheckForSoulBonus()
+	; Check for soul bonus
+	Local $location = PixelSearch(625, 143, 629, 214, 0xA86D0A)
+	If Not @error Then
+		; Check if 0
+		PixelSearch(688, $location[1], 688, $location[1], 0xD98E04)
+		If Not @error Then
+			Return False
+		EndIf
+		; Check if 0
+		PixelSearch(697, $location[1] - 7, 697, $location[1] - 5, 0xDB8F04)
+		If Not @error Then
+			Return False
+		EndIf
+		Return True
+	EndIf
+EndFunc   ;==>CheckForSoulBonus
+
+Func BuyTempItem($hexColor)
+	Local $success
+	;open menu
+	MouseClick("left", 160, 100, 1, 0)
+	Sleep(150)
+	;temp item
+	MouseClick("left", 260, 690, 1, 0)
+	Sleep(150)
+	;top of scrollbar
+	MouseClick("left", 482, 150, 5, 0)
+	Sleep(450)
+	While 1
+		$success = PixelSearch(65, 180, 65, 630, $hexColor)
+		If Not @error Then
+			MouseClick("left", 385, $success[1], 1, 0)
+			Sleep(50)
+			ExitLoop
+		EndIf
+		MouseWheel($MOUSE_WHEEL_DOWN, 1)
+		Sleep(50)
+		PixelSearch(484, 647, 484, 647, 0xD6D6D6)
+		If @error Then
+			ExitLoop
+		EndIf
+	WEnd
+	MouseClick("left", 440, 690, 1, 0)
+EndFunc   ;==>BuyTempItem
+
 Func CollectMinion()
 	MouseClick("left", 95, 90, 1, 0)
 	Sleep(400)
+	MouseClick("left", 93, 680, 1, 0)
+	Sleep(200)
+	MouseClick("left", 193, 680, 1, 0)
+	Sleep(200)
+	MouseClick("left", 691, 680, 1, 0)
+	Sleep(200)
 	MouseClick("left", 332, 680, 1, 0)
-	Sleep(100)
-	MouseClick("left", 318, 182, 1, 0)
-	Sleep(100)
-	MouseClick("left", 318, 182, 1, 0)
-	Sleep(100)
+	Sleep(200)
+	MouseClick("left", 318, 182, 5, 0)
+	Sleep(200)
+	MouseClick("left", 318, 182, 5, 0)
+	Sleep(200)
 	MouseClick("left", 570, 694, 1, 0)
 EndFunc   ;==>CollectMinion
 
@@ -126,6 +290,7 @@ Func Chesthunt()
 		Sleep(50)
 		PixelSearch(400, 694, 400, 694, 0xB40000)
 	Until Not @error
+	logMessage(" Returning to game...", "none", true)
 	MouseClick("left", 643, 693, 1, 0)
 	; Boost and sleep
 	ControlSend("Idle Slayer", "", "", "{Right}")
@@ -136,15 +301,23 @@ Func BonusStage()
 	BonusStageSlider()
 	Sleep(4000)
 	PixelSearch(443, 97, 443, 97, 0xFFFFFF)
-	If Not @error Then ;if Spirit Boost do noting untill close appear
-		Do
-			Sleep(200)
-		Until BonusStageFail()
+	If $SkipBonusStageState == $GUI_CHECKED Then
+		BonusStageDoNoting()
 	Else
-		BonusStageNSP()
+		If Not @error Then ;if Spirit Boost do noting untill close appear
+			BonusStageDoNoting()
+		Else
+			BonusStageNSP()
+		EndIf
 	EndIf
 
 EndFunc   ;==>BonusStage
+
+Func BonusStageDoNoting()
+	Do
+		Sleep(200)
+	Until BonusStageFail()
+EndFunc   ;==>BonusStageDoNoting
 
 Func BonusStageSlider()
 	;Top left
@@ -188,6 +361,7 @@ EndFunc   ;==>BonusStageFail
 Func BonusStageNSP()
 	; Section 1 sync
 	FindPixelUntilFound(220, 465, 220, 465, 0xA0938E)
+	logMessage("   Section 1... ", "none", True)
 	Sleep(200)
 	;Section 1 start
 	cSend(94, 1640) ;1
@@ -217,6 +391,7 @@ Func BonusStageNSP()
 	EndIf
 	; Section 2 sync
 	FindPixelUntilFound(780, 536, 780, 536, 0xBB26DF)
+	logMessage("2... ", "none", True)
 	; Section 2 start
 	cSend(156, 719) ;1
 	cSend(47, 687) ;2
@@ -255,6 +430,7 @@ Func BonusStageNSP()
 	EndIf
 	;Stage 3 sync
 	FindPixelUntilFound(220, 465, 220, 465, 0xA0938E)
+	logMessage("3... ", "none", True)
 	; Section 3 Start
 	cSend(109, 1203) ;1
 	cSend(31, 641) ;2
@@ -288,6 +464,7 @@ Func BonusStageNSP()
 	EndIf
 	;Section 4 sync
 	FindPixelUntilFound(250, 472, 100, 250, 0x0D2030)
+	logMessage("4... ", "none", True)
 	Sleep(200)
 	;Section 4 Start
 	cSend(32, 2500) ;1
@@ -312,6 +489,7 @@ Func BonusStageNSP()
 		Send("{Up}")
 		Sleep(500)
 	Next
+	logMessage("Completed!", "none", True)
 	Sleep(9000)
 	MouseClick("left", 570, 530, 1, 0)
 	If BonusStageFail() Then
@@ -333,3 +511,123 @@ Func FindPixelUntilFound($x1, $y1, $x2, $y2, $hex, $timer = 15000)
 		PixelSearch($x1, $y1, $x2, $y2, $hex)
 	Until Not @error Or $timer < TimerDiff($time)
 EndFunc   ;==>FindPixelUntilFound
+
+Func BuyEquipment()
+	logMessage("Buying equipment...")
+	;Close Shop window if open
+	MouseClick("left", 1244, 712, 1, 0)
+	Sleep(150)
+	;Open shop window
+	MouseClick("left", 1163, 655, 1, 0)
+	Sleep(150)
+	;Click on armor tab
+	MouseClick("left", 850, 690, 1, 0)
+	Sleep(50)
+	;Click Max buy
+	MouseClick("left", 1180, 636, 4, 0)
+	;Check if scrollbar is here if no max buy first item otherwise last item
+	PixelSearch(1257, 340, 1257, 340, 0x11AA23)
+	If Not @error Then
+		;buy sword
+		MouseClick("left", 1200, 200, 5, 0)
+	Else
+		;Click Bottom of scroll bar
+		MouseClick("left", 1253, 592, 5, 0)
+		Sleep(200)
+		;Buy last item
+		MouseClick("left", 1200, 550, 5, 0)
+		;Click top of scroll bar
+		MouseClick("left", 1253, 170, 5, 0)
+		Sleep(200)
+	EndIf
+	;50 buy
+	MouseClick("left", 1100, 636, 5, 0)
+	While 1
+		;Check if there is any green buy boxes
+		$location = PixelSearch(1160, 170, 1160, 590, 0x11AA23, 10)
+		If @error Then
+			;Move mouse on ScrollBar
+			MouseMove(1253, 170, 0)
+			MouseWheel($MOUSE_WHEEL_DOWN, 1)
+			;Check gray scroll bar is there
+			PixelSearch(1253, 597, 1253, 597, 0xD6D6D6)
+			If @error Then
+				ExitLoop
+			EndIf
+			Sleep(10)
+		Else
+			;Click Green buy box
+			MouseClick("left", $location[0], $location[1], 5, 0)
+		EndIf
+	WEnd
+	BuyUpgrade()
+EndFunc   ;==>BuyEquipment
+
+Func BuyUpgrade()
+	logMessage("Buying upgrades...")
+	; Navigate to upgrade and scroll up
+	MouseClick("left", 927, 683, 1, 0)
+	Sleep(150)
+	; Top of scrollbar
+	MouseMove(1254, 172, 0)
+	Do
+		MouseWheel($MOUSE_WHEEL_UP, 20)
+		;Top of searchbar
+		PixelSearch(1254, 167, 1254, 167, 0xD6D6D6)
+	Until @error
+	Sleep(400)
+	$somethingBought = False
+	Local $y = 170
+	While 1
+		; Check if RandomBox Magnet is next upgrade
+		PixelSearch(882, $y, 909, $y + 72, 0xF4B41B)
+		If Not @error Then
+			$y += 96
+		EndIf
+		; Check if RandomBox Magnet is next upgrade
+		PixelSearch(882, $y, 909, $y + 72, 0xE478FF)
+		If Not @error Then
+			$y += 96
+		EndIf
+		PixelSearch(1180, $y, 1180, $y, 0x10A322, 9)
+		If @error Then
+			ExitLoop
+		Else
+			$somethingBought = True
+			MouseClick("left", 1180, $y, 1, 0)
+			Sleep(30)
+		EndIf
+	WEnd
+	If $somethingBought Then
+		BuyEquipment()
+	Else
+		MouseClick("left", 1222, 677, 1, 0)
+	EndIf
+EndFunc   ;==>BuyUpgrade
+
+Func logMessage($str, $msgType = "", $append = False, $custom = 0x000000)
+	Switch $msgType
+		Case "info"
+			$str = "[info]: " & $str
+			_GUICtrlRichEdit_SetCharColor($Log, 0x008000)
+		Case "debug"
+			$str = "[debug]: " & $str
+			_GUICtrlRichEdit_SetCharColor($Log, 0x808080)
+		Case "error"
+			$str = "[error]: " & $str
+			_GUICtrlRichEdit_SetCharColor($Log, 0x000080)
+		Case "warn"
+			$str = "[warn]: " & $str
+			_GUICtrlRichEdit_SetCharColor($Log, 0x008080)
+		Case "custom"
+			_GUICtrlRichEdit_SetCharColor($Log, $custom)
+		Case "none"
+		Case Else
+			_GUICtrlRichEdit_SetCharColor($Log, 0xFFFFFF)
+	EndSwitch
+	If $append Then	
+		_GUICtrlRichEdit_AppendText($Log, $str)
+	Else
+		_GUICtrlRichEdit_AppendText($Log, @CRLF & _Now() & " - " & $str)
+	EndIf
+EndFunc
