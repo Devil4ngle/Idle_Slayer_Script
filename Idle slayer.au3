@@ -4,7 +4,7 @@
 #comments-end
 
 ; Major, Minor, Patches
-$Version = "2.3.1"
+$Version = "2.3.2"
 
 #include <ButtonConstants.au3>
 #include <EditConstants.au3>
