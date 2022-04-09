@@ -67,7 +67,7 @@ Func TabController()
 		Case 1
 			ControlShow($Idle, "", $Log)
 	EndSwitch
-EndFunc
+EndFunc   ;==>TabController
 Func IdleClose()
 	Exit
 EndFunc   ;==>IdleClose
@@ -290,7 +290,7 @@ Func Chesthunt()
 		Sleep(50)
 		PixelSearch(400, 694, 400, 694, 0xB40000)
 	Until Not @error
-	logMessage(" Returning to game...", "none", true)
+	logMessage(" Returning to game...", "none", True)
 	MouseClick("left", 643, 693, 1, 0)
 	; Boost and sleep
 	ControlSend("Idle Slayer", "", "", "{Right}")
@@ -625,9 +625,10 @@ Func logMessage($str, $msgType = "", $append = False, $custom = 0x000000)
 		Case Else
 			_GUICtrlRichEdit_SetCharColor($Log, 0xFFFFFF)
 	EndSwitch
-	If $append Then	
+	If $append Then
 		_GUICtrlRichEdit_AppendText($Log, $str)
 	Else
 		_GUICtrlRichEdit_AppendText($Log, @CRLF & _Now() & " - " & $str)
 	EndIf
-EndFunc
+	WinActivate("Idle Slayer")
+EndFunc   ;==>logMessage
