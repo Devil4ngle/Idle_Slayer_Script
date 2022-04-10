@@ -65,7 +65,7 @@ Func CraftRagePillClick()
 	$CraftRagePillState = GUICtrlRead($CraftRagePill)
 EndFunc   ;==>CraftRagePillClick
 Func CraftSoulPillClick()
-	$CraftSoulPillState = GUICtrlRead($CraftSoulBonus)
+	$CraftSoulBonusState = GUICtrlRead($CraftSoulBonus)
 EndFunc   ;==>CraftSoulPillClick
 Func JumpSliderChange()
 	$JumpSliderValue = GUICtrlRead($JumpSlider)
