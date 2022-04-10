@@ -687,23 +687,23 @@ Func BonusStageSP()
 	cSend(31, 850) ;6
 	cSend(41, 770) ;7
 	cSend(641, 400) ;8
-	
+
 	cSend(31, 850) ;9
 	cSend(41, 870) ;10
 	cSend(641, 300) ;11
-	
+
 	cSend(31, 850) ;12
 	cSend(41, 790) ;13
 	cSend(641, 400) ;14
-	
+
 	cSend(31, 850) ;15
 	cSend(41, 840) ;16
 	cSend(641, 300) ;17
-	
+
 	cSend(31, 850) ;18
 	cSend(41, 870) ;19
 	cSend(641, 300) ;20
-	
+
 
 	; extra jump just in case
 	cSend(41) ;16
@@ -717,4 +717,4 @@ Func BonusStageSP()
 	If BonusStageFail() Then
 		Return
 	EndIf
-EndFunc   ;==>BonusStageNSP
+EndFunc   ;==>BonusStageSP
