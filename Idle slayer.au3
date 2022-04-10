@@ -279,7 +279,7 @@ Func BonusStage()
 		BonusStageDoNoting()
 	Else
 		If Not @error Then ;if Spirit Boost do noting untill close appear
-			BonusStageDoNoting()
+			BonusStageSP()
 		Else
 			BonusStageNSP()
 		EndIf
@@ -571,3 +571,150 @@ Func BuyUpgrade()
 		MouseClick("left", 1222, 677, 1, 0)
 	EndIf
 EndFunc   ;==>BuyUpgrade
+
+Func BonusStageSP()
+	; Section 1 sync
+	FindPixelUntilFound(220, 465, 220, 465, 0xA0938E)
+	Sleep(200)
+	;Section 1 start
+	cSend(94, 1640) ;1
+	cSend(47, 2072) ;2
+	cSend(187, 688) ;3
+	cSend(31, 672) ;4
+	cSend(31, 1700) ;5
+	cSend(94, 600) ;6
+	cSend(94, 1640) ;1
+	cSend(47, 2072) ;2
+	cSend(187, 688) ;3
+	cSend(31, 672) ;4
+	cSend(31, 1700) ;5
+	cSend(94, 600) ;6
+	cSend(94, 5000) ;1
+	If BonusStageFail() Then
+		Return
+	EndIf
+	; Section 1 Collection
+	cSend(40, 2500)
+	For $x = 1 To 19
+		Send("{Up}")
+		Sleep(500)
+	Next
+	If BonusStageFail() Then
+		Return
+	EndIf
+	; Section 2 sync
+	FindPixelUntilFound(780, 536, 780, 536, 0xBB26DF)
+	; Section 2 start
+	cSend(156, 719) ;1
+	cSend(47, 687) ;2
+	cSend(360, 1390) ;3
+	cSend(485, 344) ;4
+	cSend(406, 859) ;5
+	cSend(78, 600) ;6
+	cSend(94, 900) ;7
+	cSend(109, 954) ;8
+	cSend(31, 672) ;9
+	cSend(515, 1344) ;10
+	cSend(484, 297) ;11
+	cSend(406, 859) ;12
+	cSend(78, 600) ;13
+	cSend(94, 900) ;14
+	cSend(109, 954) ;15
+	cSend(31, 672) ;16
+	cSend(515, 1344) ;17
+	cSend(469, 219) ;18
+	cSend(297, 1000) ;19
+	cSend(156, 500) ;20
+	cSend(110, 3000) ;21
+	cSend(360, 2984) ;22
+	cSend(531, 2313) ;23
+	If BonusStageFail() Then
+		Return
+	EndIf
+	; Section 2 Collection
+	cSend(350, 1000)
+	For $x = 1 To 20
+		Send("{Up}")
+		Sleep(500)
+	Next
+	If BonusStageFail() Then
+		Return
+	EndIf
+	;Stage 3 sync
+	FindPixelUntilFound(220, 465, 220, 465, 0xA0938E)
+	; Section 3 Start
+	cSend(109, 1203) ;1
+	cSend(31, 641) ;2
+	cSend(47, 1200) ;3
+	cSend(1, 3100) ;4
+	;repeat
+	cSend(109, 1203) ;5
+	cSend(31, 641) ;6
+	cSend(47, 1200) ;7
+	cSend(1, 3100) ;8
+	;repeat
+	cSend(109, 1203) ;9
+	cSend(31, 641) ;10
+	cSend(47, 1200) ;11
+	cSend(1, 3100) ;12
+	;repeat
+	cSend(109, 1203) ;13
+	cSend(31, 641) ;14
+	cSend(47, 5125) ;15
+	If BonusStageFail() Then
+		Return
+	EndIf
+	;Section 3 Collection
+	cSend(900, 200)
+	For $x = 1 To 20
+		Send("{Up}")
+		Sleep(500)
+	Next
+	If BonusStageFail() Then
+		Return
+	EndIf
+	;Section 4 sync
+	FindPixelUntilFound(250, 472, 100, 250, 0x0D2030)
+	Sleep(200)
+	ConsoleWrite("start")
+	;Section 4 Start
+	cSend(32, 2800) ;1
+	cSend(31, 809) ;2
+	cSend(41, 1200) ;3
+	cSend(100, 900) ;4
+	cSend(641, 500) ;5
+
+	cSend(31, 850) ;6
+	cSend(41, 770) ;7
+	cSend(641, 400) ;8
+	
+	cSend(31, 850) ;9
+	cSend(41, 870) ;10
+	cSend(641, 300) ;11
+	
+	cSend(31, 850) ;12
+	cSend(41, 790) ;13
+	cSend(641, 400) ;14
+	
+	cSend(31, 850) ;15
+	cSend(41, 840) ;16
+	cSend(641, 300) ;17
+	
+	cSend(31, 850) ;18
+	cSend(41, 870) ;19
+	cSend(641, 300) ;20
+	
+
+	; extra jump just in case
+	cSend(41) ;16
+	;Section 4 Collection
+	For $x = 1 To 23
+		Send("{Up}")
+		Sleep(500)
+	Next
+	Sleep(9000)
+	MouseClick("left", 570, 530, 1, 0)
+	If BonusStageFail() Then
+		Return
+	EndIf
+EndFunc   ;==>BonusStageNSP
