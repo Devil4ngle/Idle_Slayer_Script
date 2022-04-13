@@ -1,10 +1,7 @@
 #comments-start
  AutoIt Version: 3.3.16.0
- Author:         Devil4ngle, @Djahnz#9512, @Dusty#0464
+ Author:         Devil4ngle
 #comments-end
-
-; Major, Minor, Patches
-$Version = "2.3.1"
 
 #include <ButtonConstants.au3>
 #include <EditConstants.au3>
@@ -14,8 +11,6 @@ $Version = "2.3.1"
 #include <TabConstants.au3>
 #include <WindowsConstants.au3>
 #include <AutoItConstants.au3>
-#include <GuiRichEdit.au3>
-#include <Date.au3>
 
 ; Enables GUI events
 Opt("GUIOnEventMode", 1)
@@ -25,13 +20,11 @@ Opt("SendCapslockMode", 0)
 Opt("PixelCoordMode", 0)
 ; Set window Mode for MouseClick
 Opt("MouseCoordMode", 0)
-
 #Region ### START Koda GUI section ### Form=d:\idle macro\github\idle-slayer-macro\idlerunner.kxf
-Global $Idle = GUICreate("Idle Runner  v" & $Version, 641, 101, 724, 880)
+Global $Idle = GUICreate("Idle Runner", 641, 101, 724, 880)
 GUISetBkColor(0x646464)
 GUISetOnEvent($GUI_EVENT_CLOSE, "IdleClose")
 Global $Tab = GUICtrlCreateTab(0, 0, 640, 100)
-GUICtrlSetOnEvent(-1, "TabController")
 Global $Home = GUICtrlCreateTabItem("Home")
 Global $AutoBuyUpgrade = GUICtrlCreateCheckbox("AutoBuyUpgrade", 16, 32, 97, 17)
 GUICtrlSetTip(-1, " Buys upgrades every 10 minutes except Vertical Magnet")
@@ -47,27 +40,18 @@ GUICtrlSetTip(-1, "When Horde/Mega Horde, use Souls Compass When Rage is Down")
 GUICtrlSetOnEvent(-1, "CraftSoulPillClick")
 Global $JumpSlider = GUICtrlCreateSlider(240, 51, 150, 30)
 GUICtrlSetLimit(-1, 300, 0)
-GUICtrlSetData(-1, 75)
+GUICtrlSetData(-1, 150)
 GUICtrlSetOnEvent(-1, "JumpSliderChange")
 Global $JumpRate = GUICtrlCreateLabel("JumpRate", 288, 32, 52, 17)
 GUICtrlSetBkColor(-1, 0xFFFFFF)
 Global $Logs = GUICtrlCreateTabItem("Logs")
-Global $Log = _GUICtrlRichEdit_Create($Idle, "", 5, 25, 632, 73, BitOR($ES_MULTILINE, $WS_VSCROLL, $ES_AUTOVSCROLL, $ES_READONLY))
-ControlHide($Log, "", $Log)
-_GUICtrlRichEdit_SetBkColor($Log, 0x000000)
+Global $Log = GUICtrlCreateEdit("", 16, 32, 601, 57, BitOR($ES_AUTOVSCROLL, $ES_AUTOHSCROLL, $ES_WANTRETURN, $WS_VSCROLL))
+GUICtrlSetData(-1, "Log")
 GUICtrlCreateTabItem("")
 GUISetState(@SW_SHOW)
 Global $AutoBuyUpgradeState = $GUI_UNCHECKED, $CraftSoulBonusState = $GUI_UNCHECKED, $SkipBonusStageState = $GUI_UNCHECKED, _
 		$CraftRagePillState = $GUI_UNCHECKED, $CirclePortalsState = $GUI_UNCHECKED, $JumpSliderValue = 150
 
-Func TabController()
-	Switch GUICtrlRead($Tab)
-		Case 0
-			ControlHide($Idle, "", $Log)
-		Case 1
-			ControlShow($Idle, "", $Log)
-	EndSwitch
-EndFunc
 Func IdleClose()
 	Exit
 EndFunc   ;==>IdleClose
@@ -81,7 +65,7 @@ Func CraftRagePillClick()
 	$CraftRagePillState = GUICtrlRead($CraftRagePill)
 EndFunc   ;==>CraftRagePillClick
 Func CraftSoulPillClick()
-	$CraftSoulPillState = GUICtrlRead($CraftSoulBonus)
+	$CraftSoulBonusState = GUICtrlRead($CraftSoulBonus)
 EndFunc   ;==>CraftSoulPillClick
 Func JumpSliderChange()
 	$JumpSliderValue = GUICtrlRead($JumpSlider)
@@ -95,7 +79,6 @@ EndFunc   ;==>SkipBonusStageClick
 Local $timer = TimerInit()
 ; Infinite Loop
 While 1
-	; Auto upgrade
 	If ($AutoBuyUpgradeState == $GUI_CHECKED) Then
 		If (600000 < TimerDiff($timer)) Then
 			$timer = TimerInit()
@@ -103,7 +86,7 @@ While 1
 			BuyEquipment()
 		EndIf
 	EndIf
-	If WinGetTitle("[ACTIVE]") <> "Idle Runner  v" & $Version Then
+	If WinGetTitle("[ACTIVE]") <> "Idle Runner" Then
 		ControlFocus("Idle Slayer", "", "")
 	EndIf
 	;Jump and shoot
@@ -113,35 +96,30 @@ While 1
 	; Silver box collect
 	PixelSearch(650, 36, 650, 36, 0xFFC000)
 	If Not @error Then
-		logMessage("Collecting Silverboxes.")
 		MouseClick("left", 644, 49, 1, 0)
 	EndIf
 
 	; Chest-hunt
 	PixelSearch(598, 45, 598, 45, 0xD0C172)
 	If Not @error Then
-		logMessage("Chest hunt!")
 		Chesthunt()
 	EndIf
 
 	; Rage when Megahorde
 	PixelSearch(419, 323, 419, 323, 0xDFDEE0)
 	If Not @error Then
-		logMessage("Activating Rage because we have a horde!")
 		RageWhenHorde()
 	EndIf
 
 	; Collect minions
 	PixelSearch(99, 113, 99, 113, 0xFFFF7A)
 	If Not @error Then
-		logMessage("Collecting minions.")
 		CollectMinion()
 	EndIf
 
 	; Bonus stage
 	PixelSearch(860, 670, 860, 670, 0xAC8371)
 	If Not @error Then
-		logMessage("Entered bonus stage.")
 		BonusStage()
 	EndIf
 WEnd
@@ -162,15 +140,12 @@ EndFunc   ;==>RageWhenHorde
 
 
 Func CheckForSoulBonus()
-	; Check for soul bonus
 	Local $location = PixelSearch(625, 143, 629, 214, 0xA86D0A)
 	If Not @error Then
-		; Check if 0
 		PixelSearch(688, $location[1], 688, $location[1], 0xD98E04)
 		If Not @error Then
 			Return False
 		EndIf
-		; Check if 0
 		PixelSearch(697, $location[1] - 7, 697, $location[1] - 5, 0xDB8F04)
 		If Not @error Then
 			Return False
@@ -290,7 +265,6 @@ Func Chesthunt()
 		Sleep(50)
 		PixelSearch(400, 694, 400, 694, 0xB40000)
 	Until Not @error
-	logMessage(" Returning to game...", "none", true)
 	MouseClick("left", 643, 693, 1, 0)
 	; Boost and sleep
 	ControlSend("Idle Slayer", "", "", "{Right}")
@@ -305,7 +279,7 @@ Func BonusStage()
 		BonusStageDoNoting()
 	Else
 		If Not @error Then ;if Spirit Boost do noting untill close appear
-			BonusStageDoNoting()
+			BonusStageSP()
 		Else
 			BonusStageNSP()
 		EndIf
@@ -361,7 +335,6 @@ EndFunc   ;==>BonusStageFail
 Func BonusStageNSP()
 	; Section 1 sync
 	FindPixelUntilFound(220, 465, 220, 465, 0xA0938E)
-	logMessage("   Section 1... ", "none", True)
 	Sleep(200)
 	;Section 1 start
 	cSend(94, 1640) ;1
@@ -391,7 +364,6 @@ Func BonusStageNSP()
 	EndIf
 	; Section 2 sync
 	FindPixelUntilFound(780, 536, 780, 536, 0xBB26DF)
-	logMessage("2... ", "none", True)
 	; Section 2 start
 	cSend(156, 719) ;1
 	cSend(47, 687) ;2
@@ -430,7 +402,6 @@ Func BonusStageNSP()
 	EndIf
 	;Stage 3 sync
 	FindPixelUntilFound(220, 465, 220, 465, 0xA0938E)
-	logMessage("3... ", "none", True)
 	; Section 3 Start
 	cSend(109, 1203) ;1
 	cSend(31, 641) ;2
@@ -464,7 +435,6 @@ Func BonusStageNSP()
 	EndIf
 	;Section 4 sync
 	FindPixelUntilFound(250, 472, 100, 250, 0x0D2030)
-	logMessage("4... ", "none", True)
 	Sleep(200)
 	;Section 4 Start
 	cSend(32, 2500) ;1
@@ -489,7 +459,6 @@ Func BonusStageNSP()
 		Send("{Up}")
 		Sleep(500)
 	Next
-	logMessage("Completed!", "none", True)
 	Sleep(9000)
 	MouseClick("left", 570, 530, 1, 0)
 	If BonusStageFail() Then
@@ -513,7 +482,6 @@ Func FindPixelUntilFound($x1, $y1, $x2, $y2, $hex, $timer = 15000)
 EndFunc   ;==>FindPixelUntilFound
 
 Func BuyEquipment()
-	logMessage("Buying equipment...")
 	;Close Shop window if open
 	MouseClick("left", 1244, 712, 1, 0)
 	Sleep(150)
@@ -564,7 +532,6 @@ Func BuyEquipment()
 EndFunc   ;==>BuyEquipment
 
 Func BuyUpgrade()
-	logMessage("Buying upgrades...")
 	; Navigate to upgrade and scroll up
 	MouseClick("left", 927, 683, 1, 0)
 	Sleep(150)
@@ -605,29 +572,149 @@ Func BuyUpgrade()
 	EndIf
 EndFunc   ;==>BuyUpgrade
 
-Func logMessage($str, $msgType = "", $append = False, $custom = 0x000000)
-	Switch $msgType
-		Case "info"
-			$str = "[info]: " & $str
-			_GUICtrlRichEdit_SetCharColor($Log, 0x008000)
-		Case "debug"
-			$str = "[debug]: " & $str
-			_GUICtrlRichEdit_SetCharColor($Log, 0x808080)
-		Case "error"
-			$str = "[error]: " & $str
-			_GUICtrlRichEdit_SetCharColor($Log, 0x000080)
-		Case "warn"
-			$str = "[warn]: " & $str
-			_GUICtrlRichEdit_SetCharColor($Log, 0x008080)
-		Case "custom"
-			_GUICtrlRichEdit_SetCharColor($Log, $custom)
-		Case "none"
-		Case Else
-			_GUICtrlRichEdit_SetCharColor($Log, 0xFFFFFF)
-	EndSwitch
-	If $append Then	
-		_GUICtrlRichEdit_AppendText($Log, $str)
-	Else
-		_GUICtrlRichEdit_AppendText($Log, @CRLF & _Now() & " - " & $str)
+Func BonusStageSP()
+	; Section 1 sync
+	FindPixelUntilFound(220, 465, 220, 465, 0xA0938E)
+	Sleep(200)
+	;Section 1 start
+	cSend(94, 1640) ;1
+	cSend(47, 2072) ;2
+	cSend(187, 688) ;3
+	cSend(31, 672) ;4
+	cSend(31, 1700) ;5
+	cSend(94, 600) ;6
+	cSend(94, 1640) ;1
+	cSend(47, 2072) ;2
+	cSend(187, 688) ;3
+	cSend(31, 672) ;4
+	cSend(31, 1700) ;5
+	cSend(94, 600) ;6
+	cSend(94, 5000) ;1
+	If BonusStageFail() Then
+		Return
 	EndIf
-EndFunc
+	; Section 1 Collection
+	cSend(40, 2500)
+	For $x = 1 To 19
+		Send("{Up}")
+		Sleep(500)
+	Next
+	If BonusStageFail() Then
+		Return
+	EndIf
+	; Section 2 sync
+	FindPixelUntilFound(780, 536, 780, 536, 0xBB26DF)
+	; Section 2 start
+	cSend(156, 719) ;1
+	cSend(47, 687) ;2
+	cSend(360, 1390) ;3
+	cSend(485, 344) ;4
+	cSend(406, 859) ;5
+	cSend(78, 600) ;6
+	cSend(94, 900) ;7
+	cSend(109, 954) ;8
+	cSend(31, 672) ;9
+	cSend(515, 1344) ;10
+	cSend(484, 297) ;11
+	cSend(406, 859) ;12
+	cSend(78, 600) ;13
+	cSend(94, 900) ;14
+	cSend(109, 954) ;15
+	cSend(31, 672) ;16
+	cSend(515, 1344) ;17
+	cSend(469, 219) ;18
+	cSend(297, 1000) ;19
+	cSend(156, 500) ;20
+	cSend(110, 3000) ;21
+	cSend(360, 2984) ;22
+	cSend(531, 2313) ;23
+	If BonusStageFail() Then
+		Return
+	EndIf
+	; Section 2 Collection
+	cSend(350, 1000)
+	For $x = 1 To 20
+		Send("{Up}")
+		Sleep(500)
+	Next
+	If BonusStageFail() Then
+		Return
+	EndIf
+	;Stage 3 sync
+	FindPixelUntilFound(220, 465, 220, 465, 0xA0938E)
+	; Section 3 Start
+	cSend(109, 1203) ;1
+	cSend(31, 641) ;2
+	cSend(47, 1200) ;3
+	cSend(1, 3100) ;4
+	;repeat
+	cSend(109, 1203) ;5
+	cSend(31, 641) ;6
+	cSend(47, 1200) ;7
+	cSend(1, 3100) ;8
+	;repeat
+	cSend(109, 1203) ;9
+	cSend(31, 641) ;10
+	cSend(47, 1200) ;11
+	cSend(1, 3100) ;12
+	;repeat
+	cSend(109, 1203) ;13
+	cSend(31, 641) ;14
+	cSend(47, 5125) ;15
+	If BonusStageFail() Then
+		Return
+	EndIf
+	;Section 3 Collection
+	cSend(900, 200)
+	For $x = 1 To 20
+		Send("{Up}")
+		Sleep(500)
+	Next
+	If BonusStageFail() Then
+		Return
+	EndIf
+	;Section 4 sync
+	FindPixelUntilFound(250, 472, 100, 250, 0x0D2030)
+	Sleep(200)
+	ConsoleWrite("start")
+	;Section 4 Start
+	cSend(32, 2800) ;1
+	cSend(31, 809) ;2
+	cSend(41, 1200) ;3
+	cSend(100, 900) ;4
+	cSend(641, 500) ;5
+
+	cSend(31, 850) ;6
+	cSend(41, 770) ;7
+	cSend(641, 400) ;8
+
+	cSend(31, 850) ;9
+	cSend(41, 870) ;10
+	cSend(641, 300) ;11
+
+	cSend(31, 850) ;12
+	cSend(41, 790) ;13
+	cSend(641, 400) ;14
+
+	cSend(31, 850) ;15
+	cSend(41, 840) ;16
+	cSend(641, 300) ;17
+
+	cSend(31, 850) ;18
+	cSend(41, 870) ;19
+	cSend(641, 300) ;20
+
+
+	; extra jump just in case
+	cSend(41) ;16
+	;Section 4 Collection
+	For $x = 1 To 23
+		Send("{Up}")
+		Sleep(500)
+	Next
+	Sleep(9000)
+	MouseClick("left", 570, 530, 1, 0)
+	If BonusStageFail() Then
+		Return
+	EndIf
+EndFunc   ;==>BonusStageSP
