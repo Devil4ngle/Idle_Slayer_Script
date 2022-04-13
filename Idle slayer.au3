@@ -266,9 +266,6 @@ Func Chesthunt()
 		PixelSearch(400, 694, 400, 694, 0xB40000)
 	Until Not @error
 	MouseClick("left", 643, 693, 1, 0)
-	; Boost and sleep
-	ControlSend("Idle Slayer", "", "", "{Right}")
-	Sleep(2000)
 EndFunc   ;==>Chesthunt
 
 Func BonusStage()
@@ -459,8 +456,7 @@ Func BonusStageNSP()
 		Send("{Up}")
 		Sleep(500)
 	Next
-	Sleep(9000)
-	MouseClick("left", 570, 530, 1, 0)
+	Sleep(4000)
 	If BonusStageFail() Then
 		Return
 	EndIf
@@ -704,16 +700,12 @@ Func BonusStageSP()
 	cSend(41, 870) ;19
 	cSend(641, 300) ;20
 
-
-	; extra jump just in case
-	cSend(41) ;16
 	;Section 4 Collection
 	For $x = 1 To 23
 		Send("{Up}")
 		Sleep(500)
 	Next
-	Sleep(9000)
-	MouseClick("left", 570, 530, 1, 0)
+	Sleep(4000)
 	If BonusStageFail() Then
 		Return
 	EndIf
