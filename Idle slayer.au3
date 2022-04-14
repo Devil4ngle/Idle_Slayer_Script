@@ -99,12 +99,10 @@ GUICtrlSetTip(-1, "Skips Bonus Stages by letting the timer run out without doing
 ; Create Chesthunt Tab
 $TabSheet4 = GUICtrlCreateTabItem("Chest Hunt")
 _GUICtrlTab_SetBkColor($GUIForm, $TabControl, 0x36393F)
-$Label4 = GUICtrlCreateLabel("This is the chesthunt tab", 176, 16, 120, 17)
 
 ; Create Log Tab
 $TabSheet5 = GUICtrlCreateTabItem("TabSheet5")
 _GUICtrlTab_SetBkColor($GUIForm, $TabControl, 0x36393F)
-$Label5 = GUICtrlCreateLabel("This is the log tab", 176, 16, 87, 17)
 
 ; Set Tab Focus Home
 GUICtrlSetState($TabHome,$GUI_SHOW)
