@@ -10,19 +10,16 @@
 #include <EditConstants.au3>
 #include <AutoItConstants.au3>
 
-Global $AutoBuyUpgradeState = False, $CraftSoulBonusState = False, $SkipBonusStageState = False, _
-	    $CraftRagePillState = False, $CirclePortalsState = False, $JumpSliderValue = 150
-
 Opt("GUIOnEventMode", 1)
 
 ; Set Hotkey Bindings
 ; Setting own hotkeys coming soon
 Global $Running = False
-HotKeySet("{F4}", "StartStopScript")
-HotKeySet("{F5}", "ExitScript")
+HotKeySet("{Home}", "StartStopScript")
+HotKeySet("{Esc}", "ExitScript")
 
 ; Create GUI
-$GUIForm = GUICreate("Idle Runner", 1280, 164, -1, -1, $WS_BORDER + $WS_POPUP)
+$GUIForm = GUICreate("Idle Runner", 1280, 164, 320, 880, $WS_BORDER + $WS_POPUP)
 GUISetBkColor(0x202225)
 
 ; Titlebar
@@ -57,17 +54,21 @@ _GUICtrlTab_SetBkColor($GUIForm, $TabControl, 0x36393F)
 $CheckBoxCraftRagePill = GUICtrlCreatePic(@ScriptDir & '\Resources\CheckboxUnchecked.jpg', 181, 44, 16, 16, $SS_BITMAP + $SS_NOTIFY)
 GUICtrlSetOnEvent(-1, "CraftRagePillChecked")
 GUICtrlCreatePic(@ScriptDir & '\Resources\CraftRagePill.jpg', 207, 45, 132, 16, $SS_BITMAP + $SS_NOTIFY)
+GUICtrlSetTip(-1, "When Horde/Mega Horde, use Rage Pill When Rage is Down")
 
 ; Create CraftSoulBonus Checkbox
 $CheckBoxCraftSoulBonus = GUICtrlCreatePic(@ScriptDir & '\Resources\CheckboxUnchecked.jpg', 181, 83, 16, 16, $SS_BITMAP + $SS_NOTIFY)
 GUICtrlSetOnEvent(-1, "CraftSoulBonusChecked")
 GUICtrlCreatePic(@ScriptDir & '\Resources\CraftSoulBonus.jpg', 207, 84, 153, 14, $SS_BITMAP + $SS_NOTIFY)
+GUICtrlSetTip(-1, "When Horde/Mega Horde, use Souls Compass When Rage is Down")
 
 ; Create AutoBuyUpgrades Checkbox
 $CheckBoxAutoBuyUpgrades = GUICtrlCreatePic(@ScriptDir & '\Resources\CheckboxUnchecked.jpg', 181, 122, 16, 16, $SS_BITMAP + $SS_NOTIFY)
 GUICtrlSetOnEvent(-1, "AutoBuyUpgradesChecked")
 GUICtrlCreatePic(@ScriptDir & '\Resources\AutoBuyUpgrades.jpg', 207, 123, 165, 16, $SS_BITMAP + $SS_NOTIFY)
+GUICtrlSetTip(-1, " Buys upgrades every 10 minutes except Vertical Magnet")
 
+; Create JumpRate Slider
 GUICtrlCreatePic(@ScriptDir & '\Resources\JumpRate.jpg', 400, 45, 98, 16, $SS_BITMAP + $SS_NOTIFY)
 $JumpSlider = GUICtrlCreateSlider(520, 33, 150, 30)
 GUICtrlSetLimit(-1, 300, 0)
@@ -81,6 +82,7 @@ _GUICtrlTab_SetBkColor($GUIForm, $TabControl, 0x36393F)
 $CheckBoxSkipBonusStage = GUICtrlCreatePic(@ScriptDir & '\Resources\CheckboxUnchecked.jpg', 181, 44, 16, 16, $SS_BITMAP + $SS_NOTIFY)
 GUICtrlSetOnEvent(-1, "SkipBonusStageChecked")
 GUICtrlCreatePic(@ScriptDir & '\Resources\SkipBonusStage.jpg', 207, 45, 160, 16, $SS_BITMAP + $SS_NOTIFY)
+GUICtrlSetTip(-1, "Skips Bonus Stages by letting the timer run out without doing anything")
 
 ; Create Chesthunt Tab
 $TabSheet4 = GUICtrlCreateTabItem("Chest Hunt")
@@ -125,6 +127,9 @@ $ButtonExit = GUICtrlCreatePic(@ScriptDir & '\Resources\Exit.jpg', 81, 140, 80, 
 GUICtrlSetOnEvent(-1, "ButtonExitClick")
 
 GUISetState(@SW_SHOW)
+
+Global $AutoBuyUpgradeState = False, $CraftSoulBonusState = False, $SkipBonusStageState = False, _
+	    $CraftRagePillState = False, $CirclePortalsState = False, $JumpSliderValue = 150
 
 While 1
     Sleep(10)
