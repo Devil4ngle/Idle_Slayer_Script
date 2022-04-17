@@ -1,3 +1,8 @@
+#Region ;**** Directives created by AutoIt3Wrapper_GUI ****
+#AutoIt3Wrapper_Icon=Resources\Icon.ico
+#AutoIt3Wrapper_Compile_Both=y
+#AutoIt3Wrapper_UseX64=y
+#EndRegion ;**** Directives created by AutoIt3Wrapper_GUI ****
 #comments-start
  AutoIt Version: 3.3.16.0
  Author: Devil4ngle, Djahnz
@@ -54,7 +59,7 @@ _GUICtrlTab_SetBkColor($GUIForm, $TabControl, 0x36393F)
 GUICtrlCreatePic(@ScriptDir & '\Resources\Welcome.jpg', 186, 36 , 436, 29, $SS_BITMAP + $SS_NOTIFY)
 
 $ButtonDiscord = GUICtrlCreatePic(@ScriptDir & '\Resources\Discord.jpg', 206, 95, 160, 50, $SS_BITMAP + $SS_NOTIFY)
-GUICtrlSetOnEvent(-1, "ButtonDiscordClick")
+GUICtrlSetOnEvent(-1, "ButtonGithubClick")
 
 $ButtonInstructions = GUICtrlCreatePic(@ScriptDir & '\Resources\Instructions.jpg', 390, 95, 214, 50, $SS_BITMAP + $SS_NOTIFY)
 GUICtrlSetOnEvent(-1, "ButtonInstructionsClick")
@@ -154,10 +159,6 @@ Func Pause()
     Else
         GUICtrlSetImage($ButtonStartStop, @ScriptDir & '\Resources\Stop.jpg')
     EndIf
-
-	While $TogglePause
-		Sleep(50)
-	WEnd
 EndFunc ;==>Pause
 
 Func ButtonHomeClick()
@@ -184,12 +185,12 @@ Func ButtonExitClick()
     Exit
 EndFunc
 
-Func ButtonDiscordClick()
-    ShellExecute("https://discord.com/channels/948658078256078958/948662402541559818")
+Func ButtonGithubClick()
+    ShellExecute("https://github.com/Devil4ngle/Idle_Slayer_Script/releases")
 EndFunc
 
 Func ButtonInstructionsClick()
-    ShellExecute("https://discord.com/channels/948658078256078958/949970104752427058")
+    ShellExecute("https://discord.gg/aEaBr77UDn")
 EndFunc
 
 Func AutoBuyUpgradesChecked()
