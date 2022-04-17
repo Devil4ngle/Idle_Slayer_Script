@@ -272,13 +272,6 @@ EndFunc   ;==>_GUICtrlTab_SetBkColor
 Local $timer = TimerInit()
 ; Infinite Loop
 While 1
-	If $AutoBuyUpgradeState Then
-		If (600000 < TimerDiff($timer)) Then
-			$timer = TimerInit()
-			WinActivate("Idle Slayer")
-			BuyEquipment()
-		EndIf
-	EndIf
 	If WinGetTitle("[ACTIVE]") <> "Idle Runner" Then
 		ControlFocus("Idle Slayer", "", "")
 	EndIf
@@ -291,6 +284,17 @@ While 1
 	PixelSearch(650, 36, 650, 36, 0xFFC000)
 	If Not @error Then
 		MouseClick("left", 644, 49, 1, 0)
+	EndIf
+	; Close Armory full not hover over
+	PixelSearch(775, 600, 775, 600, 0xB40000)
+	If Not @error Then
+		MouseClick("left", 775, 600, 1, 0)
+	EndIf
+
+	; Close Armory full hover over
+	PixelSearch(775, 600, 775, 600, 0xAD0000)
+	If Not @error Then
+		MouseClick("left", 775, 600, 1, 0)
 	EndIf
 
 	; Chest-hunt
@@ -305,6 +309,12 @@ While 1
 		RageWhenHorde()
 	EndIf
 
+	; Rage when Soul Bonus
+	PixelSearch(625, 143, 629, 214, 0xA86D0A)
+	If Not @error Then
+		ControlSend("Idle Slayer", "", "", "{e}")
+	EndIf
+
 	; Collect minions
 	PixelSearch(99, 113, 99, 113, 0xFFFF7A)
 	If Not @error Then
@@ -316,6 +326,15 @@ While 1
 	If Not @error Then
 		BonusStage()
 	EndIf
+
+	If ($AutoBuyUpgradeState == $GUI_CHECKED) Then
+		If (600000 < TimerDiff($timer)) Then
+			$timer = TimerInit()
+			WinActivate("Idle Slayer")
+			BuyEquipment()
+		EndIf
+	EndIf
+
 WEnd
 
 Func RageWhenHorde()
@@ -515,7 +534,7 @@ Func BonusStageSlider()
 EndFunc   ;==>BonusStageSlider
 
 Func BonusStageFail()
-	PixelSearch(810, 631, 810, 631, 0x723536)
+	PixelSearch(775, 600, 775, 600, 0xB40000, 10)
 	If Not @error Then
 		MouseClick("left", 721, 577, 1, 0)
 		Return True
@@ -650,7 +669,6 @@ Func BonusStageNSP()
 		Send("{Up}")
 		Sleep(500)
 	Next
-	Sleep(4000)
 	If BonusStageFail() Then
 		Return
 	EndIf
@@ -891,15 +909,13 @@ Func BonusStageSP()
 	cSend(641, 300) ;17
 
 	cSend(31, 850) ;18
-	cSend(41, 870) ;19
+	cSend(41, 840) ;19
 	cSend(641, 300) ;20
-
 	;Section 4 Collection
 	For $x = 1 To 23
 		Send("{Up}")
 		Sleep(500)
 	Next
-	Sleep(4000)
 	If BonusStageFail() Then
 		Return
 	EndIf
