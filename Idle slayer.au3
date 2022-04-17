@@ -1,6 +1,6 @@
 #comments-start
  AutoIt Version: 3.3.16.0
- Author:         Devil4ngle
+ Author: Devil4ngle, Djahnz
 #comments-end
 
 #include <ButtonConstants.au3>
@@ -35,6 +35,7 @@ $GUIForm = GUICreate("Idle Runner", 1278, 164, 320, 880, $WS_BORDER + $WS_POPUP)
 GUISetBkColor(0x202225)
 
 ; Titlebar
+GUICtrlCreateLabel("", -1, -1, 1278, 22, -1, $GUI_WS_EX_PARENTDRAG)
 GUICtrlCreateLabel("        Idle Runner", -1, -1, 1280, 22, $SS_CENTERIMAGE)
 GUICtrlSetColor(-1, 0xFFFFFF)
 GUICtrlCreatePic(@ScriptDir & '\Resources\Icon.jpg', 2, 2 , 16, 16, $SS_BITMAP + $SS_NOTIFY)
