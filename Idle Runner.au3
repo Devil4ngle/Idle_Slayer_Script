@@ -196,8 +196,10 @@ EndFunc   ;==>IdleClose
 Func Pause()
 	$TogglePause = Not $TogglePause
 	If $TogglePause Then
+		ControlFocus("Idle Slayer", "", "")
 		_Resource_SetToCtrlID($ButtonStartStop, 'START')
 	Else
+		ControlFocus("Idle Slayer", "", "")
 		_Resource_SetToCtrlID($ButtonStartStop, 'STOP')
 	EndIf
 EndFunc   ;==>Pause
@@ -317,6 +319,8 @@ EndFunc   ;==>_GUICtrlTab_SetBkColor
 Local $timer = TimerInit()
 ; Infinite Loop
 While 1
+	If $TogglePause Then ContinueLoop
+
 	If WinGetTitle("[ACTIVE]") <> "Idle Runner" Then
 		ControlFocus("Idle Slayer", "", "")
 	EndIf
