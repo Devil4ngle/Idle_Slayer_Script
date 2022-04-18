@@ -1,7 +1,26 @@
 #Region ;**** Directives created by AutoIt3Wrapper_GUI ****
 #AutoIt3Wrapper_Icon=Resources\Icon.ico
-#AutoIt3Wrapper_Compile_Both=y
-#AutoIt3Wrapper_UseX64=y
+#AutoIt3Wrapper_Res_File_Add=Resources\Icon.jpg, RT_RCDATA, ICON,0
+#AutoIt3Wrapper_Res_File_Add=Resources\Welcome.jpg, RT_RCDATA, WELCOME,0
+#AutoIt3Wrapper_Res_File_Add=Resources\Discord.jpg, RT_RCDATA, DISCORD,0
+#AutoIt3Wrapper_Res_File_Add=Resources\Instructions.jpg, RT_RCDATA, INSTRUCTION,0
+#AutoIt3Wrapper_Res_File_Add=Resources\CheckboxUnchecked.jpg, RT_RCDATA, UNCHECKED,0
+#AutoIt3Wrapper_Res_File_Add=Resources\CheckboxChecked.jpg, RT_RCDATA, CHECKED,0
+#AutoIt3Wrapper_Res_File_Add=Resources\CraftRagePill.jpg, RT_RCDATA, RAGEPILL,0
+#AutoIt3Wrapper_Res_File_Add=Resources\CraftSoulBonus.jpg, RT_RCDATA, SOULBONUS,0
+#AutoIt3Wrapper_Res_File_Add=Resources\AutoBuyUpgrades.jpg, RT_RCDATA, AUTOUPGRADES,0
+#AutoIt3Wrapper_Res_File_Add=Resources\SkipBonusStage.jpg, RT_RCDATA, SKIPBONUS,0
+#AutoIt3Wrapper_Res_File_Add=Resources\Home.jpg, RT_RCDATA, HOME,0
+#AutoIt3Wrapper_Res_File_Add=Resources\General.jpg, RT_RCDATA, GENERAL,0
+#AutoIt3Wrapper_Res_File_Add=Resources\BonusStage.jpg, RT_RCDATA, BONUSSTAGE,0
+#AutoIt3Wrapper_Res_File_Add=Resources\Log.jpg, RT_RCDATA, LOG,0
+#AutoIt3Wrapper_Res_File_Add=Resources\Stop.jpg, RT_RCDATA, STOP,0
+#AutoIt3Wrapper_Res_File_Add=Resources\Start.jpg, RT_RCDATA, START,0
+#AutoIt3Wrapper_Res_File_Add=Resources\Exit.jpg, RT_RCDATA, EXIT,0
+#AutoIt3Wrapper_Res_File_Add=Resources\Chesthunt.jpg, RT_RCDATA, CHESTHUNT,0
+#AutoIt3Wrapper_Res_File_Add=Resources\Github.jpg, RT_RCDATA, GITHUB,0
+#AutoIt3Wrapper_Res_File_Add=Resources\JumpRate.jpg, RT_RCDATA, JUMPRATE,0
+#AutoIt3Wrapper_Run_Stop_OnError=y
 #EndRegion ;**** Directives created by AutoIt3Wrapper_GUI ****
 #comments-start
  AutoIt Version: 3.3.16.0
@@ -19,6 +38,7 @@
 #include <WinAPISysWin.au3>
 #include <EditConstants.au3>
 #include <AutoItConstants.au3>
+#include "Resources\ResourcesEx.au3"
 
 ; Enables GUI events
 Opt("GUIOnEventMode", 1)
@@ -43,10 +63,11 @@ GUISetBkColor(0x202225)
 GUICtrlCreateLabel("", -1, -1, 1278, 22, -1, $GUI_WS_EX_PARENTDRAG)
 GUICtrlCreateLabel("        Idle Runner", -1, -1, 1280, 22, $SS_CENTERIMAGE)
 GUICtrlSetColor(-1, 0xFFFFFF)
-GUICtrlCreatePic(@ScriptDir & '\Resources\Icon.jpg', 2, 2 , 16, 16, $SS_BITMAP + $SS_NOTIFY)
+$Icon = GUICtrlCreatePic('', 2, 2, 16, 16, $SS_BITMAP + $SS_NOTIFY)
+_Resource_SetToCtrlID($Icon, 'ICON')
 
 ; Create TabControl
-$TabControl = GUICtrlCreateTab(159, -4, 1126, 173, BitOR($TCS_FORCELABELLEFT,$TCS_FIXEDWIDTH, $TCS_BUTTONS))
+$TabControl = GUICtrlCreateTab(159, -4, 1126, 173, BitOR($TCS_FORCELABELLEFT, $TCS_FIXEDWIDTH, $TCS_BUTTONS))
 GUICtrlSetBkColor(-1, 0x2F3136)
 GUISetOnEvent(-1, "TabController")
 $TabHandle = GUICtrlGetHandle($TabControl)
@@ -56,12 +77,15 @@ $TabHome = GUICtrlCreateTabItem("Home")
 _GUICtrlTab_SetBkColor($GUIForm, $TabControl, 0x36393F)
 
 ; Welcome screen
-GUICtrlCreatePic(@ScriptDir & '\Resources\Welcome.jpg', 186, 36 , 436, 29, $SS_BITMAP + $SS_NOTIFY)
+$Welcome = GUICtrlCreatePic('', 186, 36, 436, 29, $SS_BITMAP + $SS_NOTIFY)
+_Resource_SetToCtrlID($Welcome, 'WELCOME')
 
-$ButtonDiscord = GUICtrlCreatePic(@ScriptDir & '\Resources\Discord.jpg', 206, 95, 160, 50, $SS_BITMAP + $SS_NOTIFY)
+$ButtonDiscord = GUICtrlCreatePic('', 206, 95, 160, 50, $SS_BITMAP + $SS_NOTIFY)
+_Resource_SetToCtrlID($ButtonDiscord, 'GITHUB')
 GUICtrlSetOnEvent(-1, "ButtonGithubClick")
 
-$ButtonInstructions = GUICtrlCreatePic(@ScriptDir & '\Resources\Instructions.jpg', 390, 95, 214, 50, $SS_BITMAP + $SS_NOTIFY)
+$ButtonInstructions = GUICtrlCreatePic('', 390, 95, 214, 50, $SS_BITMAP + $SS_NOTIFY)
+_Resource_SetToCtrlID($ButtonInstructions, 'INSTRUCTION')
 GUICtrlSetOnEvent(-1, "ButtonInstructionsClick")
 
 ; Create General Tab
@@ -69,25 +93,32 @@ $TabSheet2 = GUICtrlCreateTabItem("General")
 _GUICtrlTab_SetBkColor($GUIForm, $TabControl, 0x36393F)
 
 ; Create CraftRagePill Checkbox
-$CheckBoxCraftRagePill = GUICtrlCreatePic(@ScriptDir & '\Resources\CheckboxUnchecked.jpg', 181, 44, 16, 16, $SS_BITMAP + $SS_NOTIFY)
+$CheckBoxCraftRagePill = GUICtrlCreatePic('', 181, 44, 16, 16, $SS_BITMAP + $SS_NOTIFY)
+_Resource_SetToCtrlID($CheckBoxCraftRagePill, 'UNCHECKED')
 GUICtrlSetOnEvent(-1, "CraftRagePillChecked")
-GUICtrlCreatePic(@ScriptDir & '\Resources\CraftRagePill.jpg', 207, 45, 132, 16, $SS_BITMAP + $SS_NOTIFY)
+$Rage = GUICtrlCreatePic('', 207, 45, 132, 16, $SS_BITMAP + $SS_NOTIFY)
+_Resource_SetToCtrlID($Rage, 'RAGEPILL')
 GUICtrlSetTip(-1, "When Horde/Mega Horde, use Rage Pill When Rage is Down")
 
 ; Create CraftSoulBonus Checkbox
-$CheckBoxCraftSoulBonus = GUICtrlCreatePic(@ScriptDir & '\Resources\CheckboxUnchecked.jpg', 181, 83, 16, 16, $SS_BITMAP + $SS_NOTIFY)
+$CheckBoxCraftSoulBonus = GUICtrlCreatePic('', 181, 83, 16, 16, $SS_BITMAP + $SS_NOTIFY)
+_Resource_SetToCtrlID($CheckBoxCraftSoulBonus, 'UNCHECKED')
 GUICtrlSetOnEvent(-1, "CraftSoulBonusChecked")
-GUICtrlCreatePic(@ScriptDir & '\Resources\CraftSoulBonus.jpg', 207, 84, 153, 14, $SS_BITMAP + $SS_NOTIFY)
+$CraftComp=GUICtrlCreatePic('', 207, 84, 153, 14, $SS_BITMAP + $SS_NOTIFY)
+_Resource_SetToCtrlID($CraftComp, 'SOULBONUS')
 GUICtrlSetTip(-1, "When Horde/Mega Horde, use Souls Compass When Rage is Down")
 
 ; Create AutoBuyUpgrades Checkbox
-$CheckBoxAutoBuyUpgrades = GUICtrlCreatePic(@ScriptDir & '\Resources\CheckboxUnchecked.jpg', 181, 122, 16, 16, $SS_BITMAP + $SS_NOTIFY)
+$CheckBoxAutoBuyUpgrades = GUICtrlCreatePic('', 181, 122, 16, 16, $SS_BITMAP + $SS_NOTIFY)
+_Resource_SetToCtrlID($CheckBoxAutoBuyUpgrades, 'UNCHECKED')
 GUICtrlSetOnEvent(-1, "AutoBuyUpgradesChecked")
-GUICtrlCreatePic(@ScriptDir & '\Resources\AutoBuyUpgrades.jpg', 207, 123, 165, 16, $SS_BITMAP + $SS_NOTIFY)
+$AutoUpgrade=GUICtrlCreatePic('', 207, 123, 165, 16, $SS_BITMAP + $SS_NOTIFY)
+_Resource_SetToCtrlID($AutoUpgrade, 'AUTOUPGRADES')
 GUICtrlSetTip(-1, " Buys upgrades every 10 minutes except Vertical Magnet")
 
 ; Create JumpRate Slider
-GUICtrlCreatePic(@ScriptDir & '\Resources\JumpRate.jpg', 400, 45, 98, 16, $SS_BITMAP + $SS_NOTIFY)
+$Jslider = GUICtrlCreatePic('', 400, 45, 98, 16, $SS_BITMAP + $SS_NOTIFY)
+_Resource_SetToCtrlID($Jslider, 'JUMPRATE')
 $JumpSlider = GUICtrlCreateSlider(520, 33, 150, 30)
 GUICtrlSetLimit(-1, 300, 0)
 GUICtrlSetData(-1, 150)
@@ -97,9 +128,12 @@ GUICtrlSetOnEvent(-1, "JumpSliderChange")
 $TabSheet3 = GUICtrlCreateTabItem("Bonus Stage")
 _GUICtrlTab_SetBkColor($GUIForm, $TabControl, 0x36393F)
 
-$CheckBoxSkipBonusStage = GUICtrlCreatePic(@ScriptDir & '\Resources\CheckboxUnchecked.jpg', 181, 44, 16, 16, $SS_BITMAP + $SS_NOTIFY)
+$CheckBoxSkipBonusStage = GUICtrlCreatePic('', 181, 44, 16, 16, $SS_BITMAP + $SS_NOTIFY)
+_Resource_SetToCtrlID($CheckBoxSkipBonusStage, 'UNCHECKED')
 GUICtrlSetOnEvent(-1, "SkipBonusStageChecked")
-GUICtrlCreatePic(@ScriptDir & '\Resources\SkipBonusStage.jpg', 207, 45, 160, 16, $SS_BITMAP + $SS_NOTIFY)
+$SKIPBS=GUICtrlCreatePic('', 207, 45, 160, 16, $SS_BITMAP + $SS_NOTIFY)
+_Resource_SetToCtrlID($SKIPBS, 'SKIPBONUS')
+
 GUICtrlSetTip(-1, "Skips Bonus Stages by letting the timer run out without doing anything")
 
 ; Create Chesthunt Tab
@@ -111,35 +145,42 @@ $TabSheet5 = GUICtrlCreateTabItem("TabSheet5")
 _GUICtrlTab_SetBkColor($GUIForm, $TabControl, 0x36393F)
 
 ; Set Tab Focus Home
-GUICtrlSetState($TabHome,$GUI_SHOW)
+GUICtrlSetState($TabHome, $GUI_SHOW)
 GUICtrlCreateTabItem("")
 
 ; Create Home Button
-$ButtonHome = GUICtrlCreatePic(@ScriptDir & '\Resources\Home.jpg', 1, 20, 160, 24, $SS_NOTIFY + $SS_BITMAP)
+$ButtonHome = GUICtrlCreatePic('', 1, 20, 160, 24, $SS_NOTIFY + $SS_BITMAP)
+_Resource_SetToCtrlID($ButtonHome, 'HOME')
 GUICtrlSetOnEvent(-1, "ButtonHomeClick")
 
 ; Create General Button
-$ButtonGeneral = GUICtrlCreatePic(@ScriptDir & '\Resources\General.jpg', 1, 44, 160, 24, $SS_NOTIFY + $SS_BITMAP)
+$ButtonGeneral = GUICtrlCreatePic('', 1, 44, 160, 24, $SS_NOTIFY + $SS_BITMAP)
+_Resource_SetToCtrlID($ButtonGeneral, 'GENERAL')
 GUICtrlSetOnEvent(-1, "ButtonGeneralClick")
 
 ; Create Bonus Stage Button
-$ButtonBonusStage = GUICtrlCreatePic(@ScriptDir & '\Resources\BonusStage.jpg', 1, 68, 160, 24, $SS_NOTIFY + $SS_BITMAP)
+$ButtonBonusStage = GUICtrlCreatePic('', 1, 68, 160, 24, $SS_NOTIFY + $SS_BITMAP)
+_Resource_SetToCtrlID($ButtonBonusStage, 'BONUSSTAGE')
 GUICtrlSetOnEvent(-1, "ButtonBonusStageClick")
 
 ; Create Chesthunt Button
-$ButtonChestHunt = GUICtrlCreatePic(@ScriptDir & '\Resources\ChestHunt.jpg', 1, 92, 160, 24, $SS_NOTIFY + $SS_BITMAP)
+$ButtonChestHunt = GUICtrlCreatePic('', 1, 92, 160, 24, $SS_NOTIFY + $SS_BITMAP)
+_Resource_SetToCtrlID($ButtonChestHunt, 'CHESTHUNT')
 GUICtrlSetOnEvent(-1, "ButtonChestHuntClick")
 
 ; Create Log Button
-$ButtonLog = GUICtrlCreatePic(@ScriptDir & '\Resources\Log.jpg', 1, 116, 160, 24, $SS_NOTIFY + $SS_BITMAP)
+$ButtonLog = GUICtrlCreatePic('', 1, 116, 160, 24, $SS_NOTIFY + $SS_BITMAP)
+_Resource_SetToCtrlID($ButtonLog, 'LOG')
 GUICtrlSetOnEvent(-1, "ButtonLogClick")
 
 ; Create Start / Pause Button
-$ButtonStartStop = GUICtrlCreatePic(@ScriptDir & '\Resources\Stop.jpg', 1, 140, 80, 24, $SS_NOTIFY + $SS_BITMAP)
+$ButtonStartStop = GUICtrlCreatePic('', 1, 140, 80, 24, $SS_NOTIFY + $SS_BITMAP)
+_Resource_SetToCtrlID($ButtonStartStop, 'STOP')
 GUICtrlSetOnEvent(-1, "Pause")
 
 ; Create Stop Button
-$ButtonExit = GUICtrlCreatePic(@ScriptDir & '\Resources\Exit.jpg', 81, 140, 80, 24, $SS_NOTIFY + $SS_BITMAP)
+$ButtonExit = GUICtrlCreatePic('', 81, 140, 80, 24, $SS_NOTIFY + $SS_BITMAP)
+_Resource_SetToCtrlID($ButtonExit, 'EXIT')
 GUICtrlSetOnEvent(-1, "IdleClose")
 
 GUISetState(@SW_SHOW)
@@ -153,78 +194,80 @@ Func IdleClose()
 EndFunc   ;==>IdleClose
 
 Func Pause()
-	$TogglePause = NOT $TogglePause
-    If $TogglePause Then
-        GUICtrlSetImage($ButtonStartStop, @ScriptDir & '\Resources\Start.jpg')
-    Else
-        GUICtrlSetImage($ButtonStartStop, @ScriptDir & '\Resources\Stop.jpg')
-    EndIf
-EndFunc ;==>Pause
+	$TogglePause = Not $TogglePause
+	If $TogglePause Then
+		_Resource_SetToCtrlID($ButtonStartStop, 'START')
+	Else
+		_Resource_SetToCtrlID($ButtonStartStop, 'STOP')
+	EndIf
+EndFunc   ;==>Pause
 
 Func ButtonHomeClick()
-    GUICtrlSetState($TabHome, $GUI_SHOW)
-EndFunc
+	GUICtrlSetState($TabHome, $GUI_SHOW)
+EndFunc   ;==>ButtonHomeClick
 
 Func ButtonGeneralClick()
-   GUICtrlSetState($TabSheet2, $GUI_SHOW)
-EndFunc
+	GUICtrlSetState($TabSheet2, $GUI_SHOW)
+EndFunc   ;==>ButtonGeneralClick
 
 Func ButtonBonusStageClick()
-    GUICtrlSetState($TabSheet3, $GUI_SHOW)
-EndFunc
+	GUICtrlSetState($TabSheet3, $GUI_SHOW)
+EndFunc   ;==>ButtonBonusStageClick
 
 Func ButtonChestHuntClick()
-    GUICtrlSetState($TabSheet4, $GUI_SHOW)
-EndFunc
+	GUICtrlSetState($TabSheet4, $GUI_SHOW)
+EndFunc   ;==>ButtonChestHuntClick
 
 Func ButtonLogClick()
-    GUICtrlSetState($TabSheet5, $GUI_SHOW)
-EndFunc
+	GUICtrlSetState($TabSheet5, $GUI_SHOW)
+EndFunc   ;==>ButtonLogClick
 
 Func ButtonExitClick()
-    Exit
-EndFunc
+	Exit
+EndFunc   ;==>ButtonExitClick
 
 Func ButtonGithubClick()
-    ShellExecute("https://github.com/Devil4ngle/Idle_Slayer_Script/releases")
-EndFunc
+	ShellExecute("https://github.com/Devil4ngle/Idle_Slayer_Script/releases")
+EndFunc   ;==>ButtonGithubClick
 
 Func ButtonInstructionsClick()
-    ShellExecute("https://discord.gg/aEaBr77UDn")
-EndFunc
+	ShellExecute("https://discord.gg/aEaBr77UDn")
+EndFunc   ;==>ButtonInstructionsClick
 
 Func AutoBuyUpgradesChecked()
 	If $AutoBuyUpgradeState Then
-        $AutoBuyUpgradeState = False
-        GUICtrlSetImage($CheckBoxAutoBuyUpgrades, @ScriptDir & '\Resources\CheckboxUnchecked.jpg')
-    Else
-        $AutoBuyUpgradeState = True
-        GUICtrlSetImage($CheckBoxAutoBuyUpgrades, @ScriptDir & '\Resources\CheckboxChecked.jpg')
-    EndIf
-EndFunc   ;==>AutoBuyUpgradeChecked
+		$AutoBuyUpgradeState = False
+		_Resource_SetToCtrlID($CheckBoxAutoBuyUpgrades, 'UNCHECKED')
+	Else
+		$AutoBuyUpgradeState = True
+		_Resource_SetToCtrlID($CheckBoxAutoBuyUpgrades, 'CHECKED')
+	EndIf
+EndFunc   ;==>AutoBuyUpgradesChecked
 
 Func CirclePortalsClick()
 	;$CirclePortalsState = GUICtrlRead($CirclePortals)
 EndFunc   ;==>CirclePortalsClick
 
 Func CraftRagePillChecked()
-    If $CraftRagePillState Then
-        $CraftRagePillState = False
-        GUICtrlSetImage($CheckBoxCraftRagePill, @ScriptDir & '\Resources\CheckboxUnchecked.jpg')
-    Else
-        $CraftRagePillState = True
-        GUICtrlSetImage($CheckBoxCraftRagePill, @ScriptDir & '\Resources\CheckboxChecked.jpg')
-    EndIf
+	If $CraftRagePillState Then
+		$CraftRagePillState = False
+		_Resource_SetToCtrlID($CheckBoxCraftRagePill, 'UNCHECKED')
+	Else
+		$CraftRagePillState = True
+		_Resource_SetToCtrlID($CheckBoxCraftRagePill, 'CHECKED')
+	EndIf
 EndFunc   ;==>CraftRagePillChecked
 
 Func CraftSoulBonusChecked()
-    If $CraftSoulBonusState Then
-        $CraftSoulBonusState = False
-        GUICtrlSetImage($CheckBoxCraftSoulBonus, @ScriptDir & '\Resources\CheckboxUnchecked.jpg')
-    Else
-        $CraftSoulBonusState = True
-        GUICtrlSetImage($CheckBoxCraftSoulBonus, @ScriptDir & '\Resources\CheckboxChecked.jpg')
-    EndIf
+	If $CraftSoulBonusState Then
+		$CraftSoulBonusState = False
+		_Resource_SetToCtrlID($CheckBoxCraftSoulBonus, 'UNCHECKED')
+
+	Else
+		$CraftSoulBonusState = True
+		_Resource_SetToCtrlID($CheckBoxCraftSoulBonus, 'CHECKED')
+
+	EndIf
 EndFunc   ;==>CraftSoulBonusChecked
 
 Func JumpSliderChange()
@@ -232,43 +275,43 @@ Func JumpSliderChange()
 EndFunc   ;==>JumpSliderChange
 
 Func SkipBonusStageChecked()
-    If $SkipBonusStageState Then
-        $SkipBonusStageState = False
-        GUICtrlSetImage($CheckBoxSkipBonusStage, @ScriptDir & '\Resources\CheckboxUnchecked.jpg')
-    Else
-        $SkipBonusStageState = True
-        GUICtrlSetImage($CheckBoxSkipBonusStage, @ScriptDir & '\Resources\CheckboxChecked.jpg')
-    EndIf
+	If $SkipBonusStageState Then
+		$SkipBonusStageState = False
+		_Resource_SetToCtrlID($CheckBoxSkipBonusStage, 'UNCHECKED')
+	Else
+		$SkipBonusStageState = True
+		_Resource_SetToCtrlID($CheckBoxSkipBonusStage, 'CHECKED')
+	EndIf
 EndFunc   ;==>SkipBonusStageChecked
 
 Func TabController()
-    TabEvent()
-EndFunc ;==>TabController
+	TabEvent()
+EndFunc   ;==>TabController
 
 Func TabEvent()
-    ; Set values
-    Local $iTab_X = 5, $iTab_Y = 5, $iTab_Margin = 1
-    ; Get index of current tab
-    Local $iTab_Index = GUICtrlRead($TabControl)
-    ; Get coordinates of TabItem
-    Local $aTab_Coord = _GUICtrlTab_GetItemRect($TabHandle, $iTab_Index)
-    ; Get text of TabItem
-    Local $sTab_Text = _GUICtrlTab_GetItemText($TabHandle, $iTab_Index)
-    ; Set focus
-    _GUICtrlTab_SetCurFocus($TabHandle,$iTab_Index)
-EndFunc ;==>TabEvent
+	; Set values
+	Local $iTab_X = 5, $iTab_Y = 5, $iTab_Margin = 1
+	; Get index of current tab
+	Local $iTab_Index = GUICtrlRead($TabControl)
+	; Get coordinates of TabItem
+	Local $aTab_Coord = _GUICtrlTab_GetItemRect($TabHandle, $iTab_Index)
+	; Get text of TabItem
+	Local $sTab_Text = _GUICtrlTab_GetItemText($TabHandle, $iTab_Index)
+	; Set focus
+	_GUICtrlTab_SetCurFocus($TabHandle, $iTab_Index)
+EndFunc   ;==>TabEvent
 
 Func _GUICtrlTab_SetBkColor($hWnd, $hSysTab32, $sBkColor)
-    ; Get Tab position
-    Local $aTabPos = ControlGetPos($hWnd, "", $hSysTab32)
-    ; Get size of user area
-    Local $aTab_Rect = _GUICtrlTab_GetItemRect($hSysTab32, -1)
-    ; Create label
-    GUICtrlCreateLabel("", $aTabPos[0] + 2, $aTabPos[1] + $aTab_Rect[3] + 4, $aTabPos[2] - 6, $aTabPos[3] - $aTab_Rect[3] - 7)
-    ; colour label
-    GUICtrlSetBkColor(-1, $sBkColor)
-    ; Disable label
-    GUICtrlSetState(-1, $GUI_DISABLE)
+	; Get Tab position
+	Local $aTabPos = ControlGetPos($hWnd, "", $hSysTab32)
+	; Get size of user area
+	Local $aTab_Rect = _GUICtrlTab_GetItemRect($hSysTab32, -1)
+	; Create label
+	GUICtrlCreateLabel("", $aTabPos[0] + 2, $aTabPos[1] + $aTab_Rect[3] + 4, $aTabPos[2] - 6, $aTabPos[3] - $aTab_Rect[3] - 7)
+	; colour label
+	GUICtrlSetBkColor(-1, $sBkColor)
+	; Disable label
+	GUICtrlSetState(-1, $GUI_DISABLE)
 EndFunc   ;==>_GUICtrlTab_SetBkColor
 
 Local $timer = TimerInit()
