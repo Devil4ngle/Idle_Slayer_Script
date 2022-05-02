@@ -20,6 +20,42 @@
 #AutoIt3Wrapper_Res_File_Add=Resources\Chesthunt.jpg, RT_RCDATA, CHESTHUNT,0
 #AutoIt3Wrapper_Res_File_Add=Resources\Github.jpg, RT_RCDATA, GITHUB,0
 #AutoIt3Wrapper_Res_File_Add=Resources\JumpRate.jpg, RT_RCDATA, JUMPRATE,0
+#AutoIt3Wrapper_Res_File_Add=Resources\UpArrow.jpg, RT_RCDATA, UPARROW,0
+#AutoIt3Wrapper_Res_File_Add=Resources\DownArrow.jpg, RT_RCDATA, DOWNARROW,0
+
+;Numbers
+#AutoIt3Wrapper_Res_File_Add=Resources\0.jpg, RT_RCDATA, NUM0,0
+#AutoIt3Wrapper_Res_File_Add=Resources\10.jpg, RT_RCDATA, NUM10,0
+#AutoIt3Wrapper_Res_File_Add=Resources\20.jpg, RT_RCDATA, NUM20,0
+#AutoIt3Wrapper_Res_File_Add=Resources\30.jpg, RT_RCDATA, NUM30,0
+#AutoIt3Wrapper_Res_File_Add=Resources\40.jpg, RT_RCDATA, NUM40,0
+#AutoIt3Wrapper_Res_File_Add=Resources\50.jpg, RT_RCDATA, NUM50,0
+#AutoIt3Wrapper_Res_File_Add=Resources\60.jpg, RT_RCDATA, NUM60,0
+#AutoIt3Wrapper_Res_File_Add=Resources\70.jpg, RT_RCDATA, NUM70,0
+#AutoIt3Wrapper_Res_File_Add=Resources\80.jpg, RT_RCDATA, NUM80,0
+#AutoIt3Wrapper_Res_File_Add=Resources\90.jpg, RT_RCDATA, NUM90,0
+#AutoIt3Wrapper_Res_File_Add=Resources\100.jpg, RT_RCDATA, NUM100,0
+#AutoIt3Wrapper_Res_File_Add=Resources\110.jpg, RT_RCDATA, NUM110,0
+#AutoIt3Wrapper_Res_File_Add=Resources\120.jpg, RT_RCDATA, NUM120,0
+#AutoIt3Wrapper_Res_File_Add=Resources\130.jpg, RT_RCDATA, NUM130,0
+#AutoIt3Wrapper_Res_File_Add=Resources\140.jpg, RT_RCDATA, NUM140,0
+#AutoIt3Wrapper_Res_File_Add=Resources\150.jpg, RT_RCDATA, NUM150,0
+#AutoIt3Wrapper_Res_File_Add=Resources\160.jpg, RT_RCDATA, NUM160,0
+#AutoIt3Wrapper_Res_File_Add=Resources\170.jpg, RT_RCDATA, NUM170,0
+#AutoIt3Wrapper_Res_File_Add=Resources\180.jpg, RT_RCDATA, NUM180,0
+#AutoIt3Wrapper_Res_File_Add=Resources\190.jpg, RT_RCDATA, NUM190,0
+#AutoIt3Wrapper_Res_File_Add=Resources\200.jpg, RT_RCDATA, NUM200,0
+#AutoIt3Wrapper_Res_File_Add=Resources\210.jpg, RT_RCDATA, NUM210,0
+#AutoIt3Wrapper_Res_File_Add=Resources\220.jpg, RT_RCDATA, NUM220,0
+#AutoIt3Wrapper_Res_File_Add=Resources\230.jpg, RT_RCDATA, NUM230,0
+#AutoIt3Wrapper_Res_File_Add=Resources\240.jpg, RT_RCDATA, NUM240,0
+#AutoIt3Wrapper_Res_File_Add=Resources\250.jpg, RT_RCDATA, NUM250,0
+#AutoIt3Wrapper_Res_File_Add=Resources\260.jpg, RT_RCDATA, NUM260,0
+#AutoIt3Wrapper_Res_File_Add=Resources\270.jpg, RT_RCDATA, NUM270,0
+#AutoIt3Wrapper_Res_File_Add=Resources\280.jpg, RT_RCDATA, NUM280,0
+#AutoIt3Wrapper_Res_File_Add=Resources\290.jpg, RT_RCDATA, NUM290,0
+#AutoIt3Wrapper_Res_File_Add=Resources\300.jpg, RT_RCDATA, NUM300,0
+
 #AutoIt3Wrapper_Run_Stop_OnError=y
 #EndRegion ;**** Directives created by AutoIt3Wrapper_GUI ****
 #comments-start
@@ -39,6 +75,7 @@
 #include <EditConstants.au3>
 #include <AutoItConstants.au3>
 #include "Resources\ResourcesEx.au3"
+#include "Resources\OCR.au3"
 
 ; Enables GUI events
 Opt("GUIOnEventMode", 1)
@@ -119,10 +156,21 @@ GUICtrlSetTip(-1, " Buys upgrades every 10 minutes except Vertical Magnet")
 ; Create JumpRate Slider
 $Jslider = GUICtrlCreatePic('', 400, 45, 98, 16, $SS_BITMAP + $SS_NOTIFY)
 _Resource_SetToCtrlID($Jslider, 'JUMPRATE')
-$JumpSlider = GUICtrlCreateSlider(520, 33, 150, 30)
-GUICtrlSetLimit(-1, 300, 0)
-GUICtrlSetData(-1, 150)
-GUICtrlSetOnEvent(-1, "JumpSliderChange")
+
+$JumpNumber = GUICtrlCreatePic('', 505, 42, 42, 22, $SS_BITMAP + $SS_NOTIFY)
+_Resource_SetToCtrlID($JumpNumber, 'NUM150')
+$JumpUp = GUICtrlCreatePic('', 547, 42, 17, 11, $SS_BITMAP + $SS_NOTIFY)
+_Resource_SetToCtrlID($JumpUp, 'UPARROW')
+GUICtrlSetOnEvent(-1, "UpArrow")
+$JumpDown = GUICtrlCreatePic('', 547, 53, 17, 11, $SS_BITMAP + $SS_NOTIFY)
+_Resource_SetToCtrlID($JumpDown, 'DOWNARROW')
+GUICtrlSetOnEvent(-1, "DownArrow")
+
+; Create OCR Checkbox
+;$CheckBoxOCR = GUICtrlCreatePic('', 400, 83, 16, 16, $SS_BITMAP + $SS_NOTIFY)
+;_Resource_SetToCtrlID($CheckBoxOCR, 'UNCHECKED')
+;GUICtrlSetOnEvent(-1, "OCRChecked")
+;GUICtrlCreateLabel("OCR", 426, 83)
 
 ; Create Bonus Stage Tab
 $TabSheet3 = GUICtrlCreateTabItem("Bonus Stage")
@@ -187,7 +235,7 @@ GUISetState(@SW_SHOW)
 
 Global $AutoBuyUpgradeState = False, $CraftSoulBonusState = False, $SkipBonusStageState = False, _
 		$CraftRagePillState = False, $CirclePortalsState = $GUI_UNCHECKED, $JumpSliderValue = 150, _
-		$TogglePause = False
+		$TogglePause = False, $OCRState = False
 
 Func IdleClose()
 	Exit
@@ -236,6 +284,16 @@ Func ButtonInstructionsClick()
 	ShellExecute("https://discord.gg/aEaBr77UDn")
 EndFunc   ;==>ButtonInstructionsClick
 
+;Func OCRChecked()
+;	If $OCRState Then
+;		$OCRState = False
+;		_Resource_SetToCtrlID($CheckBoxOCR, 'UNCHECKED')
+;	Else
+;		$OCRState = True
+;		_Resource_SetToCtrlID($CheckBoxOCR, 'CHECKED')
+;	EndIf
+;EndFunc   ;==>OCRChecked
+
 Func AutoBuyUpgradesChecked()
 	If $AutoBuyUpgradeState Then
 		$AutoBuyUpgradeState = False
@@ -272,9 +330,19 @@ Func CraftSoulBonusChecked()
 	EndIf
 EndFunc   ;==>CraftSoulBonusChecked
 
-Func JumpSliderChange()
-	$JumpSliderValue = GUICtrlRead($JumpSlider)
-EndFunc   ;==>JumpSliderChange
+Func UpArrow()
+	If ($JumpSliderValue + 10) <= 300 Then
+		$JumpSliderValue += 10
+		_Resource_SetToCtrlID($JumpNumber, 'NUM' & $JumpSliderValue)
+	EndIf
+EndFunc
+
+Func DownArrow()
+	If ($JumpSliderValue - 10) >= 0 Then
+		$JumpSliderValue -= 10
+		_Resource_SetToCtrlID($JumpNumber, 'NUM' & $JumpSliderValue)
+	EndIf
+EndFunc
 
 Func SkipBonusStageChecked()
 	If $SkipBonusStageState Then
@@ -318,10 +386,16 @@ EndFunc   ;==>_GUICtrlTab_SetBkColor
 
 Local $timer = TimerInit()
 ; Infinite Loop
+
 While 1
 	If $TogglePause Then ContinueLoop
 
 	If WinGetTitle("[ACTIVE]") <> "Idle Runner" Then
+		ControlFocus("Idle Slayer", "", "")
+	EndIf
+
+	If $OCRState Then
+		ConsoleWrite(_OCR(1371, 239, 1493, 254, 0xA675FE, 0, "Testing.txt") & @CRLF)
 		ControlFocus("Idle Slayer", "", "")
 	EndIf
 
@@ -334,6 +408,7 @@ While 1
 	If Not @error Then
 		MouseClick("left", 644, 49, 1, 0)
 	EndIf
+	
 	; Close Armory full not hover over
 	PixelSearch(775, 600, 775, 600, 0xB40000)
 	If Not @error Then
@@ -376,7 +451,7 @@ While 1
 		BonusStage()
 	EndIf
 
-	If ($AutoBuyUpgradeState == $GUI_CHECKED) Then
+	If $AutoBuyUpgradeState Then
 		If (600000 < TimerDiff($timer)) Then
 			$timer = TimerInit()
 			WinActivate("Idle Slayer")
