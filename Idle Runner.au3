@@ -319,14 +319,14 @@ Func UpArrow()
 		$JumpSliderValue += 10
 		_Resource_SetToCtrlID($JumpNumber, 'NUM' & $JumpSliderValue)
 	EndIf
-EndFunc
+EndFunc   ;==>UpArrow
 
 Func DownArrow()
 	If ($JumpSliderValue - 10) >= 0 Then
 		$JumpSliderValue -= 10
 		_Resource_SetToCtrlID($JumpNumber, 'NUM' & $JumpSliderValue)
 	EndIf
-EndFunc
+EndFunc   ;==>DownArrow
 
 Func SkipBonusStageChecked()
 	If $SkipBonusStageState Then
@@ -614,8 +614,8 @@ Func Chesthunt()
 EndFunc   ;==>Chesthunt
 
 Func BonusStage()
-		
-	Do 
+
+	Do
 		BonusStageSlider()
 		Sleep(500)
 		PixelSearch(860, 670, 860, 670, 0xAC8371)
@@ -644,7 +644,7 @@ Func BonusStageSlider()
 	;Top left
 	PixelSearch(443, 560, 443, 560, 0x007E00)
 	If Not @error Then
-		MouseMove(840,560,0)
+		MouseMove(840, 560, 0)
 		MouseClickDrag("left", 840, 560, 450, 560)
 		Return
 	EndIf
@@ -652,7 +652,7 @@ Func BonusStageSlider()
 	;Bottom left
 	PixelSearch(443, 620, 443, 620, 0x007E00)
 	If Not @error Then
-		MouseMove(840,620,0)
+		MouseMove(840, 620, 0)
 		MouseClickDrag("left", 840, 620, 450, 620)
 		Return
 	EndIf
@@ -660,7 +660,7 @@ Func BonusStageSlider()
 	;Top right
 	PixelSearch(850, 560, 850, 560, 0x007E00)
 	If Not @error Then
-		MouseMove(450,560,0)
+		MouseMove(450, 560, 0)
 		MouseClickDrag("left", 450, 560, 840, 560)
 		Return
 	EndIf
@@ -668,7 +668,7 @@ Func BonusStageSlider()
 	;Bottom right
 	PixelSearch(850, 620, 850, 620, 0x007E00)
 	If Not @error Then
-		MouseMove(450,620,0)
+		MouseMove(450, 620, 0)
 		MouseClickDrag("left", 450, 620, 840, 620)
 		Return
 	EndIf
