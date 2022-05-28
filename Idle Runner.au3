@@ -1,8 +1,9 @@
 #Region ;**** Directives created by AutoIt3Wrapper_GUI ****
 #AutoIt3Wrapper_Icon=Resources\Icon.ico
+#AutoIt3Wrapper_Compile_Both=y
+#AutoIt3Wrapper_UseX64=y
 #AutoIt3Wrapper_Res_File_Add=Resources\Icon.jpg, RT_RCDATA, ICON,0
 #AutoIt3Wrapper_Res_File_Add=Resources\Welcome.jpg, RT_RCDATA, WELCOME,0
-#AutoIt3Wrapper_Res_File_Add=Resources\Discord.jpg, RT_RCDATA, DISCORD,0
 #AutoIt3Wrapper_Res_File_Add=Resources\Instructions.jpg, RT_RCDATA, INSTRUCTION,0
 #AutoIt3Wrapper_Res_File_Add=Resources\CheckboxUnchecked.jpg, RT_RCDATA, UNCHECKED,0
 #AutoIt3Wrapper_Res_File_Add=Resources\CheckboxChecked.jpg, RT_RCDATA, CHECKED,0
@@ -77,7 +78,6 @@
 #include <EditConstants.au3>
 #include <AutoItConstants.au3>
 #include "Resources\ResourcesEx.au3"
-#include "Resources\OCR.au3"
 
 ; Enables GUI events
 Opt("GUIOnEventMode", 1)
@@ -95,18 +95,18 @@ HotKeySet("{Home}", "Pause")
 HotKeySet("{Esc}", "IdleClose")
 
 ; Create GUI
-$GUIForm = GUICreate("Idle Runner", 1278, 164, 320, 880, $WS_BORDER + $WS_POPUP)
+$GUIForm = GUICreate("Idle Runner", 898, 164, 320, 880, $WS_BORDER + $WS_POPUP)
 GUISetBkColor(0x202225)
 
 ; Titlebar
-GUICtrlCreateLabel("", -1, -1, 1278, 22, -1, $GUI_WS_EX_PARENTDRAG)
-GUICtrlCreateLabel("        Idle Runner", -1, -1, 1280, 22, $SS_CENTERIMAGE)
+GUICtrlCreateLabel("", -1, -1, 898, 22, -1, $GUI_WS_EX_PARENTDRAG)
+GUICtrlCreateLabel("        Idle Runner v2.6.0", -1, -1, 900, 22, $SS_CENTERIMAGE)
 GUICtrlSetColor(-1, 0xFFFFFF)
 $Icon = GUICtrlCreatePic('', 2, 2, 16, 16, $SS_BITMAP + $SS_NOTIFY)
 _Resource_SetToCtrlID($Icon, 'ICON')
 
 ; Create TabControl
-$TabControl = GUICtrlCreateTab(159, -4, 1126, 173, BitOR($TCS_FORCELABELLEFT, $TCS_FIXEDWIDTH, $TCS_BUTTONS))
+$TabControl = GUICtrlCreateTab(159, -4, 745, 173, BitOR($TCS_FORCELABELLEFT, $TCS_FIXEDWIDTH, $TCS_BUTTONS))
 GUICtrlSetBkColor(-1, 0x2F3136)
 GUISetOnEvent(-1, "TabController")
 $TabHandle = GUICtrlGetHandle($TabControl)
@@ -143,7 +143,7 @@ GUICtrlSetTip(-1, "When Horde/Mega Horde, use Rage Pill When Rage is Down")
 $CheckBoxCraftSoulBonus = GUICtrlCreatePic('', 181, 83, 16, 16, $SS_BITMAP + $SS_NOTIFY)
 _Resource_SetToCtrlID($CheckBoxCraftSoulBonus, 'UNCHECKED')
 GUICtrlSetOnEvent(-1, "CraftSoulBonusChecked")
-$CraftComp=GUICtrlCreatePic('', 207, 84, 153, 14, $SS_BITMAP + $SS_NOTIFY)
+$CraftComp = GUICtrlCreatePic('', 207, 84, 153, 14, $SS_BITMAP + $SS_NOTIFY)
 _Resource_SetToCtrlID($CraftComp, 'SOULBONUS')
 GUICtrlSetTip(-1, "When Horde/Mega Horde, use Souls Compass When Rage is Down")
 
@@ -151,7 +151,7 @@ GUICtrlSetTip(-1, "When Horde/Mega Horde, use Souls Compass When Rage is Down")
 $CheckBoxAutoBuyUpgrades = GUICtrlCreatePic('', 181, 122, 16, 16, $SS_BITMAP + $SS_NOTIFY)
 _Resource_SetToCtrlID($CheckBoxAutoBuyUpgrades, 'UNCHECKED')
 GUICtrlSetOnEvent(-1, "AutoBuyUpgradesChecked")
-$AutoUpgrade=GUICtrlCreatePic('', 207, 123, 165, 16, $SS_BITMAP + $SS_NOTIFY)
+$AutoUpgrade = GUICtrlCreatePic('', 207, 123, 165, 16, $SS_BITMAP + $SS_NOTIFY)
 _Resource_SetToCtrlID($AutoUpgrade, 'AUTOUPGRADES')
 GUICtrlSetTip(-1, " Buys upgrades every 10 minutes except Vertical Magnet")
 
@@ -191,7 +191,7 @@ _GUICtrlTab_SetBkColor($GUIForm, $TabControl, 0x36393F)
 $CheckBoxSkipBonusStage = GUICtrlCreatePic('', 181, 44, 16, 16, $SS_BITMAP + $SS_NOTIFY)
 _Resource_SetToCtrlID($CheckBoxSkipBonusStage, 'UNCHECKED')
 GUICtrlSetOnEvent(-1, "SkipBonusStageChecked")
-$SKIPBS=GUICtrlCreatePic('', 207, 45, 160, 16, $SS_BITMAP + $SS_NOTIFY)
+$SKIPBS = GUICtrlCreatePic('', 207, 45, 160, 16, $SS_BITMAP + $SS_NOTIFY)
 _Resource_SetToCtrlID($SKIPBS, 'SKIPBONUS')
 
 GUICtrlSetTip(-1, "Skips Bonus Stages by letting the timer run out without doing anything")
@@ -353,14 +353,14 @@ Func UpArrow()
 		$JumpSliderValue += 10
 		_Resource_SetToCtrlID($JumpNumber, 'NUM' & $JumpSliderValue)
 	EndIf
-EndFunc
+EndFunc   ;==>UpArrow
 
 Func DownArrow()
 	If ($JumpSliderValue - 10) >= 0 Then
 		$JumpSliderValue -= 10
 		_Resource_SetToCtrlID($JumpNumber, 'NUM' & $JumpSliderValue)
 	EndIf
-EndFunc
+EndFunc   ;==>DownArrow
 
 Func SkipBonusStageChecked()
 	If $SkipBonusStageState Then
@@ -395,7 +395,7 @@ Func _GUICtrlTab_SetBkColor($hWnd, $hSysTab32, $sBkColor)
 	; Get size of user area
 	Local $aTab_Rect = _GUICtrlTab_GetItemRect($hSysTab32, -1)
 	; Create label
-	GUICtrlCreateLabel("", $aTabPos[0] + 2, $aTabPos[1] + $aTab_Rect[3] + 4, $aTabPos[2] - 6, $aTabPos[3] - $aTab_Rect[3] - 7)
+	GUICtrlCreateLabel("", $aTabPos[0], $aTabPos[1] + $aTab_Rect[3] + 4, $aTabPos[2] - 6, $aTabPos[3] - $aTab_Rect[3] - 7)
 	; colour label
 	GUICtrlSetBkColor(-1, $sBkColor)
 	; Disable label
@@ -429,13 +429,13 @@ While 1
 	; Close Armory full not hover over
 	PixelSearch(775, 600, 775, 600, 0xB40000)
 	If Not @error Then
-		MouseClick("left", 775, 600, 1, 0)
+		CloseAll()
 	EndIf
 
 	; Close Armory full hover over
 	PixelSearch(775, 600, 775, 600, 0xAD0000)
 	If Not @error Then
-		MouseClick("left", 775, 600, 1, 0)
+		CloseAll()
 	EndIf
 
 	; Chest-hunt
@@ -491,6 +491,11 @@ While 1
 	EndIf
 
 WEnd
+
+Func CloseAll()
+	Sleep(2000)
+	MouseClick("left", 775, 600, 1, 0)
+EndFunc   ;==>CloseAll
 
 Func RageWhenHorde()
 	If CheckForSoulBonus() Then
@@ -745,8 +750,13 @@ Func Chesthunt()
 EndFunc   ;==>Chesthunt
 
 Func BonusStage()
-	BonusStageSlider()
-	Sleep(4000)
+
+	Do
+		BonusStageSlider()
+		Sleep(500)
+		PixelSearch(860, 670, 860, 670, 0xAC8371)
+	Until @error
+	Sleep(3500)
 	PixelSearch(443, 97, 443, 97, 0xFFFFFF)
 	If $SkipBonusStageState Then
 		BonusStageDoNoting()
@@ -770,6 +780,7 @@ Func BonusStageSlider()
 	;Top left
 	PixelSearch(443, 560, 443, 560, 0x007E00)
 	If Not @error Then
+		MouseMove(840, 560, 0)
 		MouseClickDrag("left", 840, 560, 450, 560)
 		Return
 	EndIf
@@ -777,6 +788,7 @@ Func BonusStageSlider()
 	;Bottom left
 	PixelSearch(443, 620, 443, 620, 0x007E00)
 	If Not @error Then
+		MouseMove(840, 620, 0)
 		MouseClickDrag("left", 840, 620, 450, 620)
 		Return
 	EndIf
@@ -784,6 +796,7 @@ Func BonusStageSlider()
 	;Top right
 	PixelSearch(850, 560, 850, 560, 0x007E00)
 	If Not @error Then
+		MouseMove(450, 560, 0)
 		MouseClickDrag("left", 450, 560, 840, 560)
 		Return
 	EndIf
@@ -791,6 +804,7 @@ Func BonusStageSlider()
 	;Bottom right
 	PixelSearch(850, 620, 850, 620, 0x007E00)
 	If Not @error Then
+		MouseMove(450, 620, 0)
 		MouseClickDrag("left", 450, 620, 840, 620)
 		Return
 	EndIf
