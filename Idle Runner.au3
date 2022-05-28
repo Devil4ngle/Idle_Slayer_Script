@@ -99,7 +99,7 @@ GUISetBkColor(0x202225)
 
 ; Titlebar
 GUICtrlCreateLabel("", -1, -1, 898, 22, -1, $GUI_WS_EX_PARENTDRAG)
-GUICtrlCreateLabel("        Idle Runner v2.6.0", -1, -1, 900, 22, $SS_CENTERIMAGE)
+GUICtrlCreateLabel("        Idle Runner v2.7.0", -1, -1, 900, 22, $SS_CENTERIMAGE)
 GUICtrlSetColor(-1, 0xFFFFFF)
 $Icon = GUICtrlCreatePic('', 2, 2, 16, 16, $SS_BITMAP + $SS_NOTIFY)
 _Resource_SetToCtrlID($Icon, 'ICON')
