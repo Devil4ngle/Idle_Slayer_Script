@@ -10,7 +10,6 @@
 #AutoIt3Wrapper_Res_File_Add=Resources\CraftRagePill.jpg, RT_RCDATA, RAGEPILL,0
 #AutoIt3Wrapper_Res_File_Add=Resources\CraftSoulBonus.jpg, RT_RCDATA, SOULBONUS,0
 #AutoIt3Wrapper_Res_File_Add=Resources\AutoBuyUpgrades.jpg, RT_RCDATA, AUTOUPGRADES,0
-#AutoIt3Wrapper_Res_File_Add=Resources\ClaimQuest.jpg, RT_RCDATA, CLAIMQUEST,0
 #AutoIt3Wrapper_Res_File_Add=Resources\CirclePortals.jpg, RT_RCDATA, CIRCLEPORTALS,0
 #AutoIt3Wrapper_Res_File_Add=Resources\SkipBonusStage.jpg, RT_RCDATA, SKIPBONUS,0
 #AutoIt3Wrapper_Res_File_Add=Resources\Home.jpg, RT_RCDATA, HOME,0
@@ -168,19 +167,11 @@ $JumpDown = GUICtrlCreatePic('', 547, 53, 17, 11, $SS_BITMAP + $SS_NOTIFY)
 _Resource_SetToCtrlID($JumpDown, 'DOWNARROW')
 GUICtrlSetOnEvent(-1, "DownArrow")
 
-; Create ClaimQuest Checkbox
-$CheckBoxClaimQuest = GUICtrlCreatePic('', 611, 44, 16, 16, $SS_BITMAP + $SS_NOTIFY)
-_Resource_SetToCtrlID($CheckBoxClaimQuest, 'UNCHECKED')
-GUICtrlSetOnEvent(-1, "ClaimQuestChecked")
-$ClaimQuest = GUICtrlCreatePic('', 637, 45, 170, 16, $SS_BITMAP + $SS_NOTIFY)
-_Resource_SetToCtrlID($ClaimQuest, 'CLAIMQUEST')
-GUICtrlSetTip(-1, "Auto claims quests when completed")
-
 ; Create CirclePortals Checkbox
-$CheckBoxCirclePortals = GUICtrlCreatePic('', 611, 83, 16, 16, $SS_BITMAP + $SS_NOTIFY)
+$CheckBoxCirclePortals = GUICtrlCreatePic('', 611, 44, 16, 16, $SS_BITMAP + $SS_NOTIFY)
 _Resource_SetToCtrlID($CheckBoxCirclePortals, 'UNCHECKED')
 GUICtrlSetOnEvent(-1, "CirclePortalsChecked")
-$CirclePortals = GUICtrlCreatePic('', 637, 84, 129, 14, $SS_BITMAP + $SS_NOTIFY)
+$CirclePortals = GUICtrlCreatePic('', 637, 45, 129, 14, $SS_BITMAP + $SS_NOTIFY)
 _Resource_SetToCtrlID($CirclePortals, 'CIRCLEPORTALS')
 GUICtrlSetTip(-1, "Automate portal cycle")
 
@@ -245,8 +236,8 @@ GUICtrlSetOnEvent(-1, "IdleClose")
 
 GUISetState(@SW_SHOW)
 
-Global $AutoBuyUpgradeState = True, $CraftSoulBonusState = True, $SkipBonusStageState = False, _
-		$CraftRagePillState = True, $CirclePortalsState = True, $ClaimQuestState = True, $JumpSliderValue = 150, _
+Global $AutoBuyUpgradeState = False, $CraftSoulBonusState = False, $SkipBonusStageState = False, _
+		$CraftRagePillState = False, $CirclePortalsState = False, $JumpSliderValue = 150, _
 		$TogglePause = False, $CirclePortalsCount = 7
 
 Func IdleClose()
@@ -326,16 +317,6 @@ Func CraftRagePillChecked()
 	EndIf
 EndFunc   ;==>CraftRagePillChecked
 
-Func ClaimQuestChecked()
-	If $ClaimQuestState Then
-		$ClaimQuestState = False
-		_Resource_SetToCtrlID($CheckBoxClaimQuest, 'UNCHECKED')
-	Else
-		$ClaimQuestState = True
-		_Resource_SetToCtrlID($CheckBoxClaimQuest, 'CHECKED')
-	EndIf
-EndFunc   ;==>ClaimQuestChecked
-
 Func CraftSoulBonusChecked()
 	If $CraftSoulBonusState Then
 		$CraftSoulBonusState = False
@@ -404,11 +385,6 @@ EndFunc   ;==>_GUICtrlTab_SetBkColor
 
 Local $timer = TimerInit()
 ; Infinite Loop
-
-Pause()
-ControlFocus("Idle Slayer", "", "")
-BuyEquipment()
-
 While 1
 	If $TogglePause Then ContinueLoop
 
@@ -483,18 +459,22 @@ While 1
 	EndIf
 
 	; Claim quests
-	If $ClaimQuestState Then
-		PixelSearch(1130, 610, 1130, 610, 0xCBCB4C, 9)
-		If Not @error Then
-			ClaimQuests()
-		EndIf
+	PixelSearch(1130, 610, 1130, 610, 0xCBCB4C)
+	If Not @error Then
+		ClaimQuests()
 	EndIf
-
 WEnd
 
 Func CloseAll()
 	Sleep(2000)
-	MouseClick("left", 775, 600, 1, 0)
+	PixelSearch(775, 600, 775, 600, 0xAD0000)
+	If Not @error Then
+		MouseClick("left", 775, 600, 1, 0)
+	EndIf
+	PixelSearch(775, 600, 775, 600, 0xB40000)
+	If Not @error Then
+		MouseClick("left", 775, 600, 1, 0)
+	EndIf
 EndFunc   ;==>CloseAll
 
 Func RageWhenHorde()
@@ -650,7 +630,7 @@ Func CirclePortals()
 			Case 8
 				$Color = 0xCA484D
 		EndSwitch
-		
+
 		While 1
 			$location = PixelSearch(491, 266, 491, 540, $Color)
 			If @error Then
@@ -679,7 +659,7 @@ Func CirclePortals()
 		Sleep(10000)
 
 	EndIf
-EndFunc
+EndFunc   ;==>CirclePortals
 
 Func Chesthunt()
 	Sleep(2000)
@@ -1080,7 +1060,7 @@ Func ClaimQuests()
 		;Top of searchbar
 		PixelSearch(1254, 267, 1254, 267, 0xD6D6D6)
 	Until @error
-	Sleep(400)	
+	Sleep(400)
 
 	While 1
 		;Check if there is any green buy boxes
@@ -1103,8 +1083,8 @@ Func ClaimQuests()
 
 	;Close Shop
 	MouseClick("left", 1244, 712, 1, 0)
-	
-EndFunc ;==> ClaimQuests
+
+EndFunc   ;==>ClaimQuests
 
 Func BonusStageSP()
 	; Section 1 sync
