@@ -24,6 +24,7 @@
 #AutoIt3Wrapper_Res_File_Add=Resources\JumpRate.jpg, RT_RCDATA, JUMPRATE,0
 #AutoIt3Wrapper_Res_File_Add=Resources\UpArrow.jpg, RT_RCDATA, UPARROW,0
 #AutoIt3Wrapper_Res_File_Add=Resources\DownArrow.jpg, RT_RCDATA, DOWNARROW,0
+#AutoIt3Wrapper_Res_File_Add=Resources\NoLockpicking.jpg, RT_RCDATA, NOLOCKPICKING,0
 
 ;Numbers
 #AutoIt3Wrapper_Res_File_Add=Resources\0.jpg, RT_RCDATA, NUM0,0
@@ -65,6 +66,7 @@
  Author: Devil4ngle, Djahnz
 #comments-end
 
+#include <File.au3>
 #include <ButtonConstants.au3>
 #include <SliderConstants.au3>
 #include <GUIConstantsEx.au3>
@@ -99,7 +101,7 @@ GUISetBkColor(0x202225)
 
 ; Titlebar
 GUICtrlCreateLabel("", -1, -1, 898, 22, -1, $GUI_WS_EX_PARENTDRAG)
-GUICtrlCreateLabel("        Idle Runner v2.7.0", -1, -1, 900, 22, $SS_CENTERIMAGE)
+GUICtrlCreateLabel("        Idle Runner v2.8.0", -1, -1, 900, 22, $SS_CENTERIMAGE)
 GUICtrlSetColor(-1, 0xFFFFFF)
 $Icon = GUICtrlCreatePic('', 2, 2, 16, 16, $SS_BITMAP + $SS_NOTIFY)
 _Resource_SetToCtrlID($Icon, 'ICON')
@@ -191,6 +193,12 @@ GUICtrlSetTip(-1, "Skips Bonus Stages by letting the timer run out without doing
 $TabSheet4 = GUICtrlCreateTabItem("Chest Hunt")
 _GUICtrlTab_SetBkColor($GUIForm, $TabControl, 0x36393F)
 
+$NoLockpicking = GUICtrlCreatePic('', 181, 44, 16, 16, $SS_BITMAP + $SS_NOTIFY)
+_Resource_SetToCtrlID($NoLockpicking, 'UNCHECKED')
+GUICtrlSetOnEvent(-1, "NoLockpickingChecked")
+$NPL = GUICtrlCreatePic('', 207, 45, 176, 16, $SS_BITMAP + $SS_NOTIFY)
+_Resource_SetToCtrlID($NPL, 'NOLOCKPICKING')
+
 ; Create Log Tab
 $TabSheet5 = GUICtrlCreateTabItem("TabSheet5")
 _GUICtrlTab_SetBkColor($GUIForm, $TabControl, 0x36393F)
@@ -238,7 +246,7 @@ GUISetState(@SW_SHOW)
 
 Global $AutoBuyUpgradeState = False, $CraftSoulBonusState = False, $SkipBonusStageState = False, _
 		$CraftRagePillState = False, $CirclePortalsState = False, $JumpSliderValue = 150, _
-		$TogglePause = False, $CirclePortalsCount = 7
+		$TogglePause = False, $NoLockpickingState = False, $LogPath = "Idle_Slayer_Log.txt",$CirclePortalsCount = 7
 
 Func IdleClose()
 	Exit
@@ -286,6 +294,17 @@ EndFunc   ;==>ButtonGithubClick
 Func ButtonInstructionsClick()
 	ShellExecute("https://discord.gg/aEaBr77UDn")
 EndFunc   ;==>ButtonInstructionsClick
+
+
+Func NoLockpickingChecked()
+	If $NoLockpickingState Then
+		$NoLockpickingState = False
+		_Resource_SetToCtrlID($NoLockpicking, 'UNCHECKED')
+	Else
+		$NoLockpickingState = True
+		_Resource_SetToCtrlID($NoLockpicking, 'CHECKED')
+	EndIf
+EndFunc   ;==>NoLockpickingChecked
 
 Func AutoBuyUpgradesChecked()
 	If $AutoBuyUpgradeState Then
@@ -399,6 +418,7 @@ While 1
 	; Silver box collect
 	PixelSearch(650, 36, 650, 36, 0xFFC000)
 	If Not @error Then
+		_FileWriteLog($LogPath, "Silver Box Collected")
 		MouseClick("left", 644, 49, 1, 0)
 	EndIf
 
@@ -497,17 +517,21 @@ Func CheckForSoulBonus()
 	If Not @error Then
 		PixelSearch(688, $location[1], 688, $location[1], 0xD98E04)
 		If Not @error Then
+			_FileWriteLog($LogPath, "MegaHorde Rage")
 			Return False
 		EndIf
 		PixelSearch(697, $location[1] - 7, 697, $location[1] - 5, 0xDB8F04)
 		If Not @error Then
+			_FileWriteLog($LogPath, "MegaHorde Rage")
 			Return False
 		EndIf
+		_FileWriteLog($LogPath, "MegaHorde Rage with SoulBonus")
 		Return True
 	EndIf
 EndFunc   ;==>CheckForSoulBonus
 
 Func BuyTempItem($hexColor)
+	_FileWriteLog($LogPath, "CraftingTemp Item Active")
 	Local $success
 	;open menu
 	MouseClick("left", 160, 100, 1, 0)
@@ -564,6 +588,7 @@ Func CollectMinion()
 		;Claim Daily Bonus
 		MouseClick("left", 320, 180, 5, 0)
 		Sleep(200)
+		_FileWriteLog($LogPath, "Minions Collect with Daily Bonus")
 	Else
 		;Click Claim All
 		MouseClick("left", 318, 182, 5, 0)
@@ -571,6 +596,7 @@ Func CollectMinion()
 		;Click Send All
 		MouseClick("left", 318, 182, 5, 0)
 		Sleep(200)
+		_FileWriteLog($LogPath, "Minions Collect")
 	EndIf
 
 	;Click Exit
@@ -662,7 +688,12 @@ Func CirclePortals()
 EndFunc   ;==>CirclePortals
 
 Func Chesthunt()
-	Sleep(2000)
+	_FileWriteLog($LogPath, "Chesthunt")
+	If $NoLockpickingState Then
+		Sleep(4000)
+	Else
+		Sleep(2000)
+	EndIf
 	Local $saverX = 0
 	Local $saverY = 0
 	Local $pixelX = 185
@@ -690,7 +721,11 @@ Func Chesthunt()
 			; After opening 2 chest open saver
 			If $count == 2 And $saverX > 0 Then
 				MouseClick("left", $saverX + 33, $saverY - 23, 1, 0)
-				Sleep(550)
+				If $NoLockpickingState Then
+					Sleep(1500)
+				Else
+					Sleep(550)
+				EndIf
 			EndIf
 			; Skip saver no matter what
 			If $pixelY == $saverY And $pixelX == $saverX Then
@@ -704,7 +739,11 @@ Func Chesthunt()
 			EndIf
 			; Open chest
 			MouseClick("left", $pixelX + 33, $pixelY - 23, 1, 0)
-			Sleep(550)
+			If $NoLockpickingState Then
+				Sleep(1500)
+			Else
+				Sleep(550)
+			EndIf
 			; Check if chest hunt ended
 			PixelSearch(400, 695, 400, 695, 0xB40000)
 			If Not @error Then
@@ -713,7 +752,11 @@ Func Chesthunt()
 			; if mimic wait some more
 			PixelSearch(434, 211, 434, 211, 0xFF0000)
 			If Not @error Then
-				Sleep(1500)
+				If $NoLockpickingState Then
+					Sleep(2500)
+				Else
+					Sleep(1500)
+				EndIf
 			EndIf
 			$pixelX += 95
 			$count += 1
@@ -730,7 +773,7 @@ Func Chesthunt()
 EndFunc   ;==>Chesthunt
 
 Func BonusStage()
-
+	_FileWriteLog($LogPath, "Start of BonusStage")
 	Do
 		BonusStageSlider()
 		Sleep(500)
@@ -751,6 +794,7 @@ Func BonusStage()
 EndFunc   ;==>BonusStage
 
 Func BonusStageDoNoting()
+	_FileWriteLog($LogPath, "Do noting BonusStage Active")
 	Do
 		Sleep(200)
 	Until BonusStageFail()
@@ -794,12 +838,14 @@ Func BonusStageFail()
 	PixelSearch(775, 600, 775, 600, 0xB40000, 10)
 	If Not @error Then
 		MouseClick("left", 721, 577, 1, 0)
+		_FileWriteLog($LogPath, "BonusStage Failed")
 		Return True
 	EndIf
 	Return False
 EndFunc   ;==>BonusStageFail
 
 Func BonusStageNSP()
+	_FileWriteLog($LogPath, "BonusStage")
 	; Section 1 sync
 	FindPixelUntilFound(220, 465, 220, 465, 0xA0938E)
 	Sleep(200)
@@ -829,6 +875,7 @@ Func BonusStageNSP()
 	If BonusStageFail() Then
 		Return
 	EndIf
+	_FileWriteLog($LogPath, "BonusStage Section 1 Complete")
 	; Section 2 sync
 	FindPixelUntilFound(780, 536, 780, 536, 0xBB26DF)
 	; Section 2 start
@@ -867,6 +914,7 @@ Func BonusStageNSP()
 	If BonusStageFail() Then
 		Return
 	EndIf
+	_FileWriteLog($LogPath, "BonusStage Section 2 Complete")
 	;Stage 3 sync
 	FindPixelUntilFound(220, 465, 220, 465, 0xA0938E)
 	; Section 3 Start
@@ -900,6 +948,7 @@ Func BonusStageNSP()
 	If BonusStageFail() Then
 		Return
 	EndIf
+	_FileWriteLog($LogPath, "BonusStage Section 3 Complete")
 	;Section 4 sync
 	FindPixelUntilFound(250, 472, 100, 250, 0x0D2030)
 	Sleep(200)
@@ -929,6 +978,7 @@ Func BonusStageNSP()
 	If BonusStageFail() Then
 		Return
 	EndIf
+	_FileWriteLog($LogPath, "BonusStage Section 4 Complete")
 EndFunc   ;==>BonusStageNSP
 
 Func cSend($pressDelay, $postPressDelay = 0, $key = "Up")
@@ -947,6 +997,7 @@ Func FindPixelUntilFound($x1, $y1, $x2, $y2, $hex, $timer = 15000)
 EndFunc   ;==>FindPixelUntilFound
 
 Func BuyEquipment()
+	_FileWriteLog($LogPath, "AutoUpgrade Active")
 	;Close Shop window if open
 	MouseClick("left", 1244, 712, 1, 0)
 	Sleep(150)
@@ -1087,6 +1138,7 @@ Func ClaimQuests()
 EndFunc   ;==>ClaimQuests
 
 Func BonusStageSP()
+	_FileWriteLog($LogPath, "BonusStageSB")
 	; Section 1 sync
 	FindPixelUntilFound(220, 465, 220, 465, 0xA0938E)
 	Sleep(200)
@@ -1116,6 +1168,7 @@ Func BonusStageSP()
 	If BonusStageFail() Then
 		Return
 	EndIf
+	_FileWriteLog($LogPath, "BonusStageBS Section 1 Complete")
 	; Section 2 sync
 	FindPixelUntilFound(780, 536, 780, 536, 0xBB26DF)
 	; Section 2 start
@@ -1154,6 +1207,7 @@ Func BonusStageSP()
 	If BonusStageFail() Then
 		Return
 	EndIf
+	_FileWriteLog($LogPath, "BonusStageBS Section 2 Complete")
 	;Stage 3 sync
 	FindPixelUntilFound(220, 465, 220, 465, 0xA0938E)
 	; Section 3 Start
@@ -1187,6 +1241,7 @@ Func BonusStageSP()
 	If BonusStageFail() Then
 		Return
 	EndIf
+	_FileWriteLog($LogPath, "BonusStageBS Section 3 Complete")
 	;Section 4 sync
 	FindPixelUntilFound(250, 472, 100, 250, 0x0D2030)
 	Sleep(200)
@@ -1225,4 +1280,5 @@ Func BonusStageSP()
 	If BonusStageFail() Then
 		Return
 	EndIf
+	_FileWriteLog($LogPath, "BonusStageBS Section 4 Complete")
 EndFunc   ;==>BonusStageSP
