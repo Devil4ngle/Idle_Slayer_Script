@@ -604,6 +604,7 @@ Func CollectMinion()
 EndFunc   ;==>CollectMinion
 
 Func CirclePortals()
+	_FileWriteLog($LogPath, "CirclePortals")
 	;Check if portal button is visible
 	Local $PortalVisible = 0
 	PixelSearch(1180, 180, 1180, 180, 0x830399)
@@ -1089,6 +1090,7 @@ Func BuyUpgrade()
 EndFunc   ;==>BuyUpgrade
 
 Func ClaimQuests()
+	_FileWriteLog($LogPath, "Claiming quest")
 	;Close Shop window if open
 	MouseClick("left", 1244, 712, 1, 0)
 	Sleep(150)
@@ -1128,6 +1130,7 @@ Func ClaimQuests()
 			Sleep(10)
 		Else
 			;Click Green buy box
+			_FileWriteLog($LogPath, "Quest Claimed")
 			MouseClick("left", $location[0], $location[1], 5, 0)
 		EndIf
 	WEnd
