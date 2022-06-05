@@ -193,7 +193,7 @@ _Resource_SetToCtrlID($NPL, 'NOLOCKPICKING')
 ; Create Log Tab
 $TabSheet5 = GUICtrlCreateTabItem("TabSheet5")
 _GUICtrlTab_SetBkColor($GUIForm, $TabControl, 0x36393F)
-$Log = GUICtrlCreateEdit("", 180, 32, 700, 120, BitOR($ES_AUTOVSCROLL, $ES_AUTOHSCROLL, $ES_WANTRETURN, $WS_VSCROLL))
+ $Log = GUICtrlCreateEdit("", 180, 32, 700, 120, BitOR($ES_AUTOVSCROLL, $ES_AUTOHSCROLL, $ES_WANTRETURN, $WS_VSCROLL))
 GUICtrlSetColor($Log, 0xFFFFFFF)
 GUICtrlSetBkColor($Log, 0x000000)
 ; Set Tab Focus Home
@@ -1122,42 +1122,33 @@ EndFunc   ;==>BonusStageSP
 
 
 Func LoadLog()
-	$file=FileOpen($LogPath, 0)
-	For $i = 1 To _FileCountLines($file)
-		$line = FileReadLine($file, $i)
-		$line = StringTrimRight($line, 23)
-		Local $section1 = 0, $section2 = 0, $section3 = 0, $section4 = 0, $chesthunt = 0, $failed = 0, _
-				$failedBS = 0, $mClaimed = 0, $qClaimed = 0, $section1BS = 0, $section2BS = 0, $section3BS = 0, $section4BS = 0 _
-				$silverboxColl=0 ;
-		Switch $line
-			Case "BonusStageBS Section 1 Complete":
-				$section1BS += 1
-			Case "BonusStageBS Section 2 Complete":
-				$section2BS += 1
-			Case "BonusStageBS Section 3 Complete":
-				$section3BS += 1
-			Case "BonusStageBS Section 4 Complete":
-				$section4BS += 1
-			Case "BonusStage Section 1 Complete":
-				$section1 += 1
-			Case "BonusStage Section 2 Complete":
-				$section2 += 1
-			Case "BonusStage Section 3 Complete":
-				$section3 += 1
-			Case "BonusStage Section 4 Complete":
-				$section4 += 1
-			Case "Silver Box Collected":
-				$silverboxColl += 1
-			Case "Minions Collect":
-				$mClaimed += 1
-			Case "Minions Collect with Daily Bonus":
-				$mClaimed += 1
-			Case "Chesthunt":
-				$chesthunt += 1
-		EndSwitch
+FileOpen($LogPath, 0)
+For $i = 1 to _FileCountLines($file)
+    $line = FileReadLine($file, $i)
+	$line=StringTrimRight($line,23)
+	Local $section1 = 0, $section2 = 0, $section3= 0, $section4= 0 , $chesthunt = 0, $failed = 0, _
+	$failedBS = 0, $mClaimed = 0, $qClaimed= 0,$section1BS = 0, $section2BS = 0, $section3BS= 0, $section4BS= 0;
+	Switch $line
+	Case "BonusStageBS Section 1 Complete":
+		$section1BS+=1
+	Case "BonusStageBS Section 2 Complete":
+		$section2BS+=1
+	Case "BonusStageBS Section 3 Complete":
+		$section3BS+=1
+	Case "BonusStageBS Section 4 Complete":
+		$section4BS+=1			
+	Case "BonusStage Section 1 Complete":
+		$section1+=1
+	Case "BonusStage Section 2 Complete":
+		$section2+=1
+	Case "BonusStage Section 3 Complete":
+		$section3+=1
+	Case "BonusStage Section 4 Complete":
+		$section4+=1		
+	EndSwitch
 
-
-		MsgBox(0, '', 'the line ' & $i & ' is ' & $line)
-	Next
-	FileClose($file)
-EndFunc   ;==>LoadLog
+	
+msgbox(0,'','the line ' & $i & ' is ' & $line)
+Next
+FileClose($file)
+EndFunc
