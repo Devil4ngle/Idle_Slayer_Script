@@ -202,9 +202,9 @@ _Resource_SetToCtrlID($NPL, 'NOLOCKPICKING')
 ; Create Log Tab
 $TabSheet5 = GUICtrlCreateTabItem("TabSheet5")
 _GUICtrlTab_SetBkColor($GUIForm, $TabControl, 0x36393F)
-$Log = GUICtrlCreateEdit("", 180, 32, 700, 120, BitOR($ES_AUTOVSCROLL, $ES_AUTOHSCROLL, $ES_WANTRETURN, $WS_VSCROLL))
-GUICtrlSetColor($Log, 0xFFFFFFF)
+$Log = GUICtrlCreateEdit("", 180, 32, 700, 120, BitOR($ES_AUTOVSCROLL, $ES_AUTOHSCROLL, $ES_WANTRETURN, $WS_VSCROLL, $ES_READONLY))
 GUICtrlSetBkColor($Log, 0x000000)
+GUICtrlSetColor($Log, 0x4CFF00)
 ; Set Tab Focus Home
 GUICtrlSetState($TabHome, $GUI_SHOW)
 GUICtrlCreateTabItem("")
@@ -248,7 +248,7 @@ GUISetState(@SW_SHOW)
 
 Global $AutoBuyUpgradeState = False, $CraftSoulBonusState = False, $SkipBonusStageState = False, _
 		$CraftRagePillState = False, $CirclePortalsState = False, $JumpSliderValue = 150, _
-		$TogglePause = False, $NoLockpickingState = False, $LogPath = "Idle_Slayer_Log.txt",$CirclePortalsCount = 7
+		$TogglePause = False, $NoLockpickingState = False, $LogPath = "Idle_Slayer_Log.txt", $CirclePortalsCount = 7
 
 Func IdleClose()
 	Exit
@@ -283,6 +283,7 @@ EndFunc   ;==>ButtonChestHuntClick
 
 Func ButtonLogClick()
 	GUICtrlSetState($TabSheet5, $GUI_SHOW)
+	LoadLog()
 EndFunc   ;==>ButtonLogClick
 
 Func ButtonExitClick()
@@ -451,6 +452,7 @@ While 1
 	; Rage when Soul Bonus
 	PixelSearch(625, 143, 629, 214, 0xA86D0A)
 	If Not @error Then
+		_FileWriteLog($LogPath, "SoulBonus Rage")
 		ControlSend("Idle Slayer", "", "", "{e}")
 	EndIf
 
@@ -509,6 +511,7 @@ Func RageWhenHorde()
 			BuyTempItem("0x7D55D8")
 		EndIf
 	EndIf
+	_FileWriteLog($LogPath, "MegaHorde Rage")
 	ControlFocus("Idle Slayer", "", "")
 	ControlSend("Idle Slayer", "", "", "{e}")
 EndFunc   ;==>RageWhenHorde
@@ -519,12 +522,10 @@ Func CheckForSoulBonus()
 	If Not @error Then
 		PixelSearch(688, $location[1], 688, $location[1], 0xD98E04)
 		If Not @error Then
-			_FileWriteLog($LogPath, "MegaHorde Rage")
 			Return False
 		EndIf
 		PixelSearch(697, $location[1] - 7, 697, $location[1] - 5, 0xDB8F04)
 		If Not @error Then
-			_FileWriteLog($LogPath, "MegaHorde Rage")
 			Return False
 		EndIf
 		_FileWriteLog($LogPath, "MegaHorde Rage with SoulBonus")
@@ -1290,42 +1291,82 @@ EndFunc   ;==>BonusStageSP
 
 
 Func LoadLog()
-	$file=FileOpen($LogPath, 0)
-	For $i = 1 To _FileCountLines($file)
-		$line = FileReadLine($file, $i)
-		$line = StringTrimRight($line, 23)
-		Local $section1 = 0, $section2 = 0, $section3 = 0, $section4 = 0, $chesthunt = 0, $failed = 0, _
-				$failedBS = 0, $mClaimed = 0, $qClaimed = 0, $section1BS = 0, $section2BS = 0, $section3BS = 0, $section4BS = 0 _
-				$silverboxColl=0 ;
+	Local $section1 = 0, $section2 = 0, $section3 = 0, $section4 = 0, $chesthunt = 0, $failed = 0, _
+			$mClaimed = 0, $qClaimed = 0, $section1BS = 0, $section2BS = 0, $section3BS = 0, $section4BS = 0, _
+			$silverboxColl = 0, $BS = 0, $BSSP = 0, $megaHordeRage = 0, $megaHordeRageSoul = 0, $rageSoulBonus = 0 ;
+	$file = FileOpen($LogPath, 0)
+	While 1
+		$line = FileReadLine($file)
+		If @error = -1 Then ExitLoop
+		$line = StringTrimLeft($line, 22)
 		Switch $line
-			Case "BonusStageBS Section 1 Complete":
+			Case "BonusStageBS Section 1 Complete"
 				$section1BS += 1
-			Case "BonusStageBS Section 2 Complete":
+			Case "BonusStageBS Section 2 Complete"
 				$section2BS += 1
-			Case "BonusStageBS Section 3 Complete":
+			Case "BonusStageBS Section 3 Complete"
 				$section3BS += 1
-			Case "BonusStageBS Section 4 Complete":
+			Case "BonusStageBS Section 4 Complete"
 				$section4BS += 1
-			Case "BonusStage Section 1 Complete":
+			Case "BonusStage Section 1 Complete"
 				$section1 += 1
-			Case "BonusStage Section 2 Complete":
+			Case "BonusStage Section 2 Complete"
 				$section2 += 1
-			Case "BonusStage Section 3 Complete":
+			Case "BonusStage Section 3 Complete"
 				$section3 += 1
-			Case "BonusStage Section 4 Complete":
+			Case "BonusStage Section 4 Complete"
 				$section4 += 1
-			Case "Silver Box Collected":
+			Case "Silver Box Collected"
 				$silverboxColl += 1
-			Case "Minions Collect":
+			Case "Minions Collect"
 				$mClaimed += 1
-			Case "Minions Collect with Daily Bonus":
+			Case "Minions Collect with Daily Bonus"
 				$mClaimed += 1
-			Case "Chesthunt":
+			Case "Chesthunt"
 				$chesthunt += 1
+			Case "BonusStage Failed"
+				$failed += 1
+			Case "BonusStage"
+				$BS += 1
+			Case "BonusStageSB"
+				$BSSP += 1
+			Case "Claiming quest"
+				$qClaimed += 1
+			Case "MegaHorde Rage"
+				$megaHordeRage += 1
+			Case "MegaHorde Rage with SoulBonus"
+				$megaHordeRageSoul += 1
+			Case "SoulBonus Rage"
+				$rageSoulBonus += 1
+
 		EndSwitch
-
-
-		MsgBox(0, '', 'the line ' & $i & ' is ' & $line)
-	Next
+	WEnd
 	FileClose($file)
+	GUICtrlSetData($Log, "", 0)
+	CustomConsole("Rage with only SoulBonus: " & $rageSoulBon us)
+	CustomConsole("Rage with only MegaHorde: " & $megaHordeRage - $megaHordeRageSoul)
+	CustomConsole("Rage with MegaHorde and SoulBonus: " & $megaHordeRageSoul)
+	CustomConsole("Claimed Quest: " & $qClaimed)
+	CustomConsole("Claimed Minions: " & $mClaimed)
+	CustomConsole("ChestHunts: " & $chesthunt)
+	CustomConsole("Failed Bonus Stages: " & $failed)
+	CustomConsole("BonusStage (No Spirit Boost): " & $BS)
+	CustomConsole("BonusStage (Spirit Boost): " & $BSSP)
+	CustomConsole("Section 1 Complete (No Spirit Boost): " & $section1)
+	CustomConsole("Section 2 Complete (No Spirit Boost): " & $section2)
+	CustomConsole("Section 3 Complete (No Spirit Boost): " & $section3)
+	CustomConsole("Section 4 Complete (No Spirit Boost): " & $section4)
+	CustomConsole("Section 1 Complete (Spirit Boost): " & $section1BS)
+	CustomConsole("Section 2 Complete (Spirit Boost): " & $section2BS)
+	CustomConsole("Section 3 Complete (Spirit Boost): " & $section3BS)
+	CustomConsole("Section 4 Complete (Spirit Boost): " & $section4BS, True)
 EndFunc   ;==>LoadLog
+
+Func CustomConsole($text, $append = False)
+	If $append Then
+		$text = $text & "	"
+	Else
+		$text = $text & @CRLF
+	EndIf
+	GUICtrlSetData($Log, $text, 1)
+EndFunc   ;==>CustomConsole
