@@ -1416,8 +1416,8 @@ EndFunc   ;==>LoadLog
 Func LoadDataLog()
 	Sleep(100)
 	GUICtrlSetData($LogData, "")
-	WinExists('Idle Slayer')
-	If Not @error Then
+
+	If WinExists("Idle Slayer") == 1 Then
 		$array = WinGetClientSize('Idle Slayer')
 		ConsoleWrite($array[0])
 		ConsoleWrite($array[1])
