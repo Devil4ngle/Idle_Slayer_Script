@@ -25,6 +25,8 @@
 #AutoIt3Wrapper_Res_File_Add=Resources\UpArrow.jpg, RT_RCDATA, UPARROW,0
 #AutoIt3Wrapper_Res_File_Add=Resources\DownArrow.jpg, RT_RCDATA, DOWNARROW,0
 #AutoIt3Wrapper_Res_File_Add=Resources\NoLockpicking.jpg, RT_RCDATA, NOLOCKPICKING,0
+#AutoIt3Wrapper_Res_File_Add=Resources\CraftBidimensionalStaff.jpg, RT_RCDATA, BIDIMENSIONAL,0
+#AutoIt3Wrapper_Res_File_Add=Resources\CraftDimensionalStaff.jpg, RT_RCDATA, DIMENSIONAL,0
 
 ;Numbers
 #AutoIt3Wrapper_Res_File_Add=Resources\0.jpg, RT_RCDATA, NUM0,0
@@ -96,12 +98,12 @@ HotKeySet("{Home}", "Pause")
 HotKeySet("{Esc}", "IdleClose")
 
 ; Create GUI
-$GUIForm = GUICreate("Idle Runner", 898, 164, 320, 880, $WS_BORDER + $WS_POPUP)
+$GUIForm = GUICreate("Idle Runner", 898, 164, @DesktopWidth / 2 - 500, @DesktopHeight - 250, $WS_BORDER + $WS_POPUP)
 GUISetBkColor(0x202225)
 
 ; Titlebar
 GUICtrlCreateLabel("", -1, -1, 898, 22, -1, $GUI_WS_EX_PARENTDRAG)
-GUICtrlCreateLabel("        Idle Runner v2.8.0", -1, -1, 900, 22, $SS_CENTERIMAGE)
+GUICtrlCreateLabel("        Idle Runner v2.9.0", -1, -1, 900, 22, $SS_CENTERIMAGE)
 GUICtrlSetColor(-1, 0xFFFFFF)
 $Icon = GUICtrlCreatePic('', 2, 2, 16, 16, $SS_BITMAP + $SS_NOTIFY)
 _Resource_SetToCtrlID($Icon, 'ICON')
@@ -138,7 +140,7 @@ _Resource_SetToCtrlID($CheckBoxCraftRagePill, 'UNCHECKED')
 GUICtrlSetOnEvent(-1, "CraftRagePillChecked")
 $Rage = GUICtrlCreatePic('', 207, 45, 132, 16, $SS_BITMAP + $SS_NOTIFY)
 _Resource_SetToCtrlID($Rage, 'RAGEPILL')
-GUICtrlSetTip(-1, "When Horde/Mega Horde, use Rage Pill When Rage is Down")
+GUICtrlSetTip(-1, "When Horde/Mega Horde + SoulBonus, use Rage Pill When Rage is Down")
 
 ; Create CraftSoulBonus Checkbox
 $CheckBoxCraftSoulBonus = GUICtrlCreatePic('', 181, 83, 16, 16, $SS_BITMAP + $SS_NOTIFY)
@@ -146,7 +148,7 @@ _Resource_SetToCtrlID($CheckBoxCraftSoulBonus, 'UNCHECKED')
 GUICtrlSetOnEvent(-1, "CraftSoulBonusChecked")
 $CraftComp = GUICtrlCreatePic('', 207, 84, 153, 14, $SS_BITMAP + $SS_NOTIFY)
 _Resource_SetToCtrlID($CraftComp, 'SOULBONUS')
-GUICtrlSetTip(-1, "When Horde/Mega Horde, use Souls Compass When Rage is Down")
+GUICtrlSetTip(-1, "When Horde/Mega Horde + SoulBonus , use Souls Compass When Rage is Down")
 
 ; Create AutoBuyUpgrades Checkbox
 $CheckBoxAutoBuyUpgrades = GUICtrlCreatePic('', 181, 122, 16, 16, $SS_BITMAP + $SS_NOTIFY)
@@ -177,6 +179,23 @@ $CirclePortals = GUICtrlCreatePic('', 637, 45, 129, 14, $SS_BITMAP + $SS_NOTIFY)
 _Resource_SetToCtrlID($CirclePortals, 'CIRCLEPORTALS')
 GUICtrlSetTip(-1, "Automate portal cycle")
 
+
+; Craft Dimensional Stuff
+$CheckBoxDimension = GUICtrlCreatePic('', 611, 84, 16, 16, $SS_BITMAP + $SS_NOTIFY)
+_Resource_SetToCtrlID($CheckBoxDimension, 'UNCHECKED')
+GUICtrlSetOnEvent(-1, "DimensionChecked")
+$CraftDimension = GUICtrlCreatePic('', 637, 84, 221, 14, $SS_BITMAP + $SS_NOTIFY)
+_Resource_SetToCtrlID($CraftDimension, 'DIMENSIONAL')
+GUICtrlSetTip(-1, "Craft Dimensional item at Megahorde and it will disable it itself after one use")
+
+; Craft Bidmensional Stuff
+$CheckBoxBiDimension = GUICtrlCreatePic('', 611, 123, 16, 16, $SS_BITMAP + $SS_NOTIFY)
+_Resource_SetToCtrlID($CheckBoxBiDimension, 'UNCHECKED')
+GUICtrlSetOnEvent(-1, "BiDimensionChecked")
+$CraftBiDimension = GUICtrlCreatePic('', 637, 123, 239, 14, $SS_BITMAP + $SS_NOTIFY)
+_Resource_SetToCtrlID($CraftBiDimension, 'BIDIMENSIONAL')
+GUICtrlSetTip(-1, "Craft BiDimensional item at Megahorde and it will disable it itself after one use")
+
 ; Create Bonus Stage Tab
 $TabSheet3 = GUICtrlCreateTabItem("Bonus Stage")
 _GUICtrlTab_SetBkColor($GUIForm, $TabControl, 0x36393F)
@@ -202,9 +221,14 @@ _Resource_SetToCtrlID($NPL, 'NOLOCKPICKING')
 ; Create Log Tab
 $TabSheet5 = GUICtrlCreateTabItem("TabSheet5")
 _GUICtrlTab_SetBkColor($GUIForm, $TabControl, 0x36393F)
-$Log = GUICtrlCreateEdit("", 180, 32, 700, 120, BitOR($ES_AUTOVSCROLL, $ES_AUTOHSCROLL, $ES_WANTRETURN, $WS_VSCROLL, $ES_READONLY))
+; Log logs
+$Log = GUICtrlCreateEdit("", 175, 32, 340, 120, BitOR($ES_AUTOVSCROLL, $ES_AUTOHSCROLL, $ES_WANTRETURN, $WS_VSCROLL, $ES_READONLY))
 GUICtrlSetBkColor($Log, 0x000000)
 GUICtrlSetColor($Log, 0x4CFF00)
+; Log data
+$LogData = GUICtrlCreateEdit("", 540, 32, 340, 120, BitOR($ES_AUTOVSCROLL, $ES_AUTOHSCROLL, $ES_WANTRETURN, $WS_VSCROLL, $ES_READONLY))
+GUICtrlSetBkColor($LogData, 0x000000)
+GUICtrlSetColor($LogData, 0xFFBB00)
 ; Set Tab Focus Home
 GUICtrlSetState($TabHome, $GUI_SHOW)
 GUICtrlCreateTabItem("")
@@ -248,7 +272,8 @@ GUISetState(@SW_SHOW)
 
 Global $AutoBuyUpgradeState = False, $CraftSoulBonusState = False, $SkipBonusStageState = False, _
 		$CraftRagePillState = False, $CirclePortalsState = False, $JumpSliderValue = 150, _
-		$TogglePause = False, $NoLockpickingState = False, $LogPath = "Idle_Slayer_Log.txt", $CirclePortalsCount = 7
+		$TogglePause = False, $NoLockpickingState = False, $LogPath = "Idle_Slayer_Log.txt", $CirclePortalsCount = 7, _
+		$BiDimensional = False, $Dimensional = False
 
 Func IdleClose()
 	Exit
@@ -284,6 +309,7 @@ EndFunc   ;==>ButtonChestHuntClick
 Func ButtonLogClick()
 	GUICtrlSetState($TabSheet5, $GUI_SHOW)
 	LoadLog()
+	LoadDataLog()
 EndFunc   ;==>ButtonLogClick
 
 Func ButtonExitClick()
@@ -328,6 +354,26 @@ Func CirclePortalsChecked()
 		_Resource_SetToCtrlID($CheckBoxCirclePortals, 'CHECKED')
 	EndIf
 EndFunc   ;==>CirclePortalsChecked
+
+Func DimensionChecked()
+	If $Dimensional Then
+		$Dimensional = False
+		_Resource_SetToCtrlID($CheckBoxDimension, 'UNCHECKED')
+	Else
+		$Dimensional = True
+		_Resource_SetToCtrlID($CheckBoxDimension, 'CHECKED')
+	EndIf
+EndFunc   ;==>DimensionChecked
+
+Func BiDimensionChecked()
+	If $BiDimensional Then
+		$BiDimensional = False
+		_Resource_SetToCtrlID($CheckBoxBiDimension, 'UNCHECKED')
+	Else
+		$BiDimensional = True
+		_Resource_SetToCtrlID($CheckBoxBiDimension, 'CHECKED')
+	EndIf
+EndFunc   ;==>BiDimensionChecked
 
 Func CraftRagePillChecked()
 	If $CraftRagePillState Then
@@ -438,7 +484,7 @@ While 1
 	EndIf
 
 	; Chest-hunt
-	PixelSearch(598, 45, 598, 45, 0xD0C172)
+	PixelSearch(570, 742, 742, 570, 0x5B3B0A)
 	If Not @error Then
 		Chesthunt()
 	EndIf
@@ -463,7 +509,7 @@ While 1
 	EndIf
 
 	; Bonus stage
-	PixelSearch(860, 670, 860, 670, 0xAC8371)
+	PixelSearch(660, 254, 660, 254, 0xFFE737)
 	If Not @error Then
 		BonusStage()
 	EndIf
@@ -504,14 +550,23 @@ EndFunc   ;==>CloseAll
 Func RageWhenHorde()
 	If CheckForSoulBonus() Then
 		If $CraftRagePillState Then
-			BuyTempItem("0x871646")
-			Sleep(100)
+			BuyTempItem("0x526629")
 		EndIf
 		If $CraftSoulBonusState Then
 			BuyTempItem("0x7D55D8")
 		EndIf
 	EndIf
 	_FileWriteLog($LogPath, "MegaHorde Rage")
+	If $Dimensional Then
+		BuyTempItem("0xF37C55")
+		$Dimensional = False
+		_Resource_SetToCtrlID($CheckBoxDimension, 'UNCHECKED')
+	EndIf
+	If $BiDimensional Then
+		BuyTempItem("0x33A5C3")
+		$BiDimensional = False
+		_Resource_SetToCtrlID($CheckBoxBiDimension, 'UNCHECKED')
+	EndIf
 	ControlFocus("Idle Slayer", "", "")
 	ControlSend("Idle Slayer", "", "", "{e}")
 EndFunc   ;==>RageWhenHorde
@@ -520,14 +575,6 @@ EndFunc   ;==>RageWhenHorde
 Func CheckForSoulBonus()
 	Local $location = PixelSearch(625, 143, 629, 214, 0xA86D0A)
 	If Not @error Then
-		PixelSearch(688, $location[1], 688, $location[1], 0xD98E04)
-		If Not @error Then
-			Return False
-		EndIf
-		PixelSearch(697, $location[1] - 7, 697, $location[1] - 5, 0xDB8F04)
-		If Not @error Then
-			Return False
-		EndIf
 		_FileWriteLog($LogPath, "MegaHorde Rage with SoulBonus")
 		Return True
 	EndIf
@@ -546,6 +593,7 @@ Func BuyTempItem($hexColor)
 	MouseClick("left", 482, 150, 5, 0)
 	Sleep(450)
 	While 1
+		; on this x search color
 		$success = PixelSearch(65, 180, 65, 630, $hexColor)
 		If Not @error Then
 			MouseClick("left", 385, $success[1], 1, 0)
@@ -560,6 +608,7 @@ Func BuyTempItem($hexColor)
 		EndIf
 	WEnd
 	MouseClick("left", 440, 690, 1, 0)
+	Sleep(100)
 EndFunc   ;==>BuyTempItem
 
 Func CollectMinion()
@@ -781,7 +830,7 @@ Func BonusStage()
 	Do
 		BonusStageSlider()
 		Sleep(500)
-		PixelSearch(860, 670, 860, 670, 0xAC8371)
+		PixelSearch(660, 254, 660, 254, 0xFFE737)
 	Until @error
 	Sleep(3500)
 	PixelSearch(443, 97, 443, 97, 0xFFFFFF)
@@ -1291,82 +1340,112 @@ EndFunc   ;==>BonusStageSP
 
 
 Func LoadLog()
+	Sleep(100)
 	Local $section1 = 0, $section2 = 0, $section3 = 0, $section4 = 0, $chesthunt = 0, $failed = 0, _
 			$mClaimed = 0, $qClaimed = 0, $section1BS = 0, $section2BS = 0, $section3BS = 0, $section4BS = 0, _
 			$silverboxColl = 0, $BS = 0, $BSSP = 0, $megaHordeRage = 0, $megaHordeRageSoul = 0, $rageSoulBonus = 0 ;
-	$file = FileOpen($LogPath, 0)
-	While 1
-		$line = FileReadLine($file)
-		If @error = -1 Then ExitLoop
-		$line = StringTrimLeft($line, 22)
-		Switch $line
-			Case "BonusStageBS Section 1 Complete"
-				$section1BS += 1
-			Case "BonusStageBS Section 2 Complete"
-				$section2BS += 1
-			Case "BonusStageBS Section 3 Complete"
-				$section3BS += 1
-			Case "BonusStageBS Section 4 Complete"
-				$section4BS += 1
-			Case "BonusStage Section 1 Complete"
-				$section1 += 1
-			Case "BonusStage Section 2 Complete"
-				$section2 += 1
-			Case "BonusStage Section 3 Complete"
-				$section3 += 1
-			Case "BonusStage Section 4 Complete"
-				$section4 += 1
-			Case "Silver Box Collected"
-				$silverboxColl += 1
-			Case "Minions Collect"
-				$mClaimed += 1
-			Case "Minions Collect with Daily Bonus"
-				$mClaimed += 1
-			Case "Chesthunt"
-				$chesthunt += 1
-			Case "BonusStage Failed"
-				$failed += 1
-			Case "BonusStage"
-				$BS += 1
-			Case "BonusStageSB"
-				$BSSP += 1
-			Case "Claiming quest"
-				$qClaimed += 1
-			Case "MegaHorde Rage"
-				$megaHordeRage += 1
-			Case "MegaHorde Rage with SoulBonus"
-				$megaHordeRageSoul += 1
-			Case "SoulBonus Rage"
-				$rageSoulBonus += 1
-
-		EndSwitch
-	WEnd
-	FileClose($file)
-	GUICtrlSetData($Log, "", 0)
-	CustomConsole("Rage with only SoulBonus: " & $rageSoulBon us)
-	CustomConsole("Rage with only MegaHorde: " & $megaHordeRage - $megaHordeRageSoul)
-	CustomConsole("Rage with MegaHorde and SoulBonus: " & $megaHordeRageSoul)
-	CustomConsole("Claimed Quest: " & $qClaimed)
-	CustomConsole("Claimed Minions: " & $mClaimed)
-	CustomConsole("ChestHunts: " & $chesthunt)
-	CustomConsole("Failed Bonus Stages: " & $failed)
-	CustomConsole("BonusStage (No Spirit Boost): " & $BS)
-	CustomConsole("BonusStage (Spirit Boost): " & $BSSP)
-	CustomConsole("Section 1 Complete (No Spirit Boost): " & $section1)
-	CustomConsole("Section 2 Complete (No Spirit Boost): " & $section2)
-	CustomConsole("Section 3 Complete (No Spirit Boost): " & $section3)
-	CustomConsole("Section 4 Complete (No Spirit Boost): " & $section4)
-	CustomConsole("Section 1 Complete (Spirit Boost): " & $section1BS)
-	CustomConsole("Section 2 Complete (Spirit Boost): " & $section2BS)
-	CustomConsole("Section 3 Complete (Spirit Boost): " & $section3BS)
-	CustomConsole("Section 4 Complete (Spirit Boost): " & $section4BS, True)
+	$file = FileOpen($LogPath, $FO_READ)
+	If $file <> -1 Then
+		While 1
+			$line = FileReadLine($file)
+			If @error = -1 Then ExitLoop
+			$line = StringTrimLeft($line, 22)
+			Switch $line
+				Case "BonusStageBS Section 1 Complete"
+					$section1BS += 1
+				Case "BonusStageBS Section 2 Complete"
+					$section2BS += 1
+				Case "BonusStageBS Section 3 Complete"
+					$section3BS += 1
+				Case "BonusStageBS Section 4 Complete"
+					$section4BS += 1
+				Case "BonusStage Section 1 Complete"
+					$section1 += 1
+				Case "BonusStage Section 2 Complete"
+					$section2 += 1
+				Case "BonusStage Section 3 Complete"
+					$section3 += 1
+				Case "BonusStage Section 4 Complete"
+					$section4 += 1
+				Case "Silver Box Collected"
+					$silverboxColl += 1
+				Case "Minions Collect"
+					$mClaimed += 1
+				Case "Minions Collect with Daily Bonus"
+					$mClaimed += 1
+				Case "Chesthunt"
+					$chesthunt += 1
+				Case "BonusStage Failed"
+					$failed += 1
+				Case "BonusStage"
+					$BS += 1
+				Case "BonusStageSB"
+					$BSSP += 1
+				Case "Claiming quest"
+					$qClaimed += 1
+				Case "MegaHorde Rage"
+					$megaHordeRage += 1
+				Case "MegaHorde Rage with SoulBonus"
+					$megaHordeRageSoul += 1
+				Case "SoulBonus Rage"
+					$rageSoulBonus += 1
+			EndSwitch
+		WEnd
+		FileClose($file)
+	EndIf
+	GUICtrlSetData($Log, "")
+	CustomConsole($Log, "Rage with only SoulBonus: " & $rageSoulBonus)
+	CustomConsole($Log, "Rage with only MegaHorde: " & $megaHordeRage - $megaHordeRageSoul)
+	CustomConsole($Log, "Rage with MegaHorde and SoulBonus: " & $megaHordeRageSoul)
+	CustomConsole($Log, "Claimed Quest: " & $qClaimed)
+	CustomConsole($Log, "Claimed Minions: " & $mClaimed)
+	CustomConsole($Log, "ChestHunts: " & $chesthunt)
+	CustomConsole($Log, "Failed Bonus Stages: " & $failed)
+	CustomConsole($Log, "BonusStage (No Spirit Boost): " & $BS)
+	CustomConsole($Log, "BonusStage (Spirit Boost): " & $BSSP)
+	CustomConsole($Log, "Section 1 Complete (No Spirit Boost): " & $section1)
+	CustomConsole($Log, "Section 2 Complete (No Spirit Boost): " & $section2)
+	CustomConsole($Log, "Section 3 Complete (No Spirit Boost): " & $section3)
+	CustomConsole($Log, "Section 4 Complete (No Spirit Boost): " & $section4)
+	CustomConsole($Log, "Section 1 Complete (Spirit Boost): " & $section1BS)
+	CustomConsole($Log, "Section 2 Complete (Spirit Boost): " & $section2BS)
+	CustomConsole($Log, "Section 3 Complete (Spirit Boost): " & $section3BS)
+	CustomConsole($Log, "Section 4 Complete (Spirit Boost): " & $section4BS, True)
 EndFunc   ;==>LoadLog
 
-Func CustomConsole($text, $append = False)
+Func LoadDataLog()
+	Sleep(100)
+	GUICtrlSetData($LogData, "")
+	WinExists('Idle Slayer')
+	If Not @error Then
+		$array = WinGetClientSize('Idle Slayer')
+		ConsoleWrite($array[0])
+		ConsoleWrite($array[1])
+
+		If $array[0] == "1280" And $array[1] == "720" Then
+			CustomConsole($LogData, "Size of game is correct :" & $array[0] & "x" & $array[1])
+		Else
+			CustomConsole($LogData, "Size of game is incorrect correct size is: 1280x720")
+			CustomConsole($LogData, "Your size is: " & $array[0] & "x" & $array[1])
+		EndIf
+	Else
+		CustomConsole($LogData, "Idle Slayer not Active")
+	EndIf
+	CustomConsole($LogData, "Only Bonus Stage 2 works")
+	CustomConsole($LogData, "Do not buy Vertical Magnet")
+	CustomConsole($LogData, "Disable dialogue for Portal in setting")
+	CustomConsole($LogData, "Disable parallex effect in setting")
+	CustomConsole($LogData, "Enable rounded bulk in setting")
+	CustomConsole($LogData, "Ascension Leadership Master is needed")
+	CustomConsole($LogData, "Tip: Hover over the Text Boxes _")
+	CustomConsole($LogData, "on the Idle Runner to read what they do!", True)
+EndFunc   ;==>LoadDataLog
+
+Func CustomConsole($Component, $text, $append = False)
 	If $append Then
 		$text = $text & "	"
 	Else
 		$text = $text & @CRLF
 	EndIf
-	GUICtrlSetData($Log, $text, 1)
+	GUICtrlSetData($Component, $text, 1)
 EndFunc   ;==>CustomConsole
