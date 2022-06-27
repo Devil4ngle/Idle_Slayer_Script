@@ -103,7 +103,7 @@ GUISetBkColor(0x202225)
 
 ; Titlebar
 GUICtrlCreateLabel("", -1, -1, 898, 22, -1, $GUI_WS_EX_PARENTDRAG)
-GUICtrlCreateLabel("        Idle Runner v2.9.1", -1, -1, 900, 22, $SS_CENTERIMAGE)
+GUICtrlCreateLabel("        Idle Runner v2.9.2", -1, -1, 900, 22, $SS_CENTERIMAGE)
 GUICtrlSetColor(-1, 0xFFFFFF)
 $Icon = GUICtrlCreatePic('', 2, 2, 16, 16, $SS_BITMAP + $SS_NOTIFY)
 _Resource_SetToCtrlID($Icon, 'ICON')
@@ -498,7 +498,6 @@ While 1
 	; Rage when Soul Bonus
 	PixelSearch(625, 143, 629, 214, 0xA86D0A)
 	If Not @error Then
-		_FileWriteLog($LogPath, "SoulBonus Rage")
 		ControlSend("Idle Slayer", "", "", "{e}")
 	EndIf
 
@@ -511,7 +510,13 @@ While 1
 	; Bonus stage
 	PixelSearch(660, 254, 660, 254, 0xFFE737)
 	If Not @error Then
-		BonusStage()
+		PixelSearch(638, 236, 638, 236, 0xFFBB31)
+		If Not @error Then
+			PixelSearch(775, 448, 775, 448, 0xFFFFFF)
+			If Not @error Then
+				BonusStage()
+			EndIf
+		EndIf
 	EndIf
 
 	; Circle portal
@@ -832,8 +837,8 @@ Func BonusStage()
 		Sleep(500)
 		PixelSearch(660, 254, 660, 254, 0xFFE737)
 	Until @error
-	Sleep(3500)
-	PixelSearch(443, 97, 443, 97, 0xFFFFFF)
+	Sleep(3900)
+	PixelSearch(454, 91, 454, 91, 0xE1E0E2)
 	If $SkipBonusStageState Then
 		BonusStageDoNoting()
 	Else
@@ -1343,7 +1348,7 @@ Func LoadLog()
 	Sleep(100)
 	Local $section1 = 0, $section2 = 0, $section3 = 0, $section4 = 0, $chesthunt = 0, $failed = 0, _
 			$mClaimed = 0, $qClaimed = 0, $section1BS = 0, $section2BS = 0, $section3BS = 0, $section4BS = 0, _
-			$silverboxColl = 0, $BS = 0, $BSSP = 0, $megaHordeRage = 0, $megaHordeRageSoul = 0, $rageSoulBonus = 0 ;
+			$silverboxColl = 0, $BS = 0, $BSSP = 0, $megaHordeRage = 0, $megaHordeRageSoul = 0 ;
 	$file = FileOpen($LogPath, $FO_READ)
 	If $file <> -1 Then
 		While 1
@@ -1387,14 +1392,11 @@ Func LoadLog()
 					$megaHordeRage += 1
 				Case "MegaHorde Rage with SoulBonus"
 					$megaHordeRageSoul += 1
-				Case "SoulBonus Rage"
-					$rageSoulBonus += 1
 			EndSwitch
 		WEnd
 		FileClose($file)
 	EndIf
 	GUICtrlSetData($Log, "")
-	CustomConsole($Log, "Rage with only SoulBonus: " & $rageSoulBonus)
 	CustomConsole($Log, "Rage with only MegaHorde: " & $megaHordeRage - $megaHordeRageSoul)
 	CustomConsole($Log, "Rage with MegaHorde and SoulBonus: " & $megaHordeRageSoul)
 	CustomConsole($Log, "Claimed Quest: " & $qClaimed)
@@ -1423,21 +1425,24 @@ Func LoadDataLog()
 		ConsoleWrite($array[1])
 
 		If $array[0] == "1280" And $array[1] == "720" Then
-			CustomConsole($LogData, "Size of game is correct :" & $array[0] & "x" & $array[1])
+			CustomConsole($LogData, "Size of game is correct :" & $array[0] & "x" & $array[1] & ".")
 		Else
-			CustomConsole($LogData, "Size of game is incorrect correct size is: 1280x720")
-			CustomConsole($LogData, "Your size is: " & $array[0] & "x" & $array[1])
+			CustomConsole($LogData, "Size of game is incorrect correct size is: 1280x720.")
+			CustomConsole($LogData, "Your size is: " & $array[0] & "x" & $array[1] & ".")
 		EndIf
 	Else
 		CustomConsole($LogData, "Idle Slayer not Active")
 	EndIf
-	CustomConsole($LogData, "Only Bonus Stage 2 works")
-	CustomConsole($LogData, "Do not buy Vertical Magnet")
-	CustomConsole($LogData, "Disable dialogue for Portal in setting")
-	CustomConsole($LogData, "Disable parallex effect in setting")
-	CustomConsole($LogData, "Enable rounded bulk in setting")
-	CustomConsole($LogData, "Ascension Leadership Master is needed")
-	CustomConsole($LogData, "Tip: Hover over the Text Boxes _")
+	CustomConsole($LogData, "Only Bonus Stage 2 works otherwise skip it.")
+	CustomConsole($LogData, "Do not buy Vertical Magnet.")
+	CustomConsole($LogData, "Disable dialogue for Portal in setting.")
+	CustomConsole($LogData, "Disable parallex effect in setting.")
+	CustomConsole($LogData, "Enable rounded bulk in setting.")
+	CustomConsole($LogData, "Enable hide locked quest rewards in setting.")
+	CustomConsole($LogData, "The game must be in English.")
+	CustomConsole($LogData, "Ascension Upgrade Leadership Master is mandatory.")
+	CustomConsole($LogData, "Ascension Upgrade Safety First is mandatory.")
+	CustomConsole($LogData, "Tip: Hover over the Text-Boxes_")
 	CustomConsole($LogData, "on the Idle Runner to read what they do!", True)
 EndFunc   ;==>LoadDataLog
 
