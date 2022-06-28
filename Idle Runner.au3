@@ -81,6 +81,7 @@
 #include <EditConstants.au3>
 #include <AutoItConstants.au3>
 #include "Resources\ResourcesEx.au3"
+#include <Array.au3>
 
 ; Enables GUI events
 Opt("GUIOnEventMode", 1)
@@ -135,24 +136,24 @@ $TabSheet2 = GUICtrlCreateTabItem("General")
 _GUICtrlTab_SetBkColor($GUIForm, $TabControl, 0x36393F)
 
 ; Create CraftRagePill Checkbox
-$CheckBoxCraftRagePill = GUICtrlCreatePic('', 181, 44, 16, 16, $SS_BITMAP + $SS_NOTIFY)
-_Resource_SetToCtrlID($CheckBoxCraftRagePill, 'UNCHECKED')
+$CheckBoxCraftRagePillState = GUICtrlCreatePic('', 181, 44, 16, 16, $SS_BITMAP + $SS_NOTIFY)
+_Resource_SetToCtrlID($CheckBoxCraftRagePillState, 'UNCHECKED')
 GUICtrlSetOnEvent(-1, "CraftRagePillChecked")
 $Rage = GUICtrlCreatePic('', 207, 45, 132, 16, $SS_BITMAP + $SS_NOTIFY)
 _Resource_SetToCtrlID($Rage, 'RAGEPILL')
 GUICtrlSetTip(-1, "When Horde/Mega Horde + SoulBonus, use Rage Pill When Rage is Down")
 
 ; Create CraftSoulBonus Checkbox
-$CheckBoxCraftSoulBonus = GUICtrlCreatePic('', 181, 83, 16, 16, $SS_BITMAP + $SS_NOTIFY)
-_Resource_SetToCtrlID($CheckBoxCraftSoulBonus, 'UNCHECKED')
+$CheckBoxCraftSoulBonusState = GUICtrlCreatePic('', 181, 83, 16, 16, $SS_BITMAP + $SS_NOTIFY)
+_Resource_SetToCtrlID($CheckBoxCraftSoulBonusState, 'UNCHECKED')
 GUICtrlSetOnEvent(-1, "CraftSoulBonusChecked")
 $CraftComp = GUICtrlCreatePic('', 207, 84, 153, 14, $SS_BITMAP + $SS_NOTIFY)
 _Resource_SetToCtrlID($CraftComp, 'SOULBONUS')
 GUICtrlSetTip(-1, "When Horde/Mega Horde + SoulBonus , use Souls Compass When Rage is Down")
 
 ; Create AutoBuyUpgrades Checkbox
-$CheckBoxAutoBuyUpgrades = GUICtrlCreatePic('', 181, 122, 16, 16, $SS_BITMAP + $SS_NOTIFY)
-_Resource_SetToCtrlID($CheckBoxAutoBuyUpgrades, 'UNCHECKED')
+$CheckBoxAutoBuyUpgradeState = GUICtrlCreatePic('', 181, 122, 16, 16, $SS_BITMAP + $SS_NOTIFY)
+_Resource_SetToCtrlID($CheckBoxAutoBuyUpgradeState, 'UNCHECKED')
 GUICtrlSetOnEvent(-1, "AutoBuyUpgradesChecked")
 $AutoUpgrade = GUICtrlCreatePic('', 207, 123, 165, 16, $SS_BITMAP + $SS_NOTIFY)
 _Resource_SetToCtrlID($AutoUpgrade, 'AUTOUPGRADES')
@@ -172,8 +173,8 @@ _Resource_SetToCtrlID($JumpDown, 'DOWNARROW')
 GUICtrlSetOnEvent(-1, "DownArrow")
 
 ; Create CirclePortals Checkbox
-$CheckBoxCirclePortals = GUICtrlCreatePic('', 611, 44, 16, 16, $SS_BITMAP + $SS_NOTIFY)
-_Resource_SetToCtrlID($CheckBoxCirclePortals, 'UNCHECKED')
+$CheckBoxCirclePortalsState = GUICtrlCreatePic('', 611, 44, 16, 16, $SS_BITMAP + $SS_NOTIFY)
+_Resource_SetToCtrlID($CheckBoxCirclePortalsState, 'UNCHECKED')
 GUICtrlSetOnEvent(-1, "CirclePortalsChecked")
 $CirclePortals = GUICtrlCreatePic('', 637, 45, 129, 14, $SS_BITMAP + $SS_NOTIFY)
 _Resource_SetToCtrlID($CirclePortals, 'CIRCLEPORTALS')
@@ -181,16 +182,16 @@ GUICtrlSetTip(-1, "Automate portal cycle")
 
 
 ; Craft Dimensional Stuff
-$CheckBoxDimension = GUICtrlCreatePic('', 611, 84, 16, 16, $SS_BITMAP + $SS_NOTIFY)
-_Resource_SetToCtrlID($CheckBoxDimension, 'UNCHECKED')
+$CheckBoxDimensional = GUICtrlCreatePic('', 611, 84, 16, 16, $SS_BITMAP + $SS_NOTIFY)
+_Resource_SetToCtrlID($CheckBoxDimensional, 'UNCHECKED')
 GUICtrlSetOnEvent(-1, "DimensionChecked")
 $CraftDimension = GUICtrlCreatePic('', 637, 84, 221, 14, $SS_BITMAP + $SS_NOTIFY)
 _Resource_SetToCtrlID($CraftDimension, 'DIMENSIONAL')
 GUICtrlSetTip(-1, "Craft Dimensional item at Megahorde and it will disable it itself after one use")
 
 ; Craft Bidmensional Stuff
-$CheckBoxBiDimension = GUICtrlCreatePic('', 611, 123, 16, 16, $SS_BITMAP + $SS_NOTIFY)
-_Resource_SetToCtrlID($CheckBoxBiDimension, 'UNCHECKED')
+$CheckBoxBiDimensional = GUICtrlCreatePic('', 611, 123, 16, 16, $SS_BITMAP + $SS_NOTIFY)
+_Resource_SetToCtrlID($CheckBoxBiDimensional, 'UNCHECKED')
 GUICtrlSetOnEvent(-1, "BiDimensionChecked")
 $CraftBiDimension = GUICtrlCreatePic('', 637, 123, 239, 14, $SS_BITMAP + $SS_NOTIFY)
 _Resource_SetToCtrlID($CraftBiDimension, 'BIDIMENSIONAL')
@@ -200,8 +201,8 @@ GUICtrlSetTip(-1, "Craft BiDimensional item at Megahorde and it will disable it 
 $TabSheet3 = GUICtrlCreateTabItem("Bonus Stage")
 _GUICtrlTab_SetBkColor($GUIForm, $TabControl, 0x36393F)
 
-$CheckBoxSkipBonusStage = GUICtrlCreatePic('', 181, 44, 16, 16, $SS_BITMAP + $SS_NOTIFY)
-_Resource_SetToCtrlID($CheckBoxSkipBonusStage, 'UNCHECKED')
+$CheckBoxSkipBonusStageState = GUICtrlCreatePic('', 181, 44, 16, 16, $SS_BITMAP + $SS_NOTIFY)
+_Resource_SetToCtrlID($CheckBoxSkipBonusStageState, 'UNCHECKED')
 GUICtrlSetOnEvent(-1, "SkipBonusStageChecked")
 $SKIPBS = GUICtrlCreatePic('', 207, 45, 160, 16, $SS_BITMAP + $SS_NOTIFY)
 _Resource_SetToCtrlID($SKIPBS, 'SKIPBONUS')
@@ -212,8 +213,8 @@ GUICtrlSetTip(-1, "Skips Bonus Stages by letting the timer run out without doing
 $TabSheet4 = GUICtrlCreateTabItem("Chest Hunt")
 _GUICtrlTab_SetBkColor($GUIForm, $TabControl, 0x36393F)
 
-$NoLockpicking = GUICtrlCreatePic('', 181, 44, 16, 16, $SS_BITMAP + $SS_NOTIFY)
-_Resource_SetToCtrlID($NoLockpicking, 'UNCHECKED')
+$CheckBoxNoLockpickingState = GUICtrlCreatePic('', 181, 44, 16, 16, $SS_BITMAP + $SS_NOTIFY)
+_Resource_SetToCtrlID($CheckBoxNoLockpickingState, 'UNCHECKED')
 GUICtrlSetOnEvent(-1, "NoLockpickingChecked")
 $NPL = GUICtrlCreatePic('', 207, 45, 176, 16, $SS_BITMAP + $SS_NOTIFY)
 _Resource_SetToCtrlID($NPL, 'NOLOCKPICKING')
@@ -229,6 +230,7 @@ GUICtrlSetColor($Log, 0x4CFF00)
 $LogData = GUICtrlCreateEdit("", 540, 32, 340, 120, BitOR($ES_AUTOVSCROLL, $ES_AUTOHSCROLL, $ES_WANTRETURN, $WS_VSCROLL, $ES_READONLY))
 GUICtrlSetBkColor($LogData, 0x000000)
 GUICtrlSetColor($LogData, 0xFFBB00)
+
 ; Set Tab Focus Home
 GUICtrlSetState($TabHome, $GUI_SHOW)
 GUICtrlCreateTabItem("")
@@ -274,6 +276,11 @@ Global $AutoBuyUpgradeState = False, $CraftSoulBonusState = False, $SkipBonusSta
 		$CraftRagePillState = False, $CirclePortalsState = False, $JumpSliderValue = 150, _
 		$TogglePause = False, $NoLockpickingState = False, $LogPath = "Idle_Slayer_Log.txt", $CirclePortalsCount = 7, _
 		$BiDimensional = False, $Dimensional = False
+
+Local $aGlobalVariables[12] = ["AutoBuyUpgradeState", "CraftSoulBonusState", "SkipBonusStageState", "CraftRagePillState", "CirclePortalsState", "JumpSliderValue", "TogglePause", "NoLockpickingState", "LogPath", "CirclePortalsCount", "BiDimensional", "Dimensional"]
+Local $aCheckBoxes[8] = ["AutoBuyUpgradeState", "CraftSoulBonusState", "SkipBonusStageState", "CraftRagePillState", "CirclePortalsState", "NoLockpickingState", "BiDimensional", "Dimensional"]
+
+LoadSettings()
 
 Func IdleClose()
 	Exit
@@ -325,76 +332,94 @@ Func ButtonInstructionsClick()
 EndFunc   ;==>ButtonInstructionsClick
 
 
+Func RefreshChecked()
+	For $vElement In $aCheckBoxes
+		If Eval($vElement) == True Then
+			_Resource_SetToCtrlID(Eval("CheckBox" & $vElement), 'CHECKED')
+		Else
+			_Resource_SetToCtrlID(Eval("CheckBox" & $vElement), 'UNCHECKED')
+		EndIf
+	Next
+	_Resource_SetToCtrlID($JumpNumber, 'NUM' & $JumpSliderValue)
+EndFunc   ;==>RefreshChecked
+
 Func NoLockpickingChecked()
 	If $NoLockpickingState Then
 		$NoLockpickingState = False
-		_Resource_SetToCtrlID($NoLockpicking, 'UNCHECKED')
+		_Resource_SetToCtrlID($CheckBoxNoLockpickingState, 'UNCHECKED')
 	Else
 		$NoLockpickingState = True
-		_Resource_SetToCtrlID($NoLockpicking, 'CHECKED')
+		_Resource_SetToCtrlID($CheckBoxNoLockpickingState, 'CHECKED')
 	EndIf
+	SaveSettings()
 EndFunc   ;==>NoLockpickingChecked
 
 Func AutoBuyUpgradesChecked()
 	If $AutoBuyUpgradeState Then
 		$AutoBuyUpgradeState = False
-		_Resource_SetToCtrlID($CheckBoxAutoBuyUpgrades, 'UNCHECKED')
+		_Resource_SetToCtrlID($CheckBoxAutoBuyUpgradeState, 'UNCHECKED')
 	Else
 		$AutoBuyUpgradeState = True
-		_Resource_SetToCtrlID($CheckBoxAutoBuyUpgrades, 'CHECKED')
+		_Resource_SetToCtrlID($CheckBoxAutoBuyUpgradeState, 'CHECKED')
 	EndIf
+	SaveSettings()
 EndFunc   ;==>AutoBuyUpgradesChecked
 
 Func CirclePortalsChecked()
 	If $CirclePortalsState Then
 		$CirclePortalsState = False
-		_Resource_SetToCtrlID($CheckBoxCirclePortals, 'UNCHECKED')
+		_Resource_SetToCtrlID($CheckBoxCirclePortalsState, 'UNCHECKED')
 	Else
 		$CirclePortalsState = True
-		_Resource_SetToCtrlID($CheckBoxCirclePortals, 'CHECKED')
+		_Resource_SetToCtrlID($CheckBoxCirclePortalsState, 'CHECKED')
 	EndIf
+	SaveSettings()
 EndFunc   ;==>CirclePortalsChecked
 
 Func DimensionChecked()
 	If $Dimensional Then
 		$Dimensional = False
-		_Resource_SetToCtrlID($CheckBoxDimension, 'UNCHECKED')
+		_Resource_SetToCtrlID($CheckBoxDimensional, 'UNCHECKED')
 	Else
 		$Dimensional = True
-		_Resource_SetToCtrlID($CheckBoxDimension, 'CHECKED')
+		_Resource_SetToCtrlID($CheckBoxDimensional, 'CHECKED')
 	EndIf
+	SaveSettings()
 EndFunc   ;==>DimensionChecked
 
 Func BiDimensionChecked()
 	If $BiDimensional Then
 		$BiDimensional = False
-		_Resource_SetToCtrlID($CheckBoxBiDimension, 'UNCHECKED')
+		_Resource_SetToCtrlID($CheckBoxBiDimensional, 'UNCHECKED')
 	Else
 		$BiDimensional = True
-		_Resource_SetToCtrlID($CheckBoxBiDimension, 'CHECKED')
+		_Resource_SetToCtrlID($CheckBoxBiDimensional, 'CHECKED')
 	EndIf
+	SaveSettings()
 EndFunc   ;==>BiDimensionChecked
 
 Func CraftRagePillChecked()
 	If $CraftRagePillState Then
 		$CraftRagePillState = False
-		_Resource_SetToCtrlID($CheckBoxCraftRagePill, 'UNCHECKED')
+		_Resource_SetToCtrlID($CheckBoxCraftRagePillState, 'UNCHECKED')
 	Else
 		$CraftRagePillState = True
-		_Resource_SetToCtrlID($CheckBoxCraftRagePill, 'CHECKED')
+		_Resource_SetToCtrlID($CheckBoxCraftRagePillState, 'CHECKED')
 	EndIf
+	SaveSettings()
 EndFunc   ;==>CraftRagePillChecked
 
 Func CraftSoulBonusChecked()
 	If $CraftSoulBonusState Then
 		$CraftSoulBonusState = False
-		_Resource_SetToCtrlID($CheckBoxCraftSoulBonus, 'UNCHECKED')
+		_Resource_SetToCtrlID($CheckBoxCraftSoulBonusState, 'UNCHECKED')
 
 	Else
 		$CraftSoulBonusState = True
-		_Resource_SetToCtrlID($CheckBoxCraftSoulBonus, 'CHECKED')
+		_Resource_SetToCtrlID($CheckBoxCraftSoulBonusState, 'CHECKED')
 
 	EndIf
+	SaveSettings()
 EndFunc   ;==>CraftSoulBonusChecked
 
 Func UpArrow()
@@ -402,6 +427,7 @@ Func UpArrow()
 		$JumpSliderValue += 10
 		_Resource_SetToCtrlID($JumpNumber, 'NUM' & $JumpSliderValue)
 	EndIf
+	SaveSettings()
 EndFunc   ;==>UpArrow
 
 Func DownArrow()
@@ -409,17 +435,33 @@ Func DownArrow()
 		$JumpSliderValue -= 10
 		_Resource_SetToCtrlID($JumpNumber, 'NUM' & $JumpSliderValue)
 	EndIf
+	SaveSettings()
 EndFunc   ;==>DownArrow
 
 Func SkipBonusStageChecked()
 	If $SkipBonusStageState Then
 		$SkipBonusStageState = False
-		_Resource_SetToCtrlID($CheckBoxSkipBonusStage, 'UNCHECKED')
+		_Resource_SetToCtrlID($CheckBoxSkipBonusStageState, 'UNCHECKED')
 	Else
 		$SkipBonusStageState = True
-		_Resource_SetToCtrlID($CheckBoxSkipBonusStage, 'CHECKED')
+		_Resource_SetToCtrlID($CheckBoxSkipBonusStageState, 'CHECKED')
 	EndIf
+	SaveSettings()
 EndFunc   ;==>SkipBonusStageChecked
+
+Func SaveSettings()
+	For $vElement In $aGlobalVariables ; $vElement will contain the value of the elements in the $aArray... one element at a time.
+		IniWrite("settings", "Settings", $vElement, Eval($vElement))
+	Next
+EndFunc   ;==>SaveSettings
+
+Func LoadSettings()
+	For $vElement In $aGlobalVariables ; $vElement will contain the value of the elements in the $aArray... one element at a time.
+		Local $sRead = IniRead("settings", "Settings", $vElement, Eval($vElement))
+		Assign($vElement, $sRead)
+	Next
+	RefreshChecked()
+EndFunc   ;==>LoadSettings
 
 Func TabController()
 	TabEvent()
@@ -565,12 +607,12 @@ Func RageWhenHorde()
 	If $Dimensional Then
 		BuyTempItem("0xF37C55")
 		$Dimensional = False
-		_Resource_SetToCtrlID($CheckBoxDimension, 'UNCHECKED')
+		_Resource_SetToCtrlID($CheckBoxDimensional, 'UNCHECKED')
 	EndIf
 	If $BiDimensional Then
 		BuyTempItem("0x526629")
 		$BiDimensional = False
-		_Resource_SetToCtrlID($CheckBoxBiDimension, 'UNCHECKED')
+		_Resource_SetToCtrlID($CheckBoxBiDimensional, 'UNCHECKED')
 	EndIf
 	ControlFocus("Idle Slayer", "", "")
 	ControlSend("Idle Slayer", "", "", "{e}")
