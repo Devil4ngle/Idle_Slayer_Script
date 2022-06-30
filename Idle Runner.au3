@@ -3,11 +3,10 @@
  Author: Devil4ngle, Djahnz
 #comments-end
 
-#Region Idle Runner.au3 - #WRAPPERS#
+#Region Idle Runner.au3 #WRAPPER#
 #AutoIt3Wrapper_Icon=Resources\Icon.ico
 #AutoIt3Wrapper_Compile_Both=y
 #AutoIt3Wrapper_UseX64=y
-
 #AutoIt3Wrapper_Res_File_Add=Resources\Icon.jpg, RT_RCDATA, ICON,0
 #AutoIt3Wrapper_Res_File_Add=Resources\Welcome.jpg, RT_RCDATA, WELCOME,0
 #AutoIt3Wrapper_Res_File_Add=Resources\Instructions.jpg, RT_RCDATA, INSTRUCTION,0
@@ -20,17 +19,19 @@
 #AutoIt3Wrapper_Res_File_Add=Resources\SkipBonusStage.jpg, RT_RCDATA, SKIPBONUS,0
 #AutoIt3Wrapper_Res_File_Add=Resources\Home.jpg, RT_RCDATA, HOME,0
 #AutoIt3Wrapper_Res_File_Add=Resources\General.jpg, RT_RCDATA, GENERAL,0
-#AutoIt3Wrapper_Res_File_Add=Resources\BonusStage.jpg, RT_RCDATA, BONUSSTAGE,0
+#AutoIt3Wrapper_Res_File_Add=Resources\Minigames.jpg, RT_RCDATA, MINIGAMES,0
 #AutoIt3Wrapper_Res_File_Add=Resources\Log.jpg, RT_RCDATA, LOG,0
 #AutoIt3Wrapper_Res_File_Add=Resources\Stop.jpg, RT_RCDATA, STOP,0
 #AutoIt3Wrapper_Res_File_Add=Resources\Start.jpg, RT_RCDATA, START,0
 #AutoIt3Wrapper_Res_File_Add=Resources\Exit.jpg, RT_RCDATA, EXIT,0
-#AutoIt3Wrapper_Res_File_Add=Resources\Chesthunt.jpg, RT_RCDATA, CHESTHUNT,0
+#AutoIt3Wrapper_Res_File_Add=Resources\Crafting.jpg, RT_RCDATA, CRAFTING,0
 #AutoIt3Wrapper_Res_File_Add=Resources\Github.jpg, RT_RCDATA, GITHUB,0
 #AutoIt3Wrapper_Res_File_Add=Resources\JumpRate.jpg, RT_RCDATA, JUMPRATE,0
 #AutoIt3Wrapper_Res_File_Add=Resources\UpArrow.jpg, RT_RCDATA, UPARROW,0
 #AutoIt3Wrapper_Res_File_Add=Resources\DownArrow.jpg, RT_RCDATA, DOWNARROW,0
 #AutoIt3Wrapper_Res_File_Add=Resources\NoLockpicking.jpg, RT_RCDATA, NOLOCKPICKING,0
+#AutoIt3Wrapper_Res_File_Add=Resources\CraftBidimensionalStaff.jpg, RT_RCDATA, BIDIMENSIONAL,0
+#AutoIt3Wrapper_Res_File_Add=Resources\CraftDimensionalStaff.jpg, RT_RCDATA, DIMENSIONAL,0
 
 ;Numbers
 #AutoIt3Wrapper_Res_File_Add=Resources\0.jpg, RT_RCDATA, NUM0,0
@@ -66,23 +67,13 @@
 #AutoIt3Wrapper_Res_File_Add=Resources\300.jpg, RT_RCDATA, NUM300,0
 
 #AutoIt3Wrapper_Run_Stop_OnError=y
-#EndRegion Idle Runner.au3 - #WRAPPERS#
+#EndRegion Idle Runner.au3 #WRAPPER#
 
 #include-once
-#include <File.au3>
-#include <ButtonConstants.au3>
-#include <GUIConstantsEx.au3>
-#include <StaticConstants.au3>
-#include <TabConstants.au3>
-#include <WindowsConstants.au3>
-#include <GuiTab.au3>
-#include <WinAPI.au3>
-#include <WinAPISysWin.au3>
-#include <EditConstants.au3>
-#include <AutoItConstants.au3>
+#include "Libraries\ResourcesEx.au3"
 #include "Libraries\BonusStageEx.au3"
 #include "Libraries\ChestHuntEx.au3"
-#include "GUI.au3"
+#include "Libraries\GUI.au3"
 
 ; Enables GUI events
 Opt("GUIOnEventMode", 1)
@@ -96,23 +87,17 @@ Opt("MouseCoordMode", 0)
 ; Set Hotkey Bindings
 ; Setting own hotkeys coming soon
 Global $Running = False
-HotKeySet("{Home}", "Pause")
-HotKeySet("{Esc}", "IdleClose")
+HotKeySet("{Home}", "_Pause")
+HotKeySet("{Esc}", "_IdleClose")
 
+; Create GUI
 $GUIForm = _CreateGUI()
-
 GUISetState(@SW_SHOW)
-
-Global $AutoBuyUpgradeState = True, $CraftSoulBonusState = True, $SkipBonusStageState = False, _
-		$CraftRagePillState = True, $CirclePortalsState = False, $JumpSliderValue = 150, _
-		$TogglePause = False, $NoLockpickingState = False, $LogPath = "Log\Idle_Slayer_Log.txt",$CirclePortalsCount = 7
 
 Local $timer = TimerInit()
 ; Infinite Loop
 While 1
-	If $TogglePause Then
-		ContinueLoop
-	EndIf
+	If $TogglePause Then ContinueLoop
 
 	If WinGetTitle("[ACTIVE]") <> "Idle Runner" Then
 		ControlFocus("Idle Slayer", "", "")
@@ -132,17 +117,17 @@ While 1
 	; Close Armory full not hover over
 	PixelSearch(775, 600, 775, 600, 0xB40000)
 	If Not @error Then
-		_CloseAll()
+		CloseAll()
 	EndIf
 
 	; Close Armory full hover over
 	PixelSearch(775, 600, 775, 600, 0xAD0000)
 	If Not @error Then
-		_CloseAll()
+		CloseAll()
 	EndIf
 
 	; Chest-hunt
-	PixelSearch(598, 45, 598, 45, 0xD0C172)
+	PixelSearch(570, 742, 742, 570, 0x5B3B0A)
 	If Not @error Then
 		_Chesthunt($LogPath, $NoLockpickingState)
 	EndIf
@@ -166,9 +151,15 @@ While 1
 	EndIf
 
 	; Bonus stage
-	PixelSearch(860, 670, 860, 670, 0xAC8371)
+	PixelSearch(660, 254, 660, 254, 0xFFE737)
 	If Not @error Then
-		_BonusStage($LogPath, $SkipBonusStageState)
+		PixelSearch(638, 236, 638, 236, 0xFFBB31)
+		If Not @error Then
+			PixelSearch(775, 448, 775, 448, 0xFFFFFF)
+			If Not @error Then
+				_BonusStage($LogPath, $SkipBonusStageState)
+			EndIf
+		EndIf
 	EndIf
 
 	; Circle portal
@@ -192,15 +183,37 @@ While 1
 	EndIf
 WEnd
 
+Func CloseAll()
+	Sleep(2000)
+	PixelSearch(775, 600, 775, 600, 0xAD0000)
+	If Not @error Then
+		MouseClick("left", 775, 600, 1, 0)
+	EndIf
+	PixelSearch(775, 600, 775, 600, 0xB40000)
+	If Not @error Then
+		MouseClick("left", 775, 600, 1, 0)
+	EndIf
+EndFunc   ;==>CloseAll
+
 Func RageWhenHorde()
 	If CheckForSoulBonus() Then
 		If $CraftRagePillState Then
 			BuyTempItem("0x871646")
-			Sleep(100)
 		EndIf
 		If $CraftSoulBonusState Then
 			BuyTempItem("0x7D55D8")
 		EndIf
+	EndIf
+	_FileWriteLog($LogPath, "MegaHorde Rage")
+	If $Dimensional Then
+		BuyTempItem("0xF37C55")
+		$Dimensional = False
+		_Resource_SetToCtrlID($CheckBoxDimension, 'UNCHECKED')
+	EndIf
+	If $BiDimensional Then
+		BuyTempItem("0x526629")
+		$BiDimensional = False
+		_Resource_SetToCtrlID($CheckBoxBiDimension, 'UNCHECKED')
 	EndIf
 	ControlFocus("Idle Slayer", "", "")
 	ControlSend("Idle Slayer", "", "", "{e}")
@@ -209,16 +222,6 @@ EndFunc   ;==>RageWhenHorde
 Func CheckForSoulBonus()
 	Local $location = PixelSearch(625, 143, 629, 214, 0xA86D0A)
 	If Not @error Then
-		PixelSearch(688, $location[1], 688, $location[1], 0xD98E04)
-		If Not @error Then
-			_FileWriteLog($LogPath, "MegaHorde Rage")
-			Return False
-		EndIf
-		PixelSearch(697, $location[1] - 7, 697, $location[1] - 5, 0xDB8F04)
-		If Not @error Then
-			_FileWriteLog($LogPath, "MegaHorde Rage")
-			Return False
-		EndIf
 		_FileWriteLog($LogPath, "MegaHorde Rage with SoulBonus")
 		Return True
 	EndIf
@@ -237,6 +240,7 @@ Func BuyTempItem($hexColor)
 	MouseClick("left", 482, 150, 5, 0)
 	Sleep(450)
 	While 1
+		; on this x search color
 		$success = PixelSearch(65, 180, 65, 630, $hexColor)
 		If Not @error Then
 			MouseClick("left", 385, $success[1], 1, 0)
@@ -251,6 +255,7 @@ Func BuyTempItem($hexColor)
 		EndIf
 	WEnd
 	MouseClick("left", 440, 690, 1, 0)
+	Sleep(100)
 EndFunc   ;==>BuyTempItem
 
 Func CollectMinion()
