@@ -23,9 +23,9 @@ Func _BonusStage($LogPath, $SkipBonusStageState)
 	Do
 		__BonusStageSlider()
 		Sleep(500)
-		PixelSearch(860, 670, 860, 670, 0xAC8371)
+		PixelSearch(660, 254, 660, 254, 0xFFE737)
 	Until @error
-	Sleep(3500)
+	Sleep(3900)
 
     ;Check if skip BonusStage
     If $SkipBonusStageState Then
@@ -34,7 +34,7 @@ Func _BonusStage($LogPath, $SkipBonusStageState)
     EndIf
 
     ;Check if Spirit Boost
-	PixelSearch(443, 97, 443, 97, 0xFFFFFF)
+	PixelSearch(454, 91, 454, 91, 0xE1E0E2)
     If Not @error Then ;if Spirit Boost do noting untill close appear
         __BonusStageSP($LogPath)
         Return
@@ -120,9 +120,7 @@ Func __BonusStageFail($LogPath)
 	Return False
 EndFunc   ;==>BonusStageFail
 
-; #INTERNAL FUNCTION# =============================================================================================================
-; Name ..........: __BonusStageNSP
-; Description ...: Plays the BonusStage without spirit boost
+
 ; Syntax ........: __BonusStageNSP($LogPath)
 ; Parameters ....: $LogPath             - Path to the log file
 ; Return values .: Success - True

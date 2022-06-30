@@ -3,7 +3,7 @@
  Author: Devil4ngle, Djahnz
 #comments-end
 
-#Region GUI.au3 - #WRAPPERS#
+#Region Idle Runner.au3 - #WRAPPERS#
 #AutoIt3Wrapper_Icon=Resources\Icon.ico
 #AutoIt3Wrapper_Compile_Both=y
 #AutoIt3Wrapper_UseX64=y
@@ -66,7 +66,7 @@
 #AutoIt3Wrapper_Res_File_Add=Resources\300.jpg, RT_RCDATA, NUM300,0
 
 #AutoIt3Wrapper_Run_Stop_OnError=y
-#EndRegion GUI.au3 - #WRAPPERS#
+#EndRegion Idle Runner.au3 - #WRAPPERS#
 
 #include-once
 #include <File.au3>
