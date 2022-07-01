@@ -73,7 +73,10 @@
 #include "Libraries\ResourcesEx.au3"
 #include "Libraries\BonusStageEx.au3"
 #include "Libraries\ChestHuntEx.au3"
+#include "Libraries\MinionsEx.au3"
+#include "Libraries\CraftingEx.au3"
 #include "Libraries\GUI.au3"
+#include "Libraries\Util.au3"
 
 ; Enables GUI events
 Opt("GUIOnEventMode", 1)
@@ -117,13 +120,13 @@ While 1
 	; Close Armory full not hover over
 	PixelSearch(775, 600, 775, 600, 0xB40000)
 	If Not @error Then
-		CloseAll()
+		_CloseAll()
 	EndIf
 
 	; Close Armory full hover over
 	PixelSearch(775, 600, 775, 600, 0xAD0000)
 	If Not @error Then
-		CloseAll()
+		_CloseAll()
 	EndIf
 
 	; Chest-hunt
@@ -135,7 +138,7 @@ While 1
 	; Rage when Megahorde
 	PixelSearch(419, 323, 419, 323, 0xDFDEE0)
 	If Not @error Then
-		RageWhenHorde()
+		_RageWhenHorde($LogPath)
 	EndIf
 
 	; Rage when Soul Bonus
@@ -147,7 +150,7 @@ While 1
 	; Collect minions
 	PixelSearch(99, 113, 99, 113, 0xFFFF7A)
 	If Not @error Then
-		CollectMinion()
+		_CollectMinion($LogPath)
 	EndIf
 
 	; Bonus stage
@@ -183,127 +186,10 @@ While 1
 	EndIf
 WEnd
 
-Func CloseAll()
-	Sleep(2000)
-	PixelSearch(775, 600, 775, 600, 0xAD0000)
-	If Not @error Then
-		MouseClick("left", 775, 600, 1, 0)
-	EndIf
-	PixelSearch(775, 600, 775, 600, 0xB40000)
-	If Not @error Then
-		MouseClick("left", 775, 600, 1, 0)
-	EndIf
-EndFunc   ;==>CloseAll
-
-Func RageWhenHorde()
-	If CheckForSoulBonus() Then
-		If $CraftRagePillState Then
-			BuyTempItem("0x871646")
-		EndIf
-		If $CraftSoulBonusState Then
-			BuyTempItem("0x7D55D8")
-		EndIf
-	EndIf
-	_FileWriteLog($LogPath, "MegaHorde Rage")
-	If $Dimensional Then
-		BuyTempItem("0xF37C55")
-		$Dimensional = False
-		_Resource_SetToCtrlID($CheckBoxDimension, 'UNCHECKED')
-	EndIf
-	If $BiDimensional Then
-		BuyTempItem("0x526629")
-		$BiDimensional = False
-		_Resource_SetToCtrlID($CheckBoxBiDimension, 'UNCHECKED')
-	EndIf
-	ControlFocus("Idle Slayer", "", "")
-	ControlSend("Idle Slayer", "", "", "{e}")
-EndFunc   ;==>RageWhenHorde
-
-Func CheckForSoulBonus()
-	Local $location = PixelSearch(625, 143, 629, 214, 0xA86D0A)
-	If Not @error Then
-		_FileWriteLog($LogPath, "MegaHorde Rage with SoulBonus")
-		Return True
-	EndIf
-EndFunc   ;==>CheckForSoulBonus
-
-Func BuyTempItem($hexColor)
-	_FileWriteLog($LogPath, "CraftingTemp Item Active")
-	Local $success
-	;open menu
-	MouseClick("left", 160, 100, 1, 0)
-	Sleep(150)
-	;temp item
-	MouseClick("left", 260, 690, 1, 0)
-	Sleep(150)
-	;top of scrollbar
-	MouseClick("left", 482, 150, 5, 0)
-	Sleep(450)
-	While 1
-		; on this x search color
-		$success = PixelSearch(65, 180, 65, 630, $hexColor)
-		If Not @error Then
-			MouseClick("left", 385, $success[1], 1, 0)
-			Sleep(50)
-			ExitLoop
-		EndIf
-		MouseWheel($MOUSE_WHEEL_DOWN, 1)
-		Sleep(50)
-		PixelSearch(484, 647, 484, 647, 0xD6D6D6)
-		If @error Then
-			ExitLoop
-		EndIf
-	WEnd
-	MouseClick("left", 440, 690, 1, 0)
-	Sleep(100)
-EndFunc   ;==>BuyTempItem
-
-Func CollectMinion()
-	;Click ascension button
-	MouseClick("left", 95, 90, 1, 0)
-	Sleep(400)
-	;Click ascension tab
-	MouseClick("left", 93, 680, 1, 0)
-	Sleep(200)
-	;Click ascension tree tab
-	MouseClick("left", 193, 680, 1, 0)
-	Sleep(200)
-	;????
-	MouseClick("left", 691, 680, 1, 0)
-	Sleep(200)
-	;Click minion tab
-	MouseClick("left", 332, 680, 1, 0)
-	Sleep(200)
-
-	;Check if Daily Bonus is available
-	PixelSearch(370, 410, 910, 470, 0x11AA23, 9)
-	If Not @error Then
-		;Click Claim All
-		MouseClick("left", 320, 280, 5, 0)
-		Sleep(200)
-		;Click Send All
-		MouseClick("left", 320, 280, 5, 0)
-		Sleep(200)
-		;Claim Daily Bonus
-		MouseClick("left", 320, 180, 5, 0)
-		Sleep(200)
-		_FileWriteLog($LogPath, "Minions Collect with Daily Bonus")
-	Else
-		;Click Claim All
-		MouseClick("left", 318, 182, 5, 0)
-		Sleep(200)
-		;Click Send All
-		MouseClick("left", 318, 182, 5, 0)
-		Sleep(200)
-		_FileWriteLog($LogPath, "Minions Collect")
-	EndIf
-
-	;Click Exit
-	MouseClick("left", 570, 694, 1, 0)
-EndFunc   ;==>CollectMinion
-
 Func CirclePortals()
+	;Write log
 	_FileWriteLog($LogPath, "CirclePortals")
+
 	;Check if portal button is visible
 	Local $PortalVisible = 0
 	PixelSearch(1180, 180, 1180, 180, 0x830399)
@@ -381,9 +267,8 @@ Func CirclePortals()
 		If $CirclePortalsCount > 8 Then
 			$CirclePortalsCount = 1
 		EndIf
-		ConsoleWrite($CirclePortalsCount & @CRLF)
-		Sleep(10000)
 
+		Sleep(5000)
 	EndIf
 EndFunc   ;==>CirclePortals
 
