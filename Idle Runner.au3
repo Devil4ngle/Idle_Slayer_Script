@@ -769,7 +769,6 @@ Func CirclePortals()
 				;Move mouse on ScrollBar
 				MouseMove(867, 300, 0)
 				MouseWheel($MOUSE_WHEEL_DOWN, 1)
-				MouseWheel($MOUSE_WHEEL_DOWN, 1)
 			Else
 				;Click portal
 				MouseClick("left", $location[0], $location[1], 1, 0)
