@@ -137,7 +137,6 @@ _GUICtrlTab_SetBkColor($GUIForm, $TabControl, 0x36393F)
 
 ; Create CraftRagePill Checkbox
 $CheckBoxCraftRagePillState = GUICtrlCreatePic('', 181, 44, 16, 16, $SS_BITMAP + $SS_NOTIFY)
-_Resource_SetToCtrlID($CheckBoxCraftRagePillState, 'UNCHECKED')
 GUICtrlSetOnEvent(-1, "CraftRagePillChecked")
 $Rage = GUICtrlCreatePic('', 207, 45, 132, 16, $SS_BITMAP + $SS_NOTIFY)
 _Resource_SetToCtrlID($Rage, 'RAGEPILL')
@@ -145,7 +144,6 @@ GUICtrlSetTip(-1, "When Horde/Mega Horde + SoulBonus, use Rage Pill When Rage is
 
 ; Create CraftSoulBonus Checkbox
 $CheckBoxCraftSoulBonusState = GUICtrlCreatePic('', 181, 83, 16, 16, $SS_BITMAP + $SS_NOTIFY)
-_Resource_SetToCtrlID($CheckBoxCraftSoulBonusState, 'UNCHECKED')
 GUICtrlSetOnEvent(-1, "CraftSoulBonusChecked")
 $CraftComp = GUICtrlCreatePic('', 207, 84, 153, 14, $SS_BITMAP + $SS_NOTIFY)
 _Resource_SetToCtrlID($CraftComp, 'SOULBONUS')
@@ -153,7 +151,6 @@ GUICtrlSetTip(-1, "When Horde/Mega Horde + SoulBonus , use Souls Compass When Ra
 
 ; Create AutoBuyUpgrades Checkbox
 $CheckBoxAutoBuyUpgradeState = GUICtrlCreatePic('', 181, 122, 16, 16, $SS_BITMAP + $SS_NOTIFY)
-_Resource_SetToCtrlID($CheckBoxAutoBuyUpgradeState, 'UNCHECKED')
 GUICtrlSetOnEvent(-1, "AutoBuyUpgradesChecked")
 $AutoUpgrade = GUICtrlCreatePic('', 207, 123, 165, 16, $SS_BITMAP + $SS_NOTIFY)
 _Resource_SetToCtrlID($AutoUpgrade, 'AUTOUPGRADES')
@@ -174,7 +171,6 @@ GUICtrlSetOnEvent(-1, "DownArrow")
 
 ; Create CirclePortals Checkbox
 $CheckBoxCirclePortalsState = GUICtrlCreatePic('', 611, 44, 16, 16, $SS_BITMAP + $SS_NOTIFY)
-_Resource_SetToCtrlID($CheckBoxCirclePortalsState, 'UNCHECKED')
 GUICtrlSetOnEvent(-1, "CirclePortalsChecked")
 $CirclePortals = GUICtrlCreatePic('', 637, 45, 129, 14, $SS_BITMAP + $SS_NOTIFY)
 _Resource_SetToCtrlID($CirclePortals, 'CIRCLEPORTALS')
@@ -183,7 +179,6 @@ GUICtrlSetTip(-1, "Automate portal cycle")
 
 ; Craft Dimensional Stuff
 $CheckBoxDimensional = GUICtrlCreatePic('', 611, 84, 16, 16, $SS_BITMAP + $SS_NOTIFY)
-_Resource_SetToCtrlID($CheckBoxDimensional, 'UNCHECKED')
 GUICtrlSetOnEvent(-1, "DimensionChecked")
 $CraftDimension = GUICtrlCreatePic('', 637, 84, 221, 14, $SS_BITMAP + $SS_NOTIFY)
 _Resource_SetToCtrlID($CraftDimension, 'DIMENSIONAL')
@@ -191,7 +186,6 @@ GUICtrlSetTip(-1, "Craft Dimensional item at Megahorde and it will disable it it
 
 ; Craft Bidmensional Stuff
 $CheckBoxBiDimensional = GUICtrlCreatePic('', 611, 123, 16, 16, $SS_BITMAP + $SS_NOTIFY)
-_Resource_SetToCtrlID($CheckBoxBiDimensional, 'UNCHECKED')
 GUICtrlSetOnEvent(-1, "BiDimensionChecked")
 $CraftBiDimension = GUICtrlCreatePic('', 637, 123, 239, 14, $SS_BITMAP + $SS_NOTIFY)
 _Resource_SetToCtrlID($CraftBiDimension, 'BIDIMENSIONAL')
@@ -202,7 +196,6 @@ $TabSheet3 = GUICtrlCreateTabItem("Bonus Stage")
 _GUICtrlTab_SetBkColor($GUIForm, $TabControl, 0x36393F)
 
 $CheckBoxSkipBonusStageState = GUICtrlCreatePic('', 181, 44, 16, 16, $SS_BITMAP + $SS_NOTIFY)
-_Resource_SetToCtrlID($CheckBoxSkipBonusStageState, 'UNCHECKED')
 GUICtrlSetOnEvent(-1, "SkipBonusStageChecked")
 $SKIPBS = GUICtrlCreatePic('', 207, 45, 160, 16, $SS_BITMAP + $SS_NOTIFY)
 _Resource_SetToCtrlID($SKIPBS, 'SKIPBONUS')
@@ -214,7 +207,6 @@ $TabSheet4 = GUICtrlCreateTabItem("Chest Hunt")
 _GUICtrlTab_SetBkColor($GUIForm, $TabControl, 0x36393F)
 
 $CheckBoxNoLockpickingState = GUICtrlCreatePic('', 181, 44, 16, 16, $SS_BITMAP + $SS_NOTIFY)
-_Resource_SetToCtrlID($CheckBoxNoLockpickingState, 'UNCHECKED')
 GUICtrlSetOnEvent(-1, "NoLockpickingChecked")
 $NPL = GUICtrlCreatePic('', 207, 45, 176, 16, $SS_BITMAP + $SS_NOTIFY)
 _Resource_SetToCtrlID($NPL, 'NOLOCKPICKING')
@@ -274,10 +266,10 @@ GUISetState(@SW_SHOW)
 
 Global $AutoBuyUpgradeState = False, $CraftSoulBonusState = False, $SkipBonusStageState = False, _
 		$CraftRagePillState = False, $CirclePortalsState = False, $JumpSliderValue = 150, _
-		$TogglePause = False, $NoLockpickingState = False, $LogPath = "Idle_Slayer_Log.txt", $CirclePortalsCount = 7, _
+		$TogglePause = False, $NoLockpickingState = False, $LogPath = "IdleRunnerLog.txt", $CirclePortalsCount = 7, _
 		$BiDimensional = False, $Dimensional = False
 
-Local $aGlobalVariables[12] = ["AutoBuyUpgradeState", "CraftSoulBonusState", "SkipBonusStageState", "CraftRagePillState", "CirclePortalsState", "JumpSliderValue", "TogglePause", "NoLockpickingState", "LogPath", "CirclePortalsCount", "BiDimensional", "Dimensional"]
+Local $aGlobalVariables[10] = ["AutoBuyUpgradeState", "CraftSoulBonusState", "SkipBonusStageState", "CraftRagePillState", "CirclePortalsState", "JumpSliderValue", "NoLockpickingState", "CirclePortalsCount", "BiDimensional", "Dimensional"]
 Local $aCheckBoxes[8] = ["AutoBuyUpgradeState", "CraftSoulBonusState", "SkipBonusStageState", "CraftRagePillState", "CirclePortalsState", "NoLockpickingState", "BiDimensional", "Dimensional"]
 
 LoadSettings()
@@ -451,14 +443,23 @@ EndFunc   ;==>SkipBonusStageChecked
 
 Func SaveSettings()
 	For $vElement In $aGlobalVariables ; $vElement will contain the value of the elements in the $aArray... one element at a time.
-		IniWrite("settings", "Settings", $vElement, Eval($vElement))
+		IniWrite("IdleRunnerSetting.txt", "Settings", $vElement, Eval($vElement))
 	Next
 EndFunc   ;==>SaveSettings
 
 Func LoadSettings()
 	For $vElement In $aGlobalVariables ; $vElement will contain the value of the elements in the $aArray... one element at a time.
-		Local $sRead = IniRead("settings", "Settings", $vElement, Eval($vElement))
-		Assign($vElement, $sRead)
+		Local $sRead = IniRead("IdleRunnerSetting.txt", "Settings", $vElement, Eval($vElement))
+		If IsInt(Eval($vElement)) Then
+			$sRead = Number($sRead)
+		EndIf
+		If $sRead == "True" Then
+			$sRead = True
+		EndIf
+		If $sRead == "False" Then
+			$sRead = False
+		EndIf
+		Assign($vElement, $sRead, 4)
 	Next
 	RefreshChecked()
 EndFunc   ;==>LoadSettings
@@ -703,7 +704,6 @@ Func CollectMinion()
 EndFunc   ;==>CollectMinion
 
 Func CirclePortals()
-	_FileWriteLog($LogPath, "CirclePortals")
 	;Check if portal button is visible
 	Local $PortalVisible = 0
 	PixelSearch(1180, 180, 1180, 180, 0x830399)
@@ -769,6 +769,7 @@ Func CirclePortals()
 				;Move mouse on ScrollBar
 				MouseMove(867, 300, 0)
 				MouseWheel($MOUSE_WHEEL_DOWN, 1)
+				MouseWheel($MOUSE_WHEEL_DOWN, 1)
 			Else
 				;Click portal
 				MouseClick("left", $location[0], $location[1], 1, 0)
@@ -781,9 +782,9 @@ Func CirclePortals()
 		If $CirclePortalsCount > 8 Then
 			$CirclePortalsCount = 1
 		EndIf
-		ConsoleWrite($CirclePortalsCount & @CRLF)
+		SaveSettings()
+		_FileWriteLog($LogPath, "CirclePortals")
 		Sleep(10000)
-
 	EndIf
 EndFunc   ;==>CirclePortals
 
@@ -1347,7 +1348,6 @@ Func BonusStageSP()
 	;Section 4 sync
 	FindPixelUntilFound(250, 472, 100, 250, 0x0D2030)
 	Sleep(200)
-	ConsoleWrite("start")
 	;Section 4 Start
 	cSend(32, 2800) ;1
 	cSend(31, 809) ;2
@@ -1463,9 +1463,6 @@ Func LoadDataLog()
 
 	If WinExists("Idle Slayer") == 1 Then
 		$array = WinGetClientSize('Idle Slayer')
-		ConsoleWrite($array[0])
-		ConsoleWrite($array[1])
-
 		If $array[0] == "1280" And $array[1] == "720" Then
 			CustomConsole($LogData, "Size of game is correct :" & $array[0] & "x" & $array[1] & ".")
 		Else
