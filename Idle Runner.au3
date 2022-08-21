@@ -14,12 +14,12 @@
 #AutoIt3Wrapper_Res_File_Add=Resources\SkipBonusStage.jpg, RT_RCDATA, SKIPBONUS,0
 #AutoIt3Wrapper_Res_File_Add=Resources\Home.jpg, RT_RCDATA, HOME,0
 #AutoIt3Wrapper_Res_File_Add=Resources\General.jpg, RT_RCDATA, GENERAL,0
-#AutoIt3Wrapper_Res_File_Add=Resources\BonusStage.jpg, RT_RCDATA, BONUSSTAGE,0
+#AutoIt3Wrapper_Res_File_Add=Resources\Minigames.jpg, RT_RCDATA, MINIGAMES,0
 #AutoIt3Wrapper_Res_File_Add=Resources\Log.jpg, RT_RCDATA, LOG,0
 #AutoIt3Wrapper_Res_File_Add=Resources\Stop.jpg, RT_RCDATA, STOP,0
 #AutoIt3Wrapper_Res_File_Add=Resources\Start.jpg, RT_RCDATA, START,0
 #AutoIt3Wrapper_Res_File_Add=Resources\Exit.jpg, RT_RCDATA, EXIT,0
-#AutoIt3Wrapper_Res_File_Add=Resources\Chesthunt.jpg, RT_RCDATA, CHESTHUNT,0
+#AutoIt3Wrapper_Res_File_Add=Resources\Crafting.jpg, RT_RCDATA, CRAFTING,0
 #AutoIt3Wrapper_Res_File_Add=Resources\Github.jpg, RT_RCDATA, GITHUB,0
 #AutoIt3Wrapper_Res_File_Add=Resources\JumpRate.jpg, RT_RCDATA, JUMPRATE,0
 #AutoIt3Wrapper_Res_File_Add=Resources\UpArrow.jpg, RT_RCDATA, UPARROW,0
@@ -27,8 +27,6 @@
 #AutoIt3Wrapper_Res_File_Add=Resources\NoLockpicking.jpg, RT_RCDATA, NOLOCKPICKING,0
 #AutoIt3Wrapper_Res_File_Add=Resources\CraftBidimensionalStaff.jpg, RT_RCDATA, BIDIMENSIONAL,0
 #AutoIt3Wrapper_Res_File_Add=Resources\CraftDimensionalStaff.jpg, RT_RCDATA, DIMENSIONAL,0
-
-;Numbers
 #AutoIt3Wrapper_Res_File_Add=Resources\0.jpg, RT_RCDATA, NUM0,0
 #AutoIt3Wrapper_Res_File_Add=Resources\10.jpg, RT_RCDATA, NUM10,0
 #AutoIt3Wrapper_Res_File_Add=Resources\20.jpg, RT_RCDATA, NUM20,0
@@ -60,17 +58,21 @@
 #AutoIt3Wrapper_Res_File_Add=Resources\280.jpg, RT_RCDATA, NUM280,0
 #AutoIt3Wrapper_Res_File_Add=Resources\290.jpg, RT_RCDATA, NUM290,0
 #AutoIt3Wrapper_Res_File_Add=Resources\300.jpg, RT_RCDATA, NUM300,0
-
 #AutoIt3Wrapper_Run_Stop_OnError=y
 #EndRegion ;**** Directives created by AutoIt3Wrapper_GUI ****
+#Region Idle Runner.au3 #WRAPPER#
+
+;Numbers
+#EndRegion Idle Runner.au3 #WRAPPER#
 #comments-start
  AutoIt Version: 3.3.16.0
  Author: Devil4ngle, Djahnz
 #comments-end
 
-#include <File.au3>
+#include "Libraries\ResourcesEx.au3"
+#include "Libraries\GUI.au3"
+#include "Libraries\BonusStage.au3"
 #include <ButtonConstants.au3>
-#include <SliderConstants.au3>
 #include <GUIConstantsEx.au3>
 #include <StaticConstants.au3>
 #include <TabConstants.au3>
@@ -80,7 +82,6 @@
 #include <WinAPISysWin.au3>
 #include <EditConstants.au3>
 #include <AutoItConstants.au3>
-#include "Resources\ResourcesEx.au3"
 #include <Array.au3>
 
 ; Enables GUI events
@@ -91,413 +92,21 @@ Opt("SendCapslockMode", 0)
 Opt("PixelCoordMode", 0)
 ; Set window Mode for MouseClick
 Opt("MouseCoordMode", 0)
-
 ; Set Hotkey Bindings
-; Setting own hotkeys coming soon
-Global $Running = False
 HotKeySet("{Home}", "Pause")
 HotKeySet("{Esc}", "IdleClose")
-
+; Create Saving Directory
+DirCreate("IdleRunnerLogs")
 ; Create GUI
-$GUIForm = GUICreate("Idle Runner", 898, 164, @DesktopWidth / 2 - 500, @DesktopHeight - 250, $WS_BORDER + $WS_POPUP)
-GUISetBkColor(0x202225)
-
-; Titlebar
-GUICtrlCreateLabel("", -1, -1, 898, 22, -1, $GUI_WS_EX_PARENTDRAG)
-GUICtrlCreateLabel("        Idle Runner v2.9.2", -1, -1, 900, 22, $SS_CENTERIMAGE)
-GUICtrlSetColor(-1, 0xFFFFFF)
-$Icon = GUICtrlCreatePic('', 2, 2, 16, 16, $SS_BITMAP + $SS_NOTIFY)
-_Resource_SetToCtrlID($Icon, 'ICON')
-
-; Create TabControl
-$TabControl = GUICtrlCreateTab(159, -4, 745, 173, BitOR($TCS_FORCELABELLEFT, $TCS_FIXEDWIDTH, $TCS_BUTTONS))
-GUICtrlSetBkColor(-1, 0x2F3136)
-GUISetOnEvent(-1, "TabController")
-$TabHandle = GUICtrlGetHandle($TabControl)
-
-; Create Home Tab
-$TabHome = GUICtrlCreateTabItem("Home")
-_GUICtrlTab_SetBkColor($GUIForm, $TabControl, 0x36393F)
-
-; Welcome screen
-$Welcome = GUICtrlCreatePic('', 186, 36, 436, 29, $SS_BITMAP + $SS_NOTIFY)
-_Resource_SetToCtrlID($Welcome, 'WELCOME')
-
-$ButtonDiscord = GUICtrlCreatePic('', 206, 95, 160, 50, $SS_BITMAP + $SS_NOTIFY)
-_Resource_SetToCtrlID($ButtonDiscord, 'GITHUB')
-GUICtrlSetOnEvent(-1, "ButtonGithubClick")
-
-$ButtonInstructions = GUICtrlCreatePic('', 390, 95, 214, 50, $SS_BITMAP + $SS_NOTIFY)
-_Resource_SetToCtrlID($ButtonInstructions, 'INSTRUCTION')
-GUICtrlSetOnEvent(-1, "ButtonInstructionsClick")
-
-; Create General Tab
-$TabSheet2 = GUICtrlCreateTabItem("General")
-_GUICtrlTab_SetBkColor($GUIForm, $TabControl, 0x36393F)
-
-; Create CraftRagePill Checkbox
-$CheckBoxCraftRagePillState = GUICtrlCreatePic('', 181, 44, 16, 16, $SS_BITMAP + $SS_NOTIFY)
-GUICtrlSetOnEvent(-1, "CraftRagePillChecked")
-$Rage = GUICtrlCreatePic('', 207, 45, 132, 16, $SS_BITMAP + $SS_NOTIFY)
-_Resource_SetToCtrlID($Rage, 'RAGEPILL')
-GUICtrlSetTip(-1, "When Horde/Mega Horde + SoulBonus, use Rage Pill When Rage is Down")
-
-; Create CraftSoulBonus Checkbox
-$CheckBoxCraftSoulBonusState = GUICtrlCreatePic('', 181, 83, 16, 16, $SS_BITMAP + $SS_NOTIFY)
-GUICtrlSetOnEvent(-1, "CraftSoulBonusChecked")
-$CraftComp = GUICtrlCreatePic('', 207, 84, 153, 14, $SS_BITMAP + $SS_NOTIFY)
-_Resource_SetToCtrlID($CraftComp, 'SOULBONUS')
-GUICtrlSetTip(-1, "When Horde/Mega Horde + SoulBonus , use Souls Compass When Rage is Down")
-
-; Create AutoBuyUpgrades Checkbox
-$CheckBoxAutoBuyUpgradeState = GUICtrlCreatePic('', 181, 122, 16, 16, $SS_BITMAP + $SS_NOTIFY)
-GUICtrlSetOnEvent(-1, "AutoBuyUpgradesChecked")
-$AutoUpgrade = GUICtrlCreatePic('', 207, 123, 165, 16, $SS_BITMAP + $SS_NOTIFY)
-_Resource_SetToCtrlID($AutoUpgrade, 'AUTOUPGRADES')
-GUICtrlSetTip(-1, " Buys upgrades every 10 minutes except Vertical Magnet")
-
-; Create JumpRate Slider
-$Jslider = GUICtrlCreatePic('', 400, 45, 98, 16, $SS_BITMAP + $SS_NOTIFY)
-_Resource_SetToCtrlID($Jslider, 'JUMPRATE')
-
-$JumpNumber = GUICtrlCreatePic('', 505, 42, 42, 22, $SS_BITMAP + $SS_NOTIFY)
-_Resource_SetToCtrlID($JumpNumber, 'NUM150')
-$JumpUp = GUICtrlCreatePic('', 547, 42, 17, 11, $SS_BITMAP + $SS_NOTIFY)
-_Resource_SetToCtrlID($JumpUp, 'UPARROW')
-GUICtrlSetOnEvent(-1, "UpArrow")
-$JumpDown = GUICtrlCreatePic('', 547, 53, 17, 11, $SS_BITMAP + $SS_NOTIFY)
-_Resource_SetToCtrlID($JumpDown, 'DOWNARROW')
-GUICtrlSetOnEvent(-1, "DownArrow")
-
-; Create CirclePortals Checkbox
-$CheckBoxCirclePortalsState = GUICtrlCreatePic('', 611, 44, 16, 16, $SS_BITMAP + $SS_NOTIFY)
-GUICtrlSetOnEvent(-1, "CirclePortalsChecked")
-$CirclePortals = GUICtrlCreatePic('', 637, 45, 129, 14, $SS_BITMAP + $SS_NOTIFY)
-_Resource_SetToCtrlID($CirclePortals, 'CIRCLEPORTALS')
-GUICtrlSetTip(-1, "Automate portal cycle")
-
-
-; Craft Dimensional Stuff
-$CheckBoxDimensional = GUICtrlCreatePic('', 611, 84, 16, 16, $SS_BITMAP + $SS_NOTIFY)
-GUICtrlSetOnEvent(-1, "DimensionChecked")
-$CraftDimension = GUICtrlCreatePic('', 637, 84, 221, 14, $SS_BITMAP + $SS_NOTIFY)
-_Resource_SetToCtrlID($CraftDimension, 'DIMENSIONAL')
-GUICtrlSetTip(-1, "Craft Dimensional item at Megahorde and it will disable it itself after one use")
-
-; Craft Bidmensional Stuff
-$CheckBoxBiDimensional = GUICtrlCreatePic('', 611, 123, 16, 16, $SS_BITMAP + $SS_NOTIFY)
-GUICtrlSetOnEvent(-1, "BiDimensionChecked")
-$CraftBiDimension = GUICtrlCreatePic('', 637, 123, 239, 14, $SS_BITMAP + $SS_NOTIFY)
-_Resource_SetToCtrlID($CraftBiDimension, 'BIDIMENSIONAL')
-GUICtrlSetTip(-1, "Craft BiDimensional item at Megahorde and it will disable it itself after one use")
-
-; Create Bonus Stage Tab
-$TabSheet3 = GUICtrlCreateTabItem("Bonus Stage")
-_GUICtrlTab_SetBkColor($GUIForm, $TabControl, 0x36393F)
-
-$CheckBoxSkipBonusStageState = GUICtrlCreatePic('', 181, 44, 16, 16, $SS_BITMAP + $SS_NOTIFY)
-GUICtrlSetOnEvent(-1, "SkipBonusStageChecked")
-$SKIPBS = GUICtrlCreatePic('', 207, 45, 160, 16, $SS_BITMAP + $SS_NOTIFY)
-_Resource_SetToCtrlID($SKIPBS, 'SKIPBONUS')
-
-GUICtrlSetTip(-1, "Skips Bonus Stages by letting the timer run out without doing anything")
-
-; Create Chesthunt Tab
-$TabSheet4 = GUICtrlCreateTabItem("Chest Hunt")
-_GUICtrlTab_SetBkColor($GUIForm, $TabControl, 0x36393F)
-
-$CheckBoxNoLockpickingState = GUICtrlCreatePic('', 181, 44, 16, 16, $SS_BITMAP + $SS_NOTIFY)
-GUICtrlSetOnEvent(-1, "NoLockpickingChecked")
-$NPL = GUICtrlCreatePic('', 207, 45, 176, 16, $SS_BITMAP + $SS_NOTIFY)
-_Resource_SetToCtrlID($NPL, 'NOLOCKPICKING')
-
-; Create Log Tab
-$TabSheet5 = GUICtrlCreateTabItem("TabSheet5")
-_GUICtrlTab_SetBkColor($GUIForm, $TabControl, 0x36393F)
-; Log logs
-$Log = GUICtrlCreateEdit("", 175, 32, 340, 120, BitOR($ES_AUTOVSCROLL, $ES_AUTOHSCROLL, $ES_WANTRETURN, $WS_VSCROLL, $ES_READONLY))
-GUICtrlSetBkColor($Log, 0x000000)
-GUICtrlSetColor($Log, 0x4CFF00)
-; Log data
-$LogData = GUICtrlCreateEdit("", 540, 32, 340, 120, BitOR($ES_AUTOVSCROLL, $ES_AUTOHSCROLL, $ES_WANTRETURN, $WS_VSCROLL, $ES_READONLY))
-GUICtrlSetBkColor($LogData, 0x000000)
-GUICtrlSetColor($LogData, 0xFFBB00)
-
-; Set Tab Focus Home
-GUICtrlSetState($TabHome, $GUI_SHOW)
-GUICtrlCreateTabItem("")
-
-; Create Home Button
-$ButtonHome = GUICtrlCreatePic('', 1, 20, 160, 24, $SS_NOTIFY + $SS_BITMAP)
-_Resource_SetToCtrlID($ButtonHome, 'HOME')
-GUICtrlSetOnEvent(-1, "ButtonHomeClick")
-
-; Create General Button
-$ButtonGeneral = GUICtrlCreatePic('', 1, 44, 160, 24, $SS_NOTIFY + $SS_BITMAP)
-_Resource_SetToCtrlID($ButtonGeneral, 'GENERAL')
-GUICtrlSetOnEvent(-1, "ButtonGeneralClick")
-
-; Create Bonus Stage Button
-$ButtonBonusStage = GUICtrlCreatePic('', 1, 68, 160, 24, $SS_NOTIFY + $SS_BITMAP)
-_Resource_SetToCtrlID($ButtonBonusStage, 'BONUSSTAGE')
-GUICtrlSetOnEvent(-1, "ButtonBonusStageClick")
-
-; Create Chesthunt Button
-$ButtonChestHunt = GUICtrlCreatePic('', 1, 92, 160, 24, $SS_NOTIFY + $SS_BITMAP)
-_Resource_SetToCtrlID($ButtonChestHunt, 'CHESTHUNT')
-GUICtrlSetOnEvent(-1, "ButtonChestHuntClick")
-
-; Create Log Button
-$ButtonLog = GUICtrlCreatePic('', 1, 116, 160, 24, $SS_NOTIFY + $SS_BITMAP)
-_Resource_SetToCtrlID($ButtonLog, 'LOG')
-GUICtrlSetOnEvent(-1, "ButtonLogClick")
-
-; Create Start / Pause Button
-$ButtonStartStop = GUICtrlCreatePic('', 1, 140, 80, 24, $SS_NOTIFY + $SS_BITMAP)
-_Resource_SetToCtrlID($ButtonStartStop, 'STOP')
-GUICtrlSetOnEvent(-1, "Pause")
-
-; Create Stop Button
-$ButtonExit = GUICtrlCreatePic('', 81, 140, 80, 24, $SS_NOTIFY + $SS_BITMAP)
-_Resource_SetToCtrlID($ButtonExit, 'EXIT')
-GUICtrlSetOnEvent(-1, "IdleClose")
-
+CreateGUI()
+LoadSettings()
 GUISetState(@SW_SHOW)
 
-Global $AutoBuyUpgradeState = False, $CraftSoulBonusState = False, $SkipBonusStageState = False, _
-		$CraftRagePillState = False, $CirclePortalsState = False, $JumpSliderValue = 150, _
-		$TogglePause = False, $NoLockpickingState = False, $LogPath = "IdleRunnerLog.txt", $CirclePortalsCount = 7, _
-		$BiDimensional = False, $Dimensional = False
+; A lot of Global Function are declared in Libraries/GUI
 
-Local $aGlobalVariables[10] = ["AutoBuyUpgradeState", "CraftSoulBonusState", "SkipBonusStageState", "CraftRagePillState", "CirclePortalsState", "JumpSliderValue", "NoLockpickingState", "CirclePortalsCount", "BiDimensional", "Dimensional"]
-Local $aCheckBoxes[8] = ["AutoBuyUpgradeState", "CraftSoulBonusState", "SkipBonusStageState", "CraftRagePillState", "CirclePortalsState", "NoLockpickingState", "BiDimensional", "Dimensional"]
-
-LoadSettings()
-
-Func IdleClose()
-	Exit
-EndFunc   ;==>IdleClose
-
-Func Pause()
-	$TogglePause = Not $TogglePause
-	If $TogglePause Then
-		ControlFocus("Idle Slayer", "", "")
-		_Resource_SetToCtrlID($ButtonStartStop, 'START')
-	Else
-		ControlFocus("Idle Slayer", "", "")
-		_Resource_SetToCtrlID($ButtonStartStop, 'STOP')
-	EndIf
-EndFunc   ;==>Pause
-
-Func ButtonHomeClick()
-	GUICtrlSetState($TabHome, $GUI_SHOW)
-EndFunc   ;==>ButtonHomeClick
-
-Func ButtonGeneralClick()
-	GUICtrlSetState($TabSheet2, $GUI_SHOW)
-EndFunc   ;==>ButtonGeneralClick
-
-Func ButtonBonusStageClick()
-	GUICtrlSetState($TabSheet3, $GUI_SHOW)
-EndFunc   ;==>ButtonBonusStageClick
-
-Func ButtonChestHuntClick()
-	GUICtrlSetState($TabSheet4, $GUI_SHOW)
-EndFunc   ;==>ButtonChestHuntClick
-
-Func ButtonLogClick()
-	GUICtrlSetState($TabSheet5, $GUI_SHOW)
-	LoadLog()
-	LoadDataLog()
-EndFunc   ;==>ButtonLogClick
-
-Func ButtonExitClick()
-	Exit
-EndFunc   ;==>ButtonExitClick
-
-Func ButtonGithubClick()
-	ShellExecute("https://github.com/Devil4ngle/Idle_Slayer_Script/releases")
-EndFunc   ;==>ButtonGithubClick
-
-Func ButtonInstructionsClick()
-	ShellExecute("https://discord.gg/aEaBr77UDn")
-EndFunc   ;==>ButtonInstructionsClick
-
-
-Func RefreshChecked()
-	For $vElement In $aCheckBoxes
-		If Eval($vElement) == True Then
-			_Resource_SetToCtrlID(Eval("CheckBox" & $vElement), 'CHECKED')
-		Else
-			_Resource_SetToCtrlID(Eval("CheckBox" & $vElement), 'UNCHECKED')
-		EndIf
-	Next
-	_Resource_SetToCtrlID($JumpNumber, 'NUM' & $JumpSliderValue)
-EndFunc   ;==>RefreshChecked
-
-Func NoLockpickingChecked()
-	If $NoLockpickingState Then
-		$NoLockpickingState = False
-		_Resource_SetToCtrlID($CheckBoxNoLockpickingState, 'UNCHECKED')
-	Else
-		$NoLockpickingState = True
-		_Resource_SetToCtrlID($CheckBoxNoLockpickingState, 'CHECKED')
-	EndIf
-	SaveSettings()
-EndFunc   ;==>NoLockpickingChecked
-
-Func AutoBuyUpgradesChecked()
-	If $AutoBuyUpgradeState Then
-		$AutoBuyUpgradeState = False
-		_Resource_SetToCtrlID($CheckBoxAutoBuyUpgradeState, 'UNCHECKED')
-	Else
-		$AutoBuyUpgradeState = True
-		_Resource_SetToCtrlID($CheckBoxAutoBuyUpgradeState, 'CHECKED')
-	EndIf
-	SaveSettings()
-EndFunc   ;==>AutoBuyUpgradesChecked
-
-Func CirclePortalsChecked()
-	If $CirclePortalsState Then
-		$CirclePortalsState = False
-		_Resource_SetToCtrlID($CheckBoxCirclePortalsState, 'UNCHECKED')
-	Else
-		$CirclePortalsState = True
-		_Resource_SetToCtrlID($CheckBoxCirclePortalsState, 'CHECKED')
-	EndIf
-	SaveSettings()
-EndFunc   ;==>CirclePortalsChecked
-
-Func DimensionChecked()
-	If $Dimensional Then
-		$Dimensional = False
-		_Resource_SetToCtrlID($CheckBoxDimensional, 'UNCHECKED')
-	Else
-		$Dimensional = True
-		_Resource_SetToCtrlID($CheckBoxDimensional, 'CHECKED')
-	EndIf
-	SaveSettings()
-EndFunc   ;==>DimensionChecked
-
-Func BiDimensionChecked()
-	If $BiDimensional Then
-		$BiDimensional = False
-		_Resource_SetToCtrlID($CheckBoxBiDimensional, 'UNCHECKED')
-	Else
-		$BiDimensional = True
-		_Resource_SetToCtrlID($CheckBoxBiDimensional, 'CHECKED')
-	EndIf
-	SaveSettings()
-EndFunc   ;==>BiDimensionChecked
-
-Func CraftRagePillChecked()
-	If $CraftRagePillState Then
-		$CraftRagePillState = False
-		_Resource_SetToCtrlID($CheckBoxCraftRagePillState, 'UNCHECKED')
-	Else
-		$CraftRagePillState = True
-		_Resource_SetToCtrlID($CheckBoxCraftRagePillState, 'CHECKED')
-	EndIf
-	SaveSettings()
-EndFunc   ;==>CraftRagePillChecked
-
-Func CraftSoulBonusChecked()
-	If $CraftSoulBonusState Then
-		$CraftSoulBonusState = False
-		_Resource_SetToCtrlID($CheckBoxCraftSoulBonusState, 'UNCHECKED')
-
-	Else
-		$CraftSoulBonusState = True
-		_Resource_SetToCtrlID($CheckBoxCraftSoulBonusState, 'CHECKED')
-
-	EndIf
-	SaveSettings()
-EndFunc   ;==>CraftSoulBonusChecked
-
-Func UpArrow()
-	If ($JumpSliderValue + 10) <= 300 Then
-		$JumpSliderValue += 10
-		_Resource_SetToCtrlID($JumpNumber, 'NUM' & $JumpSliderValue)
-	EndIf
-	SaveSettings()
-EndFunc   ;==>UpArrow
-
-Func DownArrow()
-	If ($JumpSliderValue - 10) >= 0 Then
-		$JumpSliderValue -= 10
-		_Resource_SetToCtrlID($JumpNumber, 'NUM' & $JumpSliderValue)
-	EndIf
-	SaveSettings()
-EndFunc   ;==>DownArrow
-
-Func SkipBonusStageChecked()
-	If $SkipBonusStageState Then
-		$SkipBonusStageState = False
-		_Resource_SetToCtrlID($CheckBoxSkipBonusStageState, 'UNCHECKED')
-	Else
-		$SkipBonusStageState = True
-		_Resource_SetToCtrlID($CheckBoxSkipBonusStageState, 'CHECKED')
-	EndIf
-	SaveSettings()
-EndFunc   ;==>SkipBonusStageChecked
-
-Func SaveSettings()
-	For $vElement In $aGlobalVariables ; $vElement will contain the value of the elements in the $aArray... one element at a time.
-		IniWrite("IdleRunnerSetting.txt", "Settings", $vElement, Eval($vElement))
-	Next
-EndFunc   ;==>SaveSettings
-
-Func LoadSettings()
-	For $vElement In $aGlobalVariables ; $vElement will contain the value of the elements in the $aArray... one element at a time.
-		Local $sRead = IniRead("IdleRunnerSetting.txt", "Settings", $vElement, Eval($vElement))
-		If IsInt(Eval($vElement)) Then
-			$sRead = Number($sRead)
-		EndIf
-		If $sRead == "True" Then
-			$sRead = True
-		EndIf
-		If $sRead == "False" Then
-			$sRead = False
-		EndIf
-		Assign($vElement, $sRead, 4)
-	Next
-	RefreshChecked()
-EndFunc   ;==>LoadSettings
-
-Func TabController()
-	TabEvent()
-EndFunc   ;==>TabController
-
-Func TabEvent()
-	; Set values
-	Local $iTab_X = 5, $iTab_Y = 5, $iTab_Margin = 1
-	; Get index of current tab
-	Local $iTab_Index = GUICtrlRead($TabControl)
-	; Get coordinates of TabItem
-	Local $aTab_Coord = _GUICtrlTab_GetItemRect($TabHandle, $iTab_Index)
-	; Get text of TabItem
-	Local $sTab_Text = _GUICtrlTab_GetItemText($TabHandle, $iTab_Index)
-	; Set focus
-	_GUICtrlTab_SetCurFocus($TabHandle, $iTab_Index)
-EndFunc   ;==>TabEvent
-
-Func _GUICtrlTab_SetBkColor($hWnd, $hSysTab32, $sBkColor)
-	; Get Tab position
-	Local $aTabPos = ControlGetPos($hWnd, "", $hSysTab32)
-	; Get size of user area
-	Local $aTab_Rect = _GUICtrlTab_GetItemRect($hSysTab32, -1)
-	; Create label
-	GUICtrlCreateLabel("", $aTabPos[0], $aTabPos[1] + $aTab_Rect[3] + 4, $aTabPos[2] - 6, $aTabPos[3] - $aTab_Rect[3] - 7)
-	; colour label
-	GUICtrlSetBkColor(-1, $sBkColor)
-	; Disable label
-	GUICtrlSetState(-1, $GUI_DISABLE)
-EndFunc   ;==>_GUICtrlTab_SetBkColor
-
-Local $timer = TimerInit()
 ; Infinite Loop
 While 1
-	If $TogglePause Then ContinueLoop
+	If $bTogglePause Then ContinueLoop
 
 	If WinGetTitle("[ACTIVE]") <> "Idle Runner" Then
 		ControlFocus("Idle Slayer", "", "")
@@ -505,12 +114,12 @@ While 1
 
 	;Jump and shoot
 	ControlSend("Idle Slayer", "", "", "{Up}{Right}")
-	Sleep($JumpSliderValue)
+	Sleep($iJumpSliderValue)
 
 	; Silver box collect
 	PixelSearch(650, 36, 650, 36, 0xFFC000)
 	If Not @error Then
-		_FileWriteLog($LogPath, "Silver Box Collected")
+		_FileWriteLog($sLogPath, "Silver Box Collected")
 		MouseClick("left", 644, 49, 1, 0)
 	EndIf
 
@@ -557,22 +166,25 @@ While 1
 		If Not @error Then
 			PixelSearch(775, 448, 775, 448, 0xFFFFFF)
 			If Not @error Then
-				BonusStage()
+				BonusStage($sLogPath, $bSkipBonusStageState)
 			EndIf
 		EndIf
 	EndIf
 
 	; Circle portal
-	If $CirclePortalsState Then
+	If $bCirclePortalsState Then
 		CirclePortals()
 	EndIf
 
 	; Auto buy upgrades
-	If $AutoBuyUpgradeState Then
-		If (600000 < TimerDiff($timer)) Then
-			$timer = TimerInit()
+	If $bAutoBuyUpgradeState Then
+		If ($iCooldownAutoUpgrades < TimerDiff($iTimer)) Then
+			$iCooldownAutoUpgrades = 600000
+			$iTimer = TimerInit()
 			WinActivate("Idle Slayer")
-			BuyEquipment()
+			If WinGetTitle("[ACTIVE]") == "Idle Slayer" Then
+				BuyEquipment()
+			EndIf
 		EndIf
 	EndIf
 
@@ -597,40 +209,40 @@ EndFunc   ;==>CloseAll
 
 Func RageWhenHorde()
 	If CheckForSoulBonus() Then
-		If $CraftRagePillState Then
+		If $bCraftRagePillState Then
 			BuyTempItem("0x871646")
 		EndIf
-		If $CraftSoulBonusState Then
+		If $bCraftSoulBonusState Then
 			BuyTempItem("0x7D55D8")
 		EndIf
 	EndIf
-	_FileWriteLog($LogPath, "MegaHorde Rage")
-	If $Dimensional Then
+	_FileWriteLog($sLogPath, "MegaHorde Rage")
+	If $bDimensionalState Then
 		BuyTempItem("0xF37C55")
-		$Dimensional = False
-		_Resource_SetToCtrlID($CheckBoxDimensional, 'UNCHECKED')
+		$bDimensionalState = False
+		_Resource_SetToCtrlID($iCheckBoxbDimensionalState, 'UNCHECKED')
 	EndIf
-	If $BiDimensional Then
+	If $bBiDimensionalState Then
 		BuyTempItem("0x526629")
-		$BiDimensional = False
-		_Resource_SetToCtrlID($CheckBoxBiDimensional, 'UNCHECKED')
+		$bBiDimensionalState = False
+		_Resource_SetToCtrlID($iCheckBoxbBiDimensionalState, 'UNCHECKED')
 	EndIf
 	ControlFocus("Idle Slayer", "", "")
 	ControlSend("Idle Slayer", "", "", "{e}")
 EndFunc   ;==>RageWhenHorde
 
-
 Func CheckForSoulBonus()
-	Local $location = PixelSearch(625, 143, 629, 214, 0xA86D0A)
+	PixelSearch(625, 143, 629, 214, 0xA86D0A)
 	If Not @error Then
-		_FileWriteLog($LogPath, "MegaHorde Rage with SoulBonus")
+		_FileWriteLog($sLogPath, "MegaHorde Rage with SoulBonus")
 		Return True
 	EndIf
+	Return False
 EndFunc   ;==>CheckForSoulBonus
 
-Func BuyTempItem($hexColor)
-	_FileWriteLog($LogPath, "CraftingTemp Item Active")
-	Local $success
+Func BuyTempItem($sHexColor)
+	_FileWriteLog($sLogPath, "CraftingTemp Item Active")
+	Local $aFoundPixel
 	;open menu
 	MouseClick("left", 160, 100, 1, 0)
 	Sleep(150)
@@ -642,9 +254,9 @@ Func BuyTempItem($hexColor)
 	Sleep(450)
 	While 1
 		; on this x search color
-		$success = PixelSearch(65, 180, 65, 630, $hexColor)
+		$aFoundPixel = PixelSearch(65, 180, 65, 630, $sHexColor)
 		If Not @error Then
-			MouseClick("left", 385, $success[1], 1, 0)
+			MouseClick("left", 385, $aFoundPixel[1], 1, 0)
 			Sleep(50)
 			ExitLoop
 		EndIf
@@ -688,7 +300,7 @@ Func CollectMinion()
 		;Claim Daily Bonus
 		MouseClick("left", 320, 180, 5, 0)
 		Sleep(200)
-		_FileWriteLog($LogPath, "Minions Collect with Daily Bonus")
+		_FileWriteLog($sLogPath, "Minions Collect with Daily Bonus")
 	Else
 		;Click Claim All
 		MouseClick("left", 318, 182, 5, 0)
@@ -696,7 +308,7 @@ Func CollectMinion()
 		;Click Send All
 		MouseClick("left", 318, 182, 5, 0)
 		Sleep(200)
-		_FileWriteLog($LogPath, "Minions Collect")
+		_FileWriteLog($sLogPath, "Minions Collect")
 	EndIf
 
 	;Click Exit
@@ -705,17 +317,17 @@ EndFunc   ;==>CollectMinion
 
 Func CirclePortals()
 	;Check if portal button is visible
-	Local $PortalVisible = 0
+	Local $iPortalVisible = 0
 	PixelSearch(1180, 180, 1180, 180, 0x830399)
 	If @error Then
-		$PortalVisible += 1
+		$iPortalVisible += 1
 	EndIf
 	PixelSearch(1180, 180, 1180, 180, 0x290130)
 	If @error Then
-		$PortalVisible += 1
+		$iPortalVisible += 1
 	EndIf
 
-	If $PortalVisible == 2 Then
+	If $iPortalVisible == 2 Then
 		Return
 	EndIf
 
@@ -737,28 +349,28 @@ Func CirclePortals()
 		Until @error
 		Sleep(400)
 
-		Local $Color = 0xFFFFFF
-		Switch $CirclePortalsCount
+		Local $sColor = 0xFFFFFF
+		Switch $iCirclePortalsCount
 			Case 1
-				$Color = 0x72FBFF
+				$sColor = 0x72FBFF
 			Case 2
-				$Color = 0x510089
+				$sColor = 0x510089
 			Case 3
-				$Color = 0x00D0FF
+				$sColor = 0x00D0FF
 			Case 4
-				$Color = 0x00A197
+				$sColor = 0x00A197
 			Case 5
-				$Color = 0x00017B
+				$sColor = 0x00017B
 			Case 6
-				$Color = 0xE79CC4
+				$sColor = 0xE79CC4
 			Case 7
-				$Color = 0x00FFBA
+				$sColor = 0x00FFBA
 			Case 8
-				$Color = 0xCA484D
+				$sColor = 0xCA484D
 		EndSwitch
-
+		Local $aLocation
 		While 1
-			$location = PixelSearch(491, 266, 491, 540, $Color)
+			$aLocation = PixelSearch(491, 266, 491, 540, $sColor)
 			If @error Then
 				;Check gray scroll bar is there
 				PixelSearch(875, 536, 875, 536, 0xD6D6D6)
@@ -771,75 +383,75 @@ Func CirclePortals()
 				MouseWheel($MOUSE_WHEEL_DOWN, 1)
 			Else
 				;Click portal
-				MouseClick("left", $location[0], $location[1], 1, 0)
+				MouseClick("left", $aLocation[0], $aLocation[1], 1, 0)
 				Sleep(300)
 				ExitLoop
 			EndIf
 		WEnd
 
-		$CirclePortalsCount += 1
-		If $CirclePortalsCount > 8 Then
-			$CirclePortalsCount = 1
+		$iCirclePortalsCount += 1
+		If $iCirclePortalsCount > 8 Then
+			$iCirclePortalsCount = 1
 		EndIf
 		SaveSettings()
-		_FileWriteLog($LogPath, "CirclePortals")
+		_FileWriteLog($sLogPath, "CirclePortals")
 		Sleep(10000)
 	EndIf
 EndFunc   ;==>CirclePortals
 
 Func Chesthunt()
-	_FileWriteLog($LogPath, "Chesthunt")
-	If $NoLockpickingState Then
+	_FileWriteLog($sLogPath, "Chesthunt")
+	If $bNoLockpickingState Then
 		Sleep(4000)
 	Else
 		Sleep(2000)
 	EndIf
-	Local $saverX = 0
-	Local $saverY = 0
-	Local $pixelX = 185
-	Local $pixelY = 325
+	Local $iSaverX = 0
+	Local $iSaverY = 0
+	Local $iPixelX = 185
+	Local $iPixelY = 325
 	; Locate saver
-	For $y = 1 To 3
-		For $x = 1 To 10
-			PixelSearch($pixelX, $pixelY - 1, $pixelX + 5, $pixelY, 0xFFEB04)
+	For $iY = 1 To 3
+		For $iX = 1 To 10
+			PixelSearch($iPixelX, $iPixelY - 1, $iPixelX + 5, $iPixelY, 0xFFEB04)
 			If Not @error Then
-				$saverX = $pixelX
-				$saverY = $pixelY
+				$iSaverX = $iPixelX
+				$iSaverY = $iPixelY
 				ExitLoop (2)
 			EndIf
-			$pixelX += 95
+			$iPixelX += 95
 		Next
-		$pixelY += 95
-		$pixelX = 185
+		$iPixelY += 95
+		$iPixelX = 185
 	Next
 	; Actual chest hunt
-	$pixelX = 185
-	$pixelY = 325
-	$count = 0
-	For $y = 1 To 3
-		For $x = 1 To 10
+	$iPixelX = 185
+	$iPixelY = 325
+	Local $iCount = 0
+	For $iY = 1 To 3
+		For $iX = 1 To 10
 			; After opening 2 chest open saver
-			If $count == 2 And $saverX > 0 Then
-				MouseClick("left", $saverX + 33, $saverY - 23, 1, 0)
-				If $NoLockpickingState Then
+			If $iCount == 2 And $iSaverX > 0 Then
+				MouseClick("left", $iSaverX + 33, $iSaverY - 23, 1, 0)
+				If $bNoLockpickingState Then
 					Sleep(1500)
 				Else
 					Sleep(550)
 				EndIf
 			EndIf
 			; Skip saver no matter what
-			If $pixelY == $saverY And $pixelX == $saverX Then
+			If $iPixelY == $iSaverY And $iPixelX == $iSaverX Then
 				; Go next line If saver is last chest
-				If $x == 10 Then
+				If $iX == 10 Then
 					ExitLoop (1)
 				Else
-					$pixelX += 95
+					$iPixelX += 95
 					ContinueLoop
 				EndIf
 			EndIf
 			; Open chest
-			MouseClick("left", $pixelX + 33, $pixelY - 23, 1, 0)
-			If $NoLockpickingState Then
+			MouseClick("left", $iPixelX + 33, $iPixelY - 23, 1, 0)
+			If $bNoLockpickingState Then
 				Sleep(1500)
 			Else
 				Sleep(550)
@@ -852,17 +464,17 @@ Func Chesthunt()
 			; if mimic wait some more
 			PixelSearch(434, 211, 434, 211, 0xFF0000)
 			If Not @error Then
-				If $NoLockpickingState Then
+				If $bNoLockpickingState Then
 					Sleep(2500)
 				Else
 					Sleep(1500)
 				EndIf
 			EndIf
-			$pixelX += 95
-			$count += 1
+			$iPixelX += 95
+			$iCount += 1
 		Next
-		$pixelY += 95
-		$pixelX = 185
+		$iPixelY += 95
+		$iPixelX = 185
 	Next
 	; Look for close button until found
 	Do
@@ -872,279 +484,61 @@ Func Chesthunt()
 	MouseClick("left", 643, 693, 1, 0)
 EndFunc   ;==>Chesthunt
 
-Func BonusStage()
-	_FileWriteLog($LogPath, "Start of BonusStage")
-	Do
-		BonusStageSlider()
-		Sleep(500)
-		PixelSearch(660, 254, 660, 254, 0xFFE737)
-	Until @error
-	Sleep(3900)
-	PixelSearch(454, 91, 454, 91, 0xE1E0E2)
-	If $SkipBonusStageState Then
-		BonusStageDoNoting()
-	Else
-		If Not @error Then ;if Spirit Boost do noting untill close appear
-			BonusStageSP()
-		Else
-			BonusStageNSP()
-		EndIf
-	EndIf
-
-EndFunc   ;==>BonusStage
-
-Func BonusStageDoNoting()
-	_FileWriteLog($LogPath, "Do noting BonusStage Active")
-	Do
-		Sleep(200)
-	Until BonusStageFail()
-EndFunc   ;==>BonusStageDoNoting
-
-Func BonusStageSlider()
-	;Top left
-	PixelSearch(443, 560, 443, 560, 0x007E00)
-	If Not @error Then
-		MouseMove(840, 560, 0)
-		MouseClickDrag("left", 840, 560, 450, 560)
-		Return
-	EndIf
-
-	;Bottom left
-	PixelSearch(443, 620, 443, 620, 0x007E00)
-	If Not @error Then
-		MouseMove(840, 620, 0)
-		MouseClickDrag("left", 840, 620, 450, 620)
-		Return
-	EndIf
-
-	;Top right
-	PixelSearch(850, 560, 850, 560, 0x007E00)
-	If Not @error Then
-		MouseMove(450, 560, 0)
-		MouseClickDrag("left", 450, 560, 840, 560)
-		Return
-	EndIf
-
-	;Bottom right
-	PixelSearch(850, 620, 850, 620, 0x007E00)
-	If Not @error Then
-		MouseMove(450, 620, 0)
-		MouseClickDrag("left", 450, 620, 840, 620)
-		Return
-	EndIf
-EndFunc   ;==>BonusStageSlider
-
-Func BonusStageFail()
-	PixelSearch(775, 600, 775, 600, 0xB40000, 10)
-	If Not @error Then
-		MouseClick("left", 721, 577, 1, 0)
-		_FileWriteLog($LogPath, "BonusStage Failed")
-		Return True
-	EndIf
-	Return False
-EndFunc   ;==>BonusStageFail
-
-Func BonusStageNSP()
-	_FileWriteLog($LogPath, "BonusStage")
-	; Section 1 sync
-	FindPixelUntilFound(220, 465, 220, 465, 0xA0938E)
-	Sleep(200)
-	;Section 1 start
-	cSend(94, 1640) ;1
-	cSend(32, 1218) ;2
-	cSend(94, 600) ;3
-	cSend(109, 1828) ;4
-	cSend(63, 640) ;5
-	cSend(47, 688) ;6
-	cSend(78, 1906) ;7
-	cSend(141, 1625) ;8
-	cSend(47, 3187) ;9
-	cSend(47, 734) ;10
-	cSend(47, 750) ;11
-	cSend(78, 1203) ;12
-	cSend(110, 5000) ;13
-	If BonusStageFail() Then
-		Return
-	EndIf
-	; Section 1 Collection
-	cSend(40, 5000)
-	For $x = 1 To 17
-		Send("{Up}")
-		Sleep(500)
-	Next
-	If BonusStageFail() Then
-		Return
-	EndIf
-	_FileWriteLog($LogPath, "BonusStage Section 1 Complete")
-	; Section 2 sync
-	FindPixelUntilFound(780, 536, 780, 536, 0xBB26DF)
-	; Section 2 start
-	cSend(156, 719) ;1
-	cSend(47, 687) ;2
-	cSend(360, 1390) ;3
-	cSend(485, 344) ;4
-	cSend(406, 859) ;5
-	cSend(78, 600) ;6
-	cSend(94, 900) ;7
-	cSend(109, 954) ;8
-	cSend(31, 672) ;9
-	cSend(515, 1344) ;10
-	cSend(484, 297) ;11
-	cSend(406, 859) ;12
-	cSend(78, 600) ;13
-	cSend(94, 900) ;14
-	cSend(109, 954) ;15
-	cSend(31, 672) ;16
-	cSend(515, 1344) ;17
-	cSend(469, 219) ;18
-	cSend(297, 1000) ;19
-	cSend(156, 500) ;20
-	cSend(110, 3000) ;21
-	cSend(360, 2984) ;22
-	cSend(531, 2313) ;23
-	If BonusStageFail() Then
-		Return
-	EndIf
-	; Section 2 Collection
-	cSend(350, 1000)
-	For $x = 1 To 20
-		Send("{Up}")
-		Sleep(500)
-	Next
-	If BonusStageFail() Then
-		Return
-	EndIf
-	_FileWriteLog($LogPath, "BonusStage Section 2 Complete")
-	;Stage 3 sync
-	FindPixelUntilFound(220, 465, 220, 465, 0xA0938E)
-	; Section 3 Start
-	cSend(109, 1203) ;1
-	cSend(31, 641) ;2
-	cSend(47, 1578) ;3
-	cSend(47, 2437) ;4
-	;repeat
-	cSend(109, 1203) ;5
-	cSend(31, 641) ;6
-	cSend(47, 1578) ;7
-	cSend(47, 2437) ;8
-	;repeat
-	cSend(109, 1203) ;9
-	cSend(31, 641) ;10
-	cSend(47, 1578) ;11
-	cSend(47, 2437) ;12
-	;repeat
-	cSend(109, 1203) ;13
-	cSend(31, 641) ;14
-	cSend(47, 5125) ;15
-	If BonusStageFail() Then
-		Return
-	EndIf
-	;Section 3 Collection
-	cSend(900, 200)
-	For $x = 1 To 20
-		Send("{Up}")
-		Sleep(500)
-	Next
-	If BonusStageFail() Then
-		Return
-	EndIf
-	_FileWriteLog($LogPath, "BonusStage Section 3 Complete")
-	;Section 4 sync
-	FindPixelUntilFound(250, 472, 100, 250, 0x0D2030)
-	Sleep(200)
-	;Section 4 Start
-	cSend(32, 2500) ;1
-	cSend(31, 809) ;2
-	cSend(41, 1375) ;3
-	cSend(41, 1374) ;4
-	cSend(641, 690) ;5
-	cSend(41, 1373) ;6
-	cSend(41, 2500) ;7
-	cSend(31, 809) ;8
-	cSend(41, 1375) ;9
-	cSend(41, 1374) ;10
-	cSend(641, 690) ;11
-	cSend(41, 1373) ;12
-	cSend(41, 1372) ;13
-	cSend(641, 690) ;14
-	cSend(41, 1371) ;15
-	; extra jump just in case
-	cSend(41) ;16
-	;Section 4 Collection
-	For $x = 1 To 23
-		Send("{Up}")
-		Sleep(500)
-	Next
-	If BonusStageFail() Then
-		Return
-	EndIf
-	_FileWriteLog($LogPath, "BonusStage Section 4 Complete")
-EndFunc   ;==>BonusStageNSP
-
-Func cSend($pressDelay, $postPressDelay = 0, $key = "Up")
-	Send("{" & $key & " Down}")
-	Sleep($pressDelay)
-	Send("{" & $key & " Up}")
-	Sleep($postPressDelay)
-	Return
-EndFunc   ;==>cSend
-
-Func FindPixelUntilFound($x1, $y1, $x2, $y2, $hex, $timer = 15000)
-	Local $time = TimerInit()
-	Do
-		PixelSearch($x1, $y1, $x2, $y2, $hex)
-	Until Not @error Or $timer < TimerDiff($time)
-EndFunc   ;==>FindPixelUntilFound
-
 Func BuyEquipment()
-	_FileWriteLog($LogPath, "AutoUpgrade Active")
+	_FileWriteLog($sLogPath, "AutoUpgrade Active")
 	;Close Shop window if open
 	MouseClick("left", 1244, 712, 1, 0)
 	Sleep(150)
 	;Open shop window
 	MouseClick("left", 1163, 655, 1, 0)
 	Sleep(150)
-	;Click on armor tab
-	MouseClick("left", 850, 690, 1, 0)
-	Sleep(50)
-	;Click Max buy
-	MouseClick("left", 1180, 636, 4, 0)
-	;Check if scrollbar is here if no max buy first item otherwise last item
-	PixelSearch(1257, 340, 1257, 340, 0x11AA23)
+	PixelSearch(807, 142, 807, 142, 0xFFFFFF)
 	If Not @error Then
-		;buy sword
-		MouseClick("left", 1200, 200, 5, 0)
-	Else
-		;Click Bottom of scroll bar
-		MouseClick("left", 1253, 592, 5, 0)
-		Sleep(200)
-		;Buy last item
-		MouseClick("left", 1200, 550, 5, 0)
-		;Click top of scroll bar
-		MouseClick("left", 1253, 170, 5, 0)
-		Sleep(200)
-	EndIf
-	;50 buy
-	MouseClick("left", 1100, 636, 5, 0)
-	While 1
-		;Check if there is any green buy boxes
-		$location = PixelSearch(1160, 170, 1160, 590, 0x11AA23, 10)
-		If @error Then
-			;Move mouse on ScrollBar
-			MouseMove(1253, 170, 0)
-			MouseWheel($MOUSE_WHEEL_DOWN, 1)
-			;Check gray scroll bar is there
-			PixelSearch(1253, 597, 1253, 597, 0xD6D6D6)
-			If @error Then
-				ExitLoop
-			EndIf
-			Sleep(10)
+		;Click on armor tab
+		MouseClick("left", 850, 690, 1, 0)
+		Sleep(50)
+		;Click Max buy
+		MouseClick("left", 1180, 636, 4, 0)
+		;Check if scrollbar is here if no max buy first item otherwise last item
+		PixelSearch(1257, 340, 1257, 340, 0x11AA23)
+		If Not @error Then
+			;buy sword
+			MouseClick("left", 1200, 200, 5, 0)
 		Else
-			;Click Green buy box
-			MouseClick("left", $location[0], $location[1], 5, 0)
+			;Click Bottom of scroll bar
+			MouseClick("left", 1253, 592, 5, 0)
+			Sleep(200)
+			;Buy last item
+			MouseClick("left", 1200, 550, 5, 0)
+			;Click top of scroll bar
+			MouseClick("left", 1253, 170, 5, 0)
+			Sleep(200)
 		EndIf
-	WEnd
-	BuyUpgrade()
+		;50 buy
+		MouseClick("left", 1100, 636, 5, 0)
+		Local $aLocation
+		While 1
+			;Check if there is any green buy boxes
+			$aLocation = PixelSearch(1160, 170, 1160, 590, 0x11AA23, 10)
+			If @error Then
+				;Move mouse on ScrollBar
+				MouseMove(1253, 170, 0)
+				MouseWheel($MOUSE_WHEEL_DOWN, 1)
+				;Check gray scroll bar is there
+				PixelSearch(1253, 597, 1253, 597, 0xD6D6D6)
+				If @error Then
+					ExitLoop
+				EndIf
+				Sleep(10)
+			Else
+				;Click on armor tab
+				MouseClick("left", 850, 690, 1, 0)
+				;Click Green buy box
+				MouseClick("left", $aLocation[0], $aLocation[1], 5, 0)
+			EndIf
+		WEnd
+		BuyUpgrade()
+	EndIf
 EndFunc   ;==>BuyEquipment
 
 Func BuyUpgrade()
@@ -1159,29 +553,36 @@ Func BuyUpgrade()
 		PixelSearch(1254, 167, 1254, 167, 0xD6D6D6)
 	Until @error
 	Sleep(400)
-	$somethingBought = False
-	Local $y = 170
+	Local $bSomethingBought = False
+	Local $iY = 170
 	While 1
 		; Check if RandomBox Magnet is next upgrade
-		PixelSearch(882, $y, 909, $y + 72, 0xF4B41B)
+		PixelSearch(882, $iY, 909, $iY + 72, 0xF4B41B)
 		If Not @error Then
-			$y += 96
+			$iY += 96
 		EndIf
 		; Check if RandomBox Magnet is next upgrade
-		PixelSearch(882, $y, 909, $y + 72, 0xE478FF)
+		PixelSearch(882, $iY, 909, $iY + 72, 0xE478FF)
 		If Not @error Then
-			$y += 96
+			$iY += 96
 		EndIf
-		PixelSearch(1180, $y, 1180, $y, 0x10A322, 9)
+		PixelSearch(850, $iY, 850, $iY + 72, 0xF7A01E)
+		If Not @error Then
+			$iY += 96
+		EndIf
+		PixelSearch(1180, $iY, 1180, $iY, 0x10A322, 9)
 		If @error Then
 			ExitLoop
 		Else
-			$somethingBought = True
-			MouseClick("left", 1180, $y, 1, 0)
-			Sleep(30)
+			$bSomethingBought = True
+			; Click to upgrade tab
+			MouseClick("left", 927, 683, 1, 0)
+			; Click green buy
+			MouseClick("left", 1180, $iY, 1, 0)
+			Sleep(50)
 		EndIf
 	WEnd
-	If $somethingBought Then
+	If $bSomethingBought Then
 		BuyEquipment()
 	Else
 		MouseClick("left", 1222, 677, 1, 0)
@@ -1189,7 +590,7 @@ Func BuyUpgrade()
 EndFunc   ;==>BuyUpgrade
 
 Func ClaimQuests()
-	_FileWriteLog($LogPath, "Claiming quest")
+	_FileWriteLog($sLogPath, "Claiming quest")
 	;Close Shop window if open
 	MouseClick("left", 1244, 712, 1, 0)
 	Sleep(150)
@@ -1216,7 +617,7 @@ Func ClaimQuests()
 
 	While 1
 		;Check if there is any green buy boxes
-		$location = PixelSearch(1160, 270, 1160, 590, 0x11AA23, 10)
+		$aLocation = PixelSearch(1160, 270, 1160, 590, 0x11AA23, 10)
 		If @error Then
 			;Move mouse on ScrollBar
 			MouseMove(1253, 270, 0)
@@ -1229,8 +630,8 @@ Func ClaimQuests()
 			Sleep(10)
 		Else
 			;Click Green buy box
-			_FileWriteLog($LogPath, "Quest Claimed")
-			MouseClick("left", $location[0], $location[1], 5, 0)
+			_FileWriteLog($sLogPath, "Quest Claimed")
+			MouseClick("left", $aLocation[0], $aLocation[1], 5, 0)
 		EndIf
 	WEnd
 
@@ -1238,257 +639,3 @@ Func ClaimQuests()
 	MouseClick("left", 1244, 712, 1, 0)
 
 EndFunc   ;==>ClaimQuests
-
-Func BonusStageSP()
-	_FileWriteLog($LogPath, "BonusStageSB")
-	; Section 1 sync
-	FindPixelUntilFound(220, 465, 220, 465, 0xA0938E)
-	Sleep(200)
-	;Section 1 start
-	cSend(94, 1640) ;1
-	cSend(47, 2072) ;2
-	cSend(187, 688) ;3
-	cSend(31, 672) ;4
-	cSend(31, 1700) ;5
-	cSend(94, 600) ;6
-	cSend(94, 1640) ;1
-	cSend(47, 2072) ;2
-	cSend(187, 688) ;3
-	cSend(31, 672) ;4
-	cSend(31, 1700) ;5
-	cSend(94, 600) ;6
-	cSend(94, 5000) ;1
-	If BonusStageFail() Then
-		Return
-	EndIf
-	; Section 1 Collection
-	cSend(40, 2500)
-	For $x = 1 To 19
-		Send("{Up}")
-		Sleep(500)
-	Next
-	If BonusStageFail() Then
-		Return
-	EndIf
-	_FileWriteLog($LogPath, "BonusStageBS Section 1 Complete")
-	; Section 2 sync
-	FindPixelUntilFound(780, 536, 780, 536, 0xBB26DF)
-	; Section 2 start
-	cSend(156, 719) ;1
-	cSend(47, 687) ;2
-	cSend(360, 1390) ;3
-	cSend(485, 344) ;4
-	cSend(406, 859) ;5
-	cSend(78, 600) ;6
-	cSend(94, 900) ;7
-	cSend(109, 954) ;8
-	cSend(31, 672) ;9
-	cSend(515, 1344) ;10
-	cSend(484, 297) ;11
-	cSend(406, 859) ;12
-	cSend(78, 600) ;13
-	cSend(94, 900) ;14
-	cSend(109, 954) ;15
-	cSend(31, 672) ;16
-	cSend(515, 1344) ;17
-	cSend(469, 219) ;18
-	cSend(297, 1000) ;19
-	cSend(156, 500) ;20
-	cSend(110, 3000) ;21
-	cSend(360, 2984) ;22
-	cSend(531, 2313) ;23
-	If BonusStageFail() Then
-		Return
-	EndIf
-	; Section 2 Collection
-	cSend(350, 1000)
-	For $x = 1 To 20
-		Send("{Up}")
-		Sleep(500)
-	Next
-	If BonusStageFail() Then
-		Return
-	EndIf
-	_FileWriteLog($LogPath, "BonusStageBS Section 2 Complete")
-	;Stage 3 sync
-	FindPixelUntilFound(220, 465, 220, 465, 0xA0938E)
-	; Section 3 Start
-	cSend(109, 1203) ;1
-	cSend(31, 641) ;2
-	cSend(47, 1200) ;3
-	cSend(1, 3100) ;4
-	;repeat
-	cSend(109, 1203) ;5
-	cSend(31, 641) ;6
-	cSend(47, 1200) ;7
-	cSend(1, 3100) ;8
-	;repeat
-	cSend(109, 1203) ;9
-	cSend(31, 641) ;10
-	cSend(47, 1200) ;11
-	cSend(1, 3100) ;12
-	;repeat
-	cSend(109, 1203) ;13
-	cSend(31, 641) ;14
-	cSend(47, 5125) ;15
-	If BonusStageFail() Then
-		Return
-	EndIf
-	;Section 3 Collection
-	cSend(900, 200)
-	For $x = 1 To 20
-		Send("{Up}")
-		Sleep(500)
-	Next
-	If BonusStageFail() Then
-		Return
-	EndIf
-	_FileWriteLog($LogPath, "BonusStageBS Section 3 Complete")
-	;Section 4 sync
-	FindPixelUntilFound(250, 472, 100, 250, 0x0D2030)
-	Sleep(200)
-	;Section 4 Start
-	cSend(32, 2800) ;1
-	cSend(31, 809) ;2
-	cSend(41, 1200) ;3
-	cSend(100, 900) ;4
-	cSend(641, 500) ;5
-
-	cSend(31, 850) ;6
-	cSend(41, 770) ;7
-	cSend(641, 400) ;8
-
-	cSend(31, 850) ;9
-	cSend(41, 870) ;10
-	cSend(641, 300) ;11
-
-	cSend(31, 850) ;12
-	cSend(41, 790) ;13
-	cSend(641, 400) ;14
-
-	cSend(31, 850) ;15
-	cSend(41, 840) ;16
-	cSend(641, 300) ;17
-
-	cSend(31, 850) ;18
-	cSend(41, 840) ;19
-	cSend(641, 300) ;20
-	;Section 4 Collection
-	For $x = 1 To 23
-		Send("{Up}")
-		Sleep(500)
-	Next
-	If BonusStageFail() Then
-		Return
-	EndIf
-	_FileWriteLog($LogPath, "BonusStageBS Section 4 Complete")
-EndFunc   ;==>BonusStageSP
-
-
-Func LoadLog()
-	Sleep(100)
-	Local $section1 = 0, $section2 = 0, $section3 = 0, $section4 = 0, $chesthunt = 0, $failed = 0, _
-			$mClaimed = 0, $qClaimed = 0, $section1BS = 0, $section2BS = 0, $section3BS = 0, $section4BS = 0, _
-			$silverboxColl = 0, $BS = 0, $BSSP = 0, $megaHordeRage = 0, $megaHordeRageSoul = 0 ;
-	$file = FileOpen($LogPath, $FO_READ)
-	If $file <> -1 Then
-		While 1
-			$line = FileReadLine($file)
-			If @error = -1 Then ExitLoop
-			$line = StringTrimLeft($line, 22)
-			Switch $line
-				Case "BonusStageBS Section 1 Complete"
-					$section1BS += 1
-				Case "BonusStageBS Section 2 Complete"
-					$section2BS += 1
-				Case "BonusStageBS Section 3 Complete"
-					$section3BS += 1
-				Case "BonusStageBS Section 4 Complete"
-					$section4BS += 1
-				Case "BonusStage Section 1 Complete"
-					$section1 += 1
-				Case "BonusStage Section 2 Complete"
-					$section2 += 1
-				Case "BonusStage Section 3 Complete"
-					$section3 += 1
-				Case "BonusStage Section 4 Complete"
-					$section4 += 1
-				Case "Silver Box Collected"
-					$silverboxColl += 1
-				Case "Minions Collect"
-					$mClaimed += 1
-				Case "Minions Collect with Daily Bonus"
-					$mClaimed += 1
-				Case "Chesthunt"
-					$chesthunt += 1
-				Case "BonusStage Failed"
-					$failed += 1
-				Case "BonusStage"
-					$BS += 1
-				Case "BonusStageSB"
-					$BSSP += 1
-				Case "Claiming quest"
-					$qClaimed += 1
-				Case "MegaHorde Rage"
-					$megaHordeRage += 1
-				Case "MegaHorde Rage with SoulBonus"
-					$megaHordeRageSoul += 1
-			EndSwitch
-		WEnd
-		FileClose($file)
-	EndIf
-	GUICtrlSetData($Log, "")
-	CustomConsole($Log, "Rage with only MegaHorde: " & $megaHordeRage - $megaHordeRageSoul)
-	CustomConsole($Log, "Rage with MegaHorde and SoulBonus: " & $megaHordeRageSoul)
-	CustomConsole($Log, "Claimed Quest: " & $qClaimed)
-	CustomConsole($Log, "Claimed Minions: " & $mClaimed)
-	CustomConsole($Log, "ChestHunts: " & $chesthunt)
-	CustomConsole($Log, "Failed Bonus Stages: " & $failed)
-	CustomConsole($Log, "BonusStage (No Spirit Boost): " & $BS)
-	CustomConsole($Log, "BonusStage (Spirit Boost): " & $BSSP)
-	CustomConsole($Log, "Section 1 Complete (No Spirit Boost): " & $section1)
-	CustomConsole($Log, "Section 2 Complete (No Spirit Boost): " & $section2)
-	CustomConsole($Log, "Section 3 Complete (No Spirit Boost): " & $section3)
-	CustomConsole($Log, "Section 4 Complete (No Spirit Boost): " & $section4)
-	CustomConsole($Log, "Section 1 Complete (Spirit Boost): " & $section1BS)
-	CustomConsole($Log, "Section 2 Complete (Spirit Boost): " & $section2BS)
-	CustomConsole($Log, "Section 3 Complete (Spirit Boost): " & $section3BS)
-	CustomConsole($Log, "Section 4 Complete (Spirit Boost): " & $section4BS, True)
-EndFunc   ;==>LoadLog
-
-Func LoadDataLog()
-	Sleep(100)
-	GUICtrlSetData($LogData, "")
-
-	If WinExists("Idle Slayer") == 1 Then
-		$array = WinGetClientSize('Idle Slayer')
-		If $array[0] == "1280" And $array[1] == "720" Then
-			CustomConsole($LogData, "Size of game is correct :" & $array[0] & "x" & $array[1] & ".")
-		Else
-			CustomConsole($LogData, "Size of game is incorrect correct size is: 1280x720.")
-			CustomConsole($LogData, "Your size is: " & $array[0] & "x" & $array[1] & ".")
-		EndIf
-	Else
-		CustomConsole($LogData, "Idle Slayer not Active")
-	EndIf
-	CustomConsole($LogData, "Only Bonus Stage 2 works otherwise skip it.")
-	CustomConsole($LogData, "Do not buy Vertical Magnet.")
-	CustomConsole($LogData, "Disable dialogue for Portal in setting.")
-	CustomConsole($LogData, "Disable parallex effect in setting.")
-	CustomConsole($LogData, "Enable rounded bulk in setting.")
-	CustomConsole($LogData, "Enable hide locked quest rewards in setting.")
-	CustomConsole($LogData, "The game must be in English.")
-	CustomConsole($LogData, "Ascension Upgrade Leadership Master is mandatory.")
-	CustomConsole($LogData, "Ascension Upgrade Safety First is mandatory.")
-	CustomConsole($LogData, "Tip: Hover over the Text-Boxes_")
-	CustomConsole($LogData, "on the Idle Runner to read what they do!", True)
-EndFunc   ;==>LoadDataLog
-
-Func CustomConsole($Component, $text, $append = False)
-	If $append Then
-		$text = $text & "	"
-	Else
-		$text = $text & @CRLF
-	EndIf
-	GUICtrlSetData($Component, $text, 1)
-EndFunc   ;==>CustomConsole
