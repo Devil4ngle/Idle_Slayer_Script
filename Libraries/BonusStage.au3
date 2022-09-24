@@ -3,7 +3,7 @@
 Func BonusStage($sLogPath, $bSkipBonusStageState)
 	_FileWriteLog($sLogPath, "Start of BonusStage")
 	Do
-		BonusStageSlider()
+		Slider()
 		Sleep(500)
 		PixelSearch(660, 254, 660, 254, 0xFFE737)
 	Until @error
@@ -25,44 +25,10 @@ Func BonusStageDoNoting($sLogPath)
 	_FileWriteLog($sLogPath, "Do noting BonusStage Active")
 	Do
 		Sleep(200)
-	Until BonusStageFail()
+	Until BonusStageFail($sLogPath)
 EndFunc   ;==>BonusStageDoNoting
 
-Func BonusStageSlider()
-	;Top left
-	PixelSearch(443, 560, 443, 560, 0x007E00)
-	If Not @error Then
-		MouseMove(840, 560, 0)
-		MouseClickDrag("left", 840, 560, 450, 560)
-		Return
-	EndIf
-
-	;Bottom left
-	PixelSearch(443, 620, 443, 620, 0x007E00)
-	If Not @error Then
-		MouseMove(840, 620, 0)
-		MouseClickDrag("left", 840, 620, 450, 620)
-		Return
-	EndIf
-
-	;Top right
-	PixelSearch(850, 560, 850, 560, 0x007E00)
-	If Not @error Then
-		MouseMove(450, 560, 0)
-		MouseClickDrag("left", 450, 560, 840, 560)
-		Return
-	EndIf
-
-	;Bottom right
-	PixelSearch(850, 620, 850, 620, 0x007E00)
-	If Not @error Then
-		MouseMove(450, 620, 0)
-		MouseClickDrag("left", 450, 620, 840, 620)
-		Return
-	EndIf
-EndFunc   ;==>BonusStageSlider
-
-Func BonusStageFail()
+Func BonusStageFail($sLogPath)
 	PixelSearch(775, 600, 775, 600, 0xB40000, 10)
 	If Not @error Then
 		MouseClick("left", 721, 577, 1, 0)
@@ -79,13 +45,6 @@ Func cSend($iPressDelay, $iPostPressDelay = 0, $sKey = "Up")
 	Sleep($iPostPressDelay)
 	Return
 EndFunc   ;==>cSend
-
-Func FindPixelUntilFound($iX1, $iY1, $iX2, $iY2, $sHex, $iTimer = 15000)
-	Local $time = TimerInit()
-	Do
-		PixelSearch($iX1, $iY1, $iX2, $iY2, $sHex)
-	Until Not @error Or $iTimer < TimerDiff($time)
-EndFunc   ;==>FindPixelUntilFound
 
 Func BonusStageSP($sLogPath)
 	_FileWriteLog($sLogPath, "BonusStageSB")
@@ -106,7 +65,7 @@ Func BonusStageSP($sLogPath)
 	cSend(31, 1700) ;5
 	cSend(94, 600) ;6
 	cSend(94, 5000) ;1
-	If BonusStageFail() Then
+	If BonusStageFail($sLogPath) Then
 		Return
 	EndIf
 	; Section 1 Collection
@@ -115,7 +74,7 @@ Func BonusStageSP($sLogPath)
 		Send("{Up}")
 		Sleep(500)
 	Next
-	If BonusStageFail() Then
+	If BonusStageFail($sLogPath) Then
 		Return
 	EndIf
 	_FileWriteLog($sLogPath, "BonusStageBS Section 1 Complete")
@@ -145,7 +104,7 @@ Func BonusStageSP($sLogPath)
 	cSend(110, 3000) ;21
 	cSend(360, 2984) ;22
 	cSend(531, 2313) ;23
-	If BonusStageFail() Then
+	If BonusStageFail($sLogPath) Then
 		Return
 	EndIf
 	; Section 2 Collection
@@ -154,7 +113,7 @@ Func BonusStageSP($sLogPath)
 		Send("{Up}")
 		Sleep(500)
 	Next
-	If BonusStageFail() Then
+	If BonusStageFail($sLogPath) Then
 		Return
 	EndIf
 	_FileWriteLog($sLogPath, "BonusStageBS Section 2 Complete")
@@ -179,7 +138,7 @@ Func BonusStageSP($sLogPath)
 	cSend(109, 1203) ;13
 	cSend(31, 641) ;14
 	cSend(47, 5125) ;15
-	If BonusStageFail() Then
+	If BonusStageFail($sLogPath) Then
 		Return
 	EndIf
 	;Section 3 Collection
@@ -188,7 +147,7 @@ Func BonusStageSP($sLogPath)
 		Send("{Up}")
 		Sleep(500)
 	Next
-	If BonusStageFail() Then
+	If BonusStageFail($sLogPath) Then
 		Return
 	EndIf
 	_FileWriteLog($sLogPath, "BonusStageBS Section 3 Complete")
@@ -226,7 +185,7 @@ Func BonusStageSP($sLogPath)
 		Send("{Up}")
 		Sleep(500)
 	Next
-	If BonusStageFail() Then
+	If BonusStageFail($sLogPath) Then
 		Return
 	EndIf
 	_FileWriteLog($sLogPath, "BonusStageBS Section 4 Complete")
@@ -251,7 +210,7 @@ Func BonusStageNSP($sLogPath)
 	cSend(47, 750) ;11
 	cSend(78, 1203) ;12
 	cSend(110, 5000) ;13
-	If BonusStageFail() Then
+	If BonusStageFail($sLogPath) Then
 		Return
 	EndIf
 	; Section 1 Collection
@@ -260,7 +219,7 @@ Func BonusStageNSP($sLogPath)
 		Send("{Up}")
 		Sleep(500)
 	Next
-	If BonusStageFail() Then
+	If BonusStageFail($sLogPath) Then
 		Return
 	EndIf
 	_FileWriteLog($sLogPath, "BonusStage Section 1 Complete")
@@ -290,7 +249,7 @@ Func BonusStageNSP($sLogPath)
 	cSend(110, 3000) ;21
 	cSend(360, 2984) ;22
 	cSend(531, 2313) ;23
-	If BonusStageFail() Then
+	If BonusStageFail($sLogPath) Then
 		Return
 	EndIf
 	; Section 2 Collection
@@ -299,7 +258,7 @@ Func BonusStageNSP($sLogPath)
 		Send("{Up}")
 		Sleep(500)
 	Next
-	If BonusStageFail() Then
+	If BonusStageFail($sLogPath) Then
 		Return
 	EndIf
 	_FileWriteLog($sLogPath, "BonusStage Section 2 Complete")
@@ -324,7 +283,7 @@ Func BonusStageNSP($sLogPath)
 	cSend(109, 1203) ;13
 	cSend(31, 641) ;14
 	cSend(47, 5125) ;15
-	If BonusStageFail() Then
+	If BonusStageFail($sLogPath) Then
 		Return
 	EndIf
 	;Section 3 Collection
@@ -333,7 +292,7 @@ Func BonusStageNSP($sLogPath)
 		Send("{Up}")
 		Sleep(500)
 	Next
-	If BonusStageFail() Then
+	If BonusStageFail($sLogPath) Then
 		Return
 	EndIf
 	_FileWriteLog($sLogPath, "BonusStage Section 3 Complete")
@@ -363,7 +322,7 @@ Func BonusStageNSP($sLogPath)
 		Send("{Up}")
 		Sleep(500)
 	Next
-	If BonusStageFail() Then
+	If BonusStageFail($sLogPath) Then
 		Return
 	EndIf
 	_FileWriteLog($sLogPath, "BonusStage Section 4 Complete")

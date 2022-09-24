@@ -20,18 +20,19 @@ Global $bAutoBuyUpgradeState = False, _
 		$bNoLockpickingState = False, _
 		$bBiDimensionalState = False, _
 		$bDimensionalState = False, _
+		$bDisableRageState = False, _
 		$bTogglePause = False
 
 Global $sLogPath = "IdleRunnerLogs\Logs.txt"
-Global $sVersion = "3.0.0"
+Global $sVersion = "3.1.0"
 
 Global $iJumpSliderValue = 150, _
 		$iCirclePortalsCount = 7, _
 		$iCooldownAutoUpgrades = 600000, _
 		$iTimer = TimerInit()
 
-Global $aSettingGlobalVariables[10] = ["bAutoBuyUpgradeState", "bCraftSoulBonusState", "bSkipBonusStageState", "bCraftRagePillState", "bCirclePortalsState", "iJumpSliderValue", "bNoLockpickingState", "iCirclePortalsCount", "bDimensionalState", "bBiDimensionalState"]
-Global $aSettingCheckBoxes[8] = ["bAutoBuyUpgradeState", "bCraftSoulBonusState", "bSkipBonusStageState", "bCraftRagePillState", "bCirclePortalsState", "bNoLockpickingState", "bBiDimensionalState", "bDimensionalState"]
+Global $aSettingGlobalVariables[11] = ["bAutoBuyUpgradeState", "bCraftSoulBonusState", "bSkipBonusStageState", "bCraftRagePillState", "bCirclePortalsState", "iJumpSliderValue", "bNoLockpickingState", "iCirclePortalsCount", "bDimensionalState", "bBiDimensionalState", "bDisableRageState"]
+Global $aSettingCheckBoxes[9] = ["bAutoBuyUpgradeState", "bCraftSoulBonusState", "bSkipBonusStageState", "bCraftRagePillState", "bCirclePortalsState", "bNoLockpickingState", "bBiDimensionalState", "bDimensionalState", "bDisableRageState"]
 
 ; #FUNCTION# ====================================================================================================================
 ; Return values .: Succes - A windows handle
@@ -139,6 +140,13 @@ Func CreateGeneralSheet($hGUIForm, $iTabControl)
 	Local $iCirclePortals = GUICtrlCreatePic('', 207, 84, 129, 14, $SS_BITMAP + $SS_NOTIFY)
 	_Resource_SetToCtrlID($iCirclePortals, 'CIRCLEPORTALS')
 	GUICtrlSetTip(-1, "Cycles Portals as soon the portal is ready")
+
+	; Create Disable Rage Horde Checkbox
+	Global $iCheckBoxbDisableRageState = GUICtrlCreatePic('', 181, 122, 16, 16, $SS_BITMAP + $SS_NOTIFY)
+	GUICtrlSetOnEvent(-1, "EventGlobalCheckBox")
+	Local $iDisableRage = GUICtrlCreatePic('', 207, 122, 183, 16, $SS_BITMAP + $SS_NOTIFY)
+	_Resource_SetToCtrlID($iDisableRage, 'DISABLERAGE')
+	GUICtrlSetTip(-1, "When Checked will not rage at Megahordes without soulbonus")
 
 	; Create JumpRate Slider
 	Local $iJumpSlider = GUICtrlCreatePic('', 400, 45, 98, 16, $SS_BITMAP + $SS_NOTIFY)

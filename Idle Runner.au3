@@ -27,6 +27,7 @@
 #AutoIt3Wrapper_Res_File_Add=Resources\NoLockpicking.jpg, RT_RCDATA, NOLOCKPICKING,0
 #AutoIt3Wrapper_Res_File_Add=Resources\CraftBidimensionalStaff.jpg, RT_RCDATA, BIDIMENSIONAL,0
 #AutoIt3Wrapper_Res_File_Add=Resources\CraftDimensionalStaff.jpg, RT_RCDATA, DIMENSIONAL,0
+#AutoIt3Wrapper_Res_File_Add=Resources\DisableRage.jpg, RT_RCDATA, DISABLERAGE,0
 #AutoIt3Wrapper_Res_File_Add=Resources\0.jpg, RT_RCDATA, NUM0,0
 #AutoIt3Wrapper_Res_File_Add=Resources\10.jpg, RT_RCDATA, NUM10,0
 #AutoIt3Wrapper_Res_File_Add=Resources\20.jpg, RT_RCDATA, NUM20,0
@@ -72,6 +73,7 @@
 #include "Libraries\ResourcesEx.au3"
 #include "Libraries\GUI.au3"
 #include "Libraries\BonusStage.au3"
+#include "Libraries\BossFight.au3"
 #include <ButtonConstants.au3>
 #include <GUIConstantsEx.au3>
 #include <StaticConstants.au3>
@@ -138,9 +140,16 @@ While 1
 	; Chest-hunt
 	PixelSearch(570, 742, 742, 570, 0x5B3B0A)
 	If Not @error Then
-		Chesthunt()
-	EndIf
 
+		PixelSearch(1045, 493, 1045, 493, 0xF68F37)
+		If Not @error Then
+			PixelSearch(1045, 478, 1045, 478, 0xFFFFFF)
+			If Not @error Then
+				Chesthunt()
+			EndIf
+		EndIf
+
+	EndIf
 	; Rage when Megahorde
 	PixelSearch(419, 323, 419, 323, 0xDFDEE0)
 	If Not @error Then
@@ -167,6 +176,18 @@ While 1
 			PixelSearch(775, 448, 775, 448, 0xFFFFFF)
 			If Not @error Then
 				BonusStage($sLogPath, $bSkipBonusStageState)
+			EndIf
+		EndIf
+	EndIf
+
+	; Boss Fight
+	PixelSearch(639, 224, 639, 224, 0xFF878A)
+	If Not @error Then
+		PixelSearch(634, 224, 634, 224, 0xF263BD)
+		If Not @error Then
+			PixelSearch(644, 224, 644, 224, 0xFFF38F)
+			If Not @error Then
+				BossFight($sLogPath)
 			EndIf
 		EndIf
 	EndIf
@@ -208,7 +229,8 @@ Func CloseAll()
 EndFunc   ;==>CloseAll
 
 Func RageWhenHorde()
-	If CheckForSoulBonus() Then
+	Local $bSoulBonusActive = CheckForSoulBonus()
+	If $bSoulBonusActive Then
 		If $bCraftRagePillState Then
 			BuyTempItem("0x871646")
 		EndIf
@@ -216,6 +238,17 @@ Func RageWhenHorde()
 			BuyTempItem("0x7D55D8")
 		EndIf
 	EndIf
+	If $bDisableRageState Then
+		If $bSoulBonusActive Then
+			Rage()
+		EndIf
+	Else
+		Rage()
+	EndIf
+
+EndFunc   ;==>RageWhenHorde
+
+Func Rage()
 	_FileWriteLog($sLogPath, "MegaHorde Rage")
 	If $bDimensionalState Then
 		BuyTempItem("0xF37C55")
@@ -229,7 +262,7 @@ Func RageWhenHorde()
 	EndIf
 	ControlFocus("Idle Slayer", "", "")
 	ControlSend("Idle Slayer", "", "", "{e}")
-EndFunc   ;==>RageWhenHorde
+EndFunc   ;==>Rage
 
 Func CheckForSoulBonus()
 	PixelSearch(625, 143, 629, 214, 0xA86D0A)
@@ -639,3 +672,44 @@ Func ClaimQuests()
 	MouseClick("left", 1244, 712, 1, 0)
 
 EndFunc   ;==>ClaimQuests
+
+Func Slider()
+	;Top left
+	PixelSearch(443, 560, 443, 560, 0x007E00)
+	If Not @error Then
+		MouseMove(840, 560, 0)
+		MouseClickDrag("left", 840, 560, 450, 560)
+		Return
+	EndIf
+
+	;Bottom left
+	PixelSearch(443, 620, 443, 620, 0x007E00)
+	If Not @error Then
+		MouseMove(840, 620, 0)
+		MouseClickDrag("left", 840, 620, 450, 620)
+		Return
+	EndIf
+
+	;Top right
+	PixelSearch(850, 560, 850, 560, 0x007E00)
+	If Not @error Then
+		MouseMove(450, 560, 0)
+		MouseClickDrag("left", 450, 560, 840, 560)
+		Return
+	EndIf
+
+	;Bottom right
+	PixelSearch(850, 620, 850, 620, 0x007E00)
+	If Not @error Then
+		MouseMove(450, 620, 0)
+		MouseClickDrag("left", 450, 620, 840, 620)
+		Return
+	EndIf
+EndFunc   ;==>Slider
+
+Func FindPixelUntilFound($iX1, $iY1, $iX2, $iY2, $sHex, $iTimer = 15000)
+	Local $time = TimerInit()
+	Do
+		PixelSearch($iX1, $iY1, $iX2, $iY2, $sHex)
+	Until Not @error Or $iTimer < TimerDiff($time)
+EndFunc   ;==>FindPixelUntilFound
