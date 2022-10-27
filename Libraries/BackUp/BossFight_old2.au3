@@ -20,8 +20,7 @@ Opt("MouseCoordMode", 0)
 BossBattleVictor('')
 Func BossBattleVictor($sLogPath)
 	;;AdlibRegister("Shoot", 50)
-	Local $aPos
-	Local $iCheckSum
+	Local $aPos ;
 	While 1
 		;PixelSearch(272, 130, 272, 130, 0xF5B784)
 		;If Not @error Then
@@ -36,16 +35,17 @@ Func BossBattleVictor($sLogPath)
 		;	MouseClick('left', 272, 130)
 		;EndIf
 
-		$aPos=PixelSearch(902, 292, 902, 452, 0xFFFFFF)
+		$aPos = PixelSearch(902, 412, 902, 452, 0xFFFFFF)
 		If Not @error Then
 			NormalAttackVictor($aPos)
 		EndIf
 
-		PixelSearch(915, 100, 915, 488, 0xFFFFFF)
+		$aPos = PixelSearch(902, 292, 902, 412, 0xFFFFFF)
 		If Not @error Then
-			 FlameAttackVictor()
+			NormalAttackVictor($aPos, True)
 		EndIf
 
+		
 		;PixelSearch(700, 509, 800, 509, 0x151515)
 		;If Not @error Then
 		;	ConsoleWrite(' Flame ')
@@ -68,41 +68,37 @@ Func BossBattleVictor($sLogPath)
 EndFunc   ;==>BossBattleVictor
 
 
-Func NormalAttackVictor($aPos)
-	AdlibUnRegister("Shoot")
-	Local $bUpper = True
-	If $aPos[1] > 412 Then
-		$bUpper = False
+Func NormalAttackVictor($aPos, $bUpper = False)
+	PixelSearch(899, $aPos[1], 899, $aPos[3], 0xA7A9AE)
+	If Not @error Then
+		If $bUpper Then
+			DownAttackVictor()
+		Else
+			UpperAttackVictor()
+		EndIf
 	EndIf
-	If $bUpper Then
-		UpperAttackVictor()
-	Else
-		DownAttackVictor()
+	PixelSearch(899, $aPos[1], 899, $aPos[3], 0x191A1A)
+	If Not @error Then
+		If $bUpper Then
+			DownAttackVictor()
+		Else
+			UpperAttackVictor()
+		EndIf
 	EndIf
 EndFunc   ;==>NormalAttackVictor
-
-Func FlameAttackVictor()
-	AdlibUnRegister("Shoot")
-	;FindPixelUntilFound(156,523,156,523,"0xA656FF",600)
-	FindPixelUntilFound(340,510,400,510,"0xB206B1",600)
-	ConsoleWrite(' Flame ')
-	ControlSend("Idle Slayer", "", "", "{Up down}")
-	Sleep(100)
-	ControlSend("Idle Slayer", "", "", "{Up up}")
-	AdlibRegister("Shoot", 50)
-	;AdlibRegister("Shoot", 50)
-EndFunc   ;==>FlameAttackVictor
 
 Func DownAttackVictor()
 	ConsoleWrite(' DownAttack ')
 	Sleep(400)
-	AdlibRegister("Shoot", 50)
+	;AdlibUnRegister("Shoot")
+	;AdlibRegister("Shoot", 50)
 EndFunc   ;==>DownAttackVictor
 
 Func UpperAttackVictor()
 	ConsoleWrite(' UpperAttack ')
 	Sleep(600)
-	AdlibRegister("Shoot", 50)
+	;AdlibUnRegister("Shoot")
+	;AdlibRegister("Shoot", 50)
 EndFunc   ;==>UpperAttackVictor
 
 Func Shoot()

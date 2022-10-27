@@ -21,7 +21,6 @@ BossBattleVictor('')
 Func BossBattleVictor($sLogPath)
 	;;AdlibRegister("Shoot", 50)
 	Local $aPos
-	Local $iCheckSum
 	While 1
 		;PixelSearch(272, 130, 272, 130, 0xF5B784)
 		;If Not @error Then
@@ -36,14 +35,14 @@ Func BossBattleVictor($sLogPath)
 		;	MouseClick('left', 272, 130)
 		;EndIf
 
-		$aPos=PixelSearch(902, 292, 902, 452, 0xFFFFFF)
+		$aPos = PixelSearch(902, 292, 902, 452, 0xFFFFFF)
 		If Not @error Then
 			NormalAttackVictor($aPos)
 		EndIf
 
-		PixelSearch(915, 100, 915, 488, 0xFFFFFF)
-		If Not @error Then
-			 FlameAttackVictor()
+			PixelSearch(788, 509, 788, 509, 0x151515)
+	If Not @error Then
+		FlameAttackVictor()
 		EndIf
 
 		;PixelSearch(700, 509, 800, 509, 0x151515)
@@ -74,22 +73,21 @@ Func NormalAttackVictor($aPos)
 	If $aPos[1] > 412 Then
 		$bUpper = False
 	EndIf
-	If $bUpper Then
-		UpperAttackVictor()
-	Else
-		DownAttackVictor()
-	EndIf
+		If $bUpper Then
+			UpperAttackVictor()
+		Else
+			DownAttackVictor()
+		EndIf
 EndFunc   ;==>NormalAttackVictor
 
 Func FlameAttackVictor()
-	AdlibUnRegister("Shoot")
-	;FindPixelUntilFound(156,523,156,523,"0xA656FF",600)
-	FindPixelUntilFound(340,510,400,510,"0xB206B1",600)
 	ConsoleWrite(' Flame ')
+	Sleep(400)
+	Send("!{PRINTSCREEN}")
 	ControlSend("Idle Slayer", "", "", "{Up down}")
-	Sleep(100)
-	ControlSend("Idle Slayer", "", "", "{Up up}")
 	AdlibRegister("Shoot", 50)
+			Sleep(100)
+	ControlSend("Idle Slayer", "", "", "{Up up}")
 	;AdlibRegister("Shoot", 50)
 EndFunc   ;==>FlameAttackVictor
 
