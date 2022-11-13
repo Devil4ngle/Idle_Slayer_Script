@@ -52,7 +52,7 @@ Func BossBattleVictor($sLogPath)
 						MouseClick('left', 272, 130)
 						PixelSearch(310, 83, 310, 83, 0xB056F3)
 					Until @error
-					Sleep(4050)
+					Sleep(4000)
 					AdlibUnRegister("Shoot")
 				Else
 					MouseClick('left', 272, 130)
@@ -84,7 +84,7 @@ Func FlameAttackVictor()
 	ControlSend("Idle Slayer", "", "", "{Up down}")
 	Sleep(100)
 	ControlSend("Idle Slayer", "", "", "{Up up}")
-	For $i = 0 To 18 Step +1
+	For $i = 0 To 17 Step +1
 		Sleep(10)
 		Send("{Up}")
 	Next
@@ -99,7 +99,7 @@ Func DownAttackVictor()
 		ControlSend("Idle Slayer", "", "", "{Up down}")
 		Sleep(100)
 		ControlSend("Idle Slayer", "", "", "{Up up}")
-		For $i = 0 To 18 Step +1
+		For $i = 0 To 17 Step +1
 			Sleep(10)
 			Send("{Up}")
 		Next
@@ -112,7 +112,7 @@ Func UpperAttackVictor()
 	If $bFirstStage Then
 		AdlibRegister("Shoot", 50)
 	Else
-		For $i = 0 To 17 Step +1
+		For $i = 0 To 14 Step +1
 			Sleep(10)
 			Send("{Up}")
 		Next
