@@ -31,7 +31,6 @@ Func BossBattleVictor($sLogPath)
 		EndIf
 
 		If 7000 < TimerDiff($time) Then
-			$time = TimerInit()
 			;Close Boss Fight
 			PixelSearch(835, 477, 835, 477, 0xFD3169)
 			If Not @error Then
@@ -49,11 +48,14 @@ Func BossBattleVictor($sLogPath)
 					AdlibRegister("Shoot", 50)
 					$bFirstStage = False
 					Do
+						Sleep(50)
 						MouseClick('left', 272, 130)
 						PixelSearch(310, 83, 310, 83, 0xB056F3)
 					Until @error
+					_FileWriteLog($sLogPath, "Victor Stage 2")
 					Sleep(4000)
 					AdlibUnRegister("Shoot")
+					ControlFocus("Idle Slayer", "", "")
 				Else
 					MouseClick('left', 272, 130)
 					AdlibUnRegister("Shoot")
@@ -62,6 +64,7 @@ Func BossBattleVictor($sLogPath)
 					ExitLoop 1
 				EndIf
 			EndIf
+			$time = TimerInit()
 		EndIf
 	WEnd
 EndFunc   ;==>BossBattleVictor
@@ -108,7 +111,7 @@ EndFunc   ;==>DownAttackVictor
 
 Func UpperAttackVictor()
 	;ConsoleWrite(' UpperAttack ')
-	Sleep(600)
+	Sleep(700)
 	If $bFirstStage Then
 		AdlibRegister("Shoot", 50)
 	Else
