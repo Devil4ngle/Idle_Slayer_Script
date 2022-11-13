@@ -57,13 +57,11 @@ Func BonusStageSP($sLogPath)
 	cSend(187, 688) ;3
 	cSend(31, 672) ;4
 	cSend(31, 1700) ;5
-	cSend(94, 600) ;6
 	cSend(94, 1640) ;1
 	cSend(47, 2072) ;2
 	cSend(187, 688) ;3
 	cSend(31, 672) ;4
 	cSend(31, 1700) ;5
-	cSend(94, 600) ;6
 	cSend(94, 5000) ;1
 	If BonusStageFail($sLogPath) Then
 		Return
