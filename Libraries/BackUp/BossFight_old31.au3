@@ -1,4 +1,5 @@
 #include <File.au3>
+
 Global $bFirstStage
 Func BossFight($sLogPath)
 	_FileWriteLog($sLogPath, "Start of BossFight")
@@ -10,10 +11,20 @@ Func BossFight($sLogPath)
 	BossBattleVictor($sLogPath)
 EndFunc   ;==>BossFight
 
+; Enables GUI events
+Opt("GUIOnEventMode", 1)
+; Disable Caps for better background
+Opt("SendCapslockMode", 0)
+; Set window Mode for PixelSearch
+Opt("PixelCoordMode", 0)
+; Set window Mode for MouseClick
+Opt("MouseCoordMode", 0)
+BossFight('')
+
 Func BossBattleVictor($sLogPath)
-	$bFirstStage = True
+	$bFirstStage = False
 	AdlibRegister("Shoot", 50)
-	Sleep(8600)
+	;Sleep(8600)
 	Local $aPos
 	Local $time = TimerInit()
 	While 1
@@ -41,9 +52,16 @@ Func BossBattleVictor($sLogPath)
 				ExitLoop 1
 			EndIf
 			PixelSearch(272, 130, 272, 130, 0xF5B784)
-
+			; Dialog
 			If Not @error Then
-				;ConsoleWrite(' Dialog ')
+	
+			EndIf
+		EndIf
+	WEnd
+EndFunc   ;==>BossBattleVictor
+
+Func Dialog()
+ConsoleWrite(' Dialog ')
 				PixelSearch(310, 83, 310, 83, 0xB056F3)
 				If Not @error Then
 					AdlibRegister("Shoot", 50)
@@ -52,7 +70,7 @@ Func BossBattleVictor($sLogPath)
 						MouseClick('left', 272, 130)
 						PixelSearch(310, 83, 310, 83, 0xB056F3)
 					Until @error
-					Sleep(4050)
+					Sleep(4155)
 					AdlibUnRegister("Shoot")
 				Else
 					MouseClick('left', 272, 130)
@@ -61,11 +79,7 @@ Func BossBattleVictor($sLogPath)
 					MouseClick('left', 272, 130)
 					ExitLoop 1
 				EndIf
-			EndIf
-		EndIf
-	WEnd
-EndFunc   ;==>BossBattleVictor
-
+EndFunc
 Func NormalAttackVictor($aPos)
 	Local $bUpper = True
 	If $aPos[1] > 385 Then
@@ -80,7 +94,7 @@ EndFunc   ;==>NormalAttackVictor
 
 Func FlameAttackVictor()
 	Sleep(300)
-	;ConsoleWrite(' Flame ')
+	ConsoleWrite(' Flame ')
 	ControlSend("Idle Slayer", "", "", "{Up down}")
 	Sleep(100)
 	ControlSend("Idle Slayer", "", "", "{Up up}")
@@ -91,7 +105,7 @@ Func FlameAttackVictor()
 EndFunc   ;==>FlameAttackVictor
 
 Func DownAttackVictor()
-	;ConsoleWrite(' DownAttack ')
+	ConsoleWrite(' DownAttack ')
 	Sleep(200)
 	If $bFirstStage Then
 		AdlibRegister("Shoot", 50)
@@ -107,7 +121,7 @@ Func DownAttackVictor()
 EndFunc   ;==>DownAttackVictor
 
 Func UpperAttackVictor()
-	;ConsoleWrite(' UpperAttack ')
+	ConsoleWrite(' UpperAttack ')
 	Sleep(600)
 	If $bFirstStage Then
 		AdlibRegister("Shoot", 50)
@@ -122,3 +136,52 @@ EndFunc   ;==>UpperAttackVictor
 Func Shoot()
 	Send("{Up}")
 EndFunc   ;==>Shoot
+
+
+Func FindPixelUntilFound($iX1, $iY1, $iX2, $iY2, $sHex, $iTimer = 15000)
+	Local $time = TimerInit()
+	Local $aPos
+	Do
+		$aPos = PixelSearch($iX1, $iY1, $iX2, $iY2, $sHex)
+	Until Not @error Or $iTimer < TimerDiff($time)
+	If $iTimer < TimerDiff($time) Then
+		Return False
+	Else
+		Return $aPos
+	EndIf
+EndFunc   ;==>FindPixelUntilFound
+
+
+Func Slider()
+	;Top left
+	PixelSearch(443, 560, 443, 560, 0x007E00)
+	If Not @error Then
+		MouseMove(840, 560, 0)
+		MouseClickDrag("left", 840, 560, 450, 560)
+		Return
+	EndIf
+
+	;Bottom left
+	PixelSearch(443, 620, 443, 620, 0x007E00)
+	If Not @error Then
+		MouseMove(840, 620, 0)
+		MouseClickDrag("left", 840, 620, 450, 620)
+		Return
+	EndIf
+
+	;Top right
+	PixelSearch(850, 560, 850, 560, 0x007E00)
+	If Not @error Then
+		MouseMove(450, 560, 0)
+		MouseClickDrag("left", 450, 560, 840, 560)
+		Return
+	EndIf
+
+	;Bottom right
+	PixelSearch(850, 620, 850, 620, 0x007E00)
+	If Not @error Then
+		MouseMove(450, 620, 0)
+		MouseClickDrag("left", 450, 620, 840, 620)
+		Return
+	EndIf
+EndFunc   ;==>Slider

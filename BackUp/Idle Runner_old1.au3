@@ -254,13 +254,11 @@ Func Rage()
 		BuyTempItem("0xF37C55")
 		$bDimensionalState = False
 		_Resource_SetToCtrlID($iCheckBoxbDimensionalState, 'UNCHECKED')
-		SaveSettings()
 	EndIf
 	If $bBiDimensionalState Then
 		BuyTempItem("0x526629")
 		$bBiDimensionalState = False
 		_Resource_SetToCtrlID($iCheckBoxbBiDimensionalState, 'UNCHECKED')
-		SaveSettings()
 	EndIf
 	ControlFocus("Idle Slayer", "", "")
 	ControlSend("Idle Slayer", "", "", "{e}")
@@ -496,11 +494,11 @@ Func Chesthunt()
 			If Not @error Then
 				ExitLoop (2)
 			EndIf
-			Local $iSleepTime = 0
+			Local $iSleepTime = 1500
 			; if 2 x wait some more
-			PixelSearch(500, 210, 500, 210, 0x00FF00)
+			PixelSearch(970, 291, 970, 291, 0x00FF00)
 			If Not @error Then
-					$iSleepTime=1000
+					$iSleepTime=1500
 			EndIf
 			; if mimic wait some more
 			PixelSearch(434, 211, 434, 211, 0xFF0000)
@@ -617,6 +615,8 @@ Func BuyUpgrade()
 			ExitLoop
 		Else
 			$bSomethingBought = True
+			; Click to upgrade tab
+			MouseClick("left", 927, 683, 1, 0)
 			; Click green buy
 			MouseClick("left", 1180, $iY, 1, 0)
 			Sleep(50)
@@ -716,13 +716,7 @@ EndFunc   ;==>Slider
 
 Func FindPixelUntilFound($iX1, $iY1, $iX2, $iY2, $sHex, $iTimer = 15000)
 	Local $time = TimerInit()
-	Local $aPos
 	Do
-		$aPos = PixelSearch($iX1, $iY1, $iX2, $iY2, $sHex)
+		PixelSearch($iX1, $iY1, $iX2, $iY2, $sHex)
 	Until Not @error Or $iTimer < TimerDiff($time)
-	If $iTimer < TimerDiff($time) Then
-		Return False
-	Else
-		Return $aPos
-	EndIf
 EndFunc   ;==>FindPixelUntilFound

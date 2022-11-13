@@ -617,6 +617,8 @@ Func BuyUpgrade()
 			ExitLoop
 		Else
 			$bSomethingBought = True
+			; Click to upgrade tab
+			MouseClick("left", 927, 683, 1, 0)
 			; Click green buy
 			MouseClick("left", 1180, $iY, 1, 0)
 			Sleep(50)
@@ -716,13 +718,7 @@ EndFunc   ;==>Slider
 
 Func FindPixelUntilFound($iX1, $iY1, $iX2, $iY2, $sHex, $iTimer = 15000)
 	Local $time = TimerInit()
-	Local $aPos
 	Do
-		$aPos = PixelSearch($iX1, $iY1, $iX2, $iY2, $sHex)
+		PixelSearch($iX1, $iY1, $iX2, $iY2, $sHex)
 	Until Not @error Or $iTimer < TimerDiff($time)
-	If $iTimer < TimerDiff($time) Then
-		Return False
-	Else
-		Return $aPos
-	EndIf
 EndFunc   ;==>FindPixelUntilFound
