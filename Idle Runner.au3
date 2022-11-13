@@ -109,7 +109,7 @@ GUISetState(@SW_SHOW)
 ; Infinite Loop
 While 1
 	If $bTogglePause Then ContinueLoop
-
+	
 	If WinGetTitle("[ACTIVE]") <> "Idle Runner" Then
 		ControlFocus("Idle Slayer", "", "")
 	EndIf
