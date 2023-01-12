@@ -5,4 +5,4 @@ Everything the game offers with Human Performance if not better.
 
 ---
 
-Buy me a coffee :coffee: https://www.buymeacoffee.com/devil4ngle
+Buy me a [discord server](https://www.buymeacoffee.com/devil4ngle) :coffee: 
