@@ -46,6 +46,10 @@ Func BossBattleVictor($sLogPath)
 				$bFirstStage = False
 				_FileWriteLog($sLogPath, "Victor Stage 2")
 				AdlibRegister("Shoot", 50)
+				Do
+					Sleep(50)
+					PixelSearch(272, 130, 272, 130,  0xF5B784)
+				Until @error
 				Sleep(4000)
 				AdlibUnRegister("Shoot")
 			EndIf

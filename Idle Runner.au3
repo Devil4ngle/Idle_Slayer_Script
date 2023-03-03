@@ -158,7 +158,7 @@ While 1
 	; Rage when Soul Bonus
 	PixelSearch(625, 143, 629, 214, 0xA86D0A)
 	If Not @error Then
-		MouseClick("left", 1090, 160, 1, 0)
+		ControlSend("Idle Slayer", "", "", "{e}")
 	EndIf
 
 	; Collect minions
@@ -262,7 +262,7 @@ Func Rage()
 		SaveSettings()
 	EndIf
 	ControlFocus("Idle Slayer", "", "")
-	MouseClick("left", 1090, 160, 1, 0)
+	ControlSend("Idle Slayer", "", "", "{e}")
 EndFunc   ;==>Rage
 
 Func CheckForSoulBonus()
