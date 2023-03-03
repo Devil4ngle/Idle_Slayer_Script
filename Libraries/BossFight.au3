@@ -15,56 +15,48 @@ Func BossBattleVictor($sLogPath)
 	AdlibRegister("Shoot", 50)
 	Sleep(8600)
 	Local $aPos
-	Local $time = TimerInit()
+	Local $hTime, $hTimeEndBoss = TimerInit()
 	While 1
 		If $bFirstStage == False Then
-			PixelSearch(914, 150, 914, 488, 0xFFFFFF)
+			PixelSearch(935, 150, 935, 488, 0xFFFFFF)
 			If Not @error Then
-				AdlibUnRegister("Shoot")
 				FlameAttackVictor()
 			EndIf
 		EndIf
-		$aPos = PixelSearch(902, 292, 902, 452, 0xFFFFFF)
+		$aPos = PixelSearch(919, 292, 919, 452, 0xFFFFFF)
 		If Not @error Then
 			AdlibUnRegister("Shoot")
 			NormalAttackVictor($aPos)
 		EndIf
 
-		If 7000 < TimerDiff($time) Then
+		If 2000 < TimerDiff($hTime) Then
 			;Close Boss Fight
 			PixelSearch(835, 477, 835, 477, 0xFD3169)
 			If Not @error Then
+				AdlibUnRegister("Shoot")
 				Sleep(500)
 				MouseClick('left', 615, 563)
 				_FileWriteLog($sLogPath, "Victor Won")
 				ExitLoop 1
 			EndIf
-			PixelSearch(272, 130, 272, 130, 0xF5B784)
 
+			PixelSearch(272, 130, 272, 130, 0xF5B784)
 			If Not @error Then
 				;ConsoleWrite(' Dialog ')
-				PixelSearch(310, 83, 310, 83, 0xB056F3)
-				If Not @error Then
-					AdlibRegister("Shoot", 50)
-					$bFirstStage = False
-					Do
-						Sleep(50)
-						MouseClick('left', 272, 130)
-						PixelSearch(310, 83, 310, 83, 0xB056F3)
-					Until @error
-					_FileWriteLog($sLogPath, "Victor Stage 2")
-					Sleep(4000)
-					AdlibUnRegister("Shoot")
-					ControlFocus("Idle Slayer", "", "")
-				Else
-					MouseClick('left', 272, 130)
-					AdlibUnRegister("Shoot")
-					_FileWriteLog($sLogPath, "Victor Lost")
-					MouseClick('left', 272, 130)
-					ExitLoop 1
-				EndIf
+				$bFirstStage = False
+				_FileWriteLog($sLogPath, "Victor Stage 2")
+				AdlibRegister("Shoot", 50)
+				Sleep(4000)
+				AdlibUnRegister("Shoot")
 			EndIf
-			$time = TimerInit()
+
+			If 250000 < TimerDiff($hTimeEndBoss) Then
+				AdlibUnRegister("Shoot")
+				_FileWriteLog($sLogPath, "Victor Lost")
+				ExitLoop 1
+			EndIf
+
+			$hTime = TimerInit()
 		EndIf
 	WEnd
 EndFunc   ;==>BossBattleVictor
@@ -82,7 +74,7 @@ Func NormalAttackVictor($aPos)
 EndFunc   ;==>NormalAttackVictor
 
 Func FlameAttackVictor()
-	Sleep(300)
+	Sleep(350)
 	;ConsoleWrite(' Flame ')
 	ControlSend("Idle Slayer", "", "", "{Up down}")
 	Sleep(100)
@@ -111,7 +103,7 @@ EndFunc   ;==>DownAttackVictor
 
 Func UpperAttackVictor()
 	;ConsoleWrite(' UpperAttack ')
-	Sleep(700)
+	Sleep(730)
 	If $bFirstStage Then
 		AdlibRegister("Shoot", 50)
 	Else

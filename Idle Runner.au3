@@ -109,7 +109,7 @@ GUISetState(@SW_SHOW)
 ; Infinite Loop
 While 1
 	If $bTogglePause Then ContinueLoop
-	
+
 	If WinGetTitle("[ACTIVE]") <> "Idle Runner" Then
 		ControlFocus("Idle Slayer", "", "")
 	EndIf
@@ -140,7 +140,6 @@ While 1
 	; Chest-hunt
 	PixelSearch(570, 742, 742, 570, 0x5B3B0A)
 	If Not @error Then
-
 		PixelSearch(1045, 493, 1045, 493, 0xF68F37)
 		If Not @error Then
 			PixelSearch(1045, 478, 1045, 478, 0xFFFFFF)
@@ -159,7 +158,7 @@ While 1
 	; Rage when Soul Bonus
 	PixelSearch(625, 143, 629, 214, 0xA86D0A)
 	If Not @error Then
-		ControlSend("Idle Slayer", "", "", "{e}")
+		MouseClick("left", 1090, 160, 1, 0)
 	EndIf
 
 	; Collect minions
@@ -263,7 +262,7 @@ Func Rage()
 		SaveSettings()
 	EndIf
 	ControlFocus("Idle Slayer", "", "")
-	ControlSend("Idle Slayer", "", "", "{e}")
+	MouseClick("left", 1090, 160, 1, 0)
 EndFunc   ;==>Rage
 
 Func CheckForSoulBonus()
@@ -500,15 +499,15 @@ Func Chesthunt()
 			; if 2 x wait some more
 			PixelSearch(500, 210, 500, 210, 0x00FF00)
 			If Not @error Then
-					$iSleepTime=1000
+				$iSleepTime = 1000
 			EndIf
 			; if mimic wait some more
 			PixelSearch(434, 211, 434, 211, 0xFF0000)
 			If Not @error Then
 				If $bNoLockpickingState Then
-					$iSleepTime=2500
+					$iSleepTime = 2500
 				Else
-					$iSleepTime=1500
+					$iSleepTime = 1500
 				EndIf
 			EndIf
 			Sleep($iSleepTime)

@@ -117,6 +117,8 @@ Func LoadDataLog($iLogData)
 	CustomConsole($iLogData, "Game must be in focus.")
 	CustomConsole($iLogData, "Ascension Upgrade Leadership Master is mandatory.")
 	CustomConsole($iLogData, "Ascension Upgrade Safety First is mandatory.")
+	CustomConsole($iLogData, "Use Anna or Roy if you activated Victor.")
+	CustomConsole($iLogData, "Run the script as Administrator in Windows 11.")
 	CustomConsole($iLogData, "Tip: Hover over the Text-Boxes_")
 	CustomConsole($iLogData, "on the Idle Runner to read what they do!", True)
 EndFunc   ;==>LoadDataLog

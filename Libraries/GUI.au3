@@ -24,7 +24,7 @@ Global $bAutoBuyUpgradeState = False, _
 		$bTogglePause = False
 
 Global $sLogPath = "IdleRunnerLogs\Logs.txt"
-Global $sVersion = "3.1.0"
+Global $sVersion = "3.1.2"
 
 Global $iJumpSliderValue = 150, _
 		$iCirclePortalsCount = 7, _
@@ -296,7 +296,7 @@ Func EventUpArrow()
 EndFunc   ;==>EventUpArrow
 
 Func EventDownArrow()
-	If ($iJumpSliderValue - 10) >= 0 Then
+	If ($iJumpSliderValue - 10) >= 40 Then
 		$iJumpSliderValue -= 10
 		_Resource_SetToCtrlID($iJumpNumber, 'NUM' & $iJumpSliderValue)
 	EndIf
