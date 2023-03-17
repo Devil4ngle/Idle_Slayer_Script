@@ -11,14 +11,14 @@ Func BossFight($sLogPath)
 EndFunc   ;==>BossFight
 
 Func BossBattleVictor($sLogPath)
-	$bFirstStage = True
+	ControlFocus("Idle Slayer", "", "")
 	AdlibRegister("Shoot", 50)
-	Sleep(8600)
-	Local $aPos
-	Local $hTime, $hTimeEndBoss = TimerInit()
+	Sleep(5000)
+	Global $bFirstStage = True
+	Local $aPos, $iTimer = 2000, $hTime = TimerInit(), $hTimeEndBoss = TimerInit()
 	While 1
 		If $bFirstStage == False Then
-			PixelSearch(935, 150, 935, 488, 0xFFFFFF)
+			PixelSearch(933, 150, 933, 488, 0xFFFFFF)
 			If Not @error Then
 				FlameAttackVictor()
 			EndIf
@@ -29,7 +29,7 @@ Func BossBattleVictor($sLogPath)
 			NormalAttackVictor($aPos)
 		EndIf
 
-		If 2000 < TimerDiff($hTime) Then
+		If $iTimer < TimerDiff($hTime) Then
 			;Close Boss Fight
 			PixelSearch(835, 477, 835, 477, 0xFD3169)
 			If Not @error Then
@@ -39,22 +39,24 @@ Func BossBattleVictor($sLogPath)
 				_FileWriteLog($sLogPath, "Victor Won")
 				ExitLoop 1
 			EndIf
-
-			PixelSearch(272, 130, 272, 130, 0xF5B784)
-			If Not @error Then
-				;ConsoleWrite(' Dialog ')
-				$bFirstStage = False
-				_FileWriteLog($sLogPath, "Victor Stage 2")
-				AdlibRegister("Shoot", 50)
-				Do
-					Sleep(50)
-					PixelSearch(272, 130, 272, 130,  0xF5B784)
-				Until @error
-				Sleep(4000)
-				AdlibUnRegister("Shoot")
+			If $bFirstStage == True Then
+				PixelSearch(272, 130, 272, 130, 0xF5B784)
+				If Not @error Then
+					;ConsoleWrite(' Dialog ')
+					$bFirstStage = False
+					$iTimer = 10000
+					_FileWriteLog($sLogPath, "Victor Stage 2")
+					AdlibRegister("Shoot", 50)
+					Do
+						Sleep(50)
+						PixelSearch(272, 130, 272, 130, 0xF5B784)
+					Until @error
+					Sleep(4000)
+					AdlibUnRegister("Shoot")
+					ControlFocus("Idle Slayer", "", "")
+				EndIf
 			EndIf
-
-			If 250000 < TimerDiff($hTimeEndBoss) Then
+			If 200000 < TimerDiff($hTimeEndBoss) Then
 				AdlibUnRegister("Shoot")
 				_FileWriteLog($sLogPath, "Victor Lost")
 				ExitLoop 1
@@ -106,7 +108,7 @@ Func DownAttackVictor()
 EndFunc   ;==>DownAttackVictor
 
 Func UpperAttackVictor()
-	;ConsoleWrite(' UpperAttack ')
+	ConsoleWrite(' UpperAttack ')
 	Sleep(730)
 	If $bFirstStage Then
 		AdlibRegister("Shoot", 50)
