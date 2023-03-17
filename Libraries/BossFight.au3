@@ -108,7 +108,7 @@ Func DownAttackVictor()
 EndFunc   ;==>DownAttackVictor
 
 Func UpperAttackVictor()
-	ConsoleWrite(' UpperAttack ')
+	;ConsoleWrite(' UpperAttack ')
 	Sleep(730)
 	If $bFirstStage Then
 		AdlibRegister("Shoot", 50)
