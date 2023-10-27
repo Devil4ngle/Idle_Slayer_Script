@@ -520,7 +520,7 @@ Func Chesthunt()
 	; Look for close button until found
 	Do
 		Sleep(50)
-		PixelSearch(400, 694, 400, 694, 0xB40000)
+		PixelSearch(500, 694, 500, 694, 0xB40000)
 	Until Not @error
 	MouseClick("left", 643, 693, 1, 0)
 EndFunc   ;==>Chesthunt
