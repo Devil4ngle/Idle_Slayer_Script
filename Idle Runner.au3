@@ -491,7 +491,7 @@ Func Chesthunt()
 				Sleep(550)
 			EndIf
 			; Check if chest hunt ended
-			PixelSearch(400, 695, 400, 695, 0xB40000)
+			PixelSearch(500, 694, 500, 694, 0xB40000)
 			If Not @error Then
 				ExitLoop (2)
 			EndIf
