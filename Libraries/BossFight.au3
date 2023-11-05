@@ -18,8 +18,9 @@ Func BossBattleVictor($sLogPath)
 	Local $aPos, $iTimer = 2000, $hTime = TimerInit(), $hTimeEndBoss = TimerInit()
 	While 1
 		If $bFirstStage == False Then
-			PixelSearch(933, 150, 933, 488, 0xFFFFFF)
+			PixelSearch(1072, 150, 1072, 488, 0xFFFFFF)
 			If Not @error Then
+				Send("!{PRINTSCREEN}") 
 				FlameAttackVictor()
 			EndIf
 		EndIf

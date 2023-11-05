@@ -298,8 +298,8 @@ Func BonusStageNSP($sLogPath)
 	FindPixelUntilFound(250, 472, 100, 250, 0x0D2030)
 	Sleep(200)
 	;Section 4 Start
-	cSend(32, 2500) ;1
-	cSend(31, 809) ;2
+	cSend(32, 1375) ;1
+	cSend(641, 690) ;2
 	cSend(41, 1375) ;3
 	cSend(41, 1374) ;4
 	cSend(641, 690) ;5
