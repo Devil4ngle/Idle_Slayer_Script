@@ -518,10 +518,17 @@ Func Chesthunt()
 		$iPixelX = 185
 	Next
 	; Look for close button until found
-	Do
+	While True
 		Sleep(50)
 		PixelSearch(500, 694, 500, 694, 0xB40000)
-	Until Not @error
+		If Not @error Then 
+			ExitLoop
+		EndIf
+		PixelSearch(457, 439, 457, 439, 0xF68F37)
+		If Not @error Then 
+			MouseClick("left",457, 439, 1, 0)
+		EndIf
+	WEnd
 	MouseClick("left", 643, 693, 1, 0)
 EndFunc   ;==>Chesthunt
 
