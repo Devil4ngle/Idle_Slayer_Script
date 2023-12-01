@@ -1,7 +1,10 @@
 #Region ;**** Directives created by AutoIt3Wrapper_GUI ****
+#NoTrayIcon ; Should add this to prevent tray icon in sub-thread.
 #AutoIt3Wrapper_Icon=Resources\Icon.ico
 #AutoIt3Wrapper_Compile_Both=y
 #AutoIt3Wrapper_UseX64=y
+#AutoIt3Wrapper_Res_File_Add=Libraries\mp.dll, RT_RCDATA, MP_DLL,0
+#AutoIt3Wrapper_Res_File_Add=Libraries\mp.x64.dll, RT_RCDATA, MP_DLL_X64,0
 #AutoIt3Wrapper_Res_File_Add=Resources\Icon.jpg, RT_RCDATA, ICON,0
 #AutoIt3Wrapper_Res_File_Add=Resources\Welcome.jpg, RT_RCDATA, WELCOME,0
 #AutoIt3Wrapper_Res_File_Add=Resources\Instructions.jpg, RT_RCDATA, INSTRUCTION,0
@@ -61,10 +64,6 @@
 #AutoIt3Wrapper_Res_File_Add=Resources\300.jpg, RT_RCDATA, NUM300,0
 #AutoIt3Wrapper_Run_Stop_OnError=y
 #EndRegion ;**** Directives created by AutoIt3Wrapper_GUI ****
-#Region Idle Runner.au3 #WRAPPER#
-
-;Numbers
-#EndRegion Idle Runner.au3 #WRAPPER#
 #comments-start
  AutoIt Version: 3.3.16.0
  Author: Devil4ngle, Djahnz
@@ -74,6 +73,7 @@
 #include "Libraries\GUI.au3"
 #include "Libraries\BonusStage.au3"
 #include "Libraries\BossFight.au3"
+#include "Libraries\mp.au3"
 #include <ButtonConstants.au3>
 #include <GUIConstantsEx.au3>
 #include <StaticConstants.au3>
@@ -94,126 +94,148 @@ Opt("SendCapslockMode", 0)
 Opt("PixelCoordMode", 0)
 ; Set window Mode for MouseClick
 Opt("MouseCoordMode", 0)
-; Set Hotkey Bindings
-HotKeySet("{Home}", "Pause")
-HotKeySet("{Esc}", "IdleClose")
-; Create Saving Directory
-DirCreate("IdleRunnerLogs")
-; Create GUI
-CreateGUI()
-LoadSettings()
-GUISetState(@SW_SHOW)
 
-; A lot of Global Function are declared in Libraries/GUI
+_MP_Init()
 
-; Infinite Loop
-While 1
-	If $bTogglePause Then ContinueLoop
+Global $oData = _MP_SharedData()
 
-	If WinGetTitle("[ACTIVE]") <> "Idle Runner" Then
-		ControlFocus("Idle Slayer", "", "")
-	EndIf
 
-	;Jump and shoot
-	ControlSend("Idle Slayer", "", "", "{Up}{Right}")
-	Sleep($iJumpSliderValue)
+If _MP_IsMain() Then
+	Main()
+Else
+	ShootAndBoost()
+EndIf
 
-	; Silver box collect
-	PixelSearch(650, 36, 650, 36, 0xFFC000)
-	If Not @error Then
-		_FileWriteLog($sLogPath, "Silver Box Collected")
-		MouseClick("left", 644, 49, 1, 0)
-	EndIf
+Func Main()
+	; Set Hotkey Bindings
+	HotKeySet("{Home}", "Pause")
+	HotKeySet("{Esc}", "IdleClose")
+	; Create Saving Directory
+	DirCreate("IdleRunnerLogs")
+	; Create GUI
+	CreateGUI()
+	LoadSettings()
+	GUISetState(@SW_SHOW)
+	; A lot of Global Function are declared in Libraries/GUI
+	$oData.jumprate = $iJumpSliderValue
+	$oData.exitScript = 0
+	StartJumping(True)
+	$iSubProcessId = _MP_Fork()
+	; Infinite Loops
+	While 1
+		If $bTogglePause Then ContinueLoop
 
-	; Close Armory full not hover over
-	PixelSearch(775, 600, 775, 600, 0xB40000)
-	If Not @error Then
-		CloseAll()
-	EndIf
+		Sleep(40)
 
-	; Close Armory full hover over
-	PixelSearch(775, 600, 775, 600, 0xAD0000)
-	If Not @error Then
-		CloseAll()
-	EndIf
-
-	; Chest-hunt
-	PixelSearch(570, 742, 742, 570, 0x5B3B0A)
-	If Not @error Then
-		PixelSearch(1045, 493, 1045, 493, 0xF68F37)
+		; Silver box collect
+		PixelSearch(650, 36, 650, 36, 0xFFC000)
 		If Not @error Then
-			PixelSearch(1045, 478, 1045, 478, 0xFFFFFF)
-			If Not @error Then
-				Chesthunt()
-			EndIf
+			_FileWriteLog($sLogPath, "Silver Box Collected")
+			MouseClick("left", 644, 49, 1, 0)
 		EndIf
 
-	EndIf
-	; Rage when Megahorde
-	PixelSearch(419, 323, 419, 323, 0xDFDEE0)
-	If Not @error Then
-		RageWhenHorde()
-	EndIf
-
-	; Rage when Soul Bonus
-	PixelSearch(625, 143, 629, 214, 0xA86D0A)
-	If Not @error Then
-		ControlSend("Idle Slayer", "", "", "{e}")
-	EndIf
-
-	; Collect minions
-	PixelSearch(99, 113, 99, 113, 0xFFFF7A)
-	If Not @error Then
-		CollectMinion()
-	EndIf
-
-	; Bonus stage
-	PixelSearch(660, 254, 660, 254, 0xFFE737)
-	If Not @error Then
-		PixelSearch(638, 236, 638, 236, 0xFFBB31)
+		; Close Armory full not hover over
+		PixelSearch(775, 600, 775, 600, 0xB40000)
 		If Not @error Then
-			PixelSearch(775, 448, 775, 448, 0xFFFFFF)
-			If Not @error Then
-				BonusStage($sLogPath, $bSkipBonusStageState)
-			EndIf
+			CloseAll()
 		EndIf
-	EndIf
 
-	; Boss Fight
-	PixelSearch(639, 224, 639, 224, 0xFF878A)
-	If Not @error Then
-		PixelSearch(634, 224, 634, 224, 0xF263BD)
+		; Close Armory full hover over
+		PixelSearch(775, 600, 775, 600, 0xAD0000)
 		If Not @error Then
-			PixelSearch(644, 224, 644, 224, 0xFFF38F)
+			CloseAll()
+		EndIf
+
+		; Chest-hunt
+		PixelSearch(570, 742, 742, 570, 0x5B3B0A)
+		If Not @error Then
+			PixelSearch(1045, 493, 1045, 493, 0xF68F37)
 			If Not @error Then
-				BossFight($sLogPath)
+				PixelSearch(1045, 478, 1045, 478, 0xFFFFFF)
+				If Not @error Then
+					StartJumping(False)
+					Chesthunt()
+					StartJumping(True)
+				EndIf
+			EndIf
+
+		EndIf
+		; Rage when Megahorde
+		PixelSearch(419, 323, 419, 323, 0xDFDEE0)
+		If Not @error Then
+			RageWhenHorde()
+		EndIf
+
+		; Rage when Soul Bonus
+		PixelSearch(625, 143, 629, 214, 0xA86D0A)
+		If Not @error Then
+			ControlSend("Idle Slayer", "", "", "{e}")
+		EndIf
+
+		; Collect minions
+		PixelSearch(99, 113, 99, 113, 0xFFFF7A)
+		If Not @error Then
+			CollectMinion()
+		EndIf
+
+		; Bonus stage
+		PixelSearch(660, 254, 660, 254, 0xFFE737)
+		If Not @error Then
+			PixelSearch(638, 236, 638, 236, 0xFFBB31)
+			If Not @error Then
+				PixelSearch(775, 448, 775, 448, 0xFFFFFF)
+				If Not @error Then
+					StartJumping(False)
+					BonusStage($sLogPath, $bSkipBonusStageState)
+					StartJumping(True)
+				EndIf
 			EndIf
 		EndIf
-	EndIf
 
-	; Circle portal
-	If $bCirclePortalsState Then
-		CirclePortals()
-	EndIf
-
-	; Auto buy upgrades
-	If $bAutoBuyUpgradeState Then
-		If ($iCooldownAutoUpgrades < TimerDiff($iTimer)) Then
-			$iCooldownAutoUpgrades = 600000
-			$iTimer = TimerInit()
-			WinActivate("Idle Slayer")
-			If WinGetTitle("[ACTIVE]") == "Idle Slayer" Then
-				BuyEquipment()
+		; Boss Fight
+		PixelSearch(639, 224, 639, 224, 0xFF878A)
+		If Not @error Then
+			PixelSearch(634, 224, 634, 224, 0xF263BD)
+			If Not @error Then
+				PixelSearch(644, 224, 644, 224, 0xFFF38F)
+				If Not @error Then
+					StartJumping(False)
+					BossFight($sLogPath)
+					StartJumping(True)
+				EndIf
 			EndIf
 		EndIf
-	EndIf
 
-	; Claim quests
-	PixelSearch(1130, 610, 1130, 610, 0xCBCB4C)
-	If Not @error Then
-		ClaimQuests()
-	EndIf
-WEnd
+		; Circle portal
+		If $bCirclePortalsState Then
+			StartJumping(False)
+			CirclePortals()
+			StartJumping(True)
+		EndIf
+
+		; Auto buy upgrades
+		If $bAutoBuyUpgradeState Then
+			If ($iCooldownAutoUpgrades < TimerDiff($iTimer)) Then
+				$iCooldownAutoUpgrades = 600000
+				$iTimer = TimerInit()
+				WinActivate("Idle Slayer")
+				If WinGetTitle("[ACTIVE]") == "Idle Slayer" Then
+					BuyEquipment()
+				EndIf
+			EndIf
+		EndIf
+
+		; Claim quests
+		PixelSearch(1130, 610, 1130, 610, 0xCBCB4C)
+		If Not @error Then
+			ClaimQuests()
+		EndIf
+	WEnd
+EndFunc   ;==>Main
+
+Func StartJumping($bState)
+	$oData.start = Int($bState)
+EndFunc   ;==>StartJumping
 
 Func CloseAll()
 	Sleep(2000)
@@ -614,10 +636,11 @@ Func BuyUpgrade()
 		If Not @error Then
 			$iY += 96
 		EndIf
-		PixelSearch(850, $iY, 850, $iY + 72, 0xF7A01E)
-		If Not @error Then
-			$iY += 96
-		EndIf
+		;Electric worm
+		;PixelSearch(850, $iY, 850, $iY + 72, 0xF7A01E)
+		;If Not @error Then
+		;	$iY += 96
+		;EndIf
 		PixelSearch(1180, $iY, 1180, $iY, 0x10A322, 9)
 		If @error Then
 			ExitLoop
@@ -732,3 +755,24 @@ Func FindPixelUntilFound($iX1, $iY1, $iX2, $iY2, $sHex, $iTimer = 15000)
 		Return $aPos
 	EndIf
 EndFunc   ;==>FindPixelUntilFound
+
+Func ShootAndBoost()
+	While True
+		While $oData.start == 0
+			Sleep(500)
+			If $oData.exitScript == 1 Then
+				ExitLoop 2
+			EndIf
+		WEnd
+		If $oData.exitScript == 1 Then
+			ExitLoop
+		EndIf
+		Sleep($oData.jumprate)
+		;Jump and shoot
+		If WinGetTitle("[ACTIVE]") <> "Idle Runner" Then
+			ControlFocus("Idle Slayer", "", "")
+		EndIf
+		ControlFocus("Idle Slayer", "", "")
+		ControlSend("Idle Slayer", "", "", "{Up}{Right}")
+	WEnd
+EndFunc   ;==>ShootAndBoost

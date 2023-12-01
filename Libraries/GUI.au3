@@ -11,6 +11,7 @@
 #include <WinAPISysWin.au3>
 #include "ResourcesEx.au3"
 #include "Log.au3"
+#include "mp.au3"
 
 Global $bAutoBuyUpgradeState = False, _
 		$bCraftSoulBonusState = False, _
@@ -24,8 +25,9 @@ Global $bAutoBuyUpgradeState = False, _
 		$bTogglePause = False
 
 Global $sLogPath = "IdleRunnerLogs\Logs.txt"
-Global $sVersion = "3.1.7"
-
+Global $sVersion = "3.2.0"
+Global $oData
+Global $iSubProcessId
 Global $iJumpSliderValue = 150, _
 		$iCirclePortalsCount = 7, _
 		$iCooldownAutoUpgrades = 600000, _
@@ -293,14 +295,16 @@ Func EventUpArrow()
 		_Resource_SetToCtrlID($iJumpNumber, 'NUM' & $iJumpSliderValue)
 	EndIf
 	SaveSettings()
+	$oData.jumprate = $iJumpSliderValue
 EndFunc   ;==>EventUpArrow
 
 Func EventDownArrow()
-	If ($iJumpSliderValue - 10) >= 40 Then
+	If ($iJumpSliderValue - 10) >= 0 Then
 		$iJumpSliderValue -= 10
 		_Resource_SetToCtrlID($iJumpNumber, 'NUM' & $iJumpSliderValue)
 	EndIf
 	SaveSettings()
+	$oData.jumprate = $iJumpSliderValue
 EndFunc   ;==>EventDownArrow
 
 Func EventGlobalCheckBox()
@@ -312,6 +316,11 @@ Func EventGlobalCheckBox()
 EndFunc   ;==>EventGlobalCheckBox
 
 Func IdleClose()
+	$oData.exitScript = 1
+	_MP_Wait($iSubProcessId)
+	ProcessClose("Idle Runner_x64")
+	ProcessClose("Idle Runner_x32")
+	ProcessClose("Aut2Exe")
 	Exit
 EndFunc   ;==>IdleClose
 
@@ -320,9 +329,11 @@ Func Pause()
 	If $bTogglePause Then
 		ControlFocus("Idle Slayer", "", "")
 		_Resource_SetToCtrlID($iButtonStartStop, 'START')
+		$oData.start = 0
 	Else
 		ControlFocus("Idle Slayer", "", "")
 		_Resource_SetToCtrlID($iButtonStartStop, 'STOP')
+		$oData.start = 1
 	EndIf
 EndFunc   ;==>Pause
 
