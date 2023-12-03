@@ -163,7 +163,9 @@ Func Main()
 		; Rage when Megahorde
 		PixelSearch(419, 323, 419, 323, 0xDFDEE0)
 		If Not @error Then
+			StartJumping(False)
 			RageWhenHorde()
+			StartJumping(True)
 		EndIf
 
 		; Rage when Soul Bonus
@@ -175,7 +177,9 @@ Func Main()
 		; Collect minions
 		PixelSearch(99, 113, 99, 113, 0xFFFF7A)
 		If Not @error Then
+			StartJumping(False)
 			CollectMinion()
+			StartJumping(True)
 		EndIf
 
 		; Bonus stage
@@ -220,7 +224,9 @@ Func Main()
 				$iTimer = TimerInit()
 				WinActivate("Idle Slayer")
 				If WinGetTitle("[ACTIVE]") == "Idle Slayer" Then
+					StartJumping(False)
 					BuyEquipment()
+					StartJumping(True)
 				EndIf
 			EndIf
 		EndIf
@@ -228,7 +234,9 @@ Func Main()
 		; Claim quests
 		PixelSearch(1130, 610, 1130, 610, 0xCBCB4C)
 		If Not @error Then
+			StartJumping(False)
 			ClaimQuests()
+			StartJumping(True)
 		EndIf
 	WEnd
 EndFunc   ;==>Main
