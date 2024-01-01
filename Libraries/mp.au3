@@ -25,7 +25,7 @@ Local $__MP_hDll = Null
 Func _MP_Init()
 	Local $sPath = "IdleRunnerLogs/mp.dll"
 	Local $sDll = @AutoItX64 ? 'MP_DLL_X64' : 'MP_DLL'
-	_Resource_SaveToFile($sPath, 'MP_DLL_X64')
+	_Resource_SaveToFile($sPath, $sDll)
 	If Not FileExists($sPath) Then
 		Local $sPath = @AutoItX64 ? 'Libraries/mp.x64.dll' : 'Libraries/mp.dll'
 	EndIf

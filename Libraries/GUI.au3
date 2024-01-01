@@ -324,6 +324,7 @@ EndFunc   ;==>EventGlobalCheckBox
 
 Func IdleClose()
 	$oData.exitScript = 1
+	_MP_WaitAll()
 	ProcessClose("Aut2Exe")
 	Exit
 EndFunc   ;==>IdleClose
