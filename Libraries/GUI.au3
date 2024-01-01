@@ -12,6 +12,8 @@
 #include "ResourcesEx.au3"
 #include "Log.au3"
 #include "mp.au3"
+#include <Inet.au3>
+
 
 Global $bAutoBuyUpgradeState = False, _
 		$bCraftSoulBonusState = False, _
@@ -25,13 +27,14 @@ Global $bAutoBuyUpgradeState = False, _
 		$bTogglePause = False
 
 Global $sLogPath = "IdleRunnerLogs\Logs.txt"
-Global $sVersion = "3.2.1"
+Global $sVersion = "3.2.2"
 Global $oData
 Global $iSubProcessId
 Global $iJumpSliderValue = 150, _
 		$iCirclePortalsCount = 7, _
 		$iCooldownAutoUpgrades = 600000, _
-		$iTimer = TimerInit()
+		$iTimer = TimerInit(), _
+		$iTimerFocusGame = TimerInit()
 
 Global $aSettingGlobalVariables[11] = ["bAutoBuyUpgradeState", "bCraftSoulBonusState", "bSkipBonusStageState", "bCraftRagePillState", "bCirclePortalsState", "iJumpSliderValue", "bNoLockpickingState", "iCirclePortalsCount", "bDimensionalState", "bBiDimensionalState", "bDisableRageState"]
 Global $aSettingCheckBoxes[9] = ["bAutoBuyUpgradeState", "bCraftSoulBonusState", "bSkipBonusStageState", "bCraftRagePillState", "bCirclePortalsState", "bNoLockpickingState", "bBiDimensionalState", "bDimensionalState", "bDisableRageState"]
@@ -114,13 +117,18 @@ Func CreateWelcomeSheet($hGUIForm, $iTabControl)
 	Local $iWelcome = GUICtrlCreatePic('', 186, 36, 436, 29, $SS_BITMAP + $SS_NOTIFY)
 	_Resource_SetToCtrlID($iWelcome, 'WELCOME')
 
-	Local $iButtonDiscord = GUICtrlCreatePic('', 206, 95, 160, 50, $SS_BITMAP + $SS_NOTIFY)
-	_Resource_SetToCtrlID($iButtonDiscord, 'GITHUB')
+	Local $iButtonGithub = GUICtrlCreatePic('', 190, 95, 160, 50, $SS_BITMAP + $SS_NOTIFY)
+	_Resource_SetToCtrlID($iButtonGithub, 'GITHUB')
 	GUICtrlSetOnEvent(-1, "EventButtonGithubClick")
 
-	Local $iButtonInstructions = GUICtrlCreatePic('', 390, 95, 214, 50, $SS_BITMAP + $SS_NOTIFY)
+	Local $iButtonInstructions = GUICtrlCreatePic('', 370, 95, 214, 50, $SS_BITMAP + $SS_NOTIFY)
 	_Resource_SetToCtrlID($iButtonInstructions, 'INSTRUCTION')
 	GUICtrlSetOnEvent(-1, "EventButtonInstructionsClick")
+
+	Local $iButtonUpdate = GUICtrlCreatePic('', 604, 95, 160, 50, $SS_BITMAP + $SS_NOTIFY)
+	_Resource_SetToCtrlID($iButtonUpdate, 'UPDATE')
+	GUICtrlSetOnEvent(-1, "EventButtonUpdateClick")
+
 	Return $iTabHome
 EndFunc   ;==>CreateWelcomeSheet
 
@@ -387,3 +395,22 @@ Func LoadSettings()
 	Next
 	_Resource_SetToCtrlID($iJumpNumber, 'NUM' & $iJumpSliderValue)
 EndFunc   ;==>LoadSettings
+
+Func EventButtonUpdateClick()
+	Local $dData = InetRead("https://api.github.com/repos/Devil4ngle/Idle_Slayer_Script/releases/latest", 1)
+	$sJsonData = BinaryToString($dData)
+	If @error Then
+		MsgBox($MB_OK, "Error", "Failed to retrieve release information.")
+		Return False
+	EndIf
+
+	Local $iTagIndex = StringInStr($sJsonData, '"tag_name"') + StringLen('"tag_name"') + 2
+	Local $sLatestTag = StringMid($sJsonData, $iTagIndex, 5)
+
+	If $sLatestTag = $sVersion Then
+		MsgBox($MB_OK, "Latest Version", "The script is up-to-date.")
+	Else
+		ShellExecute("powershell.exe", "-File ""IdleRunnerLogs\update.ps1""", "", "", @SW_HIDE)
+		IdleClose()
+	EndIf
+EndFunc   ;==>EventButtonUpdateClick

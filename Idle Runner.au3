@@ -3,6 +3,7 @@
 #AutoIt3Wrapper_Icon=Resources\Icon.ico
 #AutoIt3Wrapper_Compile_Both=y
 #AutoIt3Wrapper_UseX64=y
+#AutoIt3Wrapper_Res_File_Add=Libraries\update.ps1, RT_RCDATA, UPDATEPS,0
 #AutoIt3Wrapper_Res_File_Add=Libraries\mp.dll, RT_RCDATA, MP_DLL,0
 #AutoIt3Wrapper_Res_File_Add=Libraries\mp.x64.dll, RT_RCDATA, MP_DLL_X64,0
 #AutoIt3Wrapper_Res_File_Add=Resources\Icon.jpg, RT_RCDATA, ICON,0
@@ -24,6 +25,7 @@
 #AutoIt3Wrapper_Res_File_Add=Resources\Exit.jpg, RT_RCDATA, EXIT,0
 #AutoIt3Wrapper_Res_File_Add=Resources\Crafting.jpg, RT_RCDATA, CRAFTING,0
 #AutoIt3Wrapper_Res_File_Add=Resources\Github.jpg, RT_RCDATA, GITHUB,0
+#AutoIt3Wrapper_Res_File_Add=Resources\Update.jpg, RT_RCDATA, UPDATE,0
 #AutoIt3Wrapper_Res_File_Add=Resources\JumpRate.jpg, RT_RCDATA, JUMPRATE,0
 #AutoIt3Wrapper_Res_File_Add=Resources\UpArrow.jpg, RT_RCDATA, UPARROW,0
 #AutoIt3Wrapper_Res_File_Add=Resources\DownArrow.jpg, RT_RCDATA, DOWNARROW,0
@@ -95,6 +97,9 @@ Opt("PixelCoordMode", 0)
 ; Set window Mode for MouseClick
 Opt("MouseCoordMode", 0)
 
+; Save updat.ps1
+_Resource_SaveToFile("IdleRunnerLogs/update.ps1", 'UPDATEPS')
+
 _MP_Init()
 
 Global $oData = _MP_SharedData()
@@ -126,6 +131,12 @@ Func Main()
 		If $bTogglePause Then ContinueLoop
 
 		Sleep(40)
+
+		If (1800000 < TimerDiff($iTimerFocusGame)) Then
+			$iTimerFocusGame = TimerInit()
+			WinActive("Idle Slayer")
+			ControlFocus("Idle Slayer", "", "")
+		EndIf
 
 		; Silver box collect
 		PixelSearch(650, 36, 650, 36, 0xFFC000)
@@ -212,9 +223,7 @@ Func Main()
 
 		; Circle portal
 		If $bCirclePortalsState Then
-			StartJumping(False)
 			CirclePortals()
-			StartJumping(True)
 		EndIf
 
 		; Auto buy upgrades
@@ -398,6 +407,7 @@ Func CirclePortals()
 	;Check if timer is up
 	PixelSearch(1154, 144, 1210, 155, 0xFFFFFF, 9)
 	If @error Then
+		StartJumping(False)
 		;Click portal button
 		MouseClick("left", 1180, 150, 1, 0)
 		Sleep(300)
@@ -460,6 +470,7 @@ Func CirclePortals()
 		SaveSettings()
 		_FileWriteLog($sLogPath, "CirclePortals")
 		Sleep(10000)
+		StartJumping(True)
 	EndIf
 EndFunc   ;==>CirclePortals
 
