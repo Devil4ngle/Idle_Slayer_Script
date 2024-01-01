@@ -29,7 +29,6 @@ Global $bAutoBuyUpgradeState = False, _
 Global $sLogPath = "IdleRunnerLogs\Logs.txt"
 Global $sVersion = "3.2.2"
 Global $oData
-Global $iSubProcessId
 Global $iJumpSliderValue = 150, _
 		$iCirclePortalsCount = 7, _
 		$iCooldownAutoUpgrades = 600000, _
@@ -325,9 +324,6 @@ EndFunc   ;==>EventGlobalCheckBox
 
 Func IdleClose()
 	$oData.exitScript = 1
-	_MP_Wait($iSubProcessId)
-	ProcessClose("Idle Runner_x64")
-	ProcessClose("Idle Runner_x32")
 	ProcessClose("Aut2Exe")
 	Exit
 EndFunc   ;==>IdleClose

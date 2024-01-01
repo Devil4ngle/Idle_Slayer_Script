@@ -125,7 +125,7 @@ Func Main()
 	$oData.jumprate = $iJumpSliderValue
 	$oData.exitScript = 0
 	StartJumping(True)
-	$iSubProcessId = _MP_Fork()
+	_MP_Fork()
 	; Infinite Loops
 	While 1
 		If $bTogglePause Then ContinueLoop
