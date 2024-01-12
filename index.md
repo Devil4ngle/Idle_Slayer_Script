@@ -5,5 +5,5 @@
 <h1 id="what-can-it-do-">What can it do?</h1>
 <p>• Everything the game offers with Human Performance if not better.</p>
 <h1>Showcase:</h1>
-<iframe width="80%" height="400px" src="https://www.youtube.com/watch?v=uDY0wCMQZX8" allowfullscreen
+<iframe width="80%" height="400px" src="https://www.youtube.com/embed/uDY0wCMQZX8" allowfullscreen
   frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"></iframe>
