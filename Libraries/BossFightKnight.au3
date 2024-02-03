@@ -1,13 +1,5 @@
 #include <File.au3>
 
-; Enables GUI events
-Opt("GUIOnEventMode", 1)
-; Disable Caps for better background
-Opt("SendCapslockMode", 0)
-; Set window Mode for PixelSearch
-Opt("PixelCoordMode", 0)
-; Set window Mode for MouseClick
-Opt("MouseCoordMode", 0)
 Func BossFightKnight($sLogPath)
 	_FileWriteLog($sLogPath, "Start of BossFight Knight")
 	Do
