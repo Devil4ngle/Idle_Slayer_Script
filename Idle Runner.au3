@@ -74,7 +74,8 @@
 #include "Libraries\ResourcesEx.au3"
 #include "Libraries\GUI.au3"
 #include "Libraries\BonusStage.au3"
-#include "Libraries\BossFight.au3"
+#include "Libraries\BossFightVictor.au3"
+#include "Libraries\BossFightKnight.au3"
 #include "Libraries\mp.au3"
 #include <ButtonConstants.au3>
 #include <GUIConstantsEx.au3>
@@ -215,7 +216,12 @@ Func Main()
 				PixelSearch(644, 224, 644, 224, 0xFFF38F)
 				If Not @error Then
 					StartJumping(False)
-					BossFight($sLogPath)
+					PixelSearch(30, 690, 30, 690, 0x0B0303)
+					If Not @error Then
+						BossFightKnight($sLogPath)
+					Else
+						BossFightVictor($sLogPath)
+					EndIf
 					StartJumping(True)
 				EndIf
 			EndIf
@@ -763,12 +769,12 @@ Func Slider()
 EndFunc   ;==>Slider
 
 Func FindPixelUntilFound($iX1, $iY1, $iX2, $iY2, $sHex, $iTimer = 15000)
-	Local $time = TimerInit()
+	Local $hTimer = TimerInit()
 	Local $aPos
 	Do
 		$aPos = PixelSearch($iX1, $iY1, $iX2, $iY2, $sHex)
-	Until Not @error Or $iTimer < TimerDiff($time)
-	If $iTimer < TimerDiff($time) Then
+	Until Not @error Or $iTimer < TimerDiff($hTimer)
+	If $iTimer < TimerDiff($hTimer) Then
 		Return False
 	Else
 		Return $aPos
@@ -778,13 +784,20 @@ EndFunc   ;==>FindPixelUntilFound
 Func ShootAndBoost()
 	While True
 		While $oData.start == 0
-			Sleep(500)
-			If $oData.exitScript == 1 Then
-				ExitLoop 2
+			Sleep(100)
+			If WinGetState("Idle Runner") == 0 Then
+				Exit
 			EndIf
+			If $oData.exitScript == 1 Then
+				Exit
+			EndIf
+
 		WEnd
+		If WinGetState("Idle Runner") == 0 Then
+			Exit
+		EndIf
 		If $oData.exitScript == 1 Then
-			ExitLoop
+			Exit
 		EndIf
 		Sleep($oData.jumprate)
 		;Jump and shoot

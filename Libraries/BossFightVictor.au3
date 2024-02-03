@@ -1,7 +1,7 @@
 #include <File.au3>
-Global $bFirstStage
-Func BossFight($sLogPath)
-	_FileWriteLog($sLogPath, "Start of BossFight")
+
+Func BossFightVictor($sLogPath)
+	_FileWriteLog($sLogPath, "Start of BossFight Victor")
 	Do
 		Slider()
 		Sleep(500)
@@ -20,7 +20,7 @@ Func BossBattleVictor($sLogPath)
 		If $bFirstStage == False Then
 			PixelSearch(1072, 150, 1072, 488, 0xFFFFFF)
 			If Not @error Then
-				Send("!{PRINTSCREEN}") 
+				;Send("!{PRINTSCREEN}") 
 				FlameAttackVictor()
 			EndIf
 		EndIf
@@ -70,7 +70,7 @@ EndFunc   ;==>BossBattleVictor
 
 Func NormalAttackVictor($aPos)
 	Local $bUpper = True
-	If $aPos[1] > 385 Then
+	If $aPos[1] > 370 Then
 		$bUpper = False
 	EndIf
 	If $bUpper Then

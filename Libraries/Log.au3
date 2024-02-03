@@ -12,7 +12,8 @@ Func LoadLog($sLogPath, $Log)
 	Sleep(100)
 	Local $iSection1 = 0, $iSection2 = 0, $iSection3 = 0, $iSection4 = 0, $iChesthunt = 0, $iFailed = 0, _
 			$iMinionsClaimed = 0, $iQuestClaimed = 0, $iSection1BS = 0, $iSection2BS = 0, $iSection3BS = 0, $iSection4BS = 0, _
-			$iSilverboxColl = 0, $iBonusStage = 0, $iBonusStageSP = 0, $iMegaHordeRage = 0, $iMegaHordeRageSoul = 0, $iBossFightWon = 0, $iBossFight = 0 ;
+			$iSilverboxColl = 0, $iBonusStage = 0, $iBonusStageSP = 0, $iMegaHordeRage = 0, $iMegaHordeRageSoul = 0, $iBossFightVictorWon = 0, $iBossFightVictor = 0, _
+			$iBossFightKnightWon = 0, $iBossFightKnight = 0
 	Local $hFile = FileOpen($sLogPath, $FO_READ)
 	If $hFile <> -1 Then
 		While 1
@@ -56,10 +57,14 @@ Func LoadLog($sLogPath, $Log)
 					$iMegaHordeRage += 1
 				Case "MegaHorde Rage with SoulBonus"
 					$iMegaHordeRageSoul += 1
-				Case "Start of BossFight"
-					$iBossFight += 1
+				Case "Start of BossFight Victor"
+					$iBossFightVictor += 1
 				Case "Victor Won"
-					$iBossFightWon += 1
+					$iBossFightVictorWon += 1
+				Case "Start of BossFight Knight"
+					$iBossFightKnight += 1
+				Case "Knight Won"
+					$iBossFightKnightWon += 1
 			EndSwitch
 		WEnd
 		FileClose($hFile)
@@ -83,9 +88,12 @@ Func LoadLog($sLogPath, $Log)
 	CustomConsole($Log, "Section 3 Complete (Spirit Boost): " & $iSection3BS)
 	CustomConsole($Log, "Section 3 Complete (Spirit Boost): " & $iSection3BS)
 	CustomConsole($Log, "Section 4 Complete (Spirit Boost): " & $iSection4BS)
-	CustomConsole($Log, "Victor Fights Done: " & $iBossFight)
-	CustomConsole($Log, "Victor Fights Won: " & $iBossFightWon)
-	CustomConsole($Log, "Victor Fights Lost: " & $iBossFight - $iBossFightWon, True)
+	CustomConsole($Log, "Victor Fights Done: " & $iBossFightVictor)
+	CustomConsole($Log, "Victor Fights Won: " & $iBossFightVictorWon)
+	CustomConsole($Log, "Victor Fights Lost: " & $iBossFightVictor - $iBossFightVictorWon)
+	CustomConsole($Log, "Knight Fights Done: " & $iBossFightKnight)
+	CustomConsole($Log, "Knight Fights Won: " & $iBossFightKnightWon)
+	CustomConsole($Log, "Knight Fights Lost: " & $iBossFightKnight - $iBossFightKnightWon, True)
 EndFunc   ;==>LoadLog
 
 ; #FUNCTION# ====================================================================================================================
