@@ -27,7 +27,7 @@ Global $bAutoBuyUpgradeState = False, _
 		$bTogglePause = False
 
 Global $sLogPath = "IdleRunnerLogs\Logs.txt"
-Global $sVersion = "3.2.3"
+Global $sVersion = "3.2.4"
 Global $oData
 Global $iJumpSliderValue = 150, _
 		$iCirclePortalsCount = 7, _

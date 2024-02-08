@@ -83,21 +83,21 @@ Func BonusStageSP($sLogPath)
 	cSend(47, 687) ;2
 	cSend(360, 1390) ;3
 	cSend(485, 344) ;4
-	cSend(406, 859) ;5
+	cSend(406, 749) ;5
 	cSend(78, 600) ;6
 	cSend(94, 900) ;7
 	cSend(109, 954) ;8
 	cSend(31, 672) ;9
 	cSend(515, 1344) ;10
 	cSend(484, 297) ;11
-	cSend(406, 859) ;12
+	cSend(406, 749) ;12
 	cSend(78, 600) ;13
 	cSend(94, 900) ;14
 	cSend(109, 954) ;15
 	cSend(31, 672) ;16
 	cSend(515, 1344) ;17
 	cSend(469, 219) ;18
-	cSend(297, 1000) ;19
+	cSend(297, 750) ;19
 	cSend(156, 500) ;20
 	cSend(110, 3000) ;21
 	cSend(360, 2984) ;22
@@ -228,21 +228,21 @@ Func BonusStageNSP($sLogPath)
 	cSend(47, 687) ;2
 	cSend(360, 1390) ;3
 	cSend(485, 344) ;4
-	cSend(406, 859) ;5
+	cSend(406, 749) ;5
 	cSend(78, 600) ;6
 	cSend(94, 900) ;7
 	cSend(109, 954) ;8
 	cSend(31, 672) ;9
 	cSend(515, 1344) ;10
 	cSend(484, 297) ;11
-	cSend(406, 859) ;12
+	cSend(406, 749) ;12
 	cSend(78, 600) ;13
 	cSend(94, 900) ;14
 	cSend(109, 954) ;15
 	cSend(31, 672) ;16
 	cSend(515, 1344) ;17
 	cSend(469, 219) ;18
-	cSend(297, 1000) ;19
+	cSend(297, 750) ;19
 	cSend(156, 500) ;20
 	cSend(110, 3000) ;21
 	cSend(360, 2984) ;22
