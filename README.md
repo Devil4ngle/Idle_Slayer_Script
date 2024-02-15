@@ -16,38 +16,41 @@ You have two options:
 
 ### The script will ***ONLY*** work with the following options:
 
-• Resolution of the game needs to be ***1280x720*** and Windowed.
+- Resolution of the game needs to be ***1280x720*** and Windowed.
 
-• ***Bonus stage 2*** will only work.
+- ***Bonus stage 2*** will only work.
 
-• Do NOT buy the ***Vertical Magnet***.
+- Do NOT buy the ***Vertical Magnet***.
 
-• Disable ***dialogue for Portal*** in setting.
+- Disable ***dialogue for Portal*** in setting.
 
-• Enable ***rounded bulk*** in setting.
+- Enable ***rounded bulk*** in setting.
 
-• Enable ***hide locked quest rewards*** in setting.
+- Enable ***hide locked quest rewards*** in setting.
 
-• The game must be in ***English***.
+- The game must be in ***English***.
 
-• Ascension Upgrade ***Leadership Master*** is mandatory.
+- Ascension Upgrade ***Leadership Master*** is mandatory.
 
-• Ascension Upgrade ***Protect***  is mandatory.
+- Ascension Upgrade ***Protect***  is mandatory.
 
-• Game needs to be in ***focus***
+- Game needs to be in ***focus***
 
 ### For Bossfight only:
 
-• Use the Character Runehardt.
+- Use the Character Runehardt.
 
-• Use Bat Long bow.
+- Use Bat Long bow.
 
 # Join Our Discord Community!
 
 For additional assistance and to connect with a supportive community, visit our [discord server](https://discord.gg/aEaBr77UDn)
 
 # What can it do?
+
 Everything the game offers with Human Performance if not better. Here is a showcase.
 [![Watch the video](https://img.youtube.com/vi/uDY0wCMQZX8/hqdefault.jpg)](https://www.youtube.com/watch?v=uDY0wCMQZX8)
+
 ---
+
 Buy Me a [Coffee](https://www.buymeacoffee.com/devil4ngle) :coffee: 
