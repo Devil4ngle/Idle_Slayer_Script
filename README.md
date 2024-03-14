@@ -1,5 +1,7 @@
 # How to make it run?
 
+(Works only with the Steam Version on Windows)
+
 You have two options:
 
 1) **Run with _.exe files** (easy):
