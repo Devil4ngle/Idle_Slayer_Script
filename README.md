@@ -1,5 +1,7 @@
 # How to make it run?
 
+(Works only with the Steam Version on Windows)
+
 You have two options:
 
 1) **Run with _.exe files** (easy):
@@ -9,7 +11,10 @@ You have two options:
 
 2) **Run with source code** (harder):
 
-    If you do not trust the .exe files or your antivirus won't let you run it. You can download the [Source Code](https://github.com/Devil4ngle/Idle_Slayer_Script/releases) and unzip it. After that download and install [AutoIt Full Installation](https://www.autoitscript.com/site/autoit/downloads/). When Autoit is installed right-click the file `Idle Runner.au3` and click the option `Compile with Options` in the menu click `Compile Script`.
+    If you do not trust the .exe files or your antivirus won't let you run it. You can download the [Source Code](https://github.com/Devil4ngle/Idle_Slayer_Script/releases) and unzip it. After that download and install [AutoIt Full Installation and AutoIt Script Editor](https://www.autoitscript.com/site/autoit/downloads/).
+![image](https://github.com/Devil4ngle/Idle_Slayer_Script/assets/101042789/5f894aaf-81fa-474f-8f70-116e9e34ab1f)
+
+    When Autoit is installed right-click the file `Idle Runner.au3` and click the option `Compile with Options` in the menu click `Compile Script`.
     It will generate .exe file which you can run.
 
 # Important Options
