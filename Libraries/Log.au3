@@ -8,19 +8,23 @@
 ;                  $Log                 - Edit control
 ; Return values .:
 ; ===============================================================================================================================
-Func LoadLog($sLogPath, $Log)
+Func LoadLog($Log)
 	Sleep(100)
 	Local $iSection1 = 0, $iSection2 = 0, $iSection3 = 0, $iSection4 = 0, $iChesthunt = 0, $iFailed = 0, _
 			$iMinionsClaimed = 0, $iQuestClaimed = 0, $iSection1BS = 0, $iSection2BS = 0, $iSection3BS = 0, $iSection4BS = 0, _
 			$iSilverboxColl = 0, $iBonusStage = 0, $iBonusStageSP = 0, $iMegaHordeRage = 0, $iMegaHordeRageSoul = 0, $iBossFightVictorWon = 0, $iBossFightVictor = 0, _
-			$iBossFightKnightWon = 0, $iBossFightKnight = 0
-	Local $hFile = FileOpen($sLogPath, $FO_READ)
+			$iBossFightKnightWon = 0, $iBossFightKnight = 0, $iAscendingHeights = 0, $iAscendingHeightsFailed = 0
+	Local $hFile = FileOpen("IdleRunnerLogs\Logs.txt", $FO_READ)
 	If $hFile <> -1 Then
 		While 1
 			Local $sLine = FileReadLine($hFile)
 			If @error = -1 Then ExitLoop
 			$sLine = StringTrimLeft($sLine, 22)
 			Switch $sLine
+				Case "Start of Ascending Heights"
+					$iAscendingHeights += 1
+				Case "Ascending Height Failed"
+					$iAscendingHeightsFailed += 1
 				Case "BonusStageBS Section 1 Complete"
 					$iSection1BS += 1
 				Case "BonusStageBS Section 2 Complete"
@@ -88,6 +92,8 @@ Func LoadLog($sLogPath, $Log)
 	CustomConsole($Log, "Section 3 Complete (Spirit Boost): " & $iSection3BS)
 	CustomConsole($Log, "Section 3 Complete (Spirit Boost): " & $iSection3BS)
 	CustomConsole($Log, "Section 4 Complete (Spirit Boost): " & $iSection4BS)
+	CustomConsole($Log, "Ascending Heights: " & $iAscendingHeights)
+	CustomConsole($Log, "Ascending Heights Failed : " & $iAscendingHeights)
 	CustomConsole($Log, "Victor Fights Done: " & $iBossFightVictor)
 	CustomConsole($Log, "Victor Fights Won: " & $iBossFightVictorWon)
 	CustomConsole($Log, "Victor Fights Lost: " & $iBossFightVictor - $iBossFightVictorWon)

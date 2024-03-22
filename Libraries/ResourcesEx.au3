@@ -784,9 +784,9 @@ Func _Resource_SetToCtrlID($iCtrlID, $sResNameOrID, $iResType = $RT_RCDATA, $sDl
 					$iError = @error
 
 					If $bReturn Then
-							$bReturn = _WinAPI_DeleteObject($hHBITMAP) > 0 ; Delete if Vista or above
-							$vReturn = $bReturn
-				
+						$bReturn = _WinAPI_DeleteObject($hHBITMAP) > 0 ; Delete if Vista or above
+						$vReturn = $bReturn
+
 					EndIf
 				EndIf
 			EndIf

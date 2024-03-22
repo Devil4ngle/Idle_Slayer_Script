@@ -1,16 +1,17 @@
-#include <File.au3>
+#include-once
+#include "Common.au3"
 
-Func BossFightVictor($sLogPath)
-	_FileWriteLog($sLogPath, "Start of BossFight Victor")
+Func BossFightVictor()
+	WriteInLogs("Start of BossFight Victor")
 	Do
 		Slider()
 		Sleep(500)
 		PixelSearch(653, 222, 653, 222, 0xFFF38F)
 	Until @error
-	BossBattleVictor($sLogPath)
-EndFunc   ;==>BossFight
+	BossBattleVictor()
+EndFunc   ;==>BossFightVictor
 
-Func BossBattleVictor($sLogPath)
+Func BossBattleVictor()
 	ControlFocus("Idle Slayer", "", "")
 	AdlibRegister("Shoot", 50)
 	Sleep(5000)
@@ -20,7 +21,7 @@ Func BossBattleVictor($sLogPath)
 		If $bFirstStage == False Then
 			PixelSearch(1072, 150, 1072, 488, 0xFFFFFF)
 			If Not @error Then
-				;Send("!{PRINTSCREEN}") 
+				;Send("!{PRINTSCREEN}")
 				FlameAttackVictor()
 			EndIf
 		EndIf
@@ -37,7 +38,7 @@ Func BossBattleVictor($sLogPath)
 				AdlibUnRegister("Shoot")
 				Sleep(500)
 				MouseClick('left', 615, 563)
-				_FileWriteLog($sLogPath, "Victor Won")
+				WriteInLogs("Victor Won")
 				ExitLoop 1
 			EndIf
 			If $bFirstStage == True Then
@@ -46,7 +47,7 @@ Func BossBattleVictor($sLogPath)
 					;ConsoleWrite(' Dialog ')
 					$bFirstStage = False
 					$iTimer = 10000
-					_FileWriteLog($sLogPath, "Victor Stage 2")
+					WriteInLogs("Victor Stage 2")
 					AdlibRegister("Shoot", 50)
 					Do
 						Sleep(50)
@@ -59,7 +60,7 @@ Func BossBattleVictor($sLogPath)
 			EndIf
 			If 200000 < TimerDiff($hTimeEndBoss) Then
 				AdlibUnRegister("Shoot")
-				_FileWriteLog($sLogPath, "Victor Lost")
+				WriteInLogs("Victor Lost")
 				ExitLoop 1
 			EndIf
 

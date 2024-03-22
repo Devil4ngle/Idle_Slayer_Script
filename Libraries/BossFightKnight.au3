@@ -1,16 +1,17 @@
-#include <File.au3>
+#include-once
+#include "Common.au3"
 
-Func BossFightKnight($sLogPath)
-	_FileWriteLog($sLogPath, "Start of BossFight Knight")
+Func BossFightKnight()
+	WriteInLogs("Start of BossFight Knight")
 	Do
 		Slider()
 		Sleep(500)
 		PixelSearch(653, 222, 653, 222, 0xFFF38F)
 	Until @error
-	BossBattleKnight($sLogPath)
+	BossBattleKnight()
 EndFunc   ;==>BossFightKnight
 
-Func BossBattleKnight($sLogPath)
+Func BossBattleKnight()
 	Global $bFirstStage = True, $bDashAttack = False
 	Local $aPos, $iTimer = 1000, $iAttackTimer = 1800, $hAttackTimer = TimerInit(), $hTime = TimerInit(), $hTimeEndBoss = TimerInit()
 
@@ -44,7 +45,7 @@ Func BossBattleKnight($sLogPath)
 				PixelSearch(267, 130, 272, 130, 0xF5B784)
 				If Not @error Then
 					;ConsoleWrite(' Dialog ')
-					_FileWriteLog($sLogPath, "Knight Stage 2")
+					WriteInLogs("Knight Stage 2")
 					Do
 						Sleep(100)
 						MouseClick("left", 1020, 420, 1, 0)
@@ -58,7 +59,7 @@ Func BossBattleKnight($sLogPath)
 
 			PixelSearch(510, 75, 510, 75, 0x000000)
 			If Not @error Then
-				_FileWriteLog($sLogPath, "Knight Dark stage")
+				WriteInLogs("Knight Dark stage")
 				;ConsoleWrite(" Dark ")
 				Local $hTimer = TimerInit()
 				Do
@@ -67,16 +68,16 @@ Func BossBattleKnight($sLogPath)
 					If Not @error Then
 						Sleep(500)
 						MouseClick('left', 615, 563)
-						_FileWriteLog($sLogPath, "Knight Won")
+						WriteInLogs("Knight Won")
 						ExitLoop 2
 					EndIf
 				Until 30000 < TimerDiff($hTimer)
-				_FileWriteLog($sLogPath, "Knight Lost")
+				WriteInLogs("Knight Lost")
 				ExitLoop 1
 			EndIf
 
 			If 200000 < TimerDiff($hTimeEndBoss) Then
-				_FileWriteLog($sLogPath, "Knight Lost")
+				WriteInLogs("Knight Lost")
 				ExitLoop 1
 			EndIf
 

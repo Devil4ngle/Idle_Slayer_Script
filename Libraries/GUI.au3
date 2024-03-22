@@ -26,8 +26,7 @@ Global $bAutoBuyUpgradeState = False, _
 		$bDisableRageState = False, _
 		$bTogglePause = False
 
-Global $sLogPath = "IdleRunnerLogs\Logs.txt"
-Global $sVersion = "3.2.4"
+Global $sVersion = "3.2.5"
 Global $oData
 Global $iJumpSliderValue = 150, _
 		$iCirclePortalsCount = 7, _
@@ -266,7 +265,7 @@ EndFunc   ;==>EventButtonCraftingClick
 
 Func EventButtonLogClick()
 	GUICtrlSetState($iTabLog, $GUI_SHOW)
-	LoadLog($sLogPath, $iLog)
+	LoadLog($iLog)
 	LoadDataLog($iLogData)
 EndFunc   ;==>EventButtonLogClick
 

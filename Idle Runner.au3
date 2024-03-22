@@ -70,12 +70,14 @@
  AutoIt Version: 3.3.16.0
  Author: Devil4ngle, Djahnz
 #comments-end
-
+#include-once
 #include "Libraries\ResourcesEx.au3"
 #include "Libraries\GUI.au3"
 #include "Libraries\BonusStage.au3"
 #include "Libraries\BossFightVictor.au3"
 #include "Libraries\BossFightKnight.au3"
+#include "Libraries\Common.au3"
+#include "Libraries\AscendingHeights.au3"
 #include "Libraries\mp.au3"
 #include <ButtonConstants.au3>
 #include <GUIConstantsEx.au3>
@@ -89,14 +91,7 @@
 #include <AutoItConstants.au3>
 #include <Array.au3>
 
-; Enables GUI events
-Opt("GUIOnEventMode", 1)
-; Disable Caps for better background
-Opt("SendCapslockMode", 0)
-; Set window Mode for PixelSearch
-Opt("PixelCoordMode", 0)
-; Set window Mode for MouseClick
-Opt("MouseCoordMode", 0)
+setSetting()
 
 ; Save updat.ps1
 _Resource_SaveToFile("IdleRunnerLogs/update.ps1", 'UPDATEPS')
@@ -142,7 +137,7 @@ Func Main()
 		; Silver box collect
 		PixelSearch(650, 36, 650, 36, 0xFFC000)
 		If Not @error Then
-			_FileWriteLog($sLogPath, "Silver Box Collected")
+			WriteInLogs("Silver Box Collected")
 			MouseClick("left", 644, 49, 1, 0)
 		EndIf
 
@@ -202,7 +197,7 @@ Func Main()
 				PixelSearch(775, 448, 775, 448, 0xFFFFFF)
 				If Not @error Then
 					StartJumping(False)
-					BonusStage($sLogPath, $bSkipBonusStageState)
+					BonusStage($bSkipBonusStageState)
 					StartJumping(True)
 				EndIf
 			EndIf
@@ -218,12 +213,23 @@ Func Main()
 					StartJumping(False)
 					PixelSearch(30, 690, 30, 690, 0x0B0303)
 					If Not @error Then
-						BossFightKnight($sLogPath)
+						BossFightKnight()
 					Else
-						BossFightVictor($sLogPath)
+						BossFightVictor()
 					EndIf
 					StartJumping(True)
 				EndIf
+			EndIf
+		EndIf
+
+		; Ascending Heights
+		PixelSearch(671, 213, 671, 213, 0xC2F4F9)
+		If Not @error Then
+			PixelSearch(640, 240, 634, 640, 0xFFCC66)
+			If Not @error Then
+				StartJumping(False)
+				AscendingHeights()
+				StartJumping(True)
 			EndIf
 		EndIf
 
@@ -293,7 +299,7 @@ Func RageWhenHorde()
 EndFunc   ;==>RageWhenHorde
 
 Func Rage()
-	_FileWriteLog($sLogPath, "MegaHorde Rage")
+	WriteInLogs("MegaHorde Rage")
 	If $bDimensionalState Then
 		BuyTempItem("0xF37C55")
 		$bDimensionalState = False
@@ -313,14 +319,14 @@ EndFunc   ;==>Rage
 Func CheckForSoulBonus()
 	PixelSearch(625, 143, 629, 214, 0xA86D0A)
 	If Not @error Then
-		_FileWriteLog($sLogPath, "MegaHorde Rage with SoulBonus")
+		WriteInLogs("MegaHorde Rage with SoulBonus")
 		Return True
 	EndIf
 	Return False
 EndFunc   ;==>CheckForSoulBonus
 
 Func BuyTempItem($sHexColor)
-	_FileWriteLog($sLogPath, "CraftingTemp Item Active")
+	WriteInLogs("CraftingTemp Item Active")
 	Local $aFoundPixel
 	;open menu
 	MouseClick("left", 160, 100, 1, 0)
@@ -379,7 +385,7 @@ Func CollectMinion()
 		;Claim Daily Bonus
 		MouseClick("left", 320, 180, 5, 0)
 		Sleep(200)
-		_FileWriteLog($sLogPath, "Minions Collect with Daily Bonus")
+		WriteInLogs("Minions Collect with Daily Bonus")
 	Else
 		;Click Claim All
 		MouseClick("left", 318, 182, 5, 0)
@@ -387,7 +393,7 @@ Func CollectMinion()
 		;Click Send All
 		MouseClick("left", 318, 182, 5, 0)
 		Sleep(200)
-		_FileWriteLog($sLogPath, "Minions Collect")
+		WriteInLogs("Minions Collect")
 	EndIf
 
 	;Click Exit
@@ -474,14 +480,14 @@ Func CirclePortals()
 			$iCirclePortalsCount = 1
 		EndIf
 		SaveSettings()
-		_FileWriteLog($sLogPath, "CirclePortals")
+		WriteInLogs("CirclePortals")
 		Sleep(10000)
 		StartJumping(True)
 	EndIf
 EndFunc   ;==>CirclePortals
 
 Func Chesthunt()
-	_FileWriteLog($sLogPath, "Chesthunt")
+	WriteInLogs("Chesthunt")
 	If $bNoLockpickingState Then
 		Sleep(4000)
 	Else
@@ -580,7 +586,7 @@ Func Chesthunt()
 EndFunc   ;==>Chesthunt
 
 Func BuyEquipment()
-	_FileWriteLog($sLogPath, "AutoUpgrade Active")
+	WriteInLogs("AutoUpgrade Active")
 	;Close Shop window if open
 	MouseClick("left", 1244, 712, 1, 0)
 	Sleep(150)
@@ -684,7 +690,7 @@ Func BuyUpgrade()
 EndFunc   ;==>BuyUpgrade
 
 Func ClaimQuests()
-	_FileWriteLog($sLogPath, "Claiming quest")
+	WriteInLogs("Claiming quest")
 	;Close Shop window if open
 	MouseClick("left", 1244, 712, 1, 0)
 	Sleep(150)
@@ -724,7 +730,7 @@ Func ClaimQuests()
 			Sleep(10)
 		Else
 			;Click Green buy box
-			_FileWriteLog($sLogPath, "Quest Claimed")
+			WriteInLogs("Quest Claimed")
 			MouseClick("left", $aLocation[0], $aLocation[1], 5, 0)
 		EndIf
 	WEnd
@@ -733,53 +739,6 @@ Func ClaimQuests()
 	MouseClick("left", 1244, 712, 1, 0)
 
 EndFunc   ;==>ClaimQuests
-
-Func Slider()
-	;Top left
-	PixelSearch(443, 560, 443, 560, 0x007E00)
-	If Not @error Then
-		MouseMove(840, 560, 0)
-		MouseClickDrag("left", 840, 560, 450, 560)
-		Return
-	EndIf
-
-	;Bottom left
-	PixelSearch(443, 620, 443, 620, 0x007E00)
-	If Not @error Then
-		MouseMove(840, 620, 0)
-		MouseClickDrag("left", 840, 620, 450, 620)
-		Return
-	EndIf
-
-	;Top right
-	PixelSearch(850, 560, 850, 560, 0x007E00)
-	If Not @error Then
-		MouseMove(450, 560, 0)
-		MouseClickDrag("left", 450, 560, 840, 560)
-		Return
-	EndIf
-
-	;Bottom right
-	PixelSearch(850, 620, 850, 620, 0x007E00)
-	If Not @error Then
-		MouseMove(450, 620, 0)
-		MouseClickDrag("left", 450, 620, 840, 620)
-		Return
-	EndIf
-EndFunc   ;==>Slider
-
-Func FindPixelUntilFound($iX1, $iY1, $iX2, $iY2, $sHex, $iTimer = 15000)
-	Local $hTimer = TimerInit()
-	Local $aPos
-	Do
-		$aPos = PixelSearch($iX1, $iY1, $iX2, $iY2, $sHex)
-	Until Not @error Or $iTimer < TimerDiff($hTimer)
-	If $iTimer < TimerDiff($hTimer) Then
-		Return False
-	Else
-		Return $aPos
-	EndIf
-EndFunc   ;==>FindPixelUntilFound
 
 Func ShootAndBoost()
 	While True
