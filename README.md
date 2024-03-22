@@ -40,6 +40,8 @@ You have two options:
 - Ascension Upgrade ***Protect***  is mandatory.
 
 - Game needs to be in ***focus***
+  
+- Use Roy for Ascending Heights
 
 ### For Bossfight only:
 
