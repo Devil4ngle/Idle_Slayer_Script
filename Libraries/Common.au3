@@ -13,7 +13,7 @@ Func setSetting()
 EndFunc   ;==>setSetting
 
 Func WriteInLogs($sMessage)
-	_FileWriteLog("IdleRunnerLogs\Logs.txt", "Ascending Height Failed")
+	_FileWriteLog("IdleRunnerLogs\Logs.txt", $sMessage)
 EndFunc   ;==>WriteInLogs
 
 Func cSend($iPressDelay, $iPostPressDelay = 0, $sKey = "Up")

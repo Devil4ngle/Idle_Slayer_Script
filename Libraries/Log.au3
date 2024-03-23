@@ -4,16 +4,16 @@
 
 ; #FUNCTION# ====================================================================================================================
 ; Description ...: Loads the Log from previous session
-; Parameters ....: $LogPath             - Path to the log file
-;                  $Log                 - Edit control
+; Parameters ....: $iLogPath             - Path to the log file
+;                  $iLog                 - Edit control
 ; Return values .:
 ; ===============================================================================================================================
-Func LoadLog($Log)
+Func LoadLog($iLog)
 	Sleep(100)
 	Local $iSection1 = 0, $iSection2 = 0, $iSection3 = 0, $iSection4 = 0, $iChesthunt = 0, $iFailed = 0, _
 			$iMinionsClaimed = 0, $iQuestClaimed = 0, $iSection1BS = 0, $iSection2BS = 0, $iSection3BS = 0, $iSection4BS = 0, _
-			$iSilverboxColl = 0, $iBonusStage = 0, $iBonusStageSP = 0, $iMegaHordeRage = 0, $iMegaHordeRageSoul = 0, $iBossFightVictorWon = 0, $iBossFightVictor = 0, _
-			$iBossFightKnightWon = 0, $iBossFightKnight = 0, $iAscendingHeights = 0, $iAscendingHeightsFailed = 0
+			$iSilverboxColl = 0, $iBonusStage = 0, $iBonusStageSP = 0, $iMegaHordeRage = 0, $iMegaHordeRageSoul = 0, $iBossFightVictorWon = 0, _
+			$iBossFightVictor = 0, $iBossFightKnightWon = 0, $iBossFightKnight = 0, $iAscendingHeights = 0, $iAscendingHeightsFailed = 0
 	Local $hFile = FileOpen("IdleRunnerLogs\Logs.txt", $FO_READ)
 	If $hFile <> -1 Then
 		While 1
@@ -73,33 +73,33 @@ Func LoadLog($Log)
 		WEnd
 		FileClose($hFile)
 	EndIf
-	GUICtrlSetData($Log, "")
-	CustomConsole($Log, "Rage with only MegaHorde: " & $iMegaHordeRage - $iMegaHordeRageSoul)
-	CustomConsole($Log, "Rage with MegaHorde and SoulBonus: " & $iMegaHordeRageSoul)
-	CustomConsole($Log, "Claimed Quest: " & $iQuestClaimed)
-	CustomConsole($Log, "Claimed Minions: " & $iMinionsClaimed)
-	CustomConsole($Log, "ChestHunts: " & $iChesthunt)
-	CustomConsole($Log, "Collected SilverBoxes: " & $iSilverboxColl)
-	CustomConsole($Log, "Failed Bonus Stages: " & $iFailed)
-	CustomConsole($Log, "BonusStage (No Spirit Boost): " & $iBonusStage)
-	CustomConsole($Log, "BonusStage (Spirit Boost): " & $iBonusStageSP)
-	CustomConsole($Log, "Section 1 Complete (No Spirit Boost): " & $iSection1)
-	CustomConsole($Log, "Section 2 Complete (No Spirit Boost): " & $iSection2)
-	CustomConsole($Log, "Section 3 Complete (No Spirit Boost): " & $iSection3)
-	CustomConsole($Log, "Section 4 Complete (No Spirit Boost): " & $iSection4)
-	CustomConsole($Log, "Section 1 Complete (Spirit Boost): " & $iSection1BS)
-	CustomConsole($Log, "Section 2 Complete (Spirit Boost): " & $iSection2BS)
-	CustomConsole($Log, "Section 3 Complete (Spirit Boost): " & $iSection3BS)
-	CustomConsole($Log, "Section 3 Complete (Spirit Boost): " & $iSection3BS)
-	CustomConsole($Log, "Section 4 Complete (Spirit Boost): " & $iSection4BS)
-	CustomConsole($Log, "Ascending Heights: " & $iAscendingHeights)
-	CustomConsole($Log, "Ascending Heights Failed : " & $iAscendingHeights)
-	CustomConsole($Log, "Victor Fights Done: " & $iBossFightVictor)
-	CustomConsole($Log, "Victor Fights Won: " & $iBossFightVictorWon)
-	CustomConsole($Log, "Victor Fights Lost: " & $iBossFightVictor - $iBossFightVictorWon)
-	CustomConsole($Log, "Knight Fights Done: " & $iBossFightKnight)
-	CustomConsole($Log, "Knight Fights Won: " & $iBossFightKnightWon)
-	CustomConsole($Log, "Knight Fights Lost: " & $iBossFightKnight - $iBossFightKnightWon, True)
+	GUICtrlSetData($iLog, "")
+	CustomConsole($iLog, "Rage with only MegaHorde: " & $iMegaHordeRage - $iMegaHordeRageSoul)
+	CustomConsole($iLog, "Rage with MegaHorde and SoulBonus: " & $iMegaHordeRageSoul)
+	CustomConsole($iLog, "Claimed Quest: " & $iQuestClaimed)
+	CustomConsole($iLog, "Claimed Minions: " & $iMinionsClaimed)
+	CustomConsole($iLog, "ChestHunts: " & $iChesthunt)
+	CustomConsole($iLog, "Collected SilverBoxes: " & $iSilverboxColl)
+	CustomConsole($iLog, "Failed Bonus Stages: " & $iFailed)
+	CustomConsole($iLog, "BonusStage (No Spirit Boost): " & $iBonusStage)
+	CustomConsole($iLog, "BonusStage (Spirit Boost): " & $iBonusStageSP)
+	CustomConsole($iLog, "Section 1 Complete (No Spirit Boost): " & $iSection1)
+	CustomConsole($iLog, "Section 2 Complete (No Spirit Boost): " & $iSection2)
+	CustomConsole($iLog, "Section 3 Complete (No Spirit Boost): " & $iSection3)
+	CustomConsole($iLog, "Section 4 Complete (No Spirit Boost): " & $iSection4)
+	CustomConsole($iLog, "Section 1 Complete (Spirit Boost): " & $iSection1BS)
+	CustomConsole($iLog, "Section 2 Complete (Spirit Boost): " & $iSection2BS)
+	CustomConsole($iLog, "Section 3 Complete (Spirit Boost): " & $iSection3BS)
+	CustomConsole($iLog, "Section 3 Complete (Spirit Boost): " & $iSection3BS)
+	CustomConsole($iLog, "Section 4 Complete (Spirit Boost): " & $iSection4BS)
+	CustomConsole($iLog, "Ascending Heights: " & $iAscendingHeights)
+	CustomConsole($iLog, "Ascending Heights Failed : " & $iAscendingHeightsFailed)
+	CustomConsole($iLog, "Victor Fights Done: " & $iBossFightVictor)
+	CustomConsole($iLog, "Victor Fights Won: " & $iBossFightVictorWon)
+	CustomConsole($iLog, "Victor Fights Lost: " & $iBossFightVictor - $iBossFightVictorWon)
+	CustomConsole($iLog, "Knight Fights Done: " & $iBossFightKnight)
+	CustomConsole($iLog, "Knight Fights Won: " & $iBossFightKnightWon)
+	CustomConsole($iLog, "Knight Fights Lost: " & $iBossFightKnight - $iBossFightKnightWon, True)
 EndFunc   ;==>LoadLog
 
 ; #FUNCTION# ====================================================================================================================
@@ -131,7 +131,7 @@ Func LoadDataLog($iLogData)
 	CustomConsole($iLogData, "Game must be in focus.")
 	CustomConsole($iLogData, "Ascension Upgrade Leadership Master is mandatory.")
 	CustomConsole($iLogData, "Ascension Upgrade Safety First is mandatory.")
-	CustomConsole($iLogData, "Use Anna or Roy if you activated Victor.")
+	CustomConsole($iLogData, "Use Roy if for Victor and Ascending Heights.")
 	CustomConsole($iLogData, "Run the script as Administrator in Windows 11.")
 	CustomConsole($iLogData, "Tip: Hover over the Text-Boxes_")
 	CustomConsole($iLogData, "on the Idle Runner to read what they do!", True)

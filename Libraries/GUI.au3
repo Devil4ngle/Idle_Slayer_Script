@@ -26,7 +26,7 @@ Global $bAutoBuyUpgradeState = False, _
 		$bDisableRageState = False, _
 		$bTogglePause = False
 
-Global $sVersion = "3.2.5"
+Global $sVersion = "3.2.6"
 Global $oData
 Global $iJumpSliderValue = 150, _
 		$iCirclePortalsCount = 7, _

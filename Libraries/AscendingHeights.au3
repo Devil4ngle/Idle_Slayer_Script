@@ -1,8 +1,8 @@
 #include-once
 #include "Common.au3"
 
-;setSetting()
-;AscendingHeightsPlay()
+setSetting()
+AscendingHeightsPlay()
 
 Func AscendingHeights()
 	WriteInLogs("Start of Ascending Heights")
@@ -16,9 +16,11 @@ Func AscendingHeights()
 EndFunc   ;==>AscendingHeights
 
 Func AscendingHeightsPlay()
-	Local $samePositionCount = 0
+	Local $iSamePositionCount = 0
 	Local $iPosPreviousX = 0
 	Local $iPosPreviousY = 0
+	Local $aPosPlayer
+	Local $aPosPlatform
 
 	While True
 		PixelSearch(190, 125, 190, 125, 0xFFAF36)
@@ -28,148 +30,113 @@ Func AscendingHeightsPlay()
 		EndIf
 
 		PixelSearch(590, 590, 590, 590, 0x00A800)
-		If Not @error Then
-			MouseClick("left", 590, 590, 1, 0)
-		EndIf
+		If Not @error Then MouseClick("left", 590, 590, 1, 0)
 
 		PixelSearch(730, 385, 730, 385, 0x7A444A)
-		If Not @error Then
-			cSend(6000, 0, "d")
-		EndIf
+		If Not @error Then cSend(6000, 0, "d")
+
 		$aPosPlayer = PixelSearch(375, 260, 900, 730, 0x8A3B18)
-		If @error Then
-			ContinueLoop
-		EndIf
+		If @error Then ContinueLoop
 
-		$aPosPlatForm = searchSafePlatForm(375, 752, 900, 200, $aPosPlayer[1] + 140)
-		If $aPosPlatForm == 0 Or IsBool($aPosPlatForm) Then
-			ContinueLoop
-		EndIf
+		$aPosPlatform = searchSafePlatform(375, 752, 900, 200, $aPosPlayer[1] + 140)
+		If Not IsArray($aPosPlatform) Then ContinueLoop
 
-		;ConsoleWrite(" Y:" &  $aPosPlatForm[1] & " Player Y:" &  $aPosPlayer[1] & @CRLF)
-		;ConsoleWrite(" X:" &  $aPosPlatForm[0] & " Player X:" &  $aPosPlayer[0] & @CRLF)
-
-		If ($aPosPlatForm[0] + 40) > $aPosPlayer[0] + 25 Then
+		If ($aPosPlatform[0] + 40) > $aPosPlayer[0] + 25 Then
 			cSend(85, 0, "d")
-			$samePositionCount = 0
-		ElseIf ($aPosPlatForm[0] + 40) < $aPosPlayer[0] - 25 Then
+			$iSamePositionCount = 0
+		ElseIf ($aPosPlatform[0] + 40) < $aPosPlayer[0] - 25 Then
 			cSend(85, 0, "a")
-			$samePositionCount = 0
+			$iSamePositionCount = 0
 		Else
-			If $iPosPreviousX == $aPosPlatForm[0] And $iPosPreviousY == $aPosPlatForm[1] Then
-				$samePositionCount += 1
-				If $samePositionCount >= 50 Then
-					$samePositionCount = 0
-					;ConsoleWrite(" Same Position ")
-					tryToGoUp($aPosPlatForm[1], $aPosPlatForm[0])
+			If $iPosPreviousX = $aPosPlatform[0] And $iPosPreviousY = $aPosPlatform[1] Then
+				$iSamePositionCount += 1
+				If $iSamePositionCount >= 50 Then
+					$iSamePositionCount = 0
+					tryToGoUp($aPosPlatform[1], $aPosPlatform[0])
 				EndIf
 			Else
-				$samePositionCount = 0
+				$iSamePositionCount = 0
 			EndIf
-			$iPosPreviousX = $aPosPlatForm[0]
-			$iPosPreviousY = $aPosPlatForm[1]
+			$iPosPreviousX = $aPosPlatform[0]
+			$iPosPreviousY = $aPosPlatform[1]
 		EndIf
 	WEnd
 EndFunc   ;==>AscendingHeightsPlay
 
 
-Func searchSafePlatForm($iX, $iY, $iX1, $iY2, $iYPlayerPos = 550)
-	;Return searchSemiBrokenPlatForm($iX, $iY, $iX1, $iY2)
-	$aPosPlatForm = PixelSearch($iX, $iY, $iX1, $iY2, 0xA7ACBA)
+Func searchSafePlatform($iX, $iY, $iX1, $iY2, $iYPlayerPos = 550)
+	;Return searchAllPlatform($iX, $iY, $iX1, $iY2)
+	Local $aPosPlatform = PixelSearch($iX, $iY, $iX1, $iY2, 0xA7ACBA)
 	If Not @error Then
 		While True
-			PixelSearch($aPosPlatForm[0] + 34, $aPosPlatForm[1], $aPosPlatForm[0] + 34, $aPosPlatForm[1], 0xA7ACBA)
-			If Not @error Then
-				Return $aPosPlatForm
-			EndIf
-			If $aPosPlatForm[1] - 15 < $iYPlayerPos Then
-				Return searchSemiBrokenPlatForm($iX, $iY, $iX1, $iY2)
-			EndIf
-			$aPosPlatForm = PixelSearch($iX, $aPosPlatForm[1] - 15, $iX1, $iY2, 0xA7ACBA)
-			If @error Then
-				Return searchSemiBrokenPlatForm($iX, $iY, $iX1, $iY2)
-			EndIf
+			PixelSearch($aPosPlatform[0] + 34, $aPosPlatform[1], $aPosPlatform[0] + 34, $aPosPlatform[1], 0xA7ACBA)
+			If Not @error Then Return $aPosPlatform
+			If $aPosPlatform[1] - 15 < $iYPlayerPos Then Return searchAllPlatform($iX, $iY, $iX1, $iY2)
+			$aPosPlatform = PixelSearch($iX, $aPosPlatform[1] - 15, $iX1, $iY2, 0xA7ACBA)
+			If @error Then Return searchAllPlatform($iX, $iY, $iX1, $iY2)
 		WEnd
 	EndIf
-EndFunc   ;==>searchSafePlatForm
+EndFunc   ;==>searchSafePlatform
 
-Func searchSemiBrokenPlatForm($iX, $iY, $iX1, $iY2)
-	$aPosPlatForm = PixelSearch($iX, $iY, $iX1, $iY2, 0xA7ACBA)
+Func searchAllPlatform($iX, $iY, $iX1, $iY2)
+	Local $aPosPlatform = PixelSearch($iX, $iY, $iX1, $iY2, 0xA7ACBA)
 	If Not @error Then
 		While True
-			PixelSearch($aPosPlatForm[0] + 47, $aPosPlatForm[1], $aPosPlatForm[0] + 47, $aPosPlatForm[1], 0xA7ACBA)
-			If Not @error Then
-				Return $aPosPlatForm
-			EndIf
-			If $aPosPlatForm[1] - 20 < $iY2 Then
-				;ConsoleWrite("Found Noting")
-				Return False
-			EndIf
-			$aPosPlatForm = PixelSearch($iX, $aPosPlatForm[1] - 20, $iX1, $iY2, 0xA7ACBA)
-			If @error Then
-				;ConsoleWrite("Found Noting")
-				Return False
-			EndIf
+			PixelSearch($aPosPlatform[0] + 47, $aPosPlatform[1], $aPosPlatform[0] + 47, $aPosPlatform[1], 0xA7ACBA)
+			If Not @error Then Return $aPosPlatform
+			If $aPosPlatform[1] - 20 < $iY2 Then Return False
+			$aPosPlatform = PixelSearch($iX, $aPosPlatform[1] - 20, $iX1, $iY2, 0xA7ACBA)
+			If @error Then Return False
 		WEnd
 	EndIf
-EndFunc   ;==>searchSemiBrokenPlatForm
+EndFunc   ;==>searchAllPlatform
 
-Func tryToGoUp($iYPosLowerPlatForm, $iXPosLowerPlatForm)
-	$iYPosLowerPlatFormOriginal = $iYPosLowerPlatForm
-	If isPlayerGoingUp() Then
-		;ConsoleWrite(" Lower Safest Platform : " & $iYPosLowerPlatForm - 30)
-		$aPosPlatForm = searchSafePlatForm(375, $iYPosLowerPlatForm - 15, 836, 330)
-		If IsArray($aPosPlatForm) Then
-			While True
-				$aPosPlayer = PixelSearch(375, 330, 900, 730, 0x8A3B18)
-				If @error Then
-					;ConsoleWrite(" Player not found Higher ")
-					ExitLoop
-				EndIf
-				If ($aPosPlatForm[0] + 35) > $aPosPlayer[0] + 30 Then
-					cSend(85, 0, "d")
-				ElseIf ($aPosPlatForm[0] + 35) < $aPosPlayer[0] - 30 Then
-					cSend(85, 0, "a")
-				Else
-					Sleep(100)
-					isPlayerGoingUp()
-					$aPosPlatFormLow = searchSafePlatForm(375, 752, 900, 200)
-					If $aPosPlatFormLow == 0 Or IsBool($aPosPlatForm) Then
-						ExitLoop
-					EndIf
-					If $iYPosLowerPlatFormOriginal == $aPosPlatFormLow[1] And $iXPosLowerPlatForm == $aPosPlatFormLow[0] Then
-						$iYPosLowerPlatForm = $iYPosLowerPlatForm - 15
-					Else
-						;ConsoleWrite(" ExitHigher ")
-						ExitLoop
-					EndIf
-				EndIf
-				$aPosPlatForm = searchSafePlatForm(375, $iYPosLowerPlatForm - 15, 836, 330)
-				If $aPosPlatForm == 0 Then
-					;ConsoleWrite(" ExitHigher Error ")
-					ExitLoop
-				EndIf
-			WEnd
+Func tryToGoUp($iYPosLowerPlatform, $iXPosLowerPlatform)
+
+	Local $aPosPlayer
+	Local $aPosPlatformLow
+	Local $aPosPlatform
+	Local $iYPosHigherPlatform = $iYPosLowerPlatform - 15
+	isPlayerGoingUp()
+	While True
+		$aPosPlayer = PixelSearch(375, 330, 900, 730, 0x8A3B18)
+		If @error Then ExitLoop
+
+		$aPosPlatform = searchSafePlatform(375, $iYPosHigherPlatform, 836, 450, $aPosPlayer[1] + 140)
+		If $aPosPlatform == 0 Then ExitLoop
+
+		If ($aPosPlatform[0] + 35) > $aPosPlayer[0] + 20 Then
+			cSend(85, 0, "d")
+		ElseIf ($aPosPlatform[0] + 35) < $aPosPlayer[0] - 20 Then
+			cSend(85, 0, "a")
+		Else
+			Sleep(300)
+			isPlayerGoingUp()
+			$aPosPlatformLow = searchSafePlatform(375, 752, 900, 200)
+			If Not IsArray($aPosPlatformLow) Then ExitLoop
+			If $iYPosLowerPlatform == $aPosPlatformLow[1] And $iXPosLowerPlatform == $aPosPlatformLow[0] Then
+				$iYPosHigherPlatform -= 15
+			Else
+				ExitLoop
+			EndIf
 		EndIf
-	EndIf
+	WEnd
 EndFunc   ;==>tryToGoUp
 
 Func isPlayerGoingUp()
 	Local $aPrevPosPlayer = 0
-	Local $goingDown = False
+	Local $bGoingDown = False
+	Local $aPosPlayer
 	While True
 		$aPosPlayer = PixelSearch(375, 330, 900, 730, 0x8A3B18)
 		If @error Then
 			Return False
 		Else
-			$errorCount = 0
-			If $aPosPlayer[1] < $aPrevPosPlayer And $goingDown Then
-				;ConsoleWrite(" Going up ")
-				Return True
-			EndIf
-			$goingDown = $aPosPlayer[1] > $aPrevPosPlayer
+			If $aPosPlayer[1] < $aPrevPosPlayer And $bGoingDown Then Return True
+			$bGoingDown = $aPosPlayer[1] > $aPrevPosPlayer
 			$aPrevPosPlayer = $aPosPlayer[1]
-			Sleep(45)
 		EndIf
+		Sleep(45)
 	WEnd
 EndFunc   ;==>isPlayerGoingUp
+
