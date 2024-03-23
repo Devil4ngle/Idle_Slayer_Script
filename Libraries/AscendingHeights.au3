@@ -103,7 +103,7 @@ Func tryToGoUp($iYPosLowerPlatform, $iXPosLowerPlatform)
 		If @error Then ExitLoop
 
 		$aPosPlatform = searchSafePlatform(375, $iYPosHigherPlatform, 836, 450, $aPosPlayer[1] + 140)
-		If $aPosPlatform == 0 Then ExitLoop
+		If Not IsArray($aPosPlatform) Then ExitLoop
 
 		If ($aPosPlatform[0] + 35) > $aPosPlayer[0] + 20 Then
 			cSend(85, 0, "d")
