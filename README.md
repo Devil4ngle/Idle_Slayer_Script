@@ -45,7 +45,7 @@ You have two options:
 
 ### For Bossfight only:
 
-- Use the Character Runehardt.
+- Use the Character Roy.
 
 - Use Bat Long bow.
 
