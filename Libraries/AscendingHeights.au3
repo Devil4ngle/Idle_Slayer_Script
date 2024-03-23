@@ -1,8 +1,8 @@
 #include-once
 #include "Common.au3"
 
-setSetting()
-AscendingHeightsPlay()
+;setSetting()
+;AscendingHeightsPlay()
 
 Func AscendingHeights()
 	WriteInLogs("Start of Ascending Heights")
