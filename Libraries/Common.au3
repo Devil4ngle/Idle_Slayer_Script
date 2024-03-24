@@ -17,7 +17,6 @@ Func WriteInLogs($sMessage)
 EndFunc   ;==>WriteInLogs
 
 Func cSend($iPressDelay, $iPostPressDelay = 0, $sKey = "Up")
-	Send($sKey)
 	Send("{" & $sKey & " Down}")
 	Sleep($iPressDelay)
 	Send("{" & $sKey & " Up}")

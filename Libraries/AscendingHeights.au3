@@ -33,7 +33,11 @@ Func AscendingHeightsPlay()
 		If Not @error Then MouseClick("left", 590, 590, 1, 0)
 
 		PixelSearch(730, 385, 730, 385, 0x7A444A)
-		If Not @error Then cSend(6000, 0, "d")
+		If Not @error Then 
+			cSend(6000, 0, "d")
+			WriteInLogs("Ascending Height Won")
+			ExitLoop
+		EndIf
 
 		$aPosPlayer = PixelSearch(375, 260, 900, 730, 0x8A3B18)
 		If @error Then ContinueLoop

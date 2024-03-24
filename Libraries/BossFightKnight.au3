@@ -57,7 +57,7 @@ Func BossBattleKnight()
 				EndIf
 			EndIf
 
-			PixelSearch(510, 75, 510, 75, 0x000000)
+			PixelSearch(535, 75, 535, 75, 0x000000)
 			If Not @error Then
 				WriteInLogs("Knight Dark stage")
 				;ConsoleWrite(" Dark ")
@@ -117,7 +117,7 @@ Func CloseAttackKnight($aPos)
 EndFunc   ;==>CloseAttackKnight
 
 Func RangeAttackKnight($aPos)
-	Sleep(100)
+	Sleep(150)
 	$bDashAttack = False
 	Local $bUpper = True
 	If $aPos[1] > 240 Then

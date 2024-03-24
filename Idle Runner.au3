@@ -27,6 +27,7 @@
 #AutoIt3Wrapper_Res_File_Add=Resources\Github.jpg, RT_RCDATA, GITHUB,0
 #AutoIt3Wrapper_Res_File_Add=Resources\Update.jpg, RT_RCDATA, UPDATE,0
 #AutoIt3Wrapper_Res_File_Add=Resources\JumpRate.jpg, RT_RCDATA, JUMPRATE,0
+#AutoIt3Wrapper_Res_File_Add=Resources\AutoAscend.jpg, RT_RCDATA, AUTOASCEND,0
 #AutoIt3Wrapper_Res_File_Add=Resources\UpArrow.jpg, RT_RCDATA, UPARROW,0
 #AutoIt3Wrapper_Res_File_Add=Resources\DownArrow.jpg, RT_RCDATA, DOWNARROW,0
 #AutoIt3Wrapper_Res_File_Add=Resources\NoLockpicking.jpg, RT_RCDATA, NOLOCKPICKING,0
@@ -240,13 +241,26 @@ Func Main()
 
 		; Auto buy upgrades
 		If $bAutoBuyUpgradeState Then
-			If ($iCooldownAutoUpgrades < TimerDiff($iTimer)) Then
+			If ($iCooldownAutoUpgrades < TimerDiff($iTimerAutoBuy)) Then
 				$iCooldownAutoUpgrades = 600000
-				$iTimer = TimerInit()
+				$iTimerAutoBuy = TimerInit()
 				WinActivate("Idle Slayer")
 				If WinGetTitle("[ACTIVE]") == "Idle Slayer" Then
 					StartJumping(False)
 					BuyEquipment()
+					StartJumping(True)
+				EndIf
+			EndIf
+		EndIf
+
+		; Auto Ascend
+		If $bAutoAscendState Then
+			If (($iAutoAscendTimer * 60000) < TimerDiff($iTimerAutoAscend)) Then
+				$iTimerAutoAscend = TimerInit()
+				WinActivate("Idle Slayer")
+				If WinGetTitle("[ACTIVE]") == "Idle Slayer" Then
+					StartJumping(False)
+					AutoAscend()
 					StartJumping(True)
 				EndIf
 			EndIf
@@ -355,6 +369,32 @@ Func BuyTempItem($sHexColor)
 	MouseClick("left", 440, 690, 1, 0)
 	Sleep(100)
 EndFunc   ;==>BuyTempItem
+
+Func AutoAscend()
+	PixelSearch(260, 600, 260, 600, 0x56188B)
+	If Not @error Then
+		MouseClick("left", 260, 600, 1, 0)
+		Sleep(300)
+		MouseClick("left", 550, 580, 1, 0)
+		Sleep(300)
+		BuyEquipment()
+	Else
+		;Click ascension button
+		MouseClick("left", 95, 90, 1, 0)
+		Sleep(400)
+		;Click ascension tab
+		MouseClick("left", 93, 680, 1, 0)
+		Sleep(400)
+		PixelSearch(260, 600, 260, 600, 0x56188B)
+		If Not @error Then
+			MouseClick("left", 260, 600, 1, 0)
+			Sleep(300)
+			MouseClick("left", 550, 580, 1, 0)
+			Sleep(300)
+			BuyEquipment()
+		EndIf
+	EndIf
+EndFunc   ;==>AutoAscend
 
 Func CollectMinion()
 	;Click ascension button
