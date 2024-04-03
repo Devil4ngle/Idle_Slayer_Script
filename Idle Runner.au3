@@ -96,7 +96,7 @@
 
 setSetting()
 
-If Not FileExists("IdleRunnerLogs") Then  DirCreate("IdleRunnerLogs")
+If Not FileExists("IdleRunnerLogs") Then DirCreate("IdleRunnerLogs")
 
 ; Save updat.ps1
 _Resource_SaveToFile("IdleRunnerLogs/update.ps1", 'UPDATEPS')
