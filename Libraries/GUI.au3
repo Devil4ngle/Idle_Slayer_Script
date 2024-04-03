@@ -27,7 +27,7 @@ Global $bAutoBuyUpgradeState = False, _
 		$bAutoAscendState = False, _
 		$bTogglePause = False
 
-Global $sVersion = "3.2.8"
+Global $sVersion = "3.2.9"
 Global $oData
 Global $iJumpSliderValue = 150, _
 		$iCirclePortalsCount = 7, _
@@ -35,8 +35,8 @@ Global $iJumpSliderValue = 150, _
 		$iCooldownAutoUpgrades = 600000, _
 		$iTimerAutoBuy = TimerInit(), _
 		$iTimerAutoAscend = TimerInit(), _
-		$iTimerFocusGame = TimerInit()
-
+		$iTimerFocusGame = TimerInit(), _
+		$iLastCheckTimeLoop = TimerInit()
 Global $aSettingGlobalVariables[13] = ["iAutoAscendTimer", "bAutoAscendState", "bAutoBuyUpgradeState", "bCraftSoulBonusState", "bSkipBonusStageState", "bCraftRagePillState", "bCirclePortalsState", "iJumpSliderValue", "bNoLockpickingState", "iCirclePortalsCount", "bDimensionalState", "bBiDimensionalState", "bDisableRageState"]
 Global $aSettingCheckBoxes[10] = ["bAutoAscendState", "bAutoBuyUpgradeState", "bCraftSoulBonusState", "bSkipBonusStageState", "bCraftRagePillState", "bCirclePortalsState", "bNoLockpickingState", "bBiDimensionalState", "bDimensionalState", "bDisableRageState"]
 

@@ -1,3 +1,4 @@
 *.exe
 IdleRunnerLogs
 Backup
+language-server-log.txt

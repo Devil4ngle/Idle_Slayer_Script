@@ -142,37 +142,19 @@ Func Main()
 			MouseClick("left", 644, 49, 1, 0)
 		EndIf
 
-		; Close Armory full not hover over
-		PixelSearch(775, 600, 775, 600, 0xB40000)
-		If Not @error Then
-			CloseAll()
-		EndIf
-
-		; Close Armory full hover over
-		PixelSearch(775, 600, 775, 600, 0xAD0000)
-		If Not @error Then
-			CloseAll()
-		EndIf
-
-		; Chest-hunt
-		PixelSearch(570, 742, 742, 570, 0x5B3B0A)
-		If Not @error Then
-			PixelSearch(1045, 493, 1045, 493, 0xF68F37)
-			If Not @error Then
-				PixelSearch(1045, 478, 1045, 478, 0xFFFFFF)
-				If Not @error Then
-					StartJumping(False)
-					Chesthunt()
-					StartJumping(True)
-				EndIf
-			EndIf
-
-		EndIf
 		; Rage when Megahorde
 		PixelSearch(419, 323, 419, 323, 0xDFDEE0)
 		If Not @error Then
 			StartJumping(False)
 			RageWhenHorde()
+			StartJumping(True)
+		EndIf
+
+		; Claim quests
+		PixelSearch(1130, 610, 1130, 610, 0xCBCB4C)
+		If Not @error Then
+			StartJumping(False)
+			ClaimQuests()
 			StartJumping(True)
 		EndIf
 
@@ -190,88 +172,112 @@ Func Main()
 			StartJumping(True)
 		EndIf
 
-		; Bonus stage
-		PixelSearch(660, 254, 660, 254, 0xFFE737)
+
+		; Chest-hunt
+		PixelSearch(570, 742, 742, 570, 0x5B3B0A)
 		If Not @error Then
-			PixelSearch(638, 236, 638, 236, 0xFFBB31)
+			PixelSearch(1045, 493, 1045, 493, 0xF68F37)
 			If Not @error Then
-				PixelSearch(775, 448, 775, 448, 0xFFFFFF)
+				PixelSearch(1045, 478, 1045, 478, 0xFFFFFF)
 				If Not @error Then
 					StartJumping(False)
-					BonusStage($bSkipBonusStageState)
+					Chesthunt()
 					StartJumping(True)
 				EndIf
 			EndIf
+
 		EndIf
 
-		; Boss Fight
-		PixelSearch(639, 224, 639, 224, 0xFF878A)
-		If Not @error Then
-			PixelSearch(634, 224, 634, 224, 0xF263BD)
+		If TimerDiff($iLastCheckTimeLoop) >= 5000 Then
+			$iLastCheckTimeLoop = TimerInit()
+
+			; Close Armory full not hover over
+			PixelSearch(775, 600, 775, 600, 0xB40000)
 			If Not @error Then
-				PixelSearch(644, 224, 644, 224, 0xFFF38F)
+				CloseAll()
+			EndIf
+
+			; Close Armory full hover over
+			PixelSearch(775, 600, 775, 600, 0xAD0000)
+			If Not @error Then
+				CloseAll()
+			EndIf
+
+			; Bonus stage
+			PixelSearch(660, 254, 660, 254, 0xFFE737)
+			If Not @error Then
+				PixelSearch(638, 236, 638, 236, 0xFFBB31)
 				If Not @error Then
-					StartJumping(False)
-					PixelSearch(30, 690, 30, 690, 0x0B0303)
+					PixelSearch(775, 448, 775, 448, 0xFFFFFF)
 					If Not @error Then
-						BossFightKnight()
-					Else
-						BossFightVictor()
+						StartJumping(False)
+						BonusStage($bSkipBonusStageState)
+						StartJumping(True)
 					EndIf
-					StartJumping(True)
 				EndIf
 			EndIf
-		EndIf
 
-		; Ascending Heights
-		PixelSearch(671, 213, 671, 213, 0xC2F4F9)
-		If Not @error Then
-			PixelSearch(640, 240, 634, 640, 0xFFCC66)
+			; Boss Fight
+			PixelSearch(639, 224, 639, 224, 0xFF878A)
 			If Not @error Then
-				StartJumping(False)
-				AscendingHeights()
-				StartJumping(True)
+				PixelSearch(634, 224, 634, 224, 0xF263BD)
+				If Not @error Then
+					PixelSearch(644, 224, 644, 224, 0xFFF38F)
+					If Not @error Then
+						StartJumping(False)
+						PixelSearch(30, 690, 30, 690, 0x0B0303)
+						If Not @error Then
+							BossFightKnight()
+						Else
+							BossFightVictor()
+						EndIf
+						StartJumping(True)
+					EndIf
+				EndIf
 			EndIf
-		EndIf
 
-		; Circle portal
-		If $bCirclePortalsState Then
-			CirclePortals()
-		EndIf
-
-		; Auto buy upgrades
-		If $bAutoBuyUpgradeState Then
-			If ($iCooldownAutoUpgrades < TimerDiff($iTimerAutoBuy)) Then
-				$iCooldownAutoUpgrades = 600000
-				$iTimerAutoBuy = TimerInit()
-				WinActivate("Idle Slayer")
-				If WinGetTitle("[ACTIVE]") == "Idle Slayer" Then
+			; Ascending Heights
+			PixelSearch(671, 213, 671, 213, 0xC2F4F9)
+			If Not @error Then
+				PixelSearch(640, 240, 634, 640, 0xFFCC66)
+				If Not @error Then
 					StartJumping(False)
-					BuyEquipment()
+					AscendingHeights()
 					StartJumping(True)
 				EndIf
 			EndIf
-		EndIf
 
-		; Auto Ascend
-		If $bAutoAscendState Then
-			If (($iAutoAscendTimer * 60000) < TimerDiff($iTimerAutoAscend)) Then
-				$iTimerAutoAscend = TimerInit()
-				WinActivate("Idle Slayer")
-				If WinGetTitle("[ACTIVE]") == "Idle Slayer" Then
-					StartJumping(False)
-					AutoAscend()
-					StartJumping(True)
+			; Circle portal
+			If $bCirclePortalsState Then
+				CirclePortals()
+			EndIf
+
+			; Auto buy upgrades
+			If $bAutoBuyUpgradeState Then
+				If ($iCooldownAutoUpgrades < TimerDiff($iTimerAutoBuy)) Then
+					$iCooldownAutoUpgrades = 600000
+					$iTimerAutoBuy = TimerInit()
+					WinActivate("Idle Slayer")
+					If WinGetTitle("[ACTIVE]") == "Idle Slayer" Then
+						StartJumping(False)
+						BuyEquipment()
+						StartJumping(True)
+					EndIf
 				EndIf
 			EndIf
-		EndIf
 
-		; Claim quests
-		PixelSearch(1130, 610, 1130, 610, 0xCBCB4C)
-		If Not @error Then
-			StartJumping(False)
-			ClaimQuests()
-			StartJumping(True)
+			; Auto Ascend
+			If $bAutoAscendState Then
+				If (($iAutoAscendTimer * 60000) < TimerDiff($iTimerAutoAscend)) Then
+					$iTimerAutoAscend = TimerInit()
+					WinActivate("Idle Slayer")
+					If WinGetTitle("[ACTIVE]") == "Idle Slayer" Then
+						StartJumping(False)
+						AutoAscend()
+						StartJumping(True)
+					EndIf
+				EndIf
+			EndIf
 		EndIf
 	WEnd
 EndFunc   ;==>Main

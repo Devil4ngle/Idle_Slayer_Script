@@ -1,5 +1,6 @@
 #include-once
 #include <File.au3>
+#include <WinAPISys.au3>
 
 Func setSetting()
 	; Enables GUI events
@@ -10,6 +11,7 @@ Func setSetting()
 	Opt("PixelCoordMode", 0)
 	; Set window Mode for MouseClick
 	Opt("MouseCoordMode", 0)
+	_WinAPI_SetKeyboardLayout("Idle Slayer", 0x0409)
 EndFunc   ;==>setSetting
 
 Func WriteInLogs($sMessage)
