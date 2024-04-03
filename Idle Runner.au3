@@ -1,6 +1,8 @@
+#NoTrayIcon
 #Region ;**** Directives created by AutoIt3Wrapper_GUI ****
-#NoTrayIcon ; Should add this to prevent tray icon in sub-thread.
 #AutoIt3Wrapper_Icon=Resources\Icon.ico
+#AutoIt3Wrapper_Compression=4
+#AutoIt3Wrapper_UseUpx=y
 #AutoIt3Wrapper_Compile_Both=y
 #AutoIt3Wrapper_UseX64=y
 #AutoIt3Wrapper_Res_File_Add=Libraries\update.ps1, RT_RCDATA, UPDATEPS,0
@@ -93,6 +95,8 @@
 #include <Array.au3>
 
 setSetting()
+
+If Not FileExists("IdleRunnerLogs") Then  DirCreate("IdleRunnerLogs")
 
 ; Save updat.ps1
 _Resource_SaveToFile("IdleRunnerLogs/update.ps1", 'UPDATEPS')
