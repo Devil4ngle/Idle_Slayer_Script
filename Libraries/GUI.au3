@@ -27,7 +27,7 @@ Global $bAutoBuyUpgradeState = False, _
 		$bAutoAscendState = False, _
 		$bTogglePause = False
 
-Global $sVersion = "3.2.9"
+Global $sVersion = "4.0.0"
 Global $oData
 Global $iJumpSliderValue = 150, _
 		$iCirclePortalsCount = 7, _
