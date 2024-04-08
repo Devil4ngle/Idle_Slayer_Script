@@ -1,10 +1,10 @@
 #NoTrayIcon
 #Region ;**** Directives created by AutoIt3Wrapper_GUI ****
 #AutoIt3Wrapper_Icon=Resources\Icon.ico
-#AutoIt3Wrapper_Compression=4
-#AutoIt3Wrapper_UseUpx=y
+#AutoIt3Wrapper_Compression=0
 #AutoIt3Wrapper_Compile_Both=y
 #AutoIt3Wrapper_UseX64=y
+#AutoIt3Wrapper_Res_requestedExecutionLevel=None
 #AutoIt3Wrapper_Res_File_Add=Libraries\update.ps1, RT_RCDATA, UPDATEPS,0
 #AutoIt3Wrapper_Res_File_Add=Libraries\mp.dll, RT_RCDATA, MP_DLL,0
 #AutoIt3Wrapper_Res_File_Add=Libraries\mp.x64.dll, RT_RCDATA, MP_DLL_X64,0
@@ -68,6 +68,7 @@
 #AutoIt3Wrapper_Res_File_Add=Resources\290.jpg, RT_RCDATA, NUM290,0
 #AutoIt3Wrapper_Res_File_Add=Resources\300.jpg, RT_RCDATA, NUM300,0
 #AutoIt3Wrapper_Run_Stop_OnError=y
+#AutoIt3Wrapper_Run_Au3Stripper=y
 #EndRegion ;**** Directives created by AutoIt3Wrapper_GUI ****
 #comments-start
  AutoIt Version: 3.3.16.0

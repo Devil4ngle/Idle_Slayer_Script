@@ -41,14 +41,16 @@ You have two options:
 
 - Game needs to be in ***focus***
   
-- Use Roy for Ascending Heights
+- Use Anna for Ascending Heights
 
 ### For Bossfight only:
 
-- Use the Character Roy.
+- Use the Character Anna.
 
 - Use Bat Long bow.
 
+- It only works after you beat him in the story mode
+  
 # Join Our Discord Community!
 
 For additional assistance and to connect with a supportive community, visit our [discord server](https://discord.gg/aEaBr77UDn)

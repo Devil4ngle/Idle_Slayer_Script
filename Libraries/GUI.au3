@@ -27,7 +27,7 @@ Global $bAutoBuyUpgradeState = False, _
 		$bAutoAscendState = False, _
 		$bTogglePause = False
 
-Global $sVersion = "3.3.0"
+Global $sVersion = "3.3.1"
 Global $oData
 Global $iJumpSliderValue = 150, _
 		$iCirclePortalsCount = 7, _
@@ -424,7 +424,10 @@ Func EventButtonUpdateClick()
 	If $sLatestTag = $sVersion Then
 		MsgBox($MB_OK, "Latest Version", "The script is up-to-date.")
 	Else
-		ShellExecute("powershell.exe", "-File ""IdleRunnerLogs\update.ps1""", "", "", @SW_HIDE)
-		IdleClose()
+		$iRes = MsgBox($MB_OKCANCEL, "Update Available", "Press OK to Update." & @CRLF & "Script will close and restart.")
+		If $iRes == $IDOK Then
+			ShellExecute("powershell.exe", "-File ""IdleRunnerLogs\update.ps1""", "", "", @SW_MINIMIZE)
+			IdleClose()
+		EndIf
 	EndIf
 EndFunc   ;==>EventButtonUpdateClick

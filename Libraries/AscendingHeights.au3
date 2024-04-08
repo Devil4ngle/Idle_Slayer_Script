@@ -48,23 +48,15 @@ Func AscendingHeightsPlay()
 		If Not IsArray($aPosPlatform) Then ContinueLoop
 
 		If ($aPosPlatform[0] + 35) > ($aPosPlayer[0] + 35) Then
-			If ($aPosPlatform[0] + 35) - ($aPosPlayer[0] + 35) > 40 Then
-				Send("d")
-			Else
-				cSend(70, 0, "d")
-			EndIf
+			cSend(100, 0, "d")
 		ElseIf ($aPosPlatform[0] + 35) < ($aPosPlayer[0] - 35) Then
-			If ($aPosPlayer[0] - 35) - ($aPosPlatform[0] + 35) > 40 Then
-				Send("a")
-			Else
-				cSend(70, 0, "a")
-			EndIf
+			cSend(100, 0, "a")
 		EndIf
 	WEnd
 EndFunc   ;==>AscendingHeightsPlay
 
 Func searchAllPlatformBellowPlayer($iPlayerX, $iPlayerY)
-	Local $aPosPlatform = PixelSearch(375, $iPlayerY + 75, 900, 752, 0xA7ACBA)
+	Local $aPosPlatform = PixelSearch(375, $iPlayerY + 50, 900, 752, 0xA7ACBA)
 	If Not @error Then
 		While True
 			PixelSearch($aPosPlatform[0] + 4, $aPosPlatform[1], $aPosPlatform[0] + 4, $aPosPlatform[1], 0x222034)
