@@ -33,9 +33,9 @@ Func AscendingHeightsPlay()
 			PixelSearch(590, 590, 590, 590, 0x00A800)
 			If Not @error Then MouseClick("left", 590, 590, 1, 0)
 
-			PixelSearch(730, 385, 730, 385, 0x7A444A)
+			PixelSearch(700, 385, 730, 385, 0x7A444A)
 			If Not @error Then
-				cSend(6000, 0, "d")
+				cSend(15000, 0, "d")
 				WriteInLogs("Ascending Height Won")
 				ExitLoop
 			EndIf

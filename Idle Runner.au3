@@ -1,13 +1,12 @@
 #NoTrayIcon
 #Region ;**** Directives created by AutoIt3Wrapper_GUI ****
 #AutoIt3Wrapper_Icon=Resources\Icon.ico
+#AutoIt3Wrapper_Outfile=D:\Idle Macro\idleslayer\Idle Runner_x32.exe
+#AutoIt3Wrapper_Outfile_x64=D:\Idle Macro\idleslayer\Idle Runner_x64.exe
 #AutoIt3Wrapper_Compression=0
 #AutoIt3Wrapper_Compile_Both=y
 #AutoIt3Wrapper_UseX64=y
 #AutoIt3Wrapper_Res_requestedExecutionLevel=None
-#AutoIt3Wrapper_Res_File_Add=Libraries\update.ps1, RT_RCDATA, UPDATEPS,0
-#AutoIt3Wrapper_Res_File_Add=Libraries\mp.dll, RT_RCDATA, MP_DLL,0
-#AutoIt3Wrapper_Res_File_Add=Libraries\mp.x64.dll, RT_RCDATA, MP_DLL_X64,0
 #AutoIt3Wrapper_Res_File_Add=Resources\Icon.jpg, RT_RCDATA, ICON,0
 #AutoIt3Wrapper_Res_File_Add=Resources\Welcome.jpg, RT_RCDATA, WELCOME,0
 #AutoIt3Wrapper_Res_File_Add=Resources\Instructions.jpg, RT_RCDATA, INSTRUCTION,0
@@ -82,7 +81,6 @@
 #include "Libraries\BossFightKnight.au3"
 #include "Libraries\Common.au3"
 #include "Libraries\AscendingHeights.au3"
-#include "Libraries\mp.au3"
 #include <ButtonConstants.au3>
 #include <GUIConstantsEx.au3>
 #include <StaticConstants.au3>
@@ -96,22 +94,8 @@
 #include <Array.au3>
 
 setSetting()
-
-If Not FileExists("IdleRunnerLogs") Then DirCreate("IdleRunnerLogs")
-
-; Save updat.ps1
-_Resource_SaveToFile("IdleRunnerLogs/update.ps1", 'UPDATEPS')
-
-_MP_Init()
-
-Global $oData = _MP_SharedData()
-
-
-If _MP_IsMain() Then
-	Main()
-Else
-	ShootAndBoost()
-EndIf
+_AuThread_Startup()
+Main()
 
 Func Main()
 	; Set Hotkey Bindings
@@ -124,10 +108,9 @@ Func Main()
 	LoadSettings()
 	GUISetState(@SW_SHOW)
 	; A lot of Global Function are declared in Libraries/GUI
-	$oData.jumprate = $iJumpSliderValue
-	$oData.exitScript = 0
-	StartJumping(True)
-	_MP_Fork()
+	_AuThread_StartThread("ShootAndBoost", @AutoItPID)
+	SyncProcess()
+
 	; Infinite Loops
 	While 1
 		If $bTogglePause Then ContinueLoop
@@ -150,17 +133,17 @@ Func Main()
 		; Rage when Megahorde
 		PixelSearch(419, 323, 419, 323, 0xDFDEE0)
 		If Not @error Then
-			StartJumping(False)
+			SyncProcess(False)
 			RageWhenHorde()
-			StartJumping(True)
+			SyncProcess(True)
 		EndIf
 
 		; Claim quests
 		PixelSearch(1130, 610, 1130, 610, 0xCBCB4C)
 		If Not @error Then
-			StartJumping(False)
+			SyncProcess(False)
 			ClaimQuests()
-			StartJumping(True)
+			SyncProcess(True)
 		EndIf
 
 		; Rage when Soul Bonus
@@ -172,9 +155,9 @@ Func Main()
 		; Collect minions
 		PixelSearch(99, 113, 99, 113, 0xFFFF7A)
 		If Not @error Then
-			StartJumping(False)
+			SyncProcess(False)
 			CollectMinion()
-			StartJumping(True)
+			SyncProcess(True)
 		EndIf
 
 
@@ -185,9 +168,9 @@ Func Main()
 			If Not @error Then
 				PixelSearch(1045, 478, 1045, 478, 0xFFFFFF)
 				If Not @error Then
-					StartJumping(False)
+					SyncProcess(False)
 					Chesthunt()
-					StartJumping(True)
+					SyncProcess(True)
 				EndIf
 			EndIf
 
@@ -215,9 +198,9 @@ Func Main()
 				If Not @error Then
 					PixelSearch(775, 448, 775, 448, 0xFFFFFF)
 					If Not @error Then
-						StartJumping(False)
+						SyncProcess(False)
 						BonusStage($bSkipBonusStageState)
-						StartJumping(True)
+						SyncProcess(True)
 					EndIf
 				EndIf
 			EndIf
@@ -229,14 +212,14 @@ Func Main()
 				If Not @error Then
 					PixelSearch(644, 224, 644, 224, 0xFFF38F)
 					If Not @error Then
-						StartJumping(False)
+						SyncProcess(False)
 						PixelSearch(30, 690, 30, 690, 0x0B0303)
 						If Not @error Then
 							BossFightKnight()
 						Else
 							BossFightVictor()
 						EndIf
-						StartJumping(True)
+						SyncProcess(True)
 					EndIf
 				EndIf
 			EndIf
@@ -246,9 +229,9 @@ Func Main()
 			If Not @error Then
 				PixelSearch(640, 240, 634, 640, 0xFFCC66)
 				If Not @error Then
-					StartJumping(False)
+					SyncProcess(False)
 					AscendingHeights()
-					StartJumping(True)
+					SyncProcess(True)
 				EndIf
 			EndIf
 
@@ -264,9 +247,9 @@ Func Main()
 					$iTimerAutoBuy = TimerInit()
 					WinActivate("Idle Slayer")
 					If WinGetTitle("[ACTIVE]") == "Idle Slayer" Then
-						StartJumping(False)
+						SyncProcess(False)
 						BuyEquipment()
-						StartJumping(True)
+						SyncProcess(True)
 					EndIf
 				EndIf
 			EndIf
@@ -277,19 +260,15 @@ Func Main()
 					$iTimerAutoAscend = TimerInit()
 					WinActivate("Idle Slayer")
 					If WinGetTitle("[ACTIVE]") == "Idle Slayer" Then
-						StartJumping(False)
+						SyncProcess(False)
 						AutoAscend()
-						StartJumping(True)
+						SyncProcess(True)
 					EndIf
 				EndIf
 			EndIf
 		EndIf
 	WEnd
 EndFunc   ;==>Main
-
-Func StartJumping($bState)
-	$oData.start = Int($bState)
-EndFunc   ;==>StartJumping
 
 Func CloseAll()
 	Sleep(2000)
@@ -470,7 +449,7 @@ Func CirclePortals()
 	;Check if timer is up
 	PixelSearch(1154, 144, 1210, 155, 0xFFFFFF, 9)
 	If @error Then
-		StartJumping(False)
+		SyncProcess(False)
 		;Click portal button
 		MouseClick("left", 1180, 150, 1, 0)
 		Sleep(300)
@@ -533,7 +512,7 @@ Func CirclePortals()
 		SaveSettings()
 		WriteInLogs("CirclePortals")
 		Sleep(10000)
-		StartJumping(True)
+		SyncProcess(True)
 	EndIf
 EndFunc   ;==>CirclePortals
 
@@ -791,26 +770,66 @@ Func ClaimQuests()
 
 EndFunc   ;==>ClaimQuests
 
+
+
 Func ShootAndBoost()
+	Local $bJumpState = True
+	Local $iJumpSliderValue = 0
+	Local $iReadMsg = 0
+
 	While True
-		While $oData.start == 0
-			Sleep(100)
+
+		If TimerDiff($iReadMsg) > 700 Then
+			; Read the message
+			$sPendingMsg = _AuThread_ReadNewMsg()
+			; Check if message is not empty
+			If UBound($sPendingMsg) > 0 Then
+				; Parse the message
+				For $i = 0 To UBound($sPendingMsg) - 1
+					$msg = $sPendingMsg[$i]
+					$msgArray = StringSplit($msg, ";")
+					For $j = 1 To $msgArray[0]
+						$msgItem = StringSplit($msgArray[$j], ":")
+						If $msgItem[1] = "JumpSliderValue" Then
+							$iJumpSliderValue = Int($msgItem[2])
+						ElseIf $msgItem[1] = "JumpState" Then
+							$bJumpState = ($msgItem[2] = "True")                         ; Convert string to boolean
+						EndIf
+					Next
+				Next
+			EndIf
+			$iReadMsg = TimerInit()
+		EndIf
+
+		While $bJumpState == False
+			Sleep(700)
 			If WinGetState("Idle Runner") == 0 Then
 				Exit
 			EndIf
-			If $oData.exitScript == 1 Then
-				Exit
+			$sPendingMsg = _AuThread_ReadNewMsg()
+			; Check if message is not empty
+			If UBound($sPendingMsg) > 0 Then
+				; Parse the message
+				For $i = 0 To UBound($sPendingMsg) - 1
+					$msg = $sPendingMsg[$i]
+					$msgArray = StringSplit($msg, ";")
+					For $j = 1 To $msgArray[0]
+						$msgItem = StringSplit($msgArray[$j], ":")
+						If $msgItem[1] = "JumpSliderValue" Then
+							$iJumpSliderValue = Int($msgItem[2])
+						ElseIf $msgItem[1] = "JumpState" Then
+							$bJumpState = ($msgItem[2] = "True")                         ; Convert string to boolean
+						EndIf
+					Next
+				Next
 			EndIf
-
 		WEnd
+
 		If WinGetState("Idle Runner") == 0 Then
 			Exit
 		EndIf
-		If $oData.exitScript == 1 Then
-			Exit
-		EndIf
-		Sleep($oData.jumprate)
-		;Jump and shoot
+
+		Sleep($iJumpSliderValue)
 		If WinGetTitle("[ACTIVE]") <> "Idle Runner" Then
 			ControlFocus("Idle Slayer", "", "")
 		EndIf

@@ -11,7 +11,7 @@
 #include <WinAPISysWin.au3>
 #include "ResourcesEx.au3"
 #include "Log.au3"
-#include "mp.au3"
+#include "AutoThreadV3.au3"
 #include <Inet.au3>
 
 
@@ -27,8 +27,7 @@ Global $bAutoBuyUpgradeState = False, _
 		$bAutoAscendState = False, _
 		$bTogglePause = False
 
-Global $sVersion = "3.3.1"
-Global $oData
+Global $sVersion = "3.3.2"
 Global $iJumpSliderValue = 150, _
 		$iCirclePortalsCount = 7, _
 		$iAutoAscendTimer = 10, _
@@ -318,7 +317,7 @@ Func EventUpArrow()
 		_Resource_SetToCtrlID($iJumpNumber, 'NUM' & $iJumpSliderValue)
 	EndIf
 	SaveSettings()
-	$oData.jumprate = $iJumpSliderValue
+	SyncProcess()
 EndFunc   ;==>EventUpArrow
 
 Func EventDownArrow()
@@ -327,7 +326,7 @@ Func EventDownArrow()
 		_Resource_SetToCtrlID($iJumpNumber, 'NUM' & $iJumpSliderValue)
 	EndIf
 	SaveSettings()
-	$oData.jumprate = $iJumpSliderValue
+	SyncProcess()
 EndFunc   ;==>EventDownArrow
 
 Func EventGlobalCheckBox()
@@ -339,8 +338,6 @@ Func EventGlobalCheckBox()
 EndFunc   ;==>EventGlobalCheckBox
 
 Func IdleClose()
-	$oData.exitScript = 1
-	Sleep(500)
 	Exit
 EndFunc   ;==>IdleClose
 
@@ -349,11 +346,11 @@ Func Pause()
 	If $bTogglePause Then
 		ControlFocus("Idle Slayer", "", "")
 		_Resource_SetToCtrlID($iButtonStartStop, 'START')
-		$oData.start = 0
+		SyncProcess()
 	Else
 		ControlFocus("Idle Slayer", "", "")
 		_Resource_SetToCtrlID($iButtonStartStop, 'STOP')
-		$oData.start = 1
+		SyncProcess(False)
 	EndIf
 EndFunc   ;==>Pause
 
@@ -424,10 +421,18 @@ Func EventButtonUpdateClick()
 	If $sLatestTag = $sVersion Then
 		MsgBox($MB_OK, "Latest Version", "The script is up-to-date.")
 	Else
-		$iRes = MsgBox($MB_OKCANCEL, "Update Available", "Press OK to Update." & @CRLF & "Script will close and restart.")
+		$iRes = MsgBox($MB_OKCANCEL, "Update Available", "Go on Github and Download.")
 		If $iRes == $IDOK Then
-			ShellExecute("powershell.exe", "-File ""IdleRunnerLogs\update.ps1""", "", "", @SW_MINIMIZE)
-			IdleClose()
+			ShellExecute("https://github.com/Devil4ngle/Idle_Slayer_Script/releases")
 		EndIf
 	EndIf
 EndFunc   ;==>EventButtonUpdateClick
+
+
+Func SyncProcess($bJumpState = True)
+	; Convert variables to strings
+	$sJumpSliderValue = String($iJumpSliderValue)
+	$sJumpState = String($bJumpState)
+	; Send variables as a message
+	_AuThread_SendMsg("JumpSliderValue:" & $sJumpSliderValue & ";JumpState:" & $sJumpState)
+EndFunc   ;==>SyncProcess
