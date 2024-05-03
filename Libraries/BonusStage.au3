@@ -6,7 +6,7 @@ Func BonusStage($bSkipBonusStageState)
 	Do
 		Slider()
 		Sleep(500)
-		PixelSearch(660, 254, 660, 254, 0xFFE737)
+		PixelSearch(775, 448, 775, 448, 0xFFFFFF)
 	Until @error
 	Sleep(3900)
 	PixelSearch(454, 91, 454, 91, 0xE1E0E2)

@@ -17,8 +17,8 @@
 #Region #VARIABLES#
 ; =======================================================================================================================
 ;MAIN WORKING PATHS FOR EXCIANGE MESSAGES
-Global $_AuThread_MainPath = @TempDir & "\AutoitThreadByPaic\" & @ScriptName & "\" ;[TO BE CONFIGURED !!!CAN'T!!! BE CHANGED DURING EXEC]
-Global $_AuThread_WorkPath = @TempDir & "\AutoitThreadByPaic\" & @ScriptName & "\" ;[TO BE CONFIGURED !!!CAN'T!!! BE CHANGED DURING EXEC]
+Global $_AuThread_MainPath = @TempDir & "\AutoitThread\" & @ScriptName & "\" ;[TO BE CONFIGURED !!!CAN'T!!! BE CHANGED DURING EXEC]
+Global $_AuThread_WorkPath = @TempDir & "\AutoitThread\" & @ScriptName & "\" ;[TO BE CONFIGURED !!!CAN'T!!! BE CHANGED DURING EXEC]
 
 
 ;EXCIANGE FILES ELEMENTS

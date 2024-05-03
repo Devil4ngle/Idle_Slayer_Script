@@ -27,7 +27,7 @@ Global $bAutoBuyUpgradeState = False, _
 		$bAutoAscendState = False, _
 		$bTogglePause = False
 
-Global $sVersion = "3.3.2"
+Global $sVersion = "3.3.3"
 Global $iJumpSliderValue = 150, _
 		$iCirclePortalsCount = 7, _
 		$iAutoAscendTimer = 10, _
@@ -52,7 +52,7 @@ Func CreateGUI()
 	GUICtrlCreateLabel("", -1, -1, 898, 22, -1, $GUI_WS_EX_PARENTDRAG)
 	GUICtrlCreateLabel("        Idle Runner v" & $sVersion, -1, -1, 900, 22, $SS_CENTERIMAGE)
 	GUICtrlSetColor(-1, 0xFFFFFF)
-	Local $iIcon = GUICtrlCreatePic('', 2, 2, 16, 16, $SS_BITMAP + $SS_NOTIFY)
+	Local $iIcon = GUICtrlCreatePicCustom('Resources\Icon.jpg', 2, 2, 16, 16, $SS_BITMAP + $SS_NOTIFY)
 	_Resource_SetToCtrlID($iIcon, 'ICON')
 
 	; Create iTabControl
@@ -73,37 +73,37 @@ Func CreateGUI()
 	GUICtrlCreateTabItem("")
 
 	; Create Home Button
-	Local $iButtonHome = GUICtrlCreatePic('', 1, 20, 160, 24, $SS_NOTIFY + $SS_BITMAP)
+	Local $iButtonHome = GUICtrlCreatePicCustom('Resources\Home.jpg', 1, 20, 160, 24, $SS_NOTIFY + $SS_BITMAP)
 	_Resource_SetToCtrlID($iButtonHome, 'HOME')
 	GUICtrlSetOnEvent(-1, "EventButtonHomeClick")
 
 	; Create General Button
-	Local $iButtonGeneral = GUICtrlCreatePic('', 1, 44, 160, 24, $SS_NOTIFY + $SS_BITMAP)
+	Local $iButtonGeneral = GUICtrlCreatePicCustom('Resources\General.jpg', 1, 44, 160, 24, $SS_NOTIFY + $SS_BITMAP)
 	_Resource_SetToCtrlID($iButtonGeneral, 'GENERAL')
 	GUICtrlSetOnEvent(-1, "EventButtonGeneralClick")
 
 	; Create Bonus Stage Button
-	Local $iButtonBonusStage = GUICtrlCreatePic('', 1, 68, 160, 24, $SS_NOTIFY + $SS_BITMAP)
+	Local $iButtonBonusStage = GUICtrlCreatePicCustom('Resources\Minigames.jpg', 1, 68, 160, 24, $SS_NOTIFY + $SS_BITMAP)
 	_Resource_SetToCtrlID($iButtonBonusStage, 'MINIGAMES')
 	GUICtrlSetOnEvent(-1, "EventButtonMinigamesClick")
 
 	; Create Chesthunt Button
-	Local $iButtonChestHunt = GUICtrlCreatePic('', 1, 92, 160, 24, $SS_NOTIFY + $SS_BITMAP)
+	Local $iButtonChestHunt = GUICtrlCreatePicCustom('Resources\Crafting.jpg', 1, 92, 160, 24, $SS_NOTIFY + $SS_BITMAP)
 	_Resource_SetToCtrlID($iButtonChestHunt, 'CRAFTING')
 	GUICtrlSetOnEvent(-1, "EventButtonCraftingClick")
 
 	; Create Log Button
-	Local $iButtonLog = GUICtrlCreatePic('', 1, 116, 160, 24, $SS_NOTIFY + $SS_BITMAP)
+	Local $iButtonLog = GUICtrlCreatePicCustom('Resources\Log.jpg', 1, 116, 160, 24, $SS_NOTIFY + $SS_BITMAP)
 	_Resource_SetToCtrlID($iButtonLog, 'LOG')
 	GUICtrlSetOnEvent(-1, "EventButtonLogClick")
 
 	; Create Start / Pause Button
-	Global $iButtonStartStop = GUICtrlCreatePic('', 1, 140, 80, 24, $SS_NOTIFY + $SS_BITMAP)
+	Global $iButtonStartStop = GUICtrlCreatePicCustom('Resources\Stop.jpg', 1, 140, 80, 24, $SS_NOTIFY + $SS_BITMAP)
 	_Resource_SetToCtrlID($iButtonStartStop, 'STOP')
 	GUICtrlSetOnEvent(-1, "Pause")
 
 	; Create Exit Button
-	Local $iButtonExit = GUICtrlCreatePic('', 81, 140, 80, 24, $SS_NOTIFY + $SS_BITMAP)
+	Local $iButtonExit = GUICtrlCreatePicCustom('Resources\Exit.jpg', 81, 140, 80, 24, $SS_NOTIFY + $SS_BITMAP)
 	_Resource_SetToCtrlID($iButtonExit, 'EXIT')
 	GUICtrlSetOnEvent(-1, "IdleClose")
 	Return $hGUIForm
@@ -114,18 +114,18 @@ Func CreateWelcomeSheet($hGUIForm, $iTabControl)
 	Local $iTabHome = GUICtrlCreateTabItem("Home")
 	EventTabSetBkColor($hGUIForm, $iTabControl, 0x36393F)
 
-	Local $iWelcome = GUICtrlCreatePic('', 186, 36, 436, 29, $SS_BITMAP + $SS_NOTIFY)
+	Local $iWelcome = GUICtrlCreatePicCustom('Resources\Welcome.jpg', 186, 36, 436, 29, $SS_BITMAP + $SS_NOTIFY)
 	_Resource_SetToCtrlID($iWelcome, 'WELCOME')
 
-	Local $iButtonGithub = GUICtrlCreatePic('', 190, 95, 160, 50, $SS_BITMAP + $SS_NOTIFY)
+	Local $iButtonGithub = GUICtrlCreatePicCustom('Resources\Github.jpg', 190, 95, 160, 50, $SS_BITMAP + $SS_NOTIFY)
 	_Resource_SetToCtrlID($iButtonGithub, 'GITHUB')
 	GUICtrlSetOnEvent(-1, "EventButtonGithubClick")
 
-	Local $iButtonInstructions = GUICtrlCreatePic('', 370, 95, 214, 50, $SS_BITMAP + $SS_NOTIFY)
+	Local $iButtonInstructions = GUICtrlCreatePicCustom('Resources\Instructions.jpg', 370, 95, 214, 50, $SS_BITMAP + $SS_NOTIFY)
 	_Resource_SetToCtrlID($iButtonInstructions, 'INSTRUCTION')
 	GUICtrlSetOnEvent(-1, "EventButtonInstructionsClick")
 
-	Local $iButtonUpdate = GUICtrlCreatePic('', 604, 95, 160, 50, $SS_BITMAP + $SS_NOTIFY)
+	Local $iButtonUpdate = GUICtrlCreatePicCustom('Resources\Update.jpg', 604, 95, 160, 50, $SS_BITMAP + $SS_NOTIFY)
 	_Resource_SetToCtrlID($iButtonUpdate, 'UPDATE')
 	GUICtrlSetOnEvent(-1, "EventButtonUpdateClick")
 
@@ -138,43 +138,43 @@ Func CreateGeneralSheet($hGUIForm, $iTabControl)
 	EventTabSetBkColor($hGUIForm, $iTabControl, 0x36393F)
 
 	; Create AutoBuyUpgrades Checkbox
-	Global $iCheckBoxbAutoBuyUpgradeState = GUICtrlCreatePic('', 181, 44, 16, 16, $SS_BITMAP + $SS_NOTIFY)
+	Global $iCheckBoxbAutoBuyUpgradeState = GUICtrlCreatePicCustom('Resources\CheckboxUnchecked.jpg', 181, 44, 16, 16, $SS_BITMAP + $SS_NOTIFY)
 	GUICtrlSetOnEvent(-1, "EventGlobalCheckBox")
-	Local $iAutoUpgrade = GUICtrlCreatePic('', 207, 45, 165, 16, $SS_BITMAP + $SS_NOTIFY)
+	Local $iAutoUpgrade = GUICtrlCreatePicCustom('Resources\AutoBuyUpgrades.jpg', 207, 45, 165, 16, $SS_BITMAP + $SS_NOTIFY)
 	_Resource_SetToCtrlID($iAutoUpgrade, 'AUTOUPGRADES')
 	GUICtrlSetTip(-1, "Buys upgrades except Vertical Magnet and Electric Worms. It will start after 10 sec you actived it and after that every 10 min")
 
 	; Create CirclePortals Checkbox
-	Global $iCheckBoxbCirclePortalsState = GUICtrlCreatePic('', 181, 83, 16, 16, $SS_BITMAP + $SS_NOTIFY)
+	Global $iCheckBoxbCirclePortalsState = GUICtrlCreatePicCustom('Resources\CheckboxUnchecked.jpg', 181, 83, 16, 16, $SS_BITMAP + $SS_NOTIFY)
 	GUICtrlSetOnEvent(-1, "EventGlobalCheckBox")
-	Local $iCirclePortals = GUICtrlCreatePic('', 207, 84, 129, 14, $SS_BITMAP + $SS_NOTIFY)
+	Local $iCirclePortals = GUICtrlCreatePicCustom('Resources\CirclePortals.jpg', 207, 84, 129, 14, $SS_BITMAP + $SS_NOTIFY)
 	_Resource_SetToCtrlID($iCirclePortals, 'CIRCLEPORTALS')
 	GUICtrlSetTip(-1, "Cycles Portals as soon the portal is ready")
 
 	; Create Disable Rage Horde Checkbox
-	Global $iCheckBoxbDisableRageState = GUICtrlCreatePic('', 181, 122, 16, 16, $SS_BITMAP + $SS_NOTIFY)
+	Global $iCheckBoxbDisableRageState = GUICtrlCreatePicCustom('Resources\CheckboxUnchecked.jpg', 181, 122, 16, 16, $SS_BITMAP + $SS_NOTIFY)
 	GUICtrlSetOnEvent(-1, "EventGlobalCheckBox")
-	Local $iDisableRage = GUICtrlCreatePic('', 207, 122, 183, 16, $SS_BITMAP + $SS_NOTIFY)
+	Local $iDisableRage = GUICtrlCreatePicCustom('Resources\DisableRage.jpg', 207, 122, 183, 16, $SS_BITMAP + $SS_NOTIFY)
 	_Resource_SetToCtrlID($iDisableRage, 'DISABLERAGE')
 	GUICtrlSetTip(-1, "When Checked will not rage at Megahordes without soulbonus")
 
 	; Create JumpRate Slider
-	Local $iJumpSlider = GUICtrlCreatePic('', 400, 45, 98, 16, $SS_BITMAP + $SS_NOTIFY)
+	Local $iJumpSlider = GUICtrlCreatePicCustom('Resources\JumpRate.jpg', 400, 45, 98, 16, $SS_BITMAP + $SS_NOTIFY)
 	_Resource_SetToCtrlID($iJumpSlider, 'JUMPRATE')
 
-	Global $iJumpNumber = GUICtrlCreatePic('', 505, 42, 42, 22, $SS_BITMAP + $SS_NOTIFY)
+	Global $iJumpNumber = GUICtrlCreatePicCustom('Resources\150.jpg', 505, 42, 42, 22, $SS_BITMAP + $SS_NOTIFY)
 	_Resource_SetToCtrlID($iJumpNumber, 'NUM150')
-	Local $iJumpUp = GUICtrlCreatePic('', 547, 42, 17, 11, $SS_BITMAP + $SS_NOTIFY)
+	Local $iJumpUp = GUICtrlCreatePicCustom('Resources\UpArrow.jpg', 547, 42, 17, 11, $SS_BITMAP + $SS_NOTIFY)
 	_Resource_SetToCtrlID($iJumpUp, 'UPARROW')
 	GUICtrlSetOnEvent(-1, "EventUpArrow")
-	Local $iJumpDown = GUICtrlCreatePic('', 547, 53, 17, 11, $SS_BITMAP + $SS_NOTIFY)
+	Local $iJumpDown = GUICtrlCreatePicCustom('Resources\DownArrow.jpg', 547, 53, 17, 11, $SS_BITMAP + $SS_NOTIFY)
 	_Resource_SetToCtrlID($iJumpDown, 'DOWNARROW')
 	GUICtrlSetOnEvent(-1, "EventDownArrow")
 
 	; Create Auto Ascend
-	Global $iCheckBoxbAutoAscendState = GUICtrlCreatePic('', 380, 83, 16, 16, $SS_BITMAP + $SS_NOTIFY)
+	Global $iCheckBoxbAutoAscendState = GUICtrlCreatePicCustom('Resources\CheckboxUnchecked.jpg', 380, 83, 16, 16, $SS_BITMAP + $SS_NOTIFY)
 	GUICtrlSetOnEvent(-1, "EventGlobalCheckBox")
-	Local $iAutoAscend = GUICtrlCreatePic('', 400, 83, 98, 16, $SS_BITMAP + $SS_NOTIFY)
+	Local $iAutoAscend = GUICtrlCreatePicCustom('Resources\AutoAscend.jpg', 400, 83, 98, 16, $SS_BITMAP + $SS_NOTIFY)
 	_Resource_SetToCtrlID($iAutoAscend, 'AUTOASCEND')
 	GUICtrlSetTip(-1, "Auto Ascend after a certain amount of time. The number is in minutes")
 	Global $iAutoAscendNumber = GUICtrlCreateInput($iAutoAscendTimer, 510, 83, 50, 20, $ES_NUMBER)
@@ -187,15 +187,15 @@ Func CreateMinigamesSheet($hGUIForm, $iTabControl)
 	Local $iTabMinigames = GUICtrlCreateTabItem("Minigames")
 	EventTabSetBkColor($hGUIForm, $iTabControl, 0x36393F)
 
-	Global $iCheckBoxbSkipBonusStageState = GUICtrlCreatePic('', 181, 44, 16, 16, $SS_BITMAP + $SS_NOTIFY)
+	Global $iCheckBoxbSkipBonusStageState = GUICtrlCreatePicCustom('Resources\CheckboxUnchecked.jpg', 181, 44, 16, 16, $SS_BITMAP + $SS_NOTIFY)
 	GUICtrlSetOnEvent(-1, "EventGlobalCheckBox")
-	Local $iSkipBonus = GUICtrlCreatePic('', 207, 45, 160, 16, $SS_BITMAP + $SS_NOTIFY)
+	Local $iSkipBonus = GUICtrlCreatePicCustom('Resources\SkipBonusStage.jpg', 207, 45, 160, 16, $SS_BITMAP + $SS_NOTIFY)
 	_Resource_SetToCtrlID($iSkipBonus, 'SKIPBONUS')
 	GUICtrlSetTip(-1, "Skips Bonus Stages by letting the timer run out without doing anything")
 
-	Global $iCheckBoxbNoLockpickingState = GUICtrlCreatePic('', 181, 83, 16, 16, $SS_BITMAP + $SS_NOTIFY)
+	Global $iCheckBoxbNoLockpickingState = GUICtrlCreatePicCustom('Resources\CheckboxUnchecked.jpg', 181, 83, 16, 16, $SS_BITMAP + $SS_NOTIFY)
 	GUICtrlSetOnEvent(-1, "EventGlobalCheckBox")
-	Local $iNoLockpicking = GUICtrlCreatePic('', 207, 84, 176, 16, $SS_BITMAP + $SS_NOTIFY)
+	Local $iNoLockpicking = GUICtrlCreatePicCustom('Resources\NoLockpicking.jpg', 207, 84, 176, 16, $SS_BITMAP + $SS_NOTIFY)
 	_Resource_SetToCtrlID($iNoLockpicking, 'NOLOCKPICKING')
 	GUICtrlSetTip(-1, "Determines if you have the Divinity Lockpicking 100.")
 
@@ -208,30 +208,30 @@ Func CreateCraftingSheet($hGUIForm, $iTabControl)
 	EventTabSetBkColor($hGUIForm, $iTabControl, 0x36393F)
 
 	; Create CraftSoulBonus Checkbox
-	Global $iCheckBoxbCraftSoulBonusState = GUICtrlCreatePic('', 181, 44, 16, 16, $SS_BITMAP + $SS_NOTIFY)
+	Global $iCheckBoxbCraftSoulBonusState = GUICtrlCreatePicCustom('Resources\CheckboxUnchecked.jpg', 181, 44, 16, 16, $SS_BITMAP + $SS_NOTIFY)
 	GUICtrlSetOnEvent(-1, "EventGlobalCheckBox")
-	Local $iCraftComp = GUICtrlCreatePic('', 207, 45, 153, 14, $SS_BITMAP + $SS_NOTIFY)
+	Local $iCraftComp = GUICtrlCreatePicCustom('Resources\CraftSoulBonus.jpg', 207, 45, 153, 14, $SS_BITMAP + $SS_NOTIFY)
 	_Resource_SetToCtrlID($iCraftComp, 'SOULBONUS')
 	GUICtrlSetTip(-1, "When there is a Horde/Mega Horde + Soul Bonus, it will craft Souls Compass")
 
 	; Craft Bidmensional Stuff
-	Global $iCheckBoxbBiDimensionalState = GUICtrlCreatePic('', 181, 83, 16, 16, $SS_BITMAP + $SS_NOTIFY)
+	Global $iCheckBoxbBiDimensionalState = GUICtrlCreatePicCustom('Resources\CheckboxUnchecked.jpg', 181, 83, 16, 16, $SS_BITMAP + $SS_NOTIFY)
 	GUICtrlSetOnEvent(-1, "EventGlobalCheckBox")
-	Local $iCraftBiDimension = GUICtrlCreatePic('', 207, 84, 239, 14, $SS_BITMAP + $SS_NOTIFY)
+	Local $iCraftBiDimension = GUICtrlCreatePicCustom('Resources\CraftBidimensionalStaff.jpg', 207, 84, 239, 14, $SS_BITMAP + $SS_NOTIFY)
 	_Resource_SetToCtrlID($iCraftBiDimension, 'BIDIMENSIONAL')
 	GUICtrlSetTip(-1, "Craft BiDimensional item at Megahorde and it will disable it itself after one use")
 
 	; Craft Dimensional Stuff
-	Global $iCheckBoxbDimensionalState = GUICtrlCreatePic('', 181, 124, 16, 16, $SS_BITMAP + $SS_NOTIFY)
+	Global $iCheckBoxbDimensionalState = GUICtrlCreatePicCustom('Resources\CheckboxUnchecked.jpg', 181, 124, 16, 16, $SS_BITMAP + $SS_NOTIFY)
 	GUICtrlSetOnEvent(-1, "EventGlobalCheckBox")
-	Local $iCraftDimension = GUICtrlCreatePic('', 207, 124, 221, 14, $SS_BITMAP + $SS_NOTIFY)
+	Local $iCraftDimension = GUICtrlCreatePicCustom('Resources\CraftDimensionalStaff.jpg', 207, 124, 221, 14, $SS_BITMAP + $SS_NOTIFY)
 	_Resource_SetToCtrlID($iCraftDimension, 'DIMENSIONAL')
 	GUICtrlSetTip(-1, "Craft Dimensional item at Megahorde and it will disable it itself after one use")
 
 	; Create CraftRagePill Checkbox
-	Global $iCheckBoxbCraftRagePillState = GUICtrlCreatePic('', 450, 44, 16, 16, $SS_BITMAP + $SS_NOTIFY)
+	Global $iCheckBoxbCraftRagePillState = GUICtrlCreatePicCustom('Resources\CheckboxUnchecked.jpg', 450, 44, 16, 16, $SS_BITMAP + $SS_NOTIFY)
 	GUICtrlSetOnEvent(-1, "EventGlobalCheckBox")
-	Local $iRage = GUICtrlCreatePic('', 476, 45, 132, 16, $SS_BITMAP + $SS_NOTIFY)
+	Local $iRage = GUICtrlCreatePicCustom('Resources\CraftRagePill.jpg', 476, 45, 132, 16, $SS_BITMAP + $SS_NOTIFY)
 	_Resource_SetToCtrlID($iRage, 'RAGEPILL')
 	GUICtrlSetTip(-1, "When there is Horde/Mega Horde + Soul Bonus, it will craft Rage Pill")
 
@@ -314,7 +314,11 @@ EndFunc   ;==>EventAutoAscendTimer
 Func EventUpArrow()
 	If ($iJumpSliderValue + 10) <= 300 Then
 		$iJumpSliderValue += 10
-		_Resource_SetToCtrlID($iJumpNumber, 'NUM' & $iJumpSliderValue)
+		If Not @Compiled Then
+			GUICtrlSetImage($iJumpNumber, 'Resources\' & $iJumpSliderValue & '.jpg')
+		Else
+			_Resource_SetToCtrlID($iJumpNumber, 'NUM' & $iJumpSliderValue)
+		EndIf
 	EndIf
 	SaveSettings()
 	SyncProcess()
@@ -323,7 +327,11 @@ EndFunc   ;==>EventUpArrow
 Func EventDownArrow()
 	If ($iJumpSliderValue - 10) >= 0 Then
 		$iJumpSliderValue -= 10
-		_Resource_SetToCtrlID($iJumpNumber, 'NUM' & $iJumpSliderValue)
+		If Not @Compiled Then
+			GUICtrlSetImage($iJumpNumber, 'Resources\' & $iJumpSliderValue & '.jpg')
+		Else
+			_Resource_SetToCtrlID($iJumpNumber, 'NUM' & $iJumpSliderValue)
+		EndIf
 	EndIf
 	SaveSettings()
 	SyncProcess()
@@ -345,11 +353,19 @@ Func Pause()
 	$bTogglePause = Not $bTogglePause
 	If $bTogglePause Then
 		ControlFocus("Idle Slayer", "", "")
-		_Resource_SetToCtrlID($iButtonStartStop, 'START')
+		If Not @Compiled Then
+			GUICtrlSetImage($iButtonStartStop, 'Resources\Start.jpg')
+		Else
+			_Resource_SetToCtrlID($iButtonStartStop, 'START')
+		EndIf
 		SyncProcess()
 	Else
 		ControlFocus("Idle Slayer", "", "")
-		_Resource_SetToCtrlID($iButtonStartStop, 'STOP')
+		If Not @Compiled Then
+			GUICtrlSetImage($iButtonStartStop, 'Resources\Stop.jpg')
+		Else
+			_Resource_SetToCtrlID($iButtonStartStop, 'STOP')
+		EndIf
 		SyncProcess(False)
 	EndIf
 EndFunc   ;==>Pause
@@ -365,10 +381,18 @@ Func SetChechBox($iId)
 	Next
 	If Eval($sName) Then
 		Assign($sName, False, 4)
-		_Resource_SetToCtrlID($iId, 'UNCHECKED')
+		If Not @Compiled Then
+			GUICtrlSetImage($iId, 'Resources\CheckboxUnchecked.jpg')
+		Else
+			_Resource_SetToCtrlID($iId, 'UNCHECKED')
+		EndIf
 	Else
 		Assign($sName, True, 4)
-		_Resource_SetToCtrlID($iId, 'CHECKED')
+		If Not @Compiled Then
+			GUICtrlSetImage($iId, 'Resources\CheckboxChecked.jpg')
+		Else
+			_Resource_SetToCtrlID($iId, 'CHECKED')
+		EndIf
 	EndIf
 	SaveSettings()
 EndFunc   ;==>SetChechBox
@@ -397,12 +421,24 @@ Func LoadSettings()
 	; Refresh The checked
 	For $sElement In $aSettingCheckBoxes
 		If Eval($sElement) == True Then
-			_Resource_SetToCtrlID(Eval("iCheckBox" & $sElement), 'CHECKED')
+			If Not @Compiled Then
+				GUICtrlSetImage(Eval("iCheckBox" & $sElement), 'Resources\CheckboxChecked.jpg')
+			Else
+				_Resource_SetToCtrlID(Eval("iCheckBox" & $sElement), 'CHECKED')
+			EndIf
 		Else
-			_Resource_SetToCtrlID(Eval("iCheckBox" & $sElement), 'UNCHECKED')
+			If Not @Compiled Then
+				GUICtrlSetImage(Eval("iCheckBox" & $sElement), 'Resources\CheckboxUnchecked.jpg')
+			Else
+				_Resource_SetToCtrlID(Eval("iCheckBox" & $sElement), 'UNCHECKED')
+			EndIf
 		EndIf
 	Next
-	_Resource_SetToCtrlID($iJumpNumber, 'NUM' & $iJumpSliderValue)
+	If Not @Compiled Then
+		GUICtrlSetImage($iJumpNumber, 'Resources\' & $iJumpSliderValue & '.jpg')
+	Else
+		_Resource_SetToCtrlID($iJumpNumber, 'NUM' & $iJumpSliderValue)
+	EndIf
 	GUICtrlSetData($iAutoAscendNumber, $iAutoAscendTimer)
 
 EndFunc   ;==>LoadSettings
@@ -436,3 +472,11 @@ Func SyncProcess($bJumpState = True)
 	; Send variables as a message
 	_AuThread_SendMsg("JumpSliderValue:" & $sJumpSliderValue & ";JumpState:" & $sJumpState)
 EndFunc   ;==>SyncProcess
+
+Func GUICtrlCreatePicCustom($sFileName, $iLeft, $iTop, $iWidth, $iHeight, $hStyle)
+	If Not @Compiled Then
+		Return GUICtrlCreatePic($sFileName, $iLeft, $iTop, $iWidth, $iHeight, $hStyle)
+	Else
+		Return GUICtrlCreatePic('', $iLeft, $iTop, $iWidth, $iHeight, $hStyle)
+	EndIf
+EndFunc   ;==>GUICtrlCreatePicCustom

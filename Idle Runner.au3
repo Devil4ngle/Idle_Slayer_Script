@@ -307,13 +307,21 @@ Func Rage()
 	If $bDimensionalState Then
 		BuyTempItem("0xF37C55")
 		$bDimensionalState = False
-		_Resource_SetToCtrlID($iCheckBoxbDimensionalState, 'UNCHECKED')
+		If Not @Compiled Then
+			GUICtrlSetImage($iCheckBoxbDimensionalState, 'Resources\CheckboxUnchecked.jpg')
+		Else
+			_Resource_SetToCtrlID($iCheckBoxbDimensionalState, 'UNCHECKED')
+		EndIf
 		SaveSettings()
 	EndIf
 	If $bBiDimensionalState Then
 		BuyTempItem("0x526629")
 		$bBiDimensionalState = False
-		_Resource_SetToCtrlID($iCheckBoxbBiDimensionalState, 'UNCHECKED')
+		If Not @Compiled Then
+			GUICtrlSetImage($iCheckBoxbDimensionalState, 'Resources\CheckboxChecked.jpg')
+		Else
+			_Resource_SetToCtrlID($iCheckBoxbBiDimensionalState, 'UNCHECKED')
+		EndIf
 		SaveSettings()
 	EndIf
 	ControlFocus("Idle Slayer", "", "")

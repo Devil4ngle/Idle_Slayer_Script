@@ -10,7 +10,7 @@ Func AscendingHeights()
 	Do
 		Slider()
 		Sleep(500)
-		PixelSearch(660, 254, 660, 254, 0xC2F4F9)
+		PixelSearch(640, 240, 634, 640, 0xFFCC66)
 	Until @error
 	Sleep(3900)
 	AscendingHeightsPlay()
@@ -19,6 +19,11 @@ EndFunc   ;==>AscendingHeights
 Func AscendingHeightsPlay()
 	Local $aPosPlayer
 	Local $aPosPlatform
+	Local $iPosPlatX = 0
+	Local $iPosPlatY = 0
+	Local $iCount = 0
+	Local $bSame = False
+
 	Local $iLastCheckTime = TimerInit()
 	While True
 		If TimerDiff($iLastCheckTime) >= 5000 Then
@@ -44,8 +49,19 @@ Func AscendingHeightsPlay()
 		$aPosPlayer = PixelSearch(375, 260, 900, 730, 0x633E75)
 		If @error Then ContinueLoop
 
-		$aPosPlatform = searchAllPlatformBellowPlayer($aPosPlayer[0], $aPosPlayer[1])
+		$aPosPlatform = searchAllPlatformBellowPlayer($aPosPlayer[0], $aPosPlayer[1], $bSame)
 		If Not IsArray($aPosPlatform) Then ContinueLoop
+
+
+		If $iPosPlatX == $aPosPlatform[0] And $iPosPlatY == $aPosPlatform[1] Then
+			$iCount += 1
+			If $iCount = 5 Then $bSame = True
+		Else
+			$iCount = 0
+			$bSame = False
+		EndIf
+		$iPosPlatX = $aPosPlatform[0]
+		$iPosPlatY = $aPosPlatform[1]
 
 		If ($aPosPlatform[0] + 35) > ($aPosPlayer[0] + 35) Then
 			cSend(100, 0, "d")
@@ -55,8 +71,21 @@ Func AscendingHeightsPlay()
 	WEnd
 EndFunc   ;==>AscendingHeightsPlay
 
-Func searchAllPlatformBellowPlayer($iPlayerX, $iPlayerY)
-	Local $aPosPlatform = PixelSearch(375, $iPlayerY + 50, 900, 752, 0xA7ACBA)
+Func searchAllPlatformBellowPlayer($iPlayerX, $iPlayerY, $bSame)
+	If Not $bSame Then
+		Local $iLeft = $iPlayerX - 130
+		Local $iRight = $iPlayerX + 130
+		If $iLeft < 375 Then $iLeft = 375
+		If $iRight > 900 Then $iLeft = 900
+
+		Local $aPosPlatform = PixelSearch($iLeft, $iPlayerY + 50, $iRight, 752, 0xA7ACBA)
+		If @error Then
+			$aPosPlatform = PixelSearch(375, $iPlayerY + 50, 900, 752, 0xA7ACBA)
+		EndIf
+	Else
+		$aPosPlatform = PixelSearch(375, $iPlayerY + 50, 900, 752, 0xA7ACBA)
+	EndIf
+
 	If Not @error Then
 		While True
 			PixelSearch($aPosPlatform[0] + 4, $aPosPlatform[1], $aPosPlatform[0] + 4, $aPosPlatform[1], 0x222034)
@@ -66,4 +95,5 @@ Func searchAllPlatformBellowPlayer($iPlayerX, $iPlayerY)
 			If @error Then Return False
 		WEnd
 	EndIf
+
 EndFunc   ;==>searchAllPlatformBellowPlayer
