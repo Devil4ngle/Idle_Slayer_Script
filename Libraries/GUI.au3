@@ -27,7 +27,7 @@ Global $bAutoBuyUpgradeState = False, _
 		$bAutoAscendState = False, _
 		$bTogglePause = False
 
-Global $sVersion = "3.3.3"
+Global $sVersion = "3.3.4"
 Global $iJumpSliderValue = 150, _
 		$iCirclePortalsCount = 7, _
 		$iAutoAscendTimer = 10, _
@@ -358,7 +358,7 @@ Func Pause()
 		Else
 			_Resource_SetToCtrlID($iButtonStartStop, 'START')
 		EndIf
-		SyncProcess()
+		SyncProcess(False)
 	Else
 		ControlFocus("Idle Slayer", "", "")
 		If Not @Compiled Then
@@ -366,7 +366,7 @@ Func Pause()
 		Else
 			_Resource_SetToCtrlID($iButtonStartStop, 'STOP')
 		EndIf
-		SyncProcess(False)
+		SyncProcess()
 	EndIf
 EndFunc   ;==>Pause
 
@@ -466,6 +466,9 @@ EndFunc   ;==>EventButtonUpdateClick
 
 
 Func SyncProcess($bJumpState = True)
+	If $bTogglePause == True Then
+		$bJumpState = False
+	EndIf
 	; Convert variables to strings
 	$sJumpSliderValue = String($iJumpSliderValue)
 	$sJumpState = String($bJumpState)
