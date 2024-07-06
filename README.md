@@ -20,7 +20,7 @@ You have two options:
    
     - Download the [Source Code](https://github.com/Devil4ngle/Idle_Slayer_Script/releases) and ***unzip*** it.
     
-    -  Download and install [AutoIt Full Installation AND AutoIt Script Editor](https://www.autoitscript.com/site/autoit/downloads/). ( You need to install both )
+    - Download and install [AutoIt Full Installation AND AutoIt Script Editor](https://www.autoitscript.com/site/autoit/downloads/). ( You need to install both )
    
    ![image](https://github.com/Devil4ngle/Idle_Slayer_Script/assets/101042789/df50f05b-530e-4777-bfd3-5012adf77baf)
 
