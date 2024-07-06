@@ -9,7 +9,8 @@ You have two options:
    - Go to [Github Releases](https://github.com/Devil4ngle/Idle_Slayer_Script/releases)
    - Download `Idle Runner_x64.exe` or `Idle Runner_x32.exe` depending on your [System](https://support.microsoft.com/en-us/windows/32-bit-and-64-bit-windows-frequently-asked-questions-c6ca9541-8dce-4d48-0415-94a3faa2e13d).
    - Run `Idle Runner_x64.exe` / `Idle Runner_x32.exe`
-   - ![image](https://github.com/Devil4ngle/Idle_Slayer_Script/assets/101042789/a6224058-0f4b-435e-bca0-45730f9b3dd4)
+   
+   ![image](https://github.com/Devil4ngle/Idle_Slayer_Script/assets/101042789/a6224058-0f4b-435e-bca0-45730f9b3dd4)
 
 
 
