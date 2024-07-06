@@ -16,15 +16,21 @@ You have two options:
 
 2) **Run with source code** (harder):
 
-    If you do not trust the .exe files or your antivirus won't let you run it. You can download the [Source Code](https://github.com/Devil4ngle/Idle_Slayer_Script/releases) and unzip it. After that download and install [AutoIt Full Installation AND AutoIt Script Editor](https://www.autoitscript.com/site/autoit/downloads/). ( You need to install both )
+    If you do not trust the exe files or your antivirus won't let you run it then you can do the following:
+   
+    - Download the [Source Code](https://github.com/Devil4ngle/Idle_Slayer_Script/releases) and ***unzip*** it.
+    
+    -  Download and install [AutoIt Full Installation AND AutoIt Script Editor](https://www.autoitscript.com/site/autoit/downloads/). ( You need to install both )
    
    ![image](https://github.com/Devil4ngle/Idle_Slayer_Script/assets/101042789/df50f05b-530e-4777-bfd3-5012adf77baf)
 
+    - Right-click the file `Idle Runner.au3` and click `Compile with Options`
 
-   When Autoit is installed right-click the file `Idle Runner.au3` and click the option `Compile with Options` in the menu click `Compile Script`.
-   It will generate .exe file which you can run without issue.
+    ![image](https://github.com/Devil4ngle/Idle_Slayer_Script/assets/101042789/5dc44eb5-aa9a-435f-82fb-710526cc4795)
    
-   ![image](https://github.com/Devil4ngle/Idle_Slayer_Script/assets/101042789/5dc44eb5-aa9a-435f-82fb-710526cc4795)
+    - In the menu click `Compile Script`.
+      
+   It will generate exe files which should run without issue.
 
 # Settings
 
