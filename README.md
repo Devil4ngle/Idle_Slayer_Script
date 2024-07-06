@@ -16,7 +16,7 @@ You have two options:
 
 2) **Run with source code** (harder):
 
-    If you do not trust the .exe files or your antivirus won't let you run it. You can download the [Source Code](https://github.com/Devil4ngle/Idle_Slayer_Script/releases) and unzip it. After that download and install [AutoIt Full Installation AND AutoIt Script Editor (https://www.autoitscript.com/site/autoit/downloads/). ( You need to install both )
+    If you do not trust the .exe files or your antivirus won't let you run it. You can download the [Source Code](https://github.com/Devil4ngle/Idle_Slayer_Script/releases) and unzip it. After that download and install [AutoIt Full Installation AND AutoIt Script Editor](https://www.autoitscript.com/site/autoit/downloads/). ( You need to install both )
    
    ![image](https://github.com/Devil4ngle/Idle_Slayer_Script/assets/101042789/df50f05b-530e-4777-bfd3-5012adf77baf)
 
