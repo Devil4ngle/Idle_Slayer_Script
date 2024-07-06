@@ -239,9 +239,9 @@ Func Main()
 
 			; Auto buy upgrades
 			If $bAutoBuyUpgradeState Then
-				If (($iAutoBuyTimer * 60000) < TimerDiff($iTimerAutoBuy)) Then
+				If (($iAutoBuyTempTimer * 60000) < TimerDiff($iTimerAutoBuy)) Then
 					$iTimerAutoBuy = TimerInit()
-					$iAutoBuyTimer = GUICtrlRead($iAutoBuyNumber)
+					$iAutoBuyTempTimer = $iAutoBuyTimer
 					WinActivate("Idle Slayer")
 					If WinGetTitle("[ACTIVE]") == "Idle Slayer" Then
 						SyncProcess(False)

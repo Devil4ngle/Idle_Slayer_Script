@@ -32,6 +32,7 @@ Global $iJumpSliderValue = 150, _
 		$iCirclePortalsCount = 7, _
 		$iAutoAscendTimer = 10, _
 		$iAutoBuyTimer = 10, _
+		$iAutoBuyTempTimer = 10, _
 		$iTimerAutoBuy = TimerInit(), _
 		$iTimerAutoAscend = TimerInit(), _
 		$iTimerFocusGame = TimerInit(), _
@@ -326,6 +327,7 @@ Func EventAutoBuyTimer()
 		$iAutoBuyTimer = 1
 		GUICtrlSetData($iAutoBuyNumber, 1)
 	EndIf
+	$iAutoBuyTempTimer = $iAutoBuyTimer
 	SaveSettings()
 EndFunc   ;==>EventAutoBuyTimer
 
@@ -358,7 +360,7 @@ EndFunc   ;==>EventDownArrow
 Func EventGlobalCheckBox()
 	SetChechBox(@GUI_CtrlId)
 	If $iCheckBoxbAutoBuyUpgradeState == @GUI_CtrlId Then
-		$iAutoBuyTimer = 0.15
+		$iAutoBuyTempTimer = 0.15
 		$iTimerAutoBuy = TimerInit()
 	EndIf
 EndFunc   ;==>EventGlobalCheckBox
@@ -459,7 +461,7 @@ Func LoadSettings()
 	EndIf
 	GUICtrlSetData($iAutoAscendNumber, $iAutoAscendTimer)
 	GUICtrlSetData($iAutoBuyNumber, $iAutoBuyTimer)
-
+	$iAutoBuyTempTimer = $iAutoBuyTimer
 EndFunc   ;==>LoadSettings
 
 Func EventButtonUpdateClick()
