@@ -26,7 +26,7 @@ You have two options:
    
    ![image](https://github.com/Devil4ngle/Idle_Slayer_Script/assets/101042789/5dc44eb5-aa9a-435f-82fb-710526cc4795)
 
-# The script will work ***BEST*** with the following Settings:
+# Settings
 
 - ### Mandatory Settings:
 
@@ -37,7 +37,7 @@ You have two options:
     - Game needs to be in ***focus***, if not it will only jump.
 
       
-- ### Optinal Settings:
+- ### Optional Settings:
 
     - ***Bonus stage 2*** will only be completed check Skip Bonus Stage otherwise.
 
