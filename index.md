@@ -1,53 +1,72 @@
-<h1 id="what-is-this-">What is this?</h1>
-<p>Idle slayer Script, Idle Slayer AC, Idle Slayer AutoClicker, Idle Slayer Auto Clicker</p>
-
 # How to make it run?
+
+(Works only with the Steam Version on Windows)
 
 You have two options:
 
-- **Run with _.exe files** (easy):
+1) **Run with _.exe files** (easy):
 
-    Go under [Github Releases](https://github.com/Devil4ngle/Idle_Slayer_Script/releases) and download `Idle Runner_x64.exe` or `Idle Runner_x32.exe` depending on your [System](https://support.microsoft.com/en-us/windows/32-bit-and-64-bit-windows-frequently-asked-questions-c6ca9541-8dce-4d48-0415-94a3faa2e13d). After that run it. Do not run it from the search bar.
+   - Go to [Github Releases](https://github.com/Devil4ngle/Idle_Slayer_Script/releases)
+   - Download `Idle Runner_x64.exe` or `Idle Runner_x32.exe` depending on your [System](https://support.microsoft.com/en-us/windows/32-bit-and-64-bit-windows-frequently-asked-questions-c6ca9541-8dce-4d48-0415-94a3faa2e13d).
+   - Run `Idle Runner_x64.exe` / `Idle Runner_x32.exe`
+   
+   ![image](https://github.com/Devil4ngle/Idle_Slayer_Script/assets/101042789/a6224058-0f4b-435e-bca0-45730f9b3dd4)
 
 
-- **Run with source code** (harder):
 
-    If you do not trust the .exe files or your antivirus won't let you run it. You can download the [Source Code](https://github.com/Devil4ngle/Idle_Slayer_Script/releases) and unzip it. After that download and install [AutoIt Full Installation](https://www.autoitscript.com/site/autoit/downloads/). When Autoit is installed right-click the file `Idle Runner.au3` and click the option `Compile with Options` in the menu click `Compile Script`.
-    It will generate .exe file which you can run.
+2) **Run with source code** (harder):
 
-# Important Options
+    If you do not trust the .exe files or your antivirus won't let you run it. You can download the [Source Code](https://github.com/Devil4ngle/Idle_Slayer_Script/releases) and unzip it. After that download and install [AutoIt Full Installation AND AutoIt Script Editor (https://www.autoitscript.com/site/autoit/downloads/). ( You need to install both )
+   
+   ![image](https://github.com/Devil4ngle/Idle_Slayer_Script/assets/101042789/df50f05b-530e-4777-bfd3-5012adf77baf)
 
-### The script will ***ONLY*** work with the following options:
 
-- Resolution of the game needs to be ***1280x720*** and Windowed.
+   When Autoit is installed right-click the file `Idle Runner.au3` and click the option `Compile with Options` in the menu click `Compile Script`.
+   It will generate .exe file which you can run without issue.
+   
+   ![image](https://github.com/Devil4ngle/Idle_Slayer_Script/assets/101042789/5dc44eb5-aa9a-435f-82fb-710526cc4795)
 
-- ***Bonus stage 2*** will only work.
+# Settings
 
-- Do NOT buy the ***Vertical Magnet***.
+- ### Mandatory Settings:
 
-- Disable ***dialogue for Portal*** in setting.
+    - Resolution of the game needs to be ***1280x720*** and Windowed.
+      
+    - The game must be in ***English***.
+ 
+    - Game needs to be in ***focus***, if not it will only jump.
 
-- Enable ***rounded bulk*** in setting.
+      
+- ### Optional Settings:
 
-- Enable ***hide locked quest rewards*** in setting.
+    - ***Bonus stage 2*** will only be completed check Skip Bonus Stage otherwise.
 
-- The game must be in ***English***.
+    - Ascension Upgrade ***Protect***  is needed to complete Bonus Stage 2.
 
-- Ascension Upgrade ***Leadership Master*** is mandatory.
+    - Do NOT buy the ***Vertical Magnet***.
 
-- Ascension Upgrade ***Protect***  is mandatory.
+    - Disable ***dialogue for Portal*** in setting.
 
-- Game needs to be in ***focus***
+    - Enable ***rounded bulk*** in setting.
 
-### For Bossfight only:
+    - Enable ***hide locked quest rewards*** in setting.
 
-- Use the Character Runehardt.
+    - Ascension Upgrade ***Leadership Master*** is needed for claiming minions otherwise it will not claim them.
+  
+    - Use Anna or Roy for Ascending Heights
 
-- Use Bat Long bow.
+    ### For Bossfights only:
 
-# Join Our Discord Community!
+   -  Use Anna or Roy.
 
-For additional assistance and to connect with a supportive community, visit our [discord server](https://discord.gg/aEaBr77UDn)
+   - Use Bat Long bow or a Multishot Bow.
+
+   - It only works after you beat him in the story mode
+  
+# Join Our Idle Slayer Scripting Discord Community!
+
+For additional assistance or to connect with a community, join the [Idle Slayer Scripting Discord Server](https://discord.gg/aEaBr77UDn)
+
 <h1 id="what-can-it-do-">What can it do?</h1>
 <p>• Everything the game offers with Human Performance if not better.</p>
 <h1>Showcase</h1>
