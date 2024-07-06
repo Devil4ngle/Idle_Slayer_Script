@@ -162,16 +162,13 @@ Func Main()
 
 
 		; Chest-hunt
-		PixelSearch(570, 742, 742, 570, 0x5B3B0A)
+		PixelSearch(187, 326, 187, 326, 0xFFBB31)
 		If Not @error Then
-			PixelSearch(1045, 493, 1045, 493, 0xF68F37)
+			PixelSearch(187, 303, 187, 303, 0xF68F37)
 			If Not @error Then
-				PixelSearch(1045, 478, 1045, 478, 0xFFFFFF)
-				If Not @error Then
-					SyncProcess(False)
-					Chesthunt()
-					SyncProcess(True)
-				EndIf
+				SyncProcess(False)
+				Chesthunt()
+				SyncProcess(True)
 			EndIf
 
 		EndIf
@@ -242,9 +239,9 @@ Func Main()
 
 			; Auto buy upgrades
 			If $bAutoBuyUpgradeState Then
-				If ($iCooldownAutoUpgrades < TimerDiff($iTimerAutoBuy)) Then
-					$iCooldownAutoUpgrades = 600000
+				If (($iAutoBuyTimer * 60000) < TimerDiff($iTimerAutoBuy)) Then
 					$iTimerAutoBuy = TimerInit()
+					LoadSettings()
 					WinActivate("Idle Slayer")
 					If WinGetTitle("[ACTIVE]") == "Idle Slayer" Then
 						SyncProcess(False)
@@ -801,7 +798,7 @@ Func ShootAndBoost()
 						If $msgItem[1] = "JumpSliderValue" Then
 							$iJumpSliderValue = Int($msgItem[2])
 						ElseIf $msgItem[1] = "JumpState" Then
-							$bJumpState = ($msgItem[2] = "True")                         ; Convert string to boolean
+							$bJumpState = ($msgItem[2] = "True")
 						EndIf
 					Next
 				Next
@@ -826,7 +823,7 @@ Func ShootAndBoost()
 						If $msgItem[1] = "JumpSliderValue" Then
 							$iJumpSliderValue = Int($msgItem[2])
 						ElseIf $msgItem[1] = "JumpState" Then
-							$bJumpState = ($msgItem[2] = "True")                         ; Convert string to boolean
+							$bJumpState = ($msgItem[2] = "True")
 						EndIf
 					Next
 				Next

@@ -64,9 +64,17 @@ Func AscendingHeightsPlay()
 		$iPosPlatY = $aPosPlatform[1]
 
 		If ($aPosPlatform[0] + 35) > ($aPosPlayer[0] + 35) Then
-			cSend(100, 0, "d")
+			;cSend(100, 0, "d")
+			MouseMove(1100, 600, 0)
+			MouseDown("left")
+			Sleep(100)
+			MouseUp("left")
 		ElseIf ($aPosPlatform[0] + 35) < ($aPosPlayer[0] - 35) Then
-			cSend(100, 0, "a")
+			;cSend(100, 0, "a")
+			MouseMove(100, 600, 0)
+			MouseDown("left")
+			Sleep(100)
+			MouseUp("left")
 		EndIf
 	WEnd
 EndFunc   ;==>AscendingHeightsPlay

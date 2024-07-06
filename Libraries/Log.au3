@@ -134,6 +134,7 @@ Func LoadDataLog($iLogData)
 	CustomConsole($iLogData, "Ascension Upgrade Safety First is mandatory.")
 	CustomConsole($iLogData, "Use Roy/Anna if for Victor and Ascending Heights.")
 	CustomConsole($iLogData, "Run the script as Administrator in Windows 11.")
+	CustomConsole($iLogData, "Disable custom cursor in setting.")
 	CustomConsole($iLogData, "Tip: Hover over the Text-Boxes_")
 	CustomConsole($iLogData, "on the Idle Runner to read what they do!", True)
 EndFunc   ;==>LoadDataLog
