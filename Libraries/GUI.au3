@@ -356,11 +356,11 @@ Func EventDownArrow()
 EndFunc   ;==>EventDownArrow
 
 Func EventGlobalCheckBox()
+	SetChechBox(@GUI_CtrlId)
 	If $iCheckBoxbAutoBuyUpgradeState == @GUI_CtrlId Then
 		$iAutoBuyTimer = 0.15
 		$iTimerAutoBuy = TimerInit()
 	EndIf
-	SetChechBox(@GUI_CtrlId)
 EndFunc   ;==>EventGlobalCheckBox
 
 Func IdleClose()

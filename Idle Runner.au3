@@ -241,7 +241,7 @@ Func Main()
 			If $bAutoBuyUpgradeState Then
 				If (($iAutoBuyTimer * 60000) < TimerDiff($iTimerAutoBuy)) Then
 					$iTimerAutoBuy = TimerInit()
-					LoadSettings()
+					$iAutoBuyTimer = GUICtrlRead($iAutoBuyNumber)
 					WinActivate("Idle Slayer")
 					If WinGetTitle("[ACTIVE]") == "Idle Slayer" Then
 						SyncProcess(False)
