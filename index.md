@@ -17,8 +17,8 @@ You have two options:
 
 
 2) **Run with source code** (harder):
-   
-    - If you do not trust the exe files or your antivirus won't let you run it then you can do the following:
+
+   - If you do not trust the exe files or your antivirus won't let you run it then you can do the following:
    
        - Download the [Source Code](https://github.com/Devil4ngle/Idle_Slayer_Script/releases) and ***unzip*** it.
        
