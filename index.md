@@ -74,7 +74,7 @@ You have two options:
 
    - It only works after you beat him in the story mode
   
-# Join Our Idle Slayer Scripting Discord Community!
+# Join the Idle Slayer Scripting Discord Community!
 
 For additional assistance or to connect with a community, join the [Idle Slayer Scripting Discord Server](https://discord.gg/aEaBr77UDn)
 
