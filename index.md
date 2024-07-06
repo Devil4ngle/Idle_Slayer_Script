@@ -1,3 +1,6 @@
+<h1 id="what-is-this-">What is this?</h1>
+<p>Idle slayer Script, Idle Slayer AC, Idle Slayer AutoClicker, Idle Slayer Auto Clicker</p>
+
 # How to make it run?
 
 (Works only with the Steam Version on Windows)
