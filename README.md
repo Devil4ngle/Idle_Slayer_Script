@@ -65,7 +65,7 @@ You have two options:
   
 # Join Our Discord Community!
 
-For additional assistance and to connect with a supportive community, visit our [discord server](https://discord.gg/aEaBr77UDn)
+For additional assistance or connect with a community, join the [Idle Slayer Scripting Discord Server](https://discord.gg/aEaBr77UDn)
 
 # What can it do?
 
