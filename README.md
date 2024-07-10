@@ -41,6 +41,8 @@ You have two options:
     - The game must be in ***English***.
  
     - Game needs to be in ***focus***, if not it will only jump.
+ 
+    - Disable custom cursor.
 
       
 - ### Optional Settings:
