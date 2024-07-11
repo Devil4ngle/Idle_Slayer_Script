@@ -162,7 +162,7 @@ Func Main()
 
 
 		; Chest-hunt
-		PixelSearch(187, 326, 187, 326, 0xFFBB31)
+		PixelSearch(187, 296, 187, 296, 0xFFBB31)
 		If Not @error Then
 			PixelSearch(187, 303, 187, 303, 0xF68F37)
 			If Not @error Then
