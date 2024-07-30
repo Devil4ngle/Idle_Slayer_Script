@@ -80,6 +80,9 @@ For additional assistance or to connect with a community, join the [Idle Slayer 
 Everything the game offers with Human Performance if not better. Here is a showcase.
 [![Watch the video](https://img.youtube.com/vi/uDY0wCMQZX8/hqdefault.jpg)](https://www.youtube.com/watch?v=uDY0wCMQZX8)
 
+[![Watch the video](https://img.youtube.com/vi/8fPHeHPHHlo/hqdefault.jpg)](https://www.youtube.com/watch?v=8fPHeHPHHlo)
+
+[![Watch the video](https://img.youtube.com/vi/ummuxK_9-ck/hqdefault.jpg)](https://www.youtube.com/watch?v=ummuxK_9-ck)
 ---
 
 Buy Me a [Coffee](https://www.buymeacoffee.com/devil4ngle) :coffee: 
