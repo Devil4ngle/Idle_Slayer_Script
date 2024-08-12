@@ -43,6 +43,8 @@ You have two options:
     - Game needs to be in ***focus***, if not it will only jump.
  
     - Disable custom cursor.
+ 
+    - Windows resolution scaling needs to be ***100%***.
 
       
 - ### Optional Settings:
