@@ -1,7 +1,7 @@
 #include-once
 #include "Common.au3"
 
-Func BonusStage($bSkipBonusStageState)
+Func BonusStage($bSkipBonusStageState, $bBonusStage3State)
 	WriteInLogs("Start of BonusStage")
 	Do
 		Slider()
@@ -13,14 +13,28 @@ Func BonusStage($bSkipBonusStageState)
 	If $bSkipBonusStageState Then
 		BonusStageDoNoting()
 	Else
-		If Not @error Then ;if Spirit Boost do noting untill close appear
+		SelectBonusStage($bBonusStage3State)
+	EndIf
+
+EndFunc   ;==>BonusStage
+
+Func SelectBonusStage($bBonusStage3State)
+	If Not @error Then ;if Spirit Boost do noting untill close appear
+		If $bBonusStage3State Then
+			; the original developer messed up the naming and which is which.
+			; This is the condition for NO Spirit Boost
+			BonusStage3NSB()
+		Else
 			BonusStageSP()
+		EndIf
+	Else
+		If $bBonusStage3State Then
+			BonusStage3SB()
 		Else
 			BonusStageNSP()
 		EndIf
 	EndIf
-
-EndFunc   ;==>BonusStage
+EndFunc	  ;==>SelectBonusStage
 
 Func BonusStageDoNoting()
 	WriteInLogs("Do noting BonusStage Active")
@@ -318,3 +332,182 @@ Func BonusStageNSP()
 	EndIf
 	WriteInLogs("BonusStage Section 4 Complete")
 EndFunc   ;==>BonusStageNSP
+
+Func BonusStage3NSB()
+	WriteInLogs("BonusStage3")
+
+	BonusStage3Section1()
+	BonusStage3Section2()
+	BonusStage3Section3()
+	BonusStage3Section4()
+
+EndFunc   ;==>BonusStageNSB
+
+Func BonusStage3SB()
+	WriteInLogs("BonusStage3SB")
+
+	BonusStage3Section1(True)
+	BonusStage3Section2()
+	BonusStage3Section3()
+	BonusStage3Section4(True)
+
+EndFunc   ;==>BonusStage3SB
+
+Func BonusStage3Section1($isSpiritBoost = False)
+	; Section 1 sync
+	FindPixelUntilFound(520, 200, 580, 250, 0xFFFFFF)
+	Sleep(370)
+	;Section 1 start
+	cSend(140, 520) ;1
+	cSend(70, 640) ;2
+	cSend(80, 1110) ;3
+	cSend(97, 450) ;4
+	cSend(65, 625) ;5
+	cSend(65, 1200) ;6
+
+	cSend(95, 540) ;7
+	cSend(200, 1480) ;7.5
+
+	cSend(130, 550) ;8
+	cSend(70, 670) ;9
+	cSend(70, 1100) ;10
+	cSend(96, 450) ;11
+	cSend(65, 625) ;12
+	cSend(65, 1200) ;13
+
+	cSend(95, 530) ;7
+	cSend(200, 1480) ;7.5
+
+	cSend(110, 530) ;15
+	cSend(65, 640) ;16
+	cSend(70, 4500) ;17
+	If BonusStageFail() Then
+		Return
+	EndIf
+	;~ ; Section 1 Collection
+	For $iX = 1 To 21
+		Send("{Up}")
+		Sleep(500)
+	Next
+	If BonusStageFail() Then
+		Return
+	EndIf
+	WriteInLogs("BonusStageSB Section 1 Complete")
+EndFunc   ;==>BonusStage3Section1
+
+Func BonusStage3Section2()
+	; Section 2 sync
+	Sleep(1000)
+	FindPixelUntilFound(306, 200, 309, 275, 0xFFFFFF)
+	; Section 2 start
+
+	For $iX = 1 To 2
+		cSend(80, 440) ;1
+		cSend(95, 660) ;2
+		cSend(105, 500) ;3
+
+		FindPixelUntilFound(475, 405, 482, 425, 0xFFFFFF, 830)
+
+		cSend(79, 601) ;4
+		cSend(63, 980) ;5
+		cSend(82, 440) ;6
+		cSend(95, 660) ;7
+
+		cSend(96, 700) ;8
+		FindPixelUntilFound(498, 235, 504, 360, 0xFFFFFF, 1200)
+
+		cSend(63, 480) ;9
+		cSend(55, 376) ;10
+		cSend(105, 200) ;11
+		FindPixelUntilFound(306, 200, 309, 275, 0xFFFFFF, 1000)
+
+	Next
+
+	cSend(80, 440) ;1
+	cSend(95, 660) ;2
+
+	If BonusStageFail() Then
+		Return
+	EndIf
+	; Section 2 Collection
+	For $iX = 1 To 21
+		Send("{Up}")
+		Sleep(500)
+	Next
+	If BonusStageFail() Then
+		Return
+	EndIf
+	WriteInLogs("BonusStageSB Section 2 Complete")
+EndFunc   ;==>BonusStage3Section2
+
+Func BonusStage3Section3()
+	;Stage 3 sync
+	FindPixelUntilFound(280, 385, 330, 435, 0xFFFFFF, 8000)
+	Sleep(600)
+
+	For $iX = 1 to 2
+		cSend(120, 880) ;1
+		cSend(95, 225) ;2
+		BonusStage3WallJump()
+		Sleep(2000)
+
+		cSend(300, 500)
+		BonusStage3WallJump()
+		Sleep(900)
+
+		If $iX < 3 Then
+			cSend(95, 225) ;2
+			BonusStage3WallJump()
+			Sleep(1300)
+		EndIf
+	Next
+
+	If BonusStageFail() Then
+		Return
+	EndIf
+	;Section 3 Collection
+	For $iX = 1 To 25
+		Send("{Up}")
+		Sleep(500)
+	Next
+	If BonusStageFail() Then
+		Return
+	EndIf
+	WriteInLogs("BonusStageSB Section 3 Complete")
+EndFunc   ;==>BonusStage3Section3
+
+Func BonusStage3WallJump($iCount = 5)
+	For $iX = 1 To $iCount
+		cSend(30, 50) ;2
+	Next
+EndFunc   ;==>BonusStage3WallJump
+
+Func BonusStage3Section4($isSpiritBoost = False)
+	;Section 4 sync
+	FindPixelUntilFound(330, 170, 380, 195, 0xFFFFFF, 5700)
+	;Section 4 Starts
+	For $iX = 1 To 5
+		cSend(700, 200) ;1
+		cSend(300, 420) ;2
+
+		If $isSpiritBoost == False Then
+			cSend(35, 748) ;3
+
+			cSend(35, 540) ;4
+			cSend(35, 1160) ;5s
+		EndIf
+	Next
+
+	cSend(700, 680) ;1
+	cSend(40, 50) ;2
+
+	;Section 4 Collection
+	For $iX = 1 To 27
+		Send("{Up}")
+		Sleep(500)
+	Next
+	If BonusStageFail() Then
+		Return
+	EndIf
+	WriteInLogs("BonusStageSB Section 4 Complete")
+EndFunc   ;==>BonusStage3Section4
