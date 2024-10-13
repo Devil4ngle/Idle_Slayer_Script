@@ -17,7 +17,6 @@
 #AutoIt3Wrapper_Res_File_Add=Resources\AutoBuyUpgrades.jpg, RT_RCDATA, AUTOUPGRADES,0
 #AutoIt3Wrapper_Res_File_Add=Resources\CirclePortals.jpg, RT_RCDATA, CIRCLEPORTALS,0
 #AutoIt3Wrapper_Res_File_Add=Resources\SkipBonusStage.jpg, RT_RCDATA, SKIPBONUS,0
-#AutoIt3Wrapper_Res_File_Add=Resources\BonusStage3.jpg, RT_RCDATA, BONUSSTAGE3,0
 #AutoIt3Wrapper_Res_File_Add=Resources\Home.jpg, RT_RCDATA, HOME,0
 #AutoIt3Wrapper_Res_File_Add=Resources\General.jpg, RT_RCDATA, GENERAL,0
 #AutoIt3Wrapper_Res_File_Add=Resources\Minigames.jpg, RT_RCDATA, MINIGAMES,0
@@ -197,7 +196,7 @@ Func Main()
 					PixelSearch(775, 448, 775, 448, 0xFFFFFF)
 					If Not @error Then
 						SyncProcess(False)
-						BonusStage($bSkipBonusStageState, $bBonusStage3State)
+						BonusStage($bSkipBonusStageState)
 						SyncProcess(True)
 					EndIf
 				EndIf
@@ -646,7 +645,7 @@ Func BuyEquipment()
 			MouseClick("left", 1253, 592, 5, 0)
 			Sleep(200)
 			;Buy last item
-			MouseClick("left", 1200, 550, 5, 0)
+			MouseClick("left", 1200, 560, 5, 0)
 			;Click top of scroll bar
 			MouseClick("left", 1253, 170, 5, 0)
 			Sleep(200)
