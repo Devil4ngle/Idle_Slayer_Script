@@ -645,7 +645,7 @@ Func BuyEquipment()
 			MouseClick("left", 1253, 592, 5, 0)
 			Sleep(200)
 			;Buy last item
-			MouseClick("left", 1200, 550, 5, 0)
+			MouseClick("left", 1200, 560, 5, 0)
 			;Click top of scroll bar
 			MouseClick("left", 1253, 170, 5, 0)
 			Sleep(200)
