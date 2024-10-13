@@ -555,6 +555,10 @@ Func BonusStage3Section4($isSpiritBoost = False)
 		EndIf
 	Next
 
+	If $isSpiritBoost Then
+		cSend(300, 300)
+	EndIf
+
 	If BonusStageFail() Then
 		Return False
 	EndIf
