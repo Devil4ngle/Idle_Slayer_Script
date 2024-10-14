@@ -113,9 +113,9 @@ Func Main()
 
 	; Infinite Loops
 	While 1
-		If $bTogglePause Then ContinueLoop
-
 		Sleep(40)
+
+		If $bTogglePause Then ContinueLoop
 
 		If (1800000 < TimerDiff($iTimerFocusGame)) Then
 			$iTimerFocusGame = TimerInit()
