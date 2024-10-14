@@ -13,14 +13,32 @@ Func BonusStage($bSkipBonusStageState)
 	If $bSkipBonusStageState Then
 		BonusStageDoNoting()
 	Else
-		If Not @error Then ;if Spirit Boost do noting untill close appear
+		SelectBonusStage()
+	EndIf
+
+EndFunc   ;==>BonusStage
+
+Func SelectBonusStage()
+	If Not @error Then ;if Spirit Boost do noting untill close appear
+		Sleep(300)
+		PixelSearch(20, 31, 20, 31, 0x231F40)
+		If Not @error Then
+			; the original developer messed up the naming and which is which.
+			; This is the condition for NO Spirit Boost
+			BonusStage3NSB()
+		Else
 			BonusStageSP()
+		EndIf
+	Else
+		Sleep(300)
+		PixelSearch(20, 31, 20, 31, 0x231F40)
+		If Not @error Then
+			BonusStage3SB()
 		Else
 			BonusStageNSP()
 		EndIf
 	EndIf
-
-EndFunc   ;==>BonusStage
+EndFunc	  ;==>SelectBonusStage
 
 Func BonusStageDoNoting()
 	WriteInLogs("Do noting BonusStage Active")
@@ -318,3 +336,240 @@ Func BonusStageNSP()
 	EndIf
 	WriteInLogs("BonusStage Section 4 Complete")
 EndFunc   ;==>BonusStageNSP
+
+Func BonusStage3NSB()
+	WriteInLogs("BonusStage3")
+
+	If Not BonusStage3Section1() Then
+		Return
+	EndIf
+	If Not BonusStage3Section2() Then
+		Return
+	EndIf
+	If Not BonusStage3Section3() Then
+		Return
+	EndIf
+	If Not BonusStage3Section4() Then
+		Return
+	EndIf
+
+EndFunc   ;==>BonusStageNSB
+
+Func BonusStage3SB()
+	WriteInLogs("BonusStage3SB")
+
+	If Not BonusStage3Section1() Then
+		Return
+	EndIf
+	If Not BonusStage3Section2() Then
+		Return
+	EndIf
+	If Not BonusStage3Section3(True) Then
+		Return
+	EndIf
+	If Not BonusStage3Section4(True) Then
+		Return
+	EndIf
+
+EndFunc   ;==>BonusStage3SB
+
+Func BonusStage3Section1()
+	; Section 1 sync
+	FindPixelUntilFound(520, 200, 580, 250, 0xFFFFFF)
+	Sleep(360)
+	;Section 1 start
+	cSend(140, 530) ;1
+	cSend(70, 640) ;2
+	cSend(80, 740) ;3
+	cSend(150, 765) ;4
+	cSend(65, 625) ;5
+	cSend(65, 500) ; 6
+
+	FindPixelUntilFound(540, 335, 555, 360, 0xFFFFFF, 700)
+	cSend(150, 750) ;7
+	cSend(200, 200) ;8
+
+	FindPixelUntilFound(390, 230, 410, 250, 0xFFFFFF, 1400)
+	cSend(130, 545) ;9
+	cSend(70, 620) ;10
+	cSend(80, 720) ;11
+	cSend(150, 755) ;12
+	cSend(65, 625) ;13
+	cSend(65, 500) ;14
+
+	FindPixelUntilFound(540, 335, 555, 360, 0xFFFFFF, 700)
+	cSend(150, 740) ;15
+	cSend(200, 1490) ;16
+
+	cSend(110, 580) ;17
+	cSend(65, 640) ;18
+	cSend(80, 740) ;19
+	cSend(150, 765) ;20
+
+	cSend(130, 560) ;21
+	cSend(70, 650) ;22
+
+	Sleep(800)
+
+	If BonusStageFail() Then
+		Return False
+	EndIf
+	;~ ; Section 1 Collection
+	For $iX = 1 To 21
+		Send("{Up}")
+		Sleep(500)
+	Next
+	If BonusStageFail() Then
+		Return False
+	EndIf
+	WriteInLogs("BonusStageSB Section 1 Complete")
+	Return True
+EndFunc   ;==>BonusStage3Section1
+
+Func BonusStage3Section2()
+	; Section 2 sync
+	Sleep(1000)
+	FindPixelUntilFound(306, 200, 309, 275, 0xFFFFFF)
+	; Section 2 start
+
+	For $iX = 1 To 2
+		cSend(80, 440) ;1
+		cSend(95, 660) ;2
+		cSend(105, 500) ;3
+
+		FindPixelUntilFound(475, 445, 482, 475, 0xFFFFFF, 1000)
+
+		cSend(79, 601) ;4
+		cSend(63, 980) ;5
+		cSend(82, 440) ;6
+		cSend(95, 660) ;7
+
+		cSend(48, 750) ;8
+		FindPixelUntilFound(515, 265, 522, 285, 0xFFFFFF, 1200)
+
+		cSend(63, 500) ;9
+		BonusStage3WallJump(1); 10
+		Sleep(80)
+		BonusStage3WallJump(1); 11
+		Sleep(300)
+		BonusStage3WallJump(4); 12
+
+		FindPixelUntilFound(306, 200, 309, 275, 0xFFFFFF, 1000)
+
+	Next
+
+	cSend(80, 440)
+	cSend(95, 660)
+
+	If BonusStageFail() Then
+		Return False
+	EndIf
+	; Section 2 Collection
+	For $iX = 1 To 25
+		Send("{Up}")
+		Sleep(500)
+	Next
+	If BonusStageFail() Then
+		Return False
+	EndIf
+	WriteInLogs("BonusStageSB Section 2 Complete")
+	Return True
+EndFunc   ;==>BonusStage3Section2
+
+Func BonusStage3Section3($isSpiritBoost = False)
+	Local $bUpperWay = False
+	;Stage 3 sync
+	FindPixelUntilFound(280, 385, 330, 435, 0xFFFFFF)
+	Sleep(600)
+
+	For $iX = 1 to 2
+		If $bUpperWay Then
+			BonusStage3WallJump()
+			$bUpperWay = False
+		Else
+			cSend(120, 100) ;1
+
+			FindPixelUntilFound(205, 395, 215, 410, 0xFFFFFF, 780)
+
+			cSend(95, 225) ;2
+			BonusStage3WallJump() ;3
+		EndIf
+
+		Sleep(2000) ;4
+
+		cSend(300, 500) ;5
+		BonusStage3WallJump() ;6
+		FindPixelUntilFound(205, 395, 215, 410, 0xFFFFFF, 900)
+
+		If $iX < 3 Then
+			cSend(95, 250) ;7
+			BonusStage3WallJump(1, 715) ;8
+			BonusStage3WallJump(6) ;9
+
+			Local $bFound = FindPixelUntilFound(300, 415, 330, 435, 0xFFFFFF, $isSpiritBoost ? 1000 : 2500)
+			If $bFound == False Then
+				$bUpperWay = True
+			Else
+				Sleep(2500)
+			EndIf
+
+			Sleep(150)
+		EndIf
+	Next
+
+	If BonusStageFail() Then
+		Return False
+	EndIf
+	;Section 3 Collection
+	For $iX = 1 To 25
+		Send("{Up}")
+		Sleep(500)
+	Next
+	If BonusStageFail() Then
+		Return False
+	EndIf
+	WriteInLogs("BonusStageSB Section 3 Complete")
+	Return True
+EndFunc   ;==>BonusStage3Section3
+
+Func BonusStage3WallJump($iCount = 5, $iSleep = 50)
+	For $iX = 1 To $iCount
+		cSend(30, $iSleep) ;2
+	Next
+EndFunc   ;==>BonusStage3WallJump
+
+Func BonusStage3Section4($isSpiritBoost = False)
+	Local $iSpiritBoostHold = $isSpiritBoost ? 100 : 300
+	;Section 4 sync
+	FindPixelUntilFound(330, 170, 380, 195, 0xFFFFFF)
+	;Section 4 Starts
+	For $iX = 1 To 5
+		cSend($iSpiritBoostHold, 900 - $iSpiritBoostHold) ;1
+		cSend(300, 420) ;2
+
+		If $isSpiritBoost == False Then
+			cSend(35, 748) ;3
+
+			cSend(35, 540) ;4
+			cSend(35, 1160) ;5s
+		EndIf
+	Next
+
+	If $isSpiritBoost Then
+		cSend(300, 300)
+	EndIf
+
+	If BonusStageFail() Then
+		Return False
+	EndIf
+	;Section 4 Collection
+	For $iX = 1 To 29
+		Send("{Up}")
+		Sleep(500)
+	Next
+	If BonusStageFail() Then
+		Return False
+	EndIf
+	WriteInLogs("BonusStageSB Section 4 Complete")
+	Return True
+EndFunc   ;==>BonusStage3Section4
