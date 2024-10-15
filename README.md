@@ -47,9 +47,9 @@ You have two options:
       
 - ### Optional Settings:
 
-    - ***Bonus stage 2*** will only be completed check Skip Bonus Stage otherwise.
+    - ***Bonus stage 2/3*** will only be completed check Skip Bonus Stage otherwise.
 
-    - Ascension Upgrade ***Protect***  is needed to complete Bonus Stage 2.
+    - Ascension Upgrade ***Protect***  is needed to complete Bonus Stage 2/3.
 
     - Do NOT buy the ***Vertical Magnet***.
 
