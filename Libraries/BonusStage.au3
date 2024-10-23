@@ -48,7 +48,7 @@ Func BonusStageDoNoting()
 EndFunc   ;==>BonusStageDoNoting
 
 Func BonusStageFail()
-	PixelSearch(775, 600, 775, 600, 0xB40000, 10)
+	PixelSearch(655, 558, 800, 605, 0xAD0000, 10)
 	If Not @error Then
 		MouseClick("left", 721, 577, 1, 0)
 		WriteInLogs("BonusStage Failed")
