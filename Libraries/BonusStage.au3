@@ -53,7 +53,7 @@ Func BonusStageFail()
 		WriteInLogs("BonusStage Failed")
 		Return True
 	EndIf
-	PixelSearch(775, 600, 775, 600, 0xAD0000)
+	PixelSearch(775, 600, 775, 600, 0xB40000)
 	If Not @error Then
 		MouseClick("left", 721, 577, 1, 0)
 		WriteInLogs("BonusStage Failed")
