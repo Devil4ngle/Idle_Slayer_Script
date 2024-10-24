@@ -81,6 +81,7 @@
 #include "Libraries\BossFightKnight.au3"
 #include "Libraries\Common.au3"
 #include "Libraries\AscendingHeights.au3"
+#include "Libraries\Chesthunt.au3"
 #include <ButtonConstants.au3>
 #include <GUIConstantsEx.au3>
 #include <StaticConstants.au3>
@@ -167,7 +168,7 @@ Func Main()
 			PixelSearch(187, 303, 187, 303, 0xF68F37)
 			If Not @error Then
 				SyncProcess(False)
-				Chesthunt()
+				Chesthunt($bNoLockpickingState)
 				SyncProcess(True)
 			EndIf
 
@@ -520,105 +521,6 @@ Func CirclePortals()
 		SyncProcess(True)
 	EndIf
 EndFunc   ;==>CirclePortals
-
-Func Chesthunt()
-	WriteInLogs("Chesthunt")
-	If $bNoLockpickingState Then
-		Sleep(4000)
-	Else
-		Sleep(2000)
-	EndIf
-	Local $iSaverX = 0
-	Local $iSaverY = 0
-	Local $iPixelX = 185
-	Local $iPixelY = 325
-	; Locate saver
-	For $iY = 1 To 3
-		For $iX = 1 To 10
-			PixelSearch($iPixelX, $iPixelY - 1, $iPixelX + 5, $iPixelY, 0xFFEB04)
-			If Not @error Then
-				$iSaverX = $iPixelX
-				$iSaverY = $iPixelY
-				ExitLoop (2)
-			EndIf
-			$iPixelX += 95
-		Next
-		$iPixelY += 95
-		$iPixelX = 185
-	Next
-	; Actual chest hunt
-	$iPixelX = 185
-	$iPixelY = 325
-	Local $iCount = 0
-	For $iY = 1 To 3
-		For $iX = 1 To 10
-			; After opening 2 chest open saver
-			If $iCount == 2 And $iSaverX > 0 Then
-				MouseClick("left", $iSaverX + 33, $iSaverY - 23, 1, 0)
-				If $bNoLockpickingState Then
-					Sleep(1500)
-				Else
-					Sleep(550)
-				EndIf
-			EndIf
-			; Skip saver no matter what
-			If $iPixelY == $iSaverY And $iPixelX == $iSaverX Then
-				; Go next line If saver is last chest
-				If $iX == 10 Then
-					ExitLoop (1)
-				Else
-					$iPixelX += 95
-					ContinueLoop
-				EndIf
-			EndIf
-			; Open chest
-			MouseClick("left", $iPixelX + 33, $iPixelY - 23, 1, 0)
-			If $bNoLockpickingState Then
-				Sleep(1500)
-			Else
-				Sleep(550)
-			EndIf
-			; Check if chest hunt ended
-			PixelSearch(500, 694, 500, 694, 0xB40000)
-			If Not @error Then
-				ExitLoop (2)
-			EndIf
-			Local $iSleepTime = 0
-			; if 2 x wait some more
-			PixelSearch(500, 210, 500, 210, 0x00FF00)
-			If Not @error Then
-				$iSleepTime = 1000
-			EndIf
-			; if mimic wait some more
-			PixelSearch(434, 211, 434, 211, 0xFF0000)
-			If Not @error Then
-				If $bNoLockpickingState Then
-					$iSleepTime = 2500
-				Else
-					$iSleepTime = 1500
-				EndIf
-			EndIf
-			Sleep($iSleepTime)
-			$iPixelX += 95
-			$iCount += 1
-		Next
-		$iPixelY += 95
-		$iPixelX = 185
-	Next
-	; Look for close button until found
-	While True
-		Sleep(50)
-		PixelSearch(500, 694, 500, 694, 0xB40000)
-		If Not @error Then
-			ExitLoop
-		EndIf
-		PixelSearch(457, 439, 457, 439, 0xF68F37)
-		If Not @error Then
-			MouseClick("left", 457, 439, 1, 0)
-		EndIf
-	WEnd
-	MouseClick("left", 643, 693, 1, 0)
-EndFunc   ;==>Chesthunt
 
 Func BuyEquipment()
 	WriteInLogs("AutoUpgrade Active")
