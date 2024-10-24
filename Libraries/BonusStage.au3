@@ -3,42 +3,41 @@
 
 Func BonusStage($bSkipBonusStageState)
 	WriteInLogs("Start of BonusStage")
+	Sleep(200)
+	PixelSearch(200, 505, 200, 505, 0x111014)
+	If Not @error Then
+		$bBonusStage3 = True
+	Else
+		$bBonusStage3 = False
+	EndIf
+
 	Do
 		Slider()
 		Sleep(500)
 		PixelSearch(775, 448, 775, 448, 0xFFFFFF)
 	Until @error
-	Sleep(3900)
-	PixelSearch(454, 91, 454, 91, 0xE1E0E2)
+
 	If $bSkipBonusStageState Then
 		BonusStageDoNoting()
-	Else
-		SelectBonusStage()
+		Return
 	EndIf
 
-EndFunc   ;==>BonusStage
-
-Func SelectBonusStage()
-	If Not @error Then ;if Spirit Boost do noting untill close appear
-		Sleep(300)
-		PixelSearch(20, 31, 20, 31, 0x231F40)
-		If Not @error Then
-			; the original developer messed up the naming and which is which.
-			; This is the condition for NO Spirit Boost
+	Sleep(3900)
+	PixelSearch(454, 91, 454, 91, 0xE1E0E2)
+	If Not @error Then
+		If $bBonusStage3 Then
 			BonusStage3NSB()
 		Else
 			BonusStageSP()
 		EndIf
 	Else
-		Sleep(300)
-		PixelSearch(20, 31, 20, 31, 0x231F40)
-		If Not @error Then
+		If $bBonusStage3 Then
 			BonusStage3SB()
 		Else
 			BonusStageNSP()
 		EndIf
 	EndIf
-EndFunc   ;==>SelectBonusStage
+EndFunc   ;==>BonusStage
 
 Func BonusStageDoNoting()
 	WriteInLogs("Do noting BonusStage Active")
@@ -48,7 +47,13 @@ Func BonusStageDoNoting()
 EndFunc   ;==>BonusStageDoNoting
 
 Func BonusStageFail()
-	PixelSearch(775, 600, 775, 600, 0xB40000, 10)
+	PixelSearch(775, 600, 775, 600, 0xAD0000)
+	If Not @error Then
+		MouseClick("left", 721, 577, 1, 0)
+		WriteInLogs("BonusStage Failed")
+		Return True
+	EndIf
+	PixelSearch(775, 600, 775, 600, 0xAD0000)
 	If Not @error Then
 		MouseClick("left", 721, 577, 1, 0)
 		WriteInLogs("BonusStage Failed")
