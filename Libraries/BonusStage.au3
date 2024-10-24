@@ -3,42 +3,41 @@
 
 Func BonusStage($bSkipBonusStageState)
 	WriteInLogs("Start of BonusStage")
+	Sleep(200)
+	PixelSearch(200, 505, 200, 505, 0x111014)
+	If Not @error Then
+		$bBonusStage3 = True
+	Else
+		$bBonusStage3 = False
+	EndIf
+
 	Do
 		Slider()
 		Sleep(500)
 		PixelSearch(775, 448, 775, 448, 0xFFFFFF)
 	Until @error
-	Sleep(3900)
-	PixelSearch(454, 91, 454, 91, 0xE1E0E2)
+
 	If $bSkipBonusStageState Then
 		BonusStageDoNoting()
-	Else
-		SelectBonusStage()
+		Return
 	EndIf
 
-EndFunc   ;==>BonusStage
-
-Func SelectBonusStage()
-	If Not @error Then ;if Spirit Boost do noting untill close appear
-		Sleep(300)
-		PixelSearch(20, 31, 20, 31, 0x231F40)
-		If Not @error Then
-			; the original developer messed up the naming and which is which.
-			; This is the condition for NO Spirit Boost
+	Sleep(3900)
+	PixelSearch(454, 91, 454, 91, 0xE1E0E2)
+	If Not @error Then
+		If $bBonusStage3 Then
 			BonusStage3NSB()
 		Else
 			BonusStageSP()
 		EndIf
 	Else
-		Sleep(300)
-		PixelSearch(20, 31, 20, 31, 0x231F40)
-		If Not @error Then
+		If $bBonusStage3 Then
 			BonusStage3SB()
 		Else
 			BonusStageNSP()
 		EndIf
 	EndIf
-EndFunc	  ;==>SelectBonusStage
+EndFunc   ;==>BonusStage
 
 Func BonusStageDoNoting()
 	WriteInLogs("Do noting BonusStage Active")
@@ -48,7 +47,13 @@ Func BonusStageDoNoting()
 EndFunc   ;==>BonusStageDoNoting
 
 Func BonusStageFail()
-	PixelSearch(775, 600, 775, 600, 0xB40000, 10)
+	PixelSearch(775, 600, 775, 600, 0xAD0000)
+	If Not @error Then
+		MouseClick("left", 721, 577, 1, 0)
+		WriteInLogs("BonusStage Failed")
+		Return True
+	EndIf
+	PixelSearch(775, 600, 775, 600, 0xAD0000)
 	If Not @error Then
 		MouseClick("left", 721, 577, 1, 0)
 		WriteInLogs("BonusStage Failed")
@@ -353,7 +358,7 @@ Func BonusStage3NSB()
 		Return
 	EndIf
 
-EndFunc   ;==>BonusStageNSB
+EndFunc   ;==>BonusStage3NSB
 
 Func BonusStage3SB()
 	WriteInLogs("BonusStage3SB")
@@ -414,7 +419,7 @@ Func BonusStage3Section1()
 	If BonusStageFail() Then
 		Return False
 	EndIf
-	;~ ; Section 1 Collection
+;~ ; Section 1 Collection
 	For $iX = 1 To 21
 		Send("{Up}")
 		Sleep(500)
@@ -448,11 +453,11 @@ Func BonusStage3Section2()
 		FindPixelUntilFound(515, 265, 522, 285, 0xFFFFFF, 1200)
 
 		cSend(63, 500) ;9
-		BonusStage3WallJump(1); 10
+		BonusStage3WallJump(1) ; 10
 		Sleep(80)
-		BonusStage3WallJump(1); 11
+		BonusStage3WallJump(1) ; 11
 		Sleep(300)
-		BonusStage3WallJump(4); 12
+		BonusStage3WallJump(4) ; 12
 
 		FindPixelUntilFound(306, 200, 309, 275, 0xFFFFFF, 1000)
 
@@ -482,7 +487,7 @@ Func BonusStage3Section3($isSpiritBoost = False)
 	FindPixelUntilFound(280, 385, 330, 435, 0xFFFFFF)
 	Sleep(600)
 
-	For $iX = 1 to 2
+	For $iX = 1 To 2
 		If $bUpperWay Then
 			BonusStage3WallJump()
 			$bUpperWay = False
