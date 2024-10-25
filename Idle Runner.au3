@@ -176,17 +176,7 @@ Func Main()
 		If TimerDiff($iLastCheckTimeLoop) >= 5000 Then
 			$iLastCheckTimeLoop = TimerInit()
 
-			; Close Armory full not hover over
-			PixelSearch(775, 600, 775, 600, 0xB40000)
-			If Not @error Then
-				CloseAll()
-			EndIf
-
-			; Close Armory full hover over
-			PixelSearch(775, 600, 775, 600, 0xAD0000)
-			If Not @error Then
-				CloseAll()
-			EndIf
+			CloseAll()
 
 			; Bonus stage
 			PixelSearch(660, 254, 660, 254, 0xFFE737)
@@ -269,13 +259,13 @@ EndFunc   ;==>Main
 
 Func CloseAll()
 	Sleep(2000)
-	PixelSearch(775, 600, 775, 600, 0xAD0000)
+	PixelSearch(780, 600, 780, 600, 0xAD0000)
 	If Not @error Then
-		MouseClick("left", 775, 600, 1, 0)
+		MouseClick("left", 780, 600, 1, 0)
 	EndIf
-	PixelSearch(775, 600, 775, 600, 0xB40000)
+	PixelSearch(780, 600, 780, 600, 0xB40000)
 	If Not @error Then
-		MouseClick("left", 775, 600, 1, 0)
+		MouseClick("left", 780, 600, 1, 0)
 	EndIf
 EndFunc   ;==>CloseAll
 
