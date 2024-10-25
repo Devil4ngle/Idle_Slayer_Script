@@ -26,13 +26,13 @@ Func BonusStage($bSkipBonusStageState)
 	PixelSearch(454, 91, 454, 91, 0xE1E0E2)
 	If Not @error Then
 		If $bBonusStage3 Then
-			BonusStage3NSB()
+			BonusStage3SB()
 		Else
 			BonusStageSP()
 		EndIf
 	Else
 		If $bBonusStage3 Then
-			BonusStage3SB()
+			BonusStage3NSB()
 		Else
 			BonusStageNSP()
 		EndIf
@@ -419,7 +419,7 @@ Func BonusStage3Section1()
 	If BonusStageFail() Then
 		Return False
 	EndIf
-;~ ; Section 1 Collection
+	; Section 1 Collection
 	For $iX = 1 To 21
 		Send("{Up}")
 		Sleep(500)
@@ -427,7 +427,7 @@ Func BonusStage3Section1()
 	If BonusStageFail() Then
 		Return False
 	EndIf
-	WriteInLogs("BonusStageSB Section 1 Complete")
+	WriteInLogs("BonusStage Section 1 Complete")
 	Return True
 EndFunc   ;==>BonusStage3Section1
 
@@ -477,7 +477,7 @@ Func BonusStage3Section2()
 	If BonusStageFail() Then
 		Return False
 	EndIf
-	WriteInLogs("BonusStageSB Section 2 Complete")
+	WriteInLogs("BonusStage Section 2 Complete")
 	Return True
 EndFunc   ;==>BonusStage3Section2
 
@@ -533,7 +533,7 @@ Func BonusStage3Section3($isSpiritBoost = False)
 	If BonusStageFail() Then
 		Return False
 	EndIf
-	WriteInLogs("BonusStageSB Section 3 Complete")
+	WriteInLogs("BonusStage Section 3 Complete")
 	Return True
 EndFunc   ;==>BonusStage3Section3
 
@@ -575,6 +575,6 @@ Func BonusStage3Section4($isSpiritBoost = False)
 	If BonusStageFail() Then
 		Return False
 	EndIf
-	WriteInLogs("BonusStageSB Section 4 Complete")
+	WriteInLogs("BonusStage Section 4 Complete")
 	Return True
 EndFunc   ;==>BonusStage3Section4
