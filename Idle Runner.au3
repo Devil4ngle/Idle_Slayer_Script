@@ -32,6 +32,7 @@
 #AutoIt3Wrapper_Res_File_Add=Resources\UpArrow.jpg, RT_RCDATA, UPARROW,0
 #AutoIt3Wrapper_Res_File_Add=Resources\DownArrow.jpg, RT_RCDATA, DOWNARROW,0
 #AutoIt3Wrapper_Res_File_Add=Resources\NoLockpicking.jpg, RT_RCDATA, NOLOCKPICKING,0
+#AutoIt3Wrapper_Res_File_Add=Resources\NoReinforcedCrystalSaver.jpg, RT_RCDATA, NOREINFORCEDCRYSTALSAVER,0
 #AutoIt3Wrapper_Res_File_Add=Resources\CraftBidimensionalStaff.jpg, RT_RCDATA, BIDIMENSIONAL,0
 #AutoIt3Wrapper_Res_File_Add=Resources\CraftDimensionalStaff.jpg, RT_RCDATA, DIMENSIONAL,0
 #AutoIt3Wrapper_Res_File_Add=Resources\DisableRage.jpg, RT_RCDATA, DISABLERAGE,0
@@ -540,10 +541,14 @@ Func Chesthunt()
 	$iPixelX = 185
 	$iPixelY = 325
 	Local $iCount = 0
+	Local $iFreeChestCount = 2
+	If $bNoReinforcedCrystalSaverState Then
+		$iFreeChestCount = 1
+	EndIf
 	For $iY = 1 To 3
 		For $iX = 1 To 10
-			; After opening 2 chest open saver
-			If $iCount == 2 And $iSaverX > 0 Then
+			; After opening iFreeChestCount chest open saver
+			If $iCount == $iFreeChestCount And $iSaverX > 0 Then
 				MouseClick("left", $iSaverX + 33, $iSaverY - 23, 1, 0)
 				If $bNoLockpickingState Then
 					Sleep(1500)

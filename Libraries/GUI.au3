@@ -21,6 +21,7 @@ Global $bAutoBuyUpgradeState = False, _
 		$bCraftRagePillState = False, _
 		$bCirclePortalsState = False, _
 		$bNoLockpickingState = False, _
+		$bNoReinforcedCrystalSaverState = False, _
 		$bBiDimensionalState = False, _
 		$bDimensionalState = False, _
 		$bDisableRageState = False, _
@@ -37,8 +38,8 @@ Global $iJumpSliderValue = 150, _
 		$iTimerAutoAscend = TimerInit(), _
 		$iTimerFocusGame = TimerInit(), _
 		$iLastCheckTimeLoop = TimerInit()
-Global $aSettingGlobalVariables[14] = ["iAutoBuyTimer", "iAutoAscendTimer", "bAutoAscendState", "bAutoBuyUpgradeState", "bCraftSoulBonusState", "bSkipBonusStageState", "bCraftRagePillState", "bCirclePortalsState", "iJumpSliderValue", "bNoLockpickingState", "iCirclePortalsCount", "bDimensionalState", "bBiDimensionalState", "bDisableRageState"]
-Global $aSettingCheckBoxes[10] = ["bAutoAscendState", "bAutoBuyUpgradeState", "bCraftSoulBonusState", "bSkipBonusStageState", "bCraftRagePillState", "bCirclePortalsState", "bNoLockpickingState", "bBiDimensionalState", "bDimensionalState", "bDisableRageState"]
+Global $aSettingGlobalVariables[15] = ["iAutoBuyTimer", "iAutoAscendTimer", "bAutoAscendState", "bAutoBuyUpgradeState", "bCraftSoulBonusState", "bSkipBonusStageState", "bCraftRagePillState", "bCirclePortalsState", "iJumpSliderValue", "bNoLockpickingState", "iCirclePortalsCount", "bDimensionalState", "bBiDimensionalState", "bDisableRageState", "bNoReinforcedCrystalSaverState"]
+Global $aSettingCheckBoxes[11] = ["bAutoAscendState", "bAutoBuyUpgradeState", "bCraftSoulBonusState", "bSkipBonusStageState", "bCraftRagePillState", "bCirclePortalsState", "bNoLockpickingState", "bBiDimensionalState", "bDimensionalState", "bDisableRageState", "bNoReinforcedCrystalSaverState"]
 
 ; #FUNCTION# ====================================================================================================================
 ; Return values .: Succes - A windows handle
@@ -204,6 +205,12 @@ Func CreateMinigamesSheet($hGUIForm, $iTabControl)
 	Local $iNoLockpicking = GUICtrlCreatePicCustom('Resources\NoLockpicking.jpg', 207, 84, 176, 16, $SS_BITMAP + $SS_NOTIFY)
 	_Resource_SetToCtrlID($iNoLockpicking, 'NOLOCKPICKING')
 	GUICtrlSetTip(-1, "Determines if you have the Divinity Lockpicking 100.")
+
+	Global $iCheckBoxbNoReinforcedCrystalSaverState = GUICtrlCreatePicCustom('Resources\CheckboxUnchecked.jpg', 181, 122, 16, 16, $SS_BITMAP + $SS_NOTIFY)
+	GUICtrlSetOnEvent(-1, "EventGlobalCheckBox")
+	Local $iNoReinforcedCrystalSaver = GUICtrlCreatePicCustom('Resources\NoReinforcedCrystalSaver.jpg', 207, 123, 241, 16, $SS_BITMAP + $SS_NOTIFY)
+	_Resource_SetToCtrlID($iNoReinforcedCrystalSaver, 'NOREINFORCEDCRYSTALSAVER')
+	GUICtrlSetTip(-1, "Determines if you have unlocked the Permanent Item Reinforced Crystal Saver.")
 
 	Return $iTabMinigames
 EndFunc   ;==>CreateMinigamesSheet
