@@ -534,7 +534,7 @@ Func BonusStage3Section1($bSpiritBoost = False)
 		Return False
 	EndIf
 
-	WriteInLogs(GetBS3LogText($bSpiritBoost) " Section 1 Complete")
+	WriteInLogs(GetBS3LogText($bSpiritBoost) & " Section 1 Complete")
 
 	Return True
 EndFunc   ;==>BonusStage3Section1
