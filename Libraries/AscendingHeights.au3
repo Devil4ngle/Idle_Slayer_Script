@@ -53,6 +53,10 @@ Func AscendingHeightsPlay()
 		If Not IsArray($aPosPlatform) Then ContinueLoop
 
 		; Detect if the character is stuck
+		WriteInLogs("Before 1st check: " & $iPosPlatX)
+		WriteInLogs(", " & $aPosPlatform[0])
+		WriteInLogs(", " & $iPosPlatY)
+		WriteInLogs(" and " & $aPosPlatform[1])
 		If $iPosPlatX == $aPosPlatform[0] And $iPosPlatY == $aPosPlatform[1] Then
 			$iCount += 1
 			If $iCount = 5 Then $bSame = True
