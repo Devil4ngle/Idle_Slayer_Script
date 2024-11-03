@@ -101,7 +101,8 @@ Main()
 Func Main()
 	; Set Hotkey Bindings
 	HotKeySet("{Home}", "Pause")
-	HotKeySet("{Esc}", "IdleClose")
+	HotKeySet("+{Esc}", "IdleClose")
+	HotKeySet("^+b", "BuyEquipment")
 	; Create Saving Directory
 	DirCreate("IdleRunnerLogs")
 	; Create GUI
