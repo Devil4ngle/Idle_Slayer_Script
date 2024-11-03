@@ -28,15 +28,15 @@ Func AscendingHeightsPlay()
 	While True
 		If TimerDiff($iLastCheckTime) >= 5000 Then
 			$iLastCheckTime = TimerInit()
-			CheckSecondWindScreen()
+
 			PixelSearch(190, 125, 190, 125, 0xFFAF36)
 			If Not @error Then
 				WriteInLogs("Ascending Height Failed")
 				ExitLoop
 			EndIf
 
-			PixelSearch(590, 590, 590, 590, 0x00A800)
-			If Not @error Then MouseClick("left", 590, 590, 1, 0)
+			PixelSearch(560, 560, 1280, 720, 0x00A800)
+			If Not @error Then MouseClick("left", 560, 570, 1, 0)
 
 			PixelSearch(700, 385, 730, 385, 0x7A444A)
 			If Not @error Then
@@ -52,13 +52,20 @@ Func AscendingHeightsPlay()
 		$aPosPlatform = searchAllPlatformBellowPlayer($aPosPlayer[0], $aPosPlayer[1], $bSame)
 		If Not IsArray($aPosPlatform) Then ContinueLoop
 
-
+		; Detect if the character is stuck
 		If $iPosPlatX == $aPosPlatform[0] And $iPosPlatY == $aPosPlatform[1] Then
 			$iCount += 1
 			If $iCount = 5 Then $bSame = True
+
+			If TimerDiff($iStuckTimer) > 5000 Then ;
+				$bSame = False
+				MoveCharacterSideways($aPosPlayer[0], $aPosPlatform[0])
+				$iStuckTimer = TimerInit()
+			EndIf
 		Else
 			$iCount = 0
 			$bSame = False
+			$iStuckTimer = TimerInit()
 		EndIf
 		$iPosPlatX = $aPosPlatform[0]
 		$iPosPlatY = $aPosPlatform[1]
@@ -78,6 +85,18 @@ Func AscendingHeightsPlay()
 		EndIf
 	WEnd
 EndFunc   ;==>AscendingHeightsPlay
+
+Func MoveCharacterSideways($iPlayerX, $iPlatformX)
+	WriteInLogs("Unstucking Character")
+	If $iPlayerX < $iPlatformX Then
+		MouseMove(1100, 600, 0)
+	Else
+		MouseMove(100, 600, 0)
+	EndIf
+	MouseDown("left")
+	Sleep(200)
+	MouseUp("left")
+EndFunc   ;==>MoveCharacterSideways
 
 Func searchAllPlatformBellowPlayer($iPlayerX, $iPlayerY, $bSame)
 	Local $aIgnoredColors = [0xAA4D5A, 0xB14F48, 0x3A4466] ; Colors to try to ignore
@@ -120,11 +139,3 @@ Func searchAllPlatformBellowPlayer($iPlayerX, $iPlayerY, $bSame)
 		WEnd
 	EndIf
 EndFunc   ;==>searchAllPlatformBellowPlayer
-
-Func CheckSecondWindScreen()
-    Local $aPos = PixelSearch(560, 560, 1280, 720, 0x00A800)
-
-    If Not @error Then
-        MouseClick("left", 560, 570, 1, 0)
-    EndIf
-EndFunc   ;==>CheckSecondWindScreen
