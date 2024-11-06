@@ -36,8 +36,10 @@ Func AscendingHeightsPlay()
 			EndIf
 
 			PixelSearch(560, 560, 1280, 720, 0x00A800)
-			If Not @error Then MouseClick("left", 560, 570, 1, 0)
-
+			If Not @error Then
+				Sleep(500)
+				MouseClick("left", 560, 570, 1, 0)
+			EndIf
 			PixelSearch(700, 385, 730, 385, 0x7A444A)
 			If Not @error Then
 				cSend(15000, 0, "d")
@@ -53,10 +55,6 @@ Func AscendingHeightsPlay()
 		If Not IsArray($aPosPlatform) Then ContinueLoop
 
 		; Detect if the character is stuck
-		WriteInLogs("Before 1st check: " & $iPosPlatX)
-		WriteInLogs(", " & $aPosPlatform[0])
-		WriteInLogs(", " & $iPosPlatY)
-		WriteInLogs(" and " & $aPosPlatform[1])
 		If $iPosPlatX == $aPosPlatform[0] And $iPosPlatY == $aPosPlatform[1] Then
 			$iCount += 1
 			If $iCount = 5 Then $bSame = True
