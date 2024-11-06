@@ -4,7 +4,7 @@
 Local Enum $eRewardChest = 0, $eMimicChest = 1, $e2xChest = 2, $eChestHuntEnd = 3, $eLifeSaverChest = 4
 Local Enum $eStateNoMimic = 0, $eStateOneMimic = 1, $eStateTwoMimics = 2, $eStateOpenLifeSaver = 3, $eStateNormal = 4
 
-Func Chesthunt($bNoLockpickingState, $bPerfectChestHuntState)
+Func Chesthunt($bNoLockpickingState, $bPerfectChestHuntState, $bNoReinforcedCrystalSaverState)
 	Local $iCurrentState = $eStateNoMimic
 	WriteInLogs("Chesthunt")
 	If $bNoLockpickingState Then
@@ -53,7 +53,7 @@ Func Chesthunt($bNoLockpickingState, $bPerfectChestHuntState)
 				ExitLoop (2)
 			EndIF
 
-			$iCurrentState = GetUpdatedState($iCount, $iCurrentState, $iChestResult, $bPerfectChestHuntState)
+			$iCurrentState = GetUpdatedState($iCount, $iCurrentState, $iChestResult, $bPerfectChestHuntState, $bNoReinforcedCrystalSaverState)
 
 			if $iCurrentState == $eStateOpenLifeSaver Then
 				$iCurrentState = OpenLifeSaver($iSaverX, $iSaverY, $bNoLockpickingState)
@@ -85,7 +85,7 @@ Func Chesthunt($bNoLockpickingState, $bPerfectChestHuntState)
 	MouseClick("left", 643, 693, 1, 0)
 EndFunc   ;==>Chesthunt
 
-Func GetUpdatedState($iCount, $iCurrentState, $iChest, $bPerfectChestHuntState)
+Func GetUpdatedState($iCount, $iCurrentState, $iChest, $bPerfectChestHuntState, $bNoReinforcedCrystalSaverState)
 
 	; After opening Life Saver just open chests regularly
 	If $iCurrentState == $eStateNormal Or $iChest == $eLifeSaverChest Then
@@ -104,6 +104,8 @@ Func GetUpdatedState($iCount, $iCurrentState, $iChest, $bPerfectChestHuntState)
 
 	; Assign special states for the first 2 chests
 	If $iCount == 0 Then
+		If $bNoReinforcedCrystalSaverState Then Return $eStateOpenLifeSaver
+
 		Switch $iChest
 			Case $eRewardChest
 				Return $eStateNoMimic

@@ -171,7 +171,7 @@ Func Main()
 			PixelSearch(187, 303, 187, 303, 0xF68F37)
 			If Not @error Then
 				SyncProcess(False)
-				Chesthunt($bNoLockpickingState, $bPerfectChestHuntState)
+				Chesthunt($bNoLockpickingState, $bPerfectChestHuntState, $bNoReinforcedCrystalSaverState)
 				SyncProcess(True)
 			EndIf
 
