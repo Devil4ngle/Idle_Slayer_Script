@@ -14,7 +14,7 @@ Func LoadLog($iLog)
 			$iBS2Section1SB = 0, $iBS2Section2SB = 0, $iBS2Section3SB = 0, $iBS2Section4SB = 0, $iBonusStage2 = 0, $iBonusStage2SB = 0, _
 			$iBS3Section1 = 0, $iBS3Section2 = 0, $iBS3Section3 = 0, $iBS3Section4 = 0, $iBS3Failed = 0, $iBS3FailedSB = 0, $iBS3Retried = 0, $iBS3RetriedSB = 0, _
 			$iBS3Section1SB = 0, $iBS3Section2SB = 0, $iBS3Section3SB = 0, $iBS3Section4SB = 0, $iBonusStage3 = 0, $iBonusStage3SB = 0, _
-			$iMinionsClaimed = 0, $iQuestClaimed = 0, $iSilverboxColl = 0, $iMegaHordeRage = 0, $iMegaHordeRageSoul = 0, $iChesthunt = 0, _
+			$iMinionsClaimed = 0, $iQuestClaimed = 0, $iSilverboxColl = 0, $iMegaHordeRage = 0, $iMegaHordeRageSoul = 0, $iChesthunt = 0, $iPerfectChestHunt = 0, _
 			$iBossFightVictorWon = 0, $iBossFightVictor = 0, $iBossFightKnightWon = 0, $iBossFightKnight = 0, $iAscendingHeights = 0, $iAscendingHeightsFailed = 0
 	Local $hFile = FileOpen("IdleRunnerLogs\Logs.txt", $FO_READ)
 	If $hFile <> -1 Then
@@ -31,6 +31,8 @@ Func LoadLog($iLog)
 					$iMinionsClaimed += 1
 				Case "Chesthunt"
 					$iChesthunt += 1
+				Case "Perfect ChestHunt Completed"
+					$iPerfectChestHunt += 1
 				Case "Claiming quest"
 					$iQuestClaimed += 1
 				Case "MegaHorde Rage"
@@ -121,6 +123,7 @@ Func LoadLog($iLog)
 	CustomConsole($iLog, "Claimed Quest: " & $iQuestClaimed)
 	CustomConsole($iLog, "Claimed Minions: " & $iMinionsClaimed)
 	CustomConsole($iLog, "ChestHunts: " & $iChesthunt)
+	CustomConsole($iLog, "Perfect ChestHunts: " & $iPerfectChestHunt)
 	CustomConsole($iLog, "Collected SilverBoxes: " & $iSilverboxColl)
 	CustomConsole($iLog, "---------------------BONUS-STAGE-2----------------------")
 	CustomConsole($iLog, "Total Attempts: " & $iBS2TotalAttempts)

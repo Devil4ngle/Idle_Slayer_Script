@@ -20,15 +20,16 @@ Global $bAutoBuyUpgradeState = False, _
 		$bSkipBonusStageState = False, _
 		$bCraftRagePillState = False, _
 		$bCirclePortalsState = False, _
-		$bNoLockpickingState = False, _
+		$bNoLockpickingState = True, _
 		$bNoReinforcedCrystalSaverState = False, _
 		$bBiDimensionalState = False, _
 		$bDimensionalState = False, _
 		$bDisableRageState = False, _
 		$bAutoAscendState = False, _
+		$bPerfectChestHuntState = False, _
 		$bTogglePause = False
 
-Global $sVersion = "3.4.2"
+Global $sVersion = "3.4.3"
 Global $iJumpSliderValue = 150, _
 		$iCirclePortalsCount = 7, _
 		$iAutoAscendTimer = 10, _
@@ -38,8 +39,8 @@ Global $iJumpSliderValue = 150, _
 		$iTimerAutoAscend = TimerInit(), _
 		$iTimerFocusGame = TimerInit(), _
 		$iLastCheckTimeLoop = TimerInit()
-Global $aSettingGlobalVariables[15] = ["iAutoBuyTimer", "iAutoAscendTimer", "bAutoAscendState", "bAutoBuyUpgradeState", "bCraftSoulBonusState", "bSkipBonusStageState", "bCraftRagePillState", "bCirclePortalsState", "iJumpSliderValue", "bNoLockpickingState", "iCirclePortalsCount", "bDimensionalState", "bBiDimensionalState", "bDisableRageState", "bNoReinforcedCrystalSaverState"]
-Global $aSettingCheckBoxes[11] = ["bAutoAscendState", "bAutoBuyUpgradeState", "bCraftSoulBonusState", "bSkipBonusStageState", "bCraftRagePillState", "bCirclePortalsState", "bNoLockpickingState", "bBiDimensionalState", "bDimensionalState", "bDisableRageState", "bNoReinforcedCrystalSaverState"]
+Global $aSettingGlobalVariables[16] = ["iAutoBuyTimer", "iAutoAscendTimer", "bAutoAscendState", "bAutoBuyUpgradeState", "bCraftSoulBonusState", "bSkipBonusStageState", "bCraftRagePillState", "bCirclePortalsState", "iJumpSliderValue", "bNoLockpickingState", "iCirclePortalsCount", "bDimensionalState", "bBiDimensionalState", "bDisableRageState", "bNoReinforcedCrystalSaverState", "bPerfectChestHuntState"]
+Global $aSettingCheckBoxes[12] = ["bAutoAscendState", "bAutoBuyUpgradeState", "bCraftSoulBonusState", "bSkipBonusStageState", "bCraftRagePillState", "bCirclePortalsState", "bNoLockpickingState", "bBiDimensionalState", "bDimensionalState", "bDisableRageState", "bNoReinforcedCrystalSaverState", "bPerfectChestHuntState"]
 
 ; #FUNCTION# ====================================================================================================================
 ; Return values .: Succes - A windows handle
@@ -185,7 +186,6 @@ Func CreateGeneralSheet($hGUIForm, $iTabControl)
 	GUICtrlSetOnEvent(-1, "EventAutoAscendTimer")
 	GUICtrlSetTip(-1, "Auto Ascend after a certain amount of time. The number is in minutes")
 
-
 	Return $iTabGeneral
 EndFunc   ;==>CreateGeneralSheet
 
@@ -211,6 +211,12 @@ Func CreateMinigamesSheet($hGUIForm, $iTabControl)
 	Local $iNoReinforcedCrystalSaver = GUICtrlCreatePicCustom('Resources\NoReinforcedCrystalSaver.jpg', 207, 123, 241, 16, $SS_BITMAP + $SS_NOTIFY)
 	_Resource_SetToCtrlID($iNoReinforcedCrystalSaver, 'NOREINFORCEDCRYSTALSAVER')
 	GUICtrlSetTip(-1, "Determines if you have unlocked the Permanent Item Reinforced Crystal Saver.")
+
+	Global $iCheckBoxbPerfectChestHuntState = GUICtrlCreatePicCustom('Resources\CheckboxUnchecked.jpg', 480, 44, 16, 16, $SS_BITMAP + $SS_NOTIFY)
+	GUICtrlSetOnEvent(-1, "EventGlobalCheckBox")
+	Local $iPerfectChestHunt = GUICtrlCreatePicCustom('Resources\PerfectChestHunt.jpg', 506, 44, 183, 18, $SS_BITMAP + $SS_NOTIFY)
+	_Resource_SetToCtrlID($iPerfectChestHunt, 'PERFECTCHESTHUNT')
+	GUICtrlSetTip(-1, "Uses a riskier strategy that prioritizes Perfect Chest Hunts over resources. Strategy summary: ignores Life Saver until 2x is found.")
 
 	Return $iTabMinigames
 EndFunc   ;==>CreateMinigamesSheet
