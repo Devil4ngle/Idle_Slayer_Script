@@ -25,6 +25,7 @@ Func AscendingHeightsPlay()
 	Local $bSame = False
 
 	Local $iLastCheckTime = TimerInit()
+	Local $iStuckTimer = TimerInit()
 	While True
 		If TimerDiff($iLastCheckTime) >= 5000 Then
 			$iLastCheckTime = TimerInit()
@@ -40,6 +41,7 @@ Func AscendingHeightsPlay()
 				Sleep(2000)
 				MouseClick("left", 560, 570, 1, 0)
 			EndIf
+
 			PixelSearch(700, 385, 730, 385, 0x7A444A)
 			If Not @error Then
 				cSend(15000, 0, "d")
@@ -48,9 +50,8 @@ Func AscendingHeightsPlay()
 			EndIf
 		EndIf
 
-		$aPosPlayer = PixelSearch(375, 260, 900, 730, 0x633E75)
+		$aPosPlayer = PixelSearch(375, 260, 900, 730, 0x11869E, 31)
 		If @error Then ContinueLoop
-
 		$aPosPlatform = searchAllPlatformBellowPlayer($aPosPlayer[0], $aPosPlayer[1], $bSame)
 		If Not IsArray($aPosPlatform) Then ContinueLoop
 
