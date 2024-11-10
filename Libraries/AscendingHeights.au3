@@ -35,9 +35,11 @@ Func AscendingHeightsPlay()
 				ExitLoop
 			EndIf
 
-			PixelSearch(590, 590, 590, 590, 0x00A800)
-			If Not @error Then MouseClick("left", 590, 590, 1, 0)
-
+			PixelSearch(560, 560, 1280, 720, 0x00A800)
+			If Not @error Then
+				Sleep(2000)
+				MouseClick("left", 560, 570, 1, 0)
+			EndIf
 			PixelSearch(700, 385, 730, 385, 0x7A444A)
 			If Not @error Then
 				cSend(15000, 0, "d")
@@ -52,13 +54,20 @@ Func AscendingHeightsPlay()
 		$aPosPlatform = searchAllPlatformBellowPlayer($aPosPlayer[0], $aPosPlayer[1], $bSame)
 		If Not IsArray($aPosPlatform) Then ContinueLoop
 
-
+		; Detect if the character is stuck
 		If $iPosPlatX == $aPosPlatform[0] And $iPosPlatY == $aPosPlatform[1] Then
 			$iCount += 1
 			If $iCount = 5 Then $bSame = True
+
+			If TimerDiff($iStuckTimer) > 5000 Then ;
+				$bSame = False
+				MoveCharacterSideways($aPosPlayer[0], $aPosPlatform[0])
+				$iStuckTimer = TimerInit()
+			EndIf
 		Else
 			$iCount = 0
 			$bSame = False
+			$iStuckTimer = TimerInit()
 		EndIf
 		$iPosPlatX = $aPosPlatform[0]
 		$iPosPlatY = $aPosPlatform[1]
@@ -79,29 +88,56 @@ Func AscendingHeightsPlay()
 	WEnd
 EndFunc   ;==>AscendingHeightsPlay
 
+Func MoveCharacterSideways($iPlayerX, $iPlatformX)
+	WriteInLogs("Unstucking Character")
+	If $iPlayerX < $iPlatformX Then
+		MouseMove(1100, 600, 0)
+	Else
+		MouseMove(100, 600, 0)
+	EndIf
+	MouseDown("left")
+	Sleep(200)
+	MouseUp("left")
+EndFunc   ;==>MoveCharacterSideways
+
 Func searchAllPlatformBellowPlayer($iPlayerX, $iPlayerY, $bSame)
+	Local $aIgnoredColors = [0xAA4D5A, 0xB14F48, 0x3A4466] ; Colors to try to ignore
+
 	If Not $bSame Then
 		Local $iLeft = $iPlayerX - 130
 		Local $iRight = $iPlayerX + 130
 		If $iLeft < 375 Then $iLeft = 375
-		If $iRight > 900 Then $iLeft = 900
+		If $iRight > 900 Then $iRight = 900
 
-		Local $aPosPlatform = PixelSearch($iLeft, $iPlayerY + 50, $iRight, 752, 0xA7ACBA)
+		Local $aPosPlatform = PixelSearch($iLeft, $iPlayerY + 50, $iRight, 752, 0x8B9BB4)
 		If @error Then
-			$aPosPlatform = PixelSearch(375, $iPlayerY + 50, 900, 752, 0xA7ACBA)
+			$aPosPlatform = PixelSearch(375, $iPlayerY + 50, 900, 752, 0x8B9BB4)
 		EndIf
 	Else
-		$aPosPlatform = PixelSearch(375, $iPlayerY + 50, 900, 752, 0xA7ACBA)
+		$aPosPlatform = PixelSearch(375, $iPlayerY + 50, 900, 752, 0x8B9BB4)
 	EndIf
 
 	If Not @error Then
 		While True
-			PixelSearch($aPosPlatform[0] + 4, $aPosPlatform[1], $aPosPlatform[0] + 4, $aPosPlatform[1], 0x222034)
-			If @error Then Return $aPosPlatform
-			If $aPosPlatform[1] + 13 > 752 Then Return False
-			$aPosPlatform = PixelSearch(375, $aPosPlatform[1] + 13, 900, 752, 0xA7ACBA)
-			If @error Then Return False
+			; Verify if any of the platforms match the unwanted colors
+			Local $bIgnorePlatform = False
+			For $i = 0 To UBound($aIgnoredColors) - 1
+				If PixelGetColor($aPosPlatform[0], $aPosPlatform[1]) = $aIgnoredColors[$i] Then
+					$bIgnorePlatform = True
+					ExitLoop
+				EndIf
+			Next
+
+			If Not $bIgnorePlatform Then
+				PixelSearch($aPosPlatform[0] + 4, $aPosPlatform[1], $aPosPlatform[0] + 4, $aPosPlatform[1], 0x151515)
+				If @error Then Return $aPosPlatform
+				If $aPosPlatform[1] + 13 > 752 Then Return False
+				$aPosPlatform = PixelSearch(375, $aPosPlatform[1] + 13, 900, 752, 0x8B9BB4)
+				If @error Then Return False
+			Else
+				$aPosPlatform = PixelSearch(375, $aPosPlatform[1] + 13, 900, 752, 0x8B9BB4)
+				If @error Then Return False
+			EndIf
 		WEnd
 	EndIf
-
 EndFunc   ;==>searchAllPlatformBellowPlayer
