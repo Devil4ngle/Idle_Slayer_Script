@@ -337,24 +337,12 @@ Func BuyTempItem($sHexColor)
 	;temp item
 	MouseClick("left", 260, 690, 1, 0)
 	Sleep(150)
-	;top of scrollbar
-	MouseClick("left", 482, 150, 5, 0)
-	Sleep(450)
-	While 1
-		; on this x search color
-		$aFoundPixel = PixelSearch(65, 180, 65, 630, $sHexColor)
-		If Not @error Then
-			MouseClick("left", 385, $aFoundPixel[1], 1, 0)
-			Sleep(50)
-			ExitLoop
-		EndIf
-		MouseWheel($MOUSE_WHEEL_DOWN, 1)
-		Sleep(50)
-		PixelSearch(484, 647, 484, 647, 0xD6D6D6)
-		If @error Then
-			ExitLoop
-		EndIf
-	WEnd
+
+	$aFoundPixel = PixelSearch(43, 330, 625, 630, $sHexColor)
+	MouseClick("left", $aFoundPixel[0], $aFoundPixel[1], 1, 0)
+	Sleep(200)
+	MouseClick("left", 407, 213, 1, 0)
+	; Close 
 	MouseClick("left", 440, 690, 1, 0)
 	Sleep(100)
 EndFunc   ;==>BuyTempItem
