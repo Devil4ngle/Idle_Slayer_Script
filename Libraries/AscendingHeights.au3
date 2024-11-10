@@ -25,6 +25,7 @@ Func AscendingHeightsPlay()
 	Local $bSame = False
 
 	Local $iLastCheckTime = TimerInit()
+	Local $iStuckTimer = TimerInit()
 	While True
 		If TimerDiff($iLastCheckTime) >= 5000 Then
 			$iLastCheckTime = TimerInit()
