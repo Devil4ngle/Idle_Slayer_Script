@@ -641,7 +641,7 @@ Func BonusStage3Section4($bSpiritBoost = False)
 		cSend(300, 300)
 	EndIf
 
-	If CollectLootBS3($bSpiritBoost, 29) == False Then Return False
+	If CollectLootBS3($bSpiritBoost, 25, False) == False Then Return False
 	WriteInLogs(GetBS3LogText($bSpiritBoost) & " Section 4 Complete")
 	Return True
 EndFunc   ;==>BonusStage3Section4
@@ -650,17 +650,18 @@ Func GetBS3LogText($bSpiritBoost)
 	Return "BonusStage3" & ($bSpiritBoost ? "SB" : "")
 EndFunc   ;==>GetBS3LogText
 
-Func CollectLootBS3($bSpiritBoost, $iCount = 25)
+Func CollectLootBS3($bSpiritBoost, $iCount = 25, $bStopEarly = True)
 	If BonusStage3Fail($bSpiritBoost) Then
 		Return False
 	EndIf
 	;Section 3 Collection
 	For $iX = 1 To $iCount
 		; Check if next section already begins then end earlier
-		$aPos = FindPixelUntilFound(1100, 240, 1100, 440, 0x8D87A2, 480)
-		If IsArray($aPos) Then
-			WriteInLogs("Skipping collection early, iX = " & $iX)
-			ExitLoop
+		If $bStopEarly = True And $iX > 8 Then
+			$aPos = FindPixelUntilFound(1100, 240, 1100, 440, 0x8D87A2, 480)
+			If IsArray($aPos) Then ExitLoop
+		Else
+			Sleep(500)
 		EndIf
 
 		cSend(0, 0)
@@ -668,4 +669,6 @@ Func CollectLootBS3($bSpiritBoost, $iCount = 25)
 	If BonusStage3Fail($bSpiritBoost) Then
 		Return False
 	EndIf
+
+	Return True
 EndFunc
