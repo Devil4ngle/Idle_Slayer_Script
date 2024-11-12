@@ -309,7 +309,7 @@ Func Rage()
 		BuyTempItem("0x526629")
 		$bBiDimensionalState = False
 		If Not @Compiled Then
-			GUICtrlSetImage($iCheckBoxbDimensionalState, 'Resources\CheckboxChecked.jpg')
+			GUICtrlSetImage($iCheckBoxbDimensionalState, 'Resources\CheckboxUnchecked.jpg')
 		Else
 			_Resource_SetToCtrlID($iCheckBoxbBiDimensionalState, 'UNCHECKED')
 		EndIf
