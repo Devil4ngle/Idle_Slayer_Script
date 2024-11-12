@@ -343,13 +343,13 @@ Func BuyTempItem($sHexColor)
 		MouseClick("left", $aFoundPixel[0], $aFoundPixel[1], 1, 0)
 		Sleep(200)
 		MouseClick("left", 407, 213, 1, 0)
-		; Close 
-		MouseClick("left", 440, 690, 1, 0)
-		Sleep(100)
 		WriteInLogs("CraftingTemp Item Active")
 	Else
 		WriteInLogs("CraftingTemp Item Failed, not enough materials")
 	EndIf
+	; Close 
+	MouseClick("left", 440, 690, 1, 0)
+	Sleep(100)
 EndFunc   ;==>BuyTempItem
 
 Func AutoAscend()
