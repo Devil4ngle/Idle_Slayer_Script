@@ -329,7 +329,7 @@ Func CheckForSoulBonus()
 EndFunc   ;==>CheckForSoulBonus
 
 Func BuyTempItem($sHexColor)
-	WriteInLogs("CraftingTemp Item Active")
+	WriteInLogs("Trying to CraftingTemp Item")
 	Local $aFoundPixel
 	;open menu
 	MouseClick("left", 160, 100, 1, 0)
@@ -339,12 +339,17 @@ Func BuyTempItem($sHexColor)
 	Sleep(150)
 
 	$aFoundPixel = PixelSearch(43, 330, 625, 630, $sHexColor)
-	MouseClick("left", $aFoundPixel[0], $aFoundPixel[1], 1, 0)
-	Sleep(200)
-	MouseClick("left", 407, 213, 1, 0)
-	; Close 
-	MouseClick("left", 440, 690, 1, 0)
-	Sleep(100)
+	If Not @error Then
+		MouseClick("left", $aFoundPixel[0], $aFoundPixel[1], 1, 0)
+		Sleep(200)
+		MouseClick("left", 407, 213, 1, 0)
+		; Close 
+		MouseClick("left", 440, 690, 1, 0)
+		Sleep(100)
+		WriteInLogs("CraftingTemp Item Active")
+	Else
+		WriteInLogs("CraftingTemp Item Failed, not enough materials")
+	EndIf
 EndFunc   ;==>BuyTempItem
 
 Func AutoAscend()
