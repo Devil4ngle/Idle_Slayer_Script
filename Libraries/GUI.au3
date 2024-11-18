@@ -29,7 +29,7 @@ Global $bAutoBuyUpgradeState = False, _
 		$bPerfectChestHuntState = False, _
 		$bTogglePause = False
 
-Global $sVersion = "3.4.3"
+Global $sVersion = "3.4.4"
 Global $iJumpSliderValue = 150, _
 		$iCirclePortalsCount = 7, _
 		$iAutoAscendTimer = 10, _
@@ -99,6 +99,10 @@ Func CreateGUI()
 	Local $iButtonLog = GUICtrlCreatePicCustom('Resources\Log.jpg', 1, 116, 160, 24, $SS_NOTIFY + $SS_BITMAP)
 	_Resource_SetToCtrlID($iButtonLog, 'LOG')
 	GUICtrlSetOnEvent(-1, "EventButtonLogClick")
+
+	Local $iLogContextMenu = GUICtrlCreateContextMenu($iButtonLog)
+	GUICtrlCreateMenuItem("Clear Logs", $iLogContextMenu)
+	GUICtrlSetOnEvent(-1, "EventMenuClearLogsClick")
 
 	; Create Start / Pause Button
 	Global $iButtonStartStop = GUICtrlCreatePicCustom('Resources\Stop.jpg', 1, 140, 80, 24, $SS_NOTIFY + $SS_BITMAP)
@@ -216,7 +220,7 @@ Func CreateMinigamesSheet($hGUIForm, $iTabControl)
 	GUICtrlSetOnEvent(-1, "EventGlobalCheckBox")
 	Local $iPerfectChestHunt = GUICtrlCreatePicCustom('Resources\PerfectChestHunt.jpg', 506, 44, 183, 18, $SS_BITMAP + $SS_NOTIFY)
 	_Resource_SetToCtrlID($iPerfectChestHunt, 'PERFECTCHESTHUNT')
-	GUICtrlSetTip(-1, "Uses a riskier strategy that prioritizes Perfect Chest Hunts over resources. Strategy summary: ignores Life Saver until 2x is found.")
+	GUICtrlSetTip(-1, "Uses a riskier strategy that prioritizes Perfect Chest Hunts over resources. Strategy summary: ignores Life Saver until 2x is found. The 2x2x Dark Divinity must be turned off.")
 
 	Return $iTabMinigames
 EndFunc   ;==>CreateMinigamesSheet
@@ -298,6 +302,11 @@ Func EventButtonLogClick()
 	LoadLog($iLog)
 	LoadDataLog($iLogData)
 EndFunc   ;==>EventButtonLogClick
+
+Func EventMenuClearLogsClick()
+	if FileExists("IdleRunnerLogs\Logs.txt") Then FileDelete("IdleRunnerLogs\Logs.txt")
+	LoadLog($iLog)
+EndFunc   ;==>EventMenuClearLogsClick
 
 Func EventTabFocus()
 	Local $iTabIndex = GUICtrlRead($iTabControl)
@@ -497,7 +506,6 @@ Func EventButtonUpdateClick()
 		EndIf
 	EndIf
 EndFunc   ;==>EventButtonUpdateClick
-
 
 Func SyncProcess($bJumpState = True)
 	If $bTogglePause == True Then

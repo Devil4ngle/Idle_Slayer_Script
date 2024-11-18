@@ -522,18 +522,7 @@ Func BonusStage3Section1($bSpiritBoost = False)
 
 	Sleep(800)
 
-	If BonusStage3Fail($bSpiritBoost) Then
-		Return False
-	EndIf
-	; Section 1 Collection
-	For $iX = 1 To 21
-		Send("{Up}")
-		Sleep(500)
-	Next
-	If BonusStage3Fail($bSpiritBoost) Then
-		Return False
-	EndIf
-
+	If CollectLootBS3($bSpiritBoost, 21) == False Then Return False
 	WriteInLogs(GetBS3LogText($bSpiritBoost) & " Section 1 Complete")
 
 	Return True
@@ -541,7 +530,6 @@ EndFunc   ;==>BonusStage3Section1
 
 Func BonusStage3Section2($bSpiritBoost = False)
 	; Section 2 sync
-	Sleep(1000)
 	FindPixelUntilFound(306, 200, 309, 275, 0xFFFFFF)
 	; Section 2 start
 
@@ -574,17 +562,7 @@ Func BonusStage3Section2($bSpiritBoost = False)
 	cSend(80, 440)
 	cSend(95, 660)
 
-	If BonusStage3Fail($bSpiritBoost) Then
-		Return False
-	EndIf
-	; Section 2 Collection
-	For $iX = 1 To 25
-		Send("{Up}")
-		Sleep(500)
-	Next
-	If BonusStage3Fail($bSpiritBoost) Then
-		Return False
-	EndIf
+	If CollectLootBS3($bSpiritBoost) == False Then Return False
 	WriteInLogs(GetBS3LogText($bSpiritBoost) & " Section 2 Complete")
 	Return True
 EndFunc   ;==>BonusStage3Section2
@@ -630,17 +608,7 @@ Func BonusStage3Section3($bSpiritBoost = False)
 		EndIf
 	Next
 
-	If BonusStage3Fail($bSpiritBoost) Then
-		Return False
-	EndIf
-	;Section 3 Collection
-	For $iX = 1 To 25
-		Send("{Up}")
-		Sleep(500)
-	Next
-	If BonusStage3Fail($bSpiritBoost) Then
-		Return False
-	EndIf
+	If CollectLootBS3($bSpiritBoost) == False Then Return False
 	WriteInLogs(GetBS3LogText($bSpiritBoost) & " Section 3 Complete")
 	Return True
 EndFunc   ;==>BonusStage3Section3
@@ -673,17 +641,7 @@ Func BonusStage3Section4($bSpiritBoost = False)
 		cSend(300, 300)
 	EndIf
 
-	If BonusStage3Fail($bSpiritBoost) Then
-		Return False
-	EndIf
-	;Section 4 Collection
-	For $iX = 1 To 29
-		Send("{Up}")
-		Sleep(500)
-	Next
-	If BonusStage3Fail($bSpiritBoost) Then
-		Return False
-	EndIf
+	If CollectLootBS3($bSpiritBoost, 25, False) == False Then Return False
 	WriteInLogs(GetBS3LogText($bSpiritBoost) & " Section 4 Complete")
 	Return True
 EndFunc   ;==>BonusStage3Section4
@@ -691,3 +649,26 @@ EndFunc   ;==>BonusStage3Section4
 Func GetBS3LogText($bSpiritBoost)
 	Return "BonusStage3" & ($bSpiritBoost ? "SB" : "")
 EndFunc   ;==>GetBS3LogText
+
+Func CollectLootBS3($bSpiritBoost, $iCount = 25, $bStopEarly = True)
+	If BonusStage3Fail($bSpiritBoost) Then
+		Return False
+	EndIf
+	;Section 3 Collection
+	For $iX = 1 To $iCount
+		; Check if next section already begins then end earlier
+		If $bStopEarly = True And $iX > 8 Then
+			$aPos = FindPixelUntilFound(1100, 240, 1100, 440, 0x8D87A2, 480)
+			If IsArray($aPos) Then ExitLoop
+		Else
+			Sleep(500)
+		EndIf
+
+		cSend(0, 0)
+	Next
+	If BonusStage3Fail($bSpiritBoost) Then
+		Return False
+	EndIf
+
+	Return True
+EndFunc
