@@ -637,7 +637,7 @@ Func ClaimQuests()
 	PixelSearch(1190, 173, 1190, 173, 0x11AA23)
 	if not @error Then $bDailyGreen = True
 
-	If $bDailyGreen And $bDailyRed Then
+	If not $bDailyGreen And not $bDailyRed Then
 		; Top of scrollbar
 		MouseMove(1254, 272, 0)
 		Do
