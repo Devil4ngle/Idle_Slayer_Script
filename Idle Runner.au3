@@ -626,38 +626,76 @@ Func ClaimQuests()
 	MouseClick("left", 927, 683, 1, 0)
 	Sleep(150)
 	;Click on quest tab
-	MouseClick("left", 1000, 690, 1, 0)
+	MouseClick("left", 1030, 690, 1, 0)
 	Sleep(50)
 
-	; Top of scrollbar
-	MouseMove(1254, 272, 0)
-	Do
-		MouseWheel($MOUSE_WHEEL_UP, 20)
-		;Top of searchbar
-		PixelSearch(1254, 267, 1254, 267, 0xD6D6D6)
-	Until @error
-	Sleep(400)
+	; Check if Dailys Unlocked (Need different coords)
+	$bDailyRed = False
+	$bDailyGreen = False
+	PixelSearch(1190, 173, 1190, 173, 0xAD1111)
+	if not @error Then $bDailyRed = True
+	PixelSearch(1190, 173, 1190, 173, 0x11AA23)
+	if not @error Then $bDailyGreen = True
 
-	While 1
-		;Check if there is any green buy boxes
-		$aLocation = PixelSearch(1160, 270, 1160, 590, 0x11AA23, 10)
-		If @error Then
-			;Move mouse on ScrollBar
-			MouseMove(1253, 270, 0)
-			MouseWheel($MOUSE_WHEEL_DOWN, 1)
-			;Check gray scroll bar is there
-			PixelSearch(1253, 645, 1253, 645, 0xD6D6D6)
+	If $bDailyGreen And $bDailyRed Then
+		; Top of scrollbar
+		MouseMove(1254, 272, 0)
+		Do
+			MouseWheel($MOUSE_WHEEL_UP, 20)
+			;Top of searchbar
+			PixelSearch(1254, 267, 1254, 267, 0xD6D6D6)
+		Until @error
+		Sleep(400)
+
+		While 1
+			;Check if there is any green buy boxes
+			$aLocation = PixelSearch(1160, 270, 1160, 590, 0x11AA23, 10)
 			If @error Then
-				ExitLoop
+				;Move mouse on ScrollBar
+				MouseMove(1253, 270, 0)
+				MouseWheel($MOUSE_WHEEL_DOWN, 1)
+				;Check gray scroll bar is there
+				PixelSearch(1253, 645, 1253, 645, 0xD6D6D6)
+				If @error Then
+					ExitLoop
+				EndIf
+				Sleep(10)
+			Else
+				;Click Green buy box
+				WriteInLogs("Quest Claimed")
+				MouseClick("left", $aLocation[0], $aLocation[1], 5, 0)
 			EndIf
-			Sleep(10)
-		Else
-			;Click Green buy box
-			WriteInLogs("Quest Claimed")
-			MouseClick("left", $aLocation[0], $aLocation[1], 5, 0)
-		EndIf
-	WEnd
+		WEnd
+	Else	
+		; Top of scrollbar
+		MouseMove(1254, 272, 0)
+		Do
+			MouseWheel($MOUSE_WHEEL_UP, 20)
+			;Top of searchbar
+			PixelSearch(1254, 170, 1254, 170, 0xD6D6D6)
+		Until @error
+		Sleep(400)
 
+		While 1
+			;Check if there is any green buy boxes
+			$aLocation = PixelSearch(1160, 170, 1160, 590, 0x11AA23, 10)
+			If @error Then
+				;Move mouse on ScrollBar
+				MouseMove(1253, 270, 0)
+				MouseWheel($MOUSE_WHEEL_DOWN, 1)
+				;Check gray scroll bar is there
+				PixelSearch(1253, 645, 1253, 645, 0xD6D6D6)
+				If @error Then
+					ExitLoop
+				EndIf
+				Sleep(10)
+			Else
+				;Click Green buy box
+				WriteInLogs("Quest Claimed")
+				MouseClick("left", $aLocation[0], $aLocation[1], 5, 0)
+			EndIf
+		WEnd
+	EndIf
 	;Close Shop
 	MouseClick("left", 1244, 712, 1, 0)
 
