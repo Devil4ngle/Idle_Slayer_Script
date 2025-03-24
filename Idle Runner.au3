@@ -153,7 +153,7 @@ Func Main()
 		; Rage when Soul Bonus
 		PixelSearch(625, 143, 629, 214, 0xA86D0A)
 		If Not @error Then
-			ControlSend("Idle Slayer", "", "", "{e}")
+			ControlSend("Idle Slayer", "", "", "{r}")
 		EndIf
 
 		; Collect minions
@@ -316,7 +316,7 @@ Func Rage()
 		SaveSettings()
 	EndIf
 	ControlFocus("Idle Slayer", "", "")
-	ControlSend("Idle Slayer", "", "", "{e}")
+	ControlSend("Idle Slayer", "", "", "{r}")
 EndFunc   ;==>Rage
 
 Func CheckForSoulBonus()
@@ -532,14 +532,7 @@ Func BuyEquipment()
 			;Click Bottom of scroll bar
 			MouseClick("left", 1253, 592, 5, 0)
 			Sleep(200)
-			;Buy last item
-			MouseClick("left", 1200, 560, 5, 0)
-			;Click top of scroll bar
-			MouseClick("left", 1253, 170, 5, 0)
-			Sleep(200)
 		EndIf
-		;50 buy
-		MouseClick("left", 1100, 636, 5, 0)
 		Local $aLocation
 		While 1
 			;Check if there is any green buy boxes
@@ -547,9 +540,9 @@ Func BuyEquipment()
 			If @error Then
 				;Move mouse on ScrollBar
 				MouseMove(1253, 170, 0)
-				MouseWheel($MOUSE_WHEEL_DOWN, 1)
+				MouseWheel($MOUSE_WHEEL_UP, 1)
 				;Check gray scroll bar is there
-				PixelSearch(1253, 597, 1253, 597, 0xD6D6D6)
+				PixelSearch(1253, 168, 1253, 168, 0xD6D6D6)
 				If @error Then
 					ExitLoop
 				EndIf
@@ -634,6 +627,7 @@ Func ClaimQuests()
 	Do
 		MouseWheel($MOUSE_WHEEL_UP, 20)
 		;Top of searchbar
+		Sleep(20)
 		PixelSearch(1254, 267, 1254, 267, 0xD6D6D6)
 	Until @error
 	Sleep(400)

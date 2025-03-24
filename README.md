@@ -36,13 +36,15 @@ You have two options:
 
 - ### Mandatory Settings:
 
-    - Resolution of the game needs to be ***1280x720*** and Windowed.
+    - Resolution of the game needs to be ***1280x720*** and Windowed and display resolution to 100%.
       
     - The game must be in ***English***.
  
     - Game needs to be in ***focus***, if not it will only jump.
  
     - Disable custom cursor.
+
+    - Set keybinds: jump to up arrow, boost to right arrow.
 
       
 - ### Optional Settings:

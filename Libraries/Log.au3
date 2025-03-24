@@ -192,6 +192,7 @@ Func LoadDataLog($iLogData)
 	Else
 		CustomConsole($iLogData, "Idle Slayer not Active")
 	EndIf
+	CustomConsole($iLogData, "Set keybinds: jump to up arrow, boost to right arrow.")
 	CustomConsole($iLogData, "Only Bonus Stage 2 and 3 works otherwise skip it.")
 	CustomConsole($iLogData, "Disable Hard Mode for Bonus Stage 2.")
 	CustomConsole($iLogData, "Do not buy Vertical Magnet.")
