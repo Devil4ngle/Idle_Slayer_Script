@@ -100,10 +100,10 @@ Func searchAllPlatformBellowPlayer($iPlayerX, $iPlayerY, $bSame)
 
 	If Not @error Then
 		While True
-			PixelSearch($aPosPlatform[0] + 5, $aPosPlatform[1], $aPosPlatform[0] + 5, $aPosPlatform[1], 0x8B9BB4)
+			PixelSearch($aPosPlatform[0] + 6, $aPosPlatform[1], $aPosPlatform[0] + 6, $aPosPlatform[1], 0x8B9BB4)
 			If @error Then Return $aPosPlatform
-			If $aPosPlatform[1] + 13 > 752 Then Return False
-			$aPosPlatform = PixelSearch(375, $aPosPlatform[1] + 13, 900, 752, 0xC0CBDC)
+			If $aPosPlatform[1] + 2 > 752 Then Return False
+			$aPosPlatform = PixelSearch(375, $aPosPlatform[1] + 1, 900, 752, 0xC0CBDC)
 			If @error Then Return False
 		WEnd
 	EndIf

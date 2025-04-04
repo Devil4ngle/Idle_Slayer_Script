@@ -536,7 +536,7 @@ Func BuyEquipment()
 		Local $aLocation
 		While 1
 			;Check if there is any green buy boxes
-			$aLocation = PixelSearch(1160, 170, 1160, 590, 0x11AA23, 10)
+			$aLocation = PixelSearch(1160, 590, 1160, 170, 0x11AA23, 10)
 			If @error Then
 				;Move mouse on ScrollBar
 				MouseMove(1253, 170, 0)
