@@ -69,7 +69,7 @@ Func Chesthunt($bNoLockpickingState, $bPerfectChestHuntState, $bNoReinforcedCrys
 	Local $bPerfectChest = False
 	While True
 		Sleep(50)
-		PixelSearch(500, 694, 500, 694, 0xB40000)
+		PixelSearch(500, 694, 500, 694, 0xAF0000)
 		If Not @error Then
 			ExitLoop
 		EndIf
@@ -183,7 +183,7 @@ Func OpenChest($iPixelX, $iPixelY, $bNoLockpickingState)
         Sleep(550)
     EndIf
     ; Check if chest hunt ended
-    PixelSearch(500, 694, 500, 694, 0xB40000)
+    PixelSearch(500, 694, 500, 694, 0xAF0000)
     If Not @error Then
         Return $eChestHuntEnd
     EndIf

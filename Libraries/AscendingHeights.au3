@@ -25,12 +25,12 @@ Func AscendingHeightsPlay()
 	Local $bSame = False
 
 	Local $iLastCheckTime = TimerInit()
-	Local $iStartTime = TimerInit() ; Timer for 3-minute timeout
+	Local $iStartTime = TimerInit() ; Timer for 4-minute timeout
 	
 	While True
-		; Check for 3-minute timeout (180,000 milliseconds)
-		If TimerDiff($iStartTime) >= 180000 Then
-			WriteInLogs("Ascending Heights timed out after 3 minutes")
+		; Check for 4-minute timeout 
+		If TimerDiff($iStartTime) >= 240000 Then
+			WriteInLogs("Ascending Heights timed out after 4 minutes")
 			; Press 'a' for 3 seconds
 			cSend(3000, 0, "a")
 			Sleep(100)
@@ -48,7 +48,7 @@ Func AscendingHeightsPlay()
 				ExitLoop
 			EndIf
 
-			PixelSearch(560, 560, 1280, 720, 0x00A800)
+			PixelSearch(540, 560, 540, 560, 0x00A400)
 			If Not @error Then
 				Sleep(2000)
 				MouseClick("left", 560, 570, 1, 0)
