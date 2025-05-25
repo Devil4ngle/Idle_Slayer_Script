@@ -128,7 +128,7 @@ Func Main()
 		EndIf
 
 		; Silver box collect
-		PixelSearch(650, 36, 650, 36, 0xFFC000)
+		PixelSearch(650, 36, 650, 36, 0xCA9700)
 		If Not @error Then
 			WriteInLogs("Silver Box Collected")
 			MouseClick("left", 644, 49, 1, 0)
@@ -239,6 +239,7 @@ Func Main()
 					WinActivate("Idle Slayer")
 					If WinGetTitle("[ACTIVE]") == "Idle Slayer" Then
 						SyncProcess(False)
+						$iAutoBuyLoopAmount = 0
 						BuyEquipment()
 						SyncProcess(True)
 					EndIf
@@ -263,11 +264,7 @@ EndFunc   ;==>Main
 
 Func CloseAll()
 	Sleep(2000)
-	PixelSearch(780, 600, 780, 600, 0xAD0000)
-	If Not @error Then
-		MouseClick("left", 780, 600, 1, 0)
-	EndIf
-	PixelSearch(780, 600, 780, 600, 0xB40000)
+	PixelSearch(680, 593, 680, 593, 0xAF0000)
 	If Not @error Then
 		MouseClick("left", 780, 600, 1, 0)
 	EndIf
@@ -347,7 +344,7 @@ Func BuyTempItem($sHexColor)
 	Else
 		WriteInLogs("CraftingTemp Item Failed, not enough materials")
 	EndIf
-	; Close 
+	; Close
 	MouseClick("left", 440, 690, 1, 0)
 	Sleep(100)
 EndFunc   ;==>BuyTempItem
@@ -460,21 +457,23 @@ Func CirclePortals()
 		Local $sColor = 0xFFFFFF
 		Switch $iCirclePortalsCount
 			Case 1
-				$sColor = 0x72FBFF
+				$sColor = 0x6FF5F8
 			Case 2
-				$sColor = 0x510089
+				$sColor = 0x00CBF8
 			Case 3
-				$sColor = 0x00D0FF
+				$sColor = 0x009D93
 			Case 4
-				$sColor = 0x00A197
+				$sColor = 0x000178
 			Case 5
-				$sColor = 0x00017B
+				$sColor = 0xE198BF
 			Case 6
-				$sColor = 0xE79CC4
+				$sColor = 0x00F8B5
 			Case 7
-				$sColor = 0x00FFBA
+				$sColor = 0xB362C7
 			Case 8
-				$sColor = 0xCA484D
+				$sColor = 0xC5464B
+			Case 9
+				$sColor = 0x4F0085
 		EndSwitch
 		Local $aLocation
 		While 1
@@ -498,7 +497,7 @@ Func CirclePortals()
 		WEnd
 
 		$iCirclePortalsCount += 1
-		If $iCirclePortalsCount > 8 Then
+		If $iCirclePortalsCount > 9 Then
 			$iCirclePortalsCount = 1
 		EndIf
 		SaveSettings()
@@ -598,7 +597,8 @@ Func BuyUpgrade()
 			Sleep(50)
 		EndIf
 	WEnd
-	If $bSomethingBought Then
+	If $bSomethingBought And $iAutoBuyLoopAmount < 5 Then
+		$iAutoBuyLoopAmount += 1
 		BuyEquipment()
 	Else
 		MouseClick("left", 1222, 677, 1, 0)

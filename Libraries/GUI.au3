@@ -29,12 +29,13 @@ Global $bAutoBuyUpgradeState = False, _
 		$bPerfectChestHuntState = False, _
 		$bTogglePause = False
 
-Global $sVersion = "3.4.7"
+Global $sVersion = "3.4.8"
 Global $iJumpSliderValue = 150, _
 		$iCirclePortalsCount = 7, _
 		$iAutoAscendTimer = 10, _
 		$iAutoBuyTimer = 10, _
 		$iAutoBuyTempTimer = 10, _
+		$iAutoBuyLoopAmount = 0, _
 		$iTimerAutoBuy = TimerInit(), _
 		$iTimerAutoAscend = TimerInit(), _
 		$iTimerFocusGame = TimerInit(), _
