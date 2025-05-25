@@ -1,4 +1,3 @@
-
 #include-once
 #include "Common.au3"
 
@@ -26,7 +25,20 @@ Func AscendingHeightsPlay()
 	Local $bSame = False
 
 	Local $iLastCheckTime = TimerInit()
+	Local $iStartTime = TimerInit() ; Timer for 3-minute timeout
+	
 	While True
+		; Check for 3-minute timeout (180,000 milliseconds)
+		If TimerDiff($iStartTime) >= 180000 Then
+			WriteInLogs("Ascending Heights timed out after 3 minutes")
+			; Press 'a' for 3 seconds
+			cSend(3000, 0, "a")
+			Sleep(100)
+			; Press 'd' for 3 seconds
+			cSend(3000, 0, "d")
+			ExitLoop
+		EndIf
+		
 		If TimerDiff($iLastCheckTime) >= 5000 Then
 			$iLastCheckTime = TimerInit()
 
@@ -99,7 +111,11 @@ Func searchAllPlatformBellowPlayer($iPlayerX, $iPlayerY, $bSame)
 	EndIf
 
 	If Not @error Then
+		Local $iLoopCounter = 0 ; Safety counter to prevent infinite loops
 		While True
+			$iLoopCounter += 1
+			If $iLoopCounter > 1000 Then Return False ; Exit if too many iterations
+			
 			PixelSearch($aPosPlatform[0] + 6, $aPosPlatform[1], $aPosPlatform[0] + 6, $aPosPlatform[1], 0x8B9BB4)
 			If @error Then Return $aPosPlatform
 			If $aPosPlatform[1] + 2 > 752 Then Return False
