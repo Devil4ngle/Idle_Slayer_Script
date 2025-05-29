@@ -582,20 +582,17 @@ Func BuyUpgrade()
 		If Not @error Then
 			$iY += 96
 		EndIf
-		;Electric worm
-		;PixelSearch(850, $iY, 850, $iY + 72, 0xF7A01E)
-		;If Not @error Then
-		;	$iY += 96
-		;EndIf
-		PixelSearch(1180, $iY, 1180, $iY, 0x10A322, 9)
+		PixelSearch(1180, $iY+10, 1180, $iY+10, 0x11A622)
 		If @error Then
-			ExitLoop
-		Else
-			$bSomethingBought = True
-			; Click green buy
-			MouseClick("left", 1180, $iY, 1, 0)
-			Sleep(50)
+			PixelSearch(1180, $iY+10, 1180, $iY+10, 0x0C7418)
+			If @error Then
+				ExitLoop
+			EndIf
 		EndIf
+		$bSomethingBought = True
+		; Click green buy
+		MouseClick("left", 1180, $iY, 1, 0)
+		Sleep(50)
 	WEnd
 	If $bSomethingBought And $iAutoBuyLoopAmount < 5 Then
 		$iAutoBuyLoopAmount += 1
@@ -644,7 +641,7 @@ Func ClaimQuests()
 			If @error Then
 				ExitLoop
 			EndIf
-			Sleep(10)
+			Sleep(50)
 		Else
 			;Click Green buy box
 			WriteInLogs("Quest Claimed")

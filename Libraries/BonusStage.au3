@@ -67,7 +67,7 @@ EndFunc   ;==>BonusStageFail
 Func BonusStageRetry($iNumber, $bSpiritBoost)
 	Local $sLogMsg = "BonusStage" & $iNumber & ($bSpiritBoost ? "SB" : "")
 
-	PixelSearch(600, 580, 600, 580, 0x00A400)
+	PixelSearch(600, 560, 600, 560, 0x00A400)
 	If Not @error Then
 		MouseClick("left", 560, 600, 1, 0)
 		WriteInLogs($sLogMsg & " Retry")
