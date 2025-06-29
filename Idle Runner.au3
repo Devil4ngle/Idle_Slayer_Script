@@ -118,7 +118,6 @@ Func Main()
 	; Infinite Loops
 	While 1
 		Sleep(40)
-
 		If $bTogglePause Then ContinueLoop
 
 		If (1800000 < TimerDiff($iTimerFocusGame)) Then
@@ -350,7 +349,7 @@ Func BuyTempItem($sHexColor)
 EndFunc   ;==>BuyTempItem
 
 Func AutoAscend()
-	PixelSearch(260, 600, 260, 600, 0x56188B)
+	PixelSearch(260, 600, 260, 600, 0x58188D)
 	If Not @error Then
 		MouseClick("left", 260, 600, 1, 0)
 		Sleep(300)
@@ -450,48 +449,59 @@ Func CirclePortals()
 		Do
 			MouseWheel($MOUSE_WHEEL_UP, 20)
 			;Top of searchbar
-			PixelSearch(875, 275, 875, 275, 0xD6D6D6)
+			PixelSearch(875, 250, 875, 250, 0xD6D6D6)
 		Until @error
 		Sleep(400)
 
-		Local $sColor = 0xFFFFFF
+		Local $sColor = 0x6FF5F8
 		Switch $iCirclePortalsCount
 			Case 1
+				;hills
 				$sColor = 0x6FF5F8
 			Case 2
-				$sColor = 0x00CBF8
+				;hot desert
+				$sColor = 0xC5464B
 			Case 3
+				;jungle
 				$sColor = 0x009D93
 			Case 4
-				$sColor = 0x000178
+				;frozen fields
+				$sColor = 0x6BEBEF
 			Case 5
-				$sColor = 0xE198BF
-			Case 6
-				$sColor = 0x00F8B5
-			Case 7
+				;funky
 				$sColor = 0xB362C7
+			Case 6
+				;modern city
+				$sColor = 0x000173
+			Case 7
+				;factory
+				$sColor = 0x00EFAE
 			Case 8
-				$sColor = 0xC5464B
+				;valley
+				$sColor = 0xD892B7
 			Case 9
+				;castle
 				$sColor = 0x4F0085
 		EndSwitch
 		Local $aLocation
 		While 1
-			$aLocation = PixelSearch(491, 266, 491, 540, $sColor)
+			$aLocation = PixelSearch(470, 230, 470, 540, $sColor)
 			If @error Then
 				;Check gray scroll bar is there
 				PixelSearch(875, 536, 875, 536, 0xD6D6D6)
 				If @error Then
 					ExitLoop
 				EndIf
-				Sleep(10)
+				Sleep(100)
 				;Move mouse on ScrollBar
 				MouseMove(867, 300, 0)
 				MouseWheel($MOUSE_WHEEL_DOWN, 1)
 			Else
-				;Click portal
-				MouseClick("left", $aLocation[0], $aLocation[1], 1, 0)
 				Sleep(300)
+				MouseWheel($MOUSE_WHEEL_DOWN, 1)
+				MouseWheel($MOUSE_WHEEL_DOWN, 1)
+				;Click portal
+				MouseClick("left", $aLocation[0]+300, $aLocation[1], 1, 0)
 				ExitLoop
 			EndIf
 		WEnd
@@ -515,7 +525,8 @@ Func BuyEquipment()
 	;Open shop window
 	MouseClick("left", 1163, 655, 1, 0)
 	Sleep(150)
-	PixelSearch(807, 142, 807, 142, 0xFFFFFF)
+	; check with corner if it is open
+	PixelSearch(807, 140, 807, 155, 0xFFFFFF)
 	If Not @error Then
 		;Click on armor tab
 		MouseClick("left", 850, 690, 1, 0)
@@ -641,11 +652,11 @@ Func ClaimQuests()
 			If @error Then
 				ExitLoop
 			EndIf
-			Sleep(50)
+			Sleep(100)
 		Else
 			;Click Green buy box
 			WriteInLogs("Quest Claimed")
-			MouseClick("left", $aLocation[0], $aLocation[1], 5, 0)
+			MouseClick("left", $aLocation[0], $aLocation[1], 1, 0)
 		EndIf
 	WEnd
 
