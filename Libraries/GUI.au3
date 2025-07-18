@@ -29,7 +29,7 @@ Global $bAutoBuyUpgradeState = False, _
 		$bPerfectChestHuntState = False, _
 		$bTogglePause = False
 
-Global $sVersion = "3.5.1"
+Global $sVersion = "3.5.2"
 Global $iJumpSliderValue = 150, _
 		$iCirclePortalsCount = 7, _
 		$iAutoAscendTimer = 10, _
