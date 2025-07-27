@@ -421,11 +421,11 @@ EndFunc   ;==>CollectMinion
 Func CirclePortals()
 	;Check if portal button is visible
 	Local $iPortalVisible = 0
-	PixelSearch(1180, 180, 1180, 180, 0x830399)
+	PixelSearch(1180, 166, 1180, 166, 0x830399)
 	If @error Then
 		$iPortalVisible += 1
 	EndIf
-	PixelSearch(1180, 180, 1180, 180, 0x290130)
+	PixelSearch(1180, 166, 1180, 166, 0x290130)
 	If @error Then
 		$iPortalVisible += 1
 	EndIf
@@ -453,35 +453,35 @@ Func CirclePortals()
 		Until @error
 		Sleep(400)
 
-		Local $sColor = 0x00C3EF
+		Local $sColor = 0x00CBF8
 		Switch $iCirclePortalsCount
 			Case 1
 				;hills
-				$sColor = 0x00C3EF
+				$sColor = 0x00CBF8
 			Case 2
 				;hot desert
-				$sColor = 0xC5464B
+				$sColor = 0xBD4348
 			Case 3
 				;jungle
-				$sColor = 0x009D93
+				$sColor = 0x00978D
 			Case 4
 				;frozen fields
-				$sColor = 0x6BEBEF
+				$sColor = 0x6FF5F8
 			Case 5
 				;funky
-				$sColor = 0xB362C7
+				$sColor = 0xAC5FBF
 			Case 6
 				;modern city
-				$sColor = 0x000173
+				$sColor = 0x000178
 			Case 7
 				;factory
-				$sColor = 0x00EFAE
+				$sColor = 0x00F8B5
 			Case 8
 				;valley
 				$sColor = 0xD892B7
 			Case 9
 				;castle
-				$sColor = 0x4F0085
+				$sColor = 0x4C0081
 		EndSwitch
 		Local $aLocation
 		While 1
@@ -642,18 +642,22 @@ Func ClaimQuests()
 		Sleep(20)
 		PixelSearch(1254, 267, 1254, 267, 0xD6D6D6)
 	Until @error
-	Sleep(400)
+	Sleep(600)
 
 	While 1
 		;Check if there is any green buy boxes
-		$aLocation = PixelSearch(1160, 270, 1160, 590, 0x11AA23, 10)
+		$aLocation = PixelSearch(1160, 270, 1160, 590, 0x11A622, 10)
 		If @error Then
 			;Move mouse on ScrollBar
-			MouseMove(1253, 270, 0)
+			MouseMove(1267, 270, 0)
 			MouseWheel($MOUSE_WHEEL_DOWN, 1)
 			;Check gray scroll bar is there
-			PixelSearch(1253, 645, 1253, 645, 0xD6D6D6)
+			PixelSearch(1267, 658, 1267, 658, 0xA0A0A0)
 			If @error Then
+				ExitLoop
+			EndIf
+			PixelSearch(1267, 655, 1267, 655, 0xFFFFFF)
+			If Not @error Then
 				ExitLoop
 			EndIf
 			Sleep(100)

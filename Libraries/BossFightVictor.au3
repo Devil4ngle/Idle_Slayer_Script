@@ -42,7 +42,7 @@ Func BossBattleVictor()
 				ExitLoop 1
 			EndIf
 			If $bFirstStage == True Then
-				PixelSearch(272, 130, 272, 130, 0xF5B784)
+				PixelSearch(272, 130, 272, 130, 0xAE6C37)
 				If Not @error Then
 					;ConsoleWrite(' Dialog ')
 					$bFirstStage = False
@@ -51,7 +51,7 @@ Func BossBattleVictor()
 					AdlibRegister("Shoot", 50)
 					Do
 						Sleep(50)
-						PixelSearch(272, 130, 272, 130, 0xF5B784)
+						PixelSearch(272, 130, 272, 130, 0xAE6C37)
 					Until @error
 					Sleep(4000)
 					AdlibUnRegister("Shoot")
