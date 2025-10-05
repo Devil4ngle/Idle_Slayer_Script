@@ -134,7 +134,7 @@ Func Main()
 		EndIf
 
 		; Rage when Megahorde
-		PixelSearch(419, 323, 419, 323, 0xDFDEE0)
+		PixelSearch(385, 280, 385, 280, 0x140C1C)
 		If Not @error Then
 			SyncProcess(False)
 			RageWhenHorde()
@@ -186,12 +186,9 @@ Func Main()
 			If Not @error Then
 				PixelSearch(638, 236, 638, 236, 0xFFBB31)
 				If Not @error Then
-					PixelSearch(775, 448, 775, 448, 0xFFFFFF)
-					If Not @error Then
 						SyncProcess(False)
 						BonusStage($bSkipBonusStageState)
 						SyncProcess(True)
-					EndIf
 				EndIf
 			EndIf
 
@@ -338,7 +335,7 @@ Func BuyTempItem($sHexColor)
 	If Not @error Then
 		MouseClick("left", $aFoundPixel[0], $aFoundPixel[1], 1, 0)
 		Sleep(200)
-		MouseClick("left", 407, 213, 1, 0)
+		MouseClick("left", 420, 156, 1, 0)
 		WriteInLogs("CraftingTemp Item Active")
 	Else
 		WriteInLogs("CraftingTemp Item Failed, not enough materials")

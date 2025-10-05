@@ -49,15 +49,9 @@ EndFunc   ;==>BonusStageDoNothing
 Func BonusStageFail($iNumber)
 	Local $sLogMsg = "BonusStage" & $iNumber & " Failed"
 
-	PixelSearch(780, 600, 780, 600, 0xAD0000)
+	PixelSearch(716, 600, 716, 600, 0xAF0000)
 	If Not @error Then
-		MouseClick("left", 721, 577, 1, 0)
-		WriteInLogs($sLogMsg)
-		Return True
-	EndIf
-	PixelSearch(780, 600, 780, 600, 0xB40000)
-	If Not @error Then
-		MouseClick("left", 721, 577, 1, 0)
+		MouseClick("left", 716, 600, 1, 0)
 		WriteInLogs($sLogMsg)
 		Return True
 	EndIf
