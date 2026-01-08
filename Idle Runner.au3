@@ -1,8 +1,8 @@
 #NoTrayIcon
 #Region ;**** Directives created by AutoIt3Wrapper_GUI ****
 #AutoIt3Wrapper_Icon=Resources\Icon.ico
-#AutoIt3Wrapper_Outfile=D:\Idle Macro\idleslayer\Idle Runner_x32.exe
-#AutoIt3Wrapper_Outfile_x64=D:\Idle Macro\idleslayer\Idle Runner_x64.exe
+#AutoIt3Wrapper_Outfile=Idle Runner_x32.exe
+#AutoIt3Wrapper_Outfile_x64=Idle Runner_x64.exe
 #AutoIt3Wrapper_Compression=0
 #AutoIt3Wrapper_Compile_Both=y
 #AutoIt3Wrapper_UseX64=y
@@ -37,6 +37,11 @@
 #AutoIt3Wrapper_Res_File_Add=Resources\CraftDimensionalStaff.jpg, RT_RCDATA, DIMENSIONAL,0
 #AutoIt3Wrapper_Res_File_Add=Resources\PerfectChestHunt.jpg, RT_RCDATA, PERFECTCHESTHUNT,0
 #AutoIt3Wrapper_Res_File_Add=Resources\DisableRage.jpg, RT_RCDATA, DISABLERAGE,0
+#AutoIt3Wrapper_Res_File_Add=Resources\Armory.jpg, RT_RCDATA, ARMORY,0
+#AutoIt3Wrapper_Res_File_Add=Resources\SellExcVictorRing.jpg, RT_RCDATA, SELLVICTORRING,0
+#AutoIt3Wrapper_Res_File_Add=Resources\SellNonExcellentArmor.jpg, RT_RCDATA, SELLNOEXCELENT,0
+#AutoIt3Wrapper_Res_File_Add=Resources\SellExcellentArmor.jpg, RT_RCDATA, SELLEXCELENT,0
+#AutoIt3Wrapper_Res_File_Add=Resources\RestartGame.jpg, RT_RCDATA, RESTARTGAME,0
 #AutoIt3Wrapper_Res_File_Add=Resources\0.jpg, RT_RCDATA, NUM0,0
 #AutoIt3Wrapper_Res_File_Add=Resources\10.jpg, RT_RCDATA, NUM10,0
 #AutoIt3Wrapper_Res_File_Add=Resources\20.jpg, RT_RCDATA, NUM20,0
@@ -84,6 +89,7 @@
 #include "Libraries\Common.au3"
 #include "Libraries\AscendingHeights.au3"
 #include "Libraries\Chesthunt.au3"
+#include "Libraries\Armory.au3"
 #include <ButtonConstants.au3>
 #include <GUIConstantsEx.au3>
 #include <StaticConstants.au3>
@@ -95,6 +101,11 @@
 #include <EditConstants.au3>
 #include <AutoItConstants.au3>
 #include <Array.au3>
+#include <MsgBoxConstants.au3>
+
+
+
+
 
 setSetting()
 _AuThread_Startup()
@@ -126,6 +137,8 @@ Func Main()
 			ControlFocus("Idle Slayer", "", "")
 		EndIf
 
+		
+
 		; Silver box collect
 		PixelSearch(650, 36, 650, 36, 0xCA9700)
 		If Not @error Then
@@ -155,6 +168,15 @@ Func Main()
 			ControlSend("Idle Slayer", "", "", "{r}")
 		EndIf
 
+		; SellArmory
+		PixelSearch(169, 104, 169, 104, 0xFFF272)
+		If Not @error Then
+			SyncProcess(False)
+			SellArmory($bArmoryExcVictorState, $bArmoryNonExcellentState , $bArmoryExcellentState)
+			SyncProcess(True)
+		EndIf
+
+
 		; Collect minions
 		PixelSearch(99, 113, 99, 113, 0xFFFF7A)
 		If Not @error Then
@@ -171,6 +193,8 @@ Func Main()
 			If Not @error Then
 				SyncProcess(False)
 				Chesthunt($bNoLockpickingState, $bPerfectChestHuntState, $bNoReinforcedCrystalSaverState)
+				Sleep(1000)
+				RestartIdleSlayerGame("Idle Slayer")
 				SyncProcess(True)
 			EndIf
 
@@ -631,6 +655,25 @@ Func ClaimQuests()
 	MouseClick("left", 1000, 690, 1, 0)
 	Sleep(50)
 
+
+	; daily Quest 
+	Sleep(500) 
+	PixelSearch(1073, 174, 1073, 174, 0x379D37)
+	If Not @error Then
+		;Click on +2 daily Quest
+		Sleep(500)
+		MouseClick("left", 1073, 174, 1, 0)
+	EndIf
+
+	; weekly Quest 
+	Sleep(500) 
+	PixelSearch(1067, 230, 1067, 230, 0x379D37)
+	If Not @error Then
+		;Click on +2 daily Quest
+		Sleep(500)
+		MouseClick("left", 1067, 230, 1, 0)
+	EndIf
+
 	; Top of scrollbar
 	MouseMove(1254, 272, 0)
 	Do
@@ -737,3 +780,47 @@ Func ShootAndBoost()
 		ControlSend("Idle Slayer", "", "", "{Up}{Right}")
 	WEnd
 EndFunc   ;==>ShootAndBoost
+
+
+Func RestartIdleSlayerGame($WindowTitle)
+
+    ; Check if restart activated GUI
+	If $bRestartGameState Then
+
+        ; Check if X hours select at GUI to continue
+		If TimerDiff($iTimerRestartGame) < ($iRestartGameTimer * 3600000) Then
+			Return ; Exit function, do not continue
+		EndIf
+
+		; If we are here, X hours have passed. 
+		; RESET the timer immediately for the next cycle.
+		$iTimerRestartGame = TimerInit()
+
+        ; Close Game
+		If WinExists($WindowTitle) Then
+			WinClose($WindowTitle)
+			WinWaitClose($WindowTitle, "", 5)
+
+		EndIf
+		Sleep(10000)
+
+
+		;Open Game
+		ShellExecute("steam://rungameid/1353300")
+		Sleep(10000)
+
+		;Start screen Click
+		MouseClick("left", 550, 320, 1, 0)
+		Sleep(10000)
+
+		;Wind Dash Click
+		MouseMove(113, 644, 0)
+		MouseDown("right")
+		Sleep(4000)
+		MouseUp("right")
+
+		WriteInLogs("Game restarted")
+
+	EndIf
+
+EndFunc	;==>RestartIdleSlayerGame

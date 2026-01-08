@@ -5,13 +5,13 @@ Enum $eRewardChest = 0, $eMimicChest = 1, $e2xChest = 2, $eChestHuntEnd = 3, $eL
 Enum $eStateNoMimic = 0, $eStateOneMimic = 1, $eStateTwoMimics = 2, $eStateOpenLifeSaver = 3, $eStateNormal = 4
 
 Func Chesthunt($bNoLockpickingState, $bPerfectChestHuntState, $bNoReinforcedCrystalSaverState)
-	Local $iCurrentState = $eStateNoMimic
-	WriteInLogs("Chesthunt")
+	WriteInLogs("Chesthunt Started")
 	If $bNoLockpickingState Then
 		Sleep(4000)
 	Else
 		Sleep(2000)
 	EndIf
+
 	Local $iSaverX = 0
 	Local $iSaverY = 0
 	Local $iPixelX = 185
@@ -30,10 +30,45 @@ Func Chesthunt($bNoLockpickingState, $bPerfectChestHuntState, $bNoReinforcedCrys
 		$iPixelY += 95
 		$iPixelX = 185
 	Next
+
 	; Actual chest hunt
-	$iPixelX = 185
-	$iPixelY = 325
+	ProcessChestGrid($iSaverX, $iSaverY, $bNoLockpickingState, $bPerfectChestHuntState, $bNoReinforcedCrystalSaverState)
+
+	; Look for close button or perfect chest until found
+	Local $bPerfectChest = False
+	Local $iEndScreenAttempts = 0
+	While True
+		Sleep(50)
+		$iEndScreenAttempts += 1
+
+		PixelSearch(550, 694, 550, 694, 0xAF0000)
+		If Not @error Then
+			ExitLoop
+		EndIf
+		; Look for Perfect Chest
+		PixelSearch(457, 439, 457, 439, 0xF68F37)
+		If Not @error Then
+			$bPerfectChest = True
+			MouseClick("left", 457, 439, 1, 0)
+		EndIf
+
+		If $iEndScreenAttempts > 200 Then
+			WriteInLogs("Chsthunt  Blocked divinity  X, Start Again ")
+			ProcessChestGrid($iSaverX, $iSaverY, $bNoLockpickingState, $bPerfectChestHuntState, $bNoReinforcedCrystalSaverState)
+			$iEndScreenAttempts = 0
+		EndIf
+	WEnd
+
+	If $bPerfectChest Then WriteInLogs("Perfect ChestHunt Completed")
+	MouseClick("left", 643, 693, 1, 0)
+EndFunc
+
+Func ProcessChestGrid($iSaverX, $iSaverY, $bNoLockpickingState, $bPerfectChestHuntState, $bNoReinforcedCrystalSaverState)
+	Local $iPixelX = 185
+	Local $iPixelY = 325
 	Local $iCount = 0
+	Local $iCurrentState = $eStateNoMimic
+
 	For $iY = 1 To 3
 		For $iX = 1 To 10
 			; Skip saver no matter what
@@ -50,7 +85,7 @@ Func Chesthunt($bNoLockpickingState, $bPerfectChestHuntState, $bNoReinforcedCrys
 			Local $iChestResult = OpenChest($iPixelX, $iPixelY, $bNoLockpickingState)
 
 			If $iChestResult == $eChestHuntEnd Then
-				ExitLoop (2)
+				Return
 			EndIF
 
 			$iCurrentState = GetUpdatedState($iCount, $iCurrentState, $iChestResult, $bPerfectChestHuntState, $bNoReinforcedCrystalSaverState)
@@ -65,25 +100,8 @@ Func Chesthunt($bNoLockpickingState, $bPerfectChestHuntState, $bNoReinforcedCrys
 		$iPixelY += 95
 		$iPixelX = 185
 	Next
-	; Look for close button or perfect chest until found
-	Local $bPerfectChest = False
-	While True
-		Sleep(50)
-		PixelSearch(550, 694, 550, 694, 0xAF0000)
-		If Not @error Then
-			ExitLoop
-		EndIf
-		; Look for Perfect Chest
-		PixelSearch(457, 439, 457, 439, 0xF68F37)
-		If Not @error Then
-			$bPerfectChest = True
-			MouseClick("left", 457, 439, 1, 0)
-		EndIf
-	WEnd
+EndFunc
 
-	If $bPerfectChest Then WriteInLogs("Perfect ChestHunt Completed")
-	MouseClick("left", 643, 693, 1, 0)
-EndFunc   ;==>Chesthunt
 
 Func GetUpdatedState($iCount, $iCurrentState, $iChest, $bPerfectChestHuntState, $bNoReinforcedCrystalSaverState)
 

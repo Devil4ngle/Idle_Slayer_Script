@@ -27,10 +27,14 @@ Global $bAutoBuyUpgradeState = False, _
 		$bDisableRageState = False, _
 		$bAutoAscendState = False, _
 		$bPerfectChestHuntState = False, _
-		$bTogglePause = False
+		$bTogglePause = False, _
+		$bArmoryExcVictorState = False, _
+		$bArmoryNonExcellentState = False, _
+		$bArmoryExcellentState = False, _
+		$bRestartGameState = False
 
 Global $sVersion = "3.5.5"
-Global $iJumpSliderValue = 150, _
+Global $iJumpSliderValue = 0, _
 		$iCirclePortalsCount = 7, _
 		$iAutoAscendTimer = 10, _
 		$iAutoBuyTimer = 10, _
@@ -39,17 +43,27 @@ Global $iJumpSliderValue = 150, _
 		$iTimerAutoBuy = TimerInit(), _
 		$iTimerAutoAscend = TimerInit(), _
 		$iTimerFocusGame = TimerInit(), _
-		$iLastCheckTimeLoop = TimerInit()
-Global $aSettingGlobalVariables[16] = ["iAutoBuyTimer", "iAutoAscendTimer", "bAutoAscendState", "bAutoBuyUpgradeState", "bCraftSoulBonusState", "bSkipBonusStageState", "bCraftRagePillState", "bCirclePortalsState", "iJumpSliderValue", "bNoLockpickingState", "iCirclePortalsCount", "bDimensionalState", "bBiDimensionalState", "bDisableRageState", "bNoReinforcedCrystalSaverState", "bPerfectChestHuntState"]
-Global $aSettingCheckBoxes[12] = ["bAutoAscendState", "bAutoBuyUpgradeState", "bCraftSoulBonusState", "bSkipBonusStageState", "bCraftRagePillState", "bCirclePortalsState", "bNoLockpickingState", "bBiDimensionalState", "bDimensionalState", "bDisableRageState", "bNoReinforcedCrystalSaverState", "bPerfectChestHuntState"]
+		$iLastCheckTimeLoop = TimerInit(), _
+		$iTimerRestartGame = TimerInit(), _
+		$iRestartGameTimer = 3
+
+
+
+
+Global $aSettingGlobalVariables[21] = ["iAutoBuyTimer", "iAutoAscendTimer", "bAutoAscendState", "bAutoBuyUpgradeState", "bCraftSoulBonusState", "bSkipBonusStageState", "bCraftRagePillState", "bCirclePortalsState", "iJumpSliderValue", "bNoLockpickingState", "iCirclePortalsCount", "bDimensionalState", "bBiDimensionalState", "bDisableRageState", "bNoReinforcedCrystalSaverState", "bPerfectChestHuntState", "bArmoryExcVictorState", "bArmoryNonExcellentState", "bArmoryExcellentState","iRestartGameTimer","bRestartGameState"]
+Global $aSettingCheckBoxes[16] = ["bAutoAscendState", "bAutoBuyUpgradeState", "bCraftSoulBonusState", "bSkipBonusStageState", "bCraftRagePillState", "bCirclePortalsState", "bNoLockpickingState", "bBiDimensionalState", "bDimensionalState", "bDisableRageState", "bNoReinforcedCrystalSaverState", "bPerfectChestHuntState", "bArmoryExcVictorState", "bArmoryNonExcellentState", "bArmoryExcellentState","bRestartGameState"]
+
+
 
 ; #FUNCTION# ====================================================================================================================
 ; Return values .: Succes - A windows handle
 ;                  Failure - 0 if the window cannot be created and sets the @error flag to 1.
 ; ===============================================================================================================================
 Func CreateGUI()
+
 	; Create GUI
-	Global $hGUIForm = GUICreate("Idle Runner", 898, 164, @DesktopWidth / 2 - 500, @DesktopHeight - 250, $WS_BORDER + $WS_POPUP)
+	Global $hGUIForm = GUICreate("Idle Runner", 898, 190, @DesktopWidth / 2 - 500, @DesktopHeight - 250, $WS_BORDER + $WS_POPUP)
+
 	GUISetBkColor(0x202225)
 
 	; Titlebar
@@ -60,7 +74,8 @@ Func CreateGUI()
 	_Resource_SetToCtrlID($iIcon, 'ICON')
 
 	; Create iTabControl
-	Global $iTabControl = GUICtrlCreateTab(159, -4, 745, 173, BitOR($TCS_FORCELABELLEFT, $TCS_FIXEDWIDTH, $TCS_BUTTONS))
+	Global $iTabControl = GUICtrlCreateTab(159, -4, 745, 200, BitOR($TCS_FORCELABELLEFT, $TCS_FIXEDWIDTH, $TCS_BUTTONS))
+
 	GUICtrlSetBkColor(-1, 0x2F3136)
 	GUISetOnEvent(-1, "EventTabFocus")
 	Global $hTabHandle = GUICtrlGetHandle($iTabControl)
@@ -71,6 +86,7 @@ Func CreateGUI()
 	Global $iTabMinigames = CreateMinigamesSheet($hGUIForm, $iTabControl)
 	Global $iTabCrafting = CreateCraftingSheet($hGUIForm, $iTabControl)
 	Global $iTabLog = CreateLogSheet($hGUIForm, $iTabControl)
+	Global $iTabArmory = CreateArmorySheet($hGUIForm, $iTabControl)
 
 	; Set Tab Focus Home
 	GUICtrlSetState($iTabHome, $GUI_SHOW)
@@ -105,15 +121,25 @@ Func CreateGUI()
 	GUICtrlCreateMenuItem("Clear Logs", $iLogContextMenu)
 	GUICtrlSetOnEvent(-1, "EventMenuClearLogsClick")
 
+    ; Create Armory Button
+	Local $iButtonArmory = GUICtrlCreatePicCustom('Resources\Armory.jpg', 1, 140, 160, 24, $SS_NOTIFY + $SS_BITMAP)
+	_Resource_SetToCtrlID($iButtonArmory, 'ARMORY')
+    GUICtrlSetOnEvent(-1, "EventButtonCustomClickArmory")
+
 	; Create Start / Pause Button
-	Global $iButtonStartStop = GUICtrlCreatePicCustom('Resources\Stop.jpg', 1, 140, 80, 24, $SS_NOTIFY + $SS_BITMAP)
+	Global $iButtonStartStop = GUICtrlCreatePicCustom('Resources\Stop.jpg', 1, 165, 80, 24, $SS_NOTIFY + $SS_BITMAP)
 	_Resource_SetToCtrlID($iButtonStartStop, 'STOP')
 	GUICtrlSetOnEvent(-1, "Pause")
 
 	; Create Exit Button
-	Local $iButtonExit = GUICtrlCreatePicCustom('Resources\Exit.jpg', 81, 140, 80, 24, $SS_NOTIFY + $SS_BITMAP)
+	Local $iButtonExit = GUICtrlCreatePicCustom('Resources\Exit.jpg', 81, 165, 80, 24, $SS_NOTIFY + $SS_BITMAP)
 	_Resource_SetToCtrlID($iButtonExit, 'EXIT')
 	GUICtrlSetOnEvent(-1, "IdleClose")
+
+
+	
+
+
 	Return $hGUIForm
 EndFunc   ;==>CreateGUI
 
@@ -190,6 +216,16 @@ Func CreateGeneralSheet($hGUIForm, $iTabControl)
 	Global $iAutoAscendNumber = GUICtrlCreateInput($iAutoAscendTimer, 510, 83, 50, 20, $ES_NUMBER)
 	GUICtrlSetOnEvent(-1, "EventAutoAscendTimer")
 	GUICtrlSetTip(-1, "Auto Ascend after a certain amount of time. The number is in minutes")
+
+	; Create Restart Game Checkbox
+	Global $iCheckBoxbRestartGameState = GUICtrlCreatePicCustom('Resources\CheckboxUnchecked.jpg', 181, 160, 16, 16, $SS_BITMAP + $SS_NOTIFY)
+	GUICtrlSetOnEvent(-1, "EventGlobalCheckBox")
+	Local $iRestartGame = GUICtrlCreatePicCustom('Resources\RestartGame.jpg', 207, 160, 230, 16, $SS_BITMAP + $SS_NOTIFY)
+	_Resource_SetToCtrlID($iRestartGame, 'RESTARTGAME')
+	GUICtrlSetTip(-1, "Restart the game after X hours")
+	Global $iRestartGameNumber = GUICtrlCreateInput($iRestartGameTimer, 450, 160, 50, 20, $ES_NUMBER)
+	GUICtrlSetOnEvent(-1, "EventRestartGameTimer")
+	GUICtrlSetTip(-1, "Restart the game after X hours")
 
 	Return $iTabGeneral
 EndFunc   ;==>CreateGeneralSheet
@@ -281,6 +317,37 @@ Func CreateLogSheet($hGUIForm, $iTabControl)
 EndFunc   ;==>CreateLogSheet
 
 
+Func CreateArmorySheet($hGUIForm, $iTabControl)
+    Local $iTabArmory = GUICtrlCreateTabItem("Armory")
+    EventTabSetBkColor($hGUIForm, $iTabControl, 0x36393F)
+
+    ;Sell Excellent NEW Victor Rings
+	Global $iCheckBoxbArmoryExcVictorState = GUICtrlCreatePicCustom('Resources\CheckboxUnchecked.jpg', 181, 52, 16, 16, $SS_BITMAP + $SS_NOTIFY)
+	GUICtrlSetOnEvent(-1, "EventGlobalCheckBox")
+	Local $iArmoryExcVictor = GUICtrlCreatePicCustom('Resources\SellExcVictorRing.jpg', 207, 50, 300, 20, $SS_BITMAP + $SS_NOTIFY)
+	_Resource_SetToCtrlID($iArmoryExcVictor, 'SELLVICTORRING')
+	GUICtrlSetTip(-1, "Determines if you want to Sell Excellent NEW Victor Rings")
+
+    ;Sell Non-Excellent NEW Armor
+	Global $iCheckBoxbArmoryNonExcellentState = GUICtrlCreatePicCustom('Resources\CheckboxUnchecked.jpg', 181, 97, 16, 16, $SS_BITMAP + $SS_NOTIFY)
+	GUICtrlSetOnEvent(-1, "EventGlobalCheckBox")
+	Local $iArmoryNonExcellent = GUICtrlCreatePicCustom('Resources\SellNonExcellentArmor.jpg', 207, 94, 290, 20, $SS_BITMAP + $SS_NOTIFY)
+	_Resource_SetToCtrlID($iArmoryNonExcellent, 'SELLNOEXCELENT')
+	GUICtrlSetTip(-1, "Determines if you want to Sell Non-Excellent NEW Armor")
+
+    ;Sell Excellent NEW Armor
+	Global $iCheckBoxbArmoryExcellentState = GUICtrlCreatePicCustom('Resources\CheckboxUnchecked.jpg', 181, 138, 16, 16, $SS_BITMAP + $SS_NOTIFY)
+	GUICtrlSetOnEvent(-1, "EventGlobalCheckBox")
+	Local $iArmoryExcellent = GUICtrlCreatePicCustom('Resources\SellExcellentArmor.jpg', 207, 136, 240, 20, $SS_BITMAP + $SS_NOTIFY)
+	_Resource_SetToCtrlID($iArmoryExcellent, 'SELLEXCELENT')
+	GUICtrlSetTip(-1, "Determines if you want to Sell Excellent NEW Armor")
+
+    Return $iTabArmory
+EndFunc   ;==>CreateArmorySheet
+
+
+
+
 #Region GUI.au3 - #EVENTS#
 Func EventButtonHomeClick()
 	GUICtrlSetState($iTabHome, $GUI_SHOW)
@@ -303,6 +370,21 @@ Func EventButtonLogClick()
 	LoadLog($iLog)
 	LoadDataLog($iLogData)
 EndFunc   ;==>EventButtonLogClick
+
+; Armory event click
+Func EventButtonCustomClickArmory()
+    GUICtrlSetState($iTabArmory, $GUI_SHOW)
+EndFunc   ;==>EventButtonCustomClickArmory
+
+Func EventRestartGameTimer()
+    $iRestartGameTimer = GUICtrlRead($iRestartGameNumber)
+    ; Validate if empty or 0
+    If $iRestartGameTimer == 0 Or $iRestartGameTimer == "" Then
+        $iRestartGameTimer = 1 ; Default fallback
+        GUICtrlSetData($iRestartGameNumber, 1)
+    EndIf
+    SaveSettings() ; Saves to the .ini file if you have that system set up
+EndFunc   ;==>EventRestartGameTimer
 
 Func EventMenuClearLogsClick()
 	if FileExists("IdleRunnerLogs\Logs.txt") Then FileDelete("IdleRunnerLogs\Logs.txt")
@@ -485,6 +567,8 @@ Func LoadSettings()
 	GUICtrlSetData($iAutoAscendNumber, $iAutoAscendTimer)
 	GUICtrlSetData($iAutoBuyNumber, $iAutoBuyTimer)
 	$iAutoBuyTempTimer = $iAutoBuyTimer
+	GUICtrlSetData($iRestartGameNumber, $iRestartGameTimer)
+
 EndFunc   ;==>LoadSettings
 
 Func EventButtonUpdateClick()
